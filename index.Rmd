@@ -9,7 +9,3 @@ biblio-style: apalike
 link-citations: yes
 description: "This is a test"
 ---
-
-# Preface
-
-This book compiles the lessons for Applied Spatial Statistics into a book.

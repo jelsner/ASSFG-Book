@@ -2,8 +2,6 @@
 
 **"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."** --- Martin Fowler
 
-Your final grade will be based equally on your grades on 4-6 assignments given throughout the semester and on your end-of-the-semester class project.
-
 We will use RStudio Cloud throughout the semester. If you prefer to work with R and RStudio on your own computer (without RStudio Cloud) then
 
 (1) Get R
@@ -19,9 +17,7 @@ We will use RStudio Cloud throughout the semester. If you prefer to work with R 
 * Download RStudio Desktop
 * Install and open RStudio
 
-You will need to Export the lesson Rmd file and make sure all the required packages are loaded.
-
-### RStudio's integrated development environment (IDE)
+## RStudio's integrated development environment (IDE)
 
 * Written in HTML. 
 * Top menus. 
@@ -42,7 +38,7 @@ You will need to Export the lesson Rmd file and make sure all the required packa
   - The Plot tab currently shows a blank sheet
   - The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
 
-### Create an HTML file
+## Create an HTML file
 
 Your assignments and class project will be done in an Rmd file.
 
