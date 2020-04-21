@@ -1,8 +1,15 @@
-# RStudio, R, and Getting Started
+# Getting Started
 
 **"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."** --- Martin Fowler
 
-We will use RStudio Cloud throughout the semester. If you prefer to work with R and RStudio on your own computer (without RStudio Cloud) then
+We will use RStudio Cloud (https://rstudio.cloud/) throughout the semester.
+
+![RStudio Cloud's landing page][id]
+
+[id]: figures/RStudioCloudLanding.png "RStudio Cloud landing page"
+
+
+If you prefer to work with R and RStudio on your own computer (without RStudio Cloud) then
 
 (1) Get R
 
@@ -19,24 +26,32 @@ We will use RStudio Cloud throughout the semester. If you prefer to work with R 
 
 ## RStudio's integrated development environment (IDE)
 
-* Written in HTML. 
-* Top menus. 
-  - File > New File > R Markdown
-  - Tools > Global Options > Appearance
+* Written in HTML
+* Top menus
+  + File > New File > R Markdown
+  + Tools > Global Options > Appearance
+  
 * Upper left panel is the markdown file. This is where we add text and code. 
-  - Run code chunks from this panel 
-  - Output from the operations can be placed in this panel or in the Console (see the gear icon above)
-  - All the text, code, and output can be rendered to an HTML file or a PDF or Word document (see the Knit button above)
+
+  + Run code chunks from this panel 
+  + Output from the operations can be placed in this panel or in the Console (see the gear icon above)
+  + All the text, code, and output can be rendered to an HTML file or a PDF or Word document (see the Knit button above)
+  
 * Upper right panel shows what is in your current environment and the history of the commands you issued.
-  - This is also where you can connect to github
+
+  + This is also where you can connect to github
+  
 * Lower left panel is the Console
-  - I think of this as a sandbox where you try out small bits of code. If it works and is relevant move it to the markdown file.
-  - This is also where output from running code will be placed.
-  - Not a place for plain text
+
+  + I think of this as a sandbox where you try out small bits of code. If it works and is relevant move it to the markdown file.
+  + This is also where output from running code will be placed.
+  + Not a place for plain text
+  
 * Lower right panel shows your project files, the plots that get made, and all the packages associated with the project.
-  - The File tab shows the files in the project. The most important one is the .Rmd.
-  - The Plot tab currently shows a blank sheet
-  - The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
+
+  + The File tab shows the files in the project. The most important one is the .Rmd.
+  + The Plot tab currently shows a blank sheet
+  + The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
 
 ## Create an HTML file
 
@@ -359,13 +374,13 @@ abline(model)
 ### Practice: U.S. tornado database
 
 We download the data from the Storm Prediction Center (SPC) http://www.spc.noaa.gov/gis/svrgis/zipped/. We give the zipped file a temporary name on our computer (here `temporary.zip`) using the `destfile =` argument.
-```{r}
+```{r, eval=FALSE}
 download.file(url = "http://www.spc.noaa.gov/gis/svrgis/zipped/1950-2018-torn-initpoint.zip",
               destfile = "temporary.zip")
 ```
 
 Next we open the zipped file with the `unzip()` function. This creates a folder in our working directory called `1950-2018-torn-initpoint`.
-```{r}
+```{r, eval=FALSE}
 unzip("temporary.zip")
 ```
 
@@ -435,37 +450,6 @@ plot(Torn.sf$geometry,
 ```
 
 There are many functions for working with data frames using **base** R. These functions require understanding data frames as list objects, which makes them harder to learn and to remember. Next week we will explore a more formalized grammar for data wrangling.
-
-## Your turn: Florida precipitation by month
-
-Source: Monthly climate series. [Source:](http://www.esrl.noaa.gov/psd/data/timeseries/)
-
-Get monthly statewide average rainfall (in inches) back to the year 1895. Copy/paste into a text editor (I use TextWrangler) then import into R using the `read.table()` function.
-
-I did this and posted the file on my website. Missing values are coded as -9.900 so I included the argument `na.string = "-9.900"` in the function call.
-```{r}
-df <- read.table("http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt", 
-                 na.string = "-9.900", 
-                 header = TRUE)
-head(df)
-```
-
-* What was the statewide average rainfall during the 10th month of the 65th year?
-* What was the statewide average rainfall during June of 1900?
-* What year had the wettest March?
-* What month during 1965 was the wettest?
-
-## More practice: Tornadoes
-
-Use the tornado dataset from the Storm Prediction Center and write code to do or answer the following.
-
-* List the names of the columns in the data frame.
-* What is the last year in the data?
-* How many tornadoes had at least one fatality?
-* Create a table of the number of tornadoes by EF rating.
-* Create a table of the number of tornadoes by state.
-* Add a new variable to the data frame called `area` as the product of the path length and path width in units of square meters.
-* Map the locations of all the tornadoes with an EF rating of at least 4.
 
 ## Need additional help? Try swirl
 
