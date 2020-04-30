@@ -4,21 +4,18 @@
 
 We will use RStudio Cloud (https://rstudio.cloud/) throughout the semester.
 
-![RStudio Cloud's landing page][id]
-
-[id]: figures/RStudioCloudLanding.png "RStudio Cloud landing page"
-
+![RStudio Cloud's landing page](figures/RStudioCloudLanding.png)
 
 If you prefer to work with R and RStudio on your own computer (without RStudio Cloud) then
 
-(1) Get R
+First get R
 
 * Point browser to http://www.r-project.org.
 * Select the CRAN (Comprehensive R Archive Network). Scroll to a mirror site. 
 * Choose the appropriate file for your hardware.
 * Follow the instructions to install R.
 
-(2) Get RStudio
+Then get RStudio
 
 * Click on http://rstudio.org
 * Download RStudio Desktop
@@ -248,208 +245,6 @@ To remove an object from the environment use the `rm()` function.
 ```{r}
 rm(d1, d2)
 ```
-
-## Data frames
-
-A data frame is used for storing data tables. It is a list of vectors of equal length. For example, the following variable `df` is a data frame containing three vectors `n`, `s`, `b`.
-```{r}
-n <- c(2, 3, 5) 
-s <- c("aa", "bb", "cc") 
-b <- c(TRUE, FALSE, TRUE) 
-
-df <- data.frame(n, s, b)
-```
-
-There are many built-in data frames. For example, here is a built-in data frame in R, called `mtcars`.
-```{r}
-mtcars 
-```
-
-The top line of the table, called the header, contains the column names. Each horizontal line afterward denotes a data row, which begins with the name of the row, and then followed by the actual data. Each data member of a row is called a cell.
-
-To retrieve data in a cell, we would enter its row and column coordinates in the single square bracket `[]` operator. The two coordinates are separated by a comma. In other words, the coordinates begins with row position, then followed by a comma, and ends with the column position. The order is important.
-
-Here is the cell value from the first row, second column of mtcars.
-```{r}
-mtcars[1, 2]
-```
-
-We can use the row and column names instead of the numeric coordinates.
-```{r}
-mtcars["Mazda RX4", "cyl"] 
-```
-
-The number of data rows in the data frame is given by the `nrow()` function.
-```{r}
-nrow(mtcars)
-```
-
-The number of columns of a data frame is given by the `ncol()` function.
-```{r}
-ncol(mtcars)
-```
-
-Further details of the `mtcars` data set is available in the R documentation.
-```{r, eval=FALSE}
-help(mtcars)
-```
-
-Instead of printing out the entire data frame, it is often desirable to preview it with the `head()` function beforehand.
-```{r}
-head(mtcars)
-```
-
-Or with the `str()` function.
-```{r}
-str(mtcars)
-```
-
-### Another data frame
-
-Consider answers on questions given to all students in an introductory statistics class at Bowling Green State University. Some of the questions were: What is your gender? What is your height? Choose a number between 1 and 10. Give the time you went to bed last night. The data are available as a data frame called `studentdata` in the package **LearnBayes**.
-
-First, install the package.
-```{r}
-# install.packages("LearnBayes")
-library(LearnBayes)
-```
-
-Next, make a copy of the data frame and call it `df`. Then print the first six rows using the `head()` function and list only the 10th row.
-```{r}
-df <- LearnBayes::studentdata
-head(df)
-df[10, ]
-```
-
-Table the student's drink preference.
-```{r}
-table(df$Drink)
-```
-
-The numbers are the frequency of responses by `Drink` category.
-
-Use the `plot()` method to make a plot of this table.
-```{r}
-plot(x = df$Drink)
-```
-
-Suppose we are interested in examining how long students slept. This was not asked directly. We compute it from the `ToSleep` and `WakeUp` times columns.
-```{r}
-df$SleepHrs <- df$WakeUp - df$ToSleep
-summary(df$SleepHrs)
-```
-
-To see the distribution of sleep times, we construct a histogram with the `hist()` function.
-```{r}
-hist(x = df$SleepHrs)
-```
-
-Since the gender of each student is recorded, we can make comparisons between men and women. For instance, do men sleep more than women? We can answer this question graphically with box plots.
-```{r}
-plot(x = df$Gender, 
-     y = df$SleepHrs)
-```
-
-Repeat for hair cut prices. Use a density curve.
-```{r}
-plot(x = df$Gender, 
-     y = df$Haircut)
-```
-
-Finally, is the amount of sleep for a student related to bedtime?
-```{r}
-plot(x = df$ToSleep,
-     y = df$SleepHrs)
-```
-
-We describe the decreasing relationship by drawing a line through the points. The least-squares line is fit using the `lm()` function and the line is drawn on the existing plot with the `abline()` function applied to the linear regression object `model`.
-```{r}
-model <- lm(SleepHrs ~ ToSleep, data = df)
-
-plot(x = df$ToSleep,
-     y = df$SleepHrs)
-abline(model)
-```
-
-### Practice: U.S. tornado database
-
-We download the data from the Storm Prediction Center (SPC) http://www.spc.noaa.gov/gis/svrgis/zipped/. We give the zipped file a temporary name on our computer (here `temporary.zip`) using the `destfile =` argument.
-```{r, eval=FALSE}
-download.file(url = "http://www.spc.noaa.gov/gis/svrgis/zipped/1950-2018-torn-initpoint.zip",
-              destfile = "temporary.zip")
-```
-
-Next we open the zipped file with the `unzip()` function. This creates a folder in our working directory called `1950-2018-torn-initpoint`.
-```{r, eval=FALSE}
-unzip("temporary.zip")
-```
-
-Finally we load the shapefile into R. We use the `read_sf()` function from the **sf** package. We specify the data source name `dsn =`
-```{r}
-library(sf)
-Torn.sf <- read_sf(dsn = "1950-2018-torn-initpoint")
-```
-
-We preview the resulting data frame
-```{r}
-head(Torn.sf)
-```
-
-Each row is a unique tornado report. Observations for each report include information about the date and time, the state (`st`), the maximum EF rating (`mag`), the number of injuries (`inj`), the number of fatalities (`fat`), estimated property losses (`loss`), estimated crop losses (`closs`), start and end locations in decimal degrees longitude and latitude, length of the damage path in yards (`len`), width of the damage path in miles (`wid`). 
-
-There is also a column called `geometry` indicating the spatial information (more about this later).
-
-The number of tornado reports in the database is 
-```{r}
-nrow(Torn.sf)
-```
-
-Subset the data for years (`yr`) since 2001 and for EF ratings (`mag`) greater than 0.
-```{r}
-Torn.sf <- Torn.sf[Torn.sf$yr >= 2001 & Torn.sf$mag > 0, ]
-```
-
-Compute the correlation between EF rating (`mag`) and path length (`len`) and path width (`wid`). 
-```{r}
-cor(Torn.sf$mag, Torn.sf$len)
-cor(Torn.sf$mag, Torn.sf$wid)
-```
-
-Path length is recorded in miles and path width in yards. To convert them to meters and add the converted values as new columns, type
-```{r}
-Torn.sf$Length <- Torn.sf$len * 1609.34
-Torn.sf$Width <- Torn.sf$wid * .9144
-```
-
-Create side-by-side box plots of path length (in kilometers) by EF rating.
-```{r}
-plot(x = factor(Torn.sf$mag), 
-     y = Torn.sf$Length/1000)
-```
-
-Create a scatter plot with the size of the point proportional to the EF rating.
-```{r}
-plot(x = log(Torn.sf$Width), 
-     y = log(Torn.sf$Length), 
-     cex = Torn.sf$mag)
-```
-
-Create a map of tornado genesis locations. First get a file containing the U.S. state borders. Then plot the geometry column and overlay the tornado location as points.
-```{r}
-library(USAboundaries)
-
-sts <- state.name[!state.name %in% c("Alaska", "Hawaii")]
-stateBorders <- us_states(states = sts)
-
-plot(stateBorders$geometry,
-     col = "grey")
-plot(Torn.sf$geometry, 
-     pch = ".", 
-     col = "red",
-     add = TRUE)
-```
-
-There are many functions for working with data frames using **base** R. These functions require understanding data frames as list objects, which makes them harder to learn and to remember. Next week we will explore a more formalized grammar for data wrangling.
 
 ## Need additional help? Try swirl
 
