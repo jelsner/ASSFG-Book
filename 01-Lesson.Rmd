@@ -239,7 +239,7 @@ sum(d2 == 0)
 mean(d2)/mean(d1)
 ```
 
-So there is 85% more landfalls during the second decade. Is this statistically significant?
+So there is 85% more landfalls during the second decade. Is this difference statistically significant?
 
 To remove an object from the environment use the `rm()` function.
 ```{r}

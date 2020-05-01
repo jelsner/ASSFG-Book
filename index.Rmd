@@ -2,9 +2,11 @@
 title: "Applied Spatial Statistics for Geographers"
 author: "James B. Elsner"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
+site: "bookdown::bookdown_site"
+output:
+  bookdown::gitbook: default
 documentclass: book
-bibliography: [book.bib]
+bibliography: ["book.bib"]
 biblio-style: apalike
 link-citations: yes
 ---
