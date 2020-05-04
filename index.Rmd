@@ -16,3 +16,12 @@ link-citations: yes
 https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/1365-2656.13116 Navigating through the r packages for movement
 
 https://bookdown.org/yihui/bookdown/introduction.html
+https://ropensci.org/blog/2020/04/07/bookdown-learnings/
+
+https://evamaerey.github.io/flipbooks/flipbookr/skeleton#1
+https://docs.ropensci.org/stplanr/index.html
+
+
+SOI data: http://www.bom.gov.au/climate/current/soihtm1.shtml
+
+For QG next Fall: https://easystats.github.io/performance/index.html
