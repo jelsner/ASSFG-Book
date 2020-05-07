@@ -1688,7 +1688,7 @@ In 32 out of the 49 tracts the residuals from the spatial model are smaller than
 
 Finally, Stata is the dominant software package for economists needing to fit spatial regression models. Outside of Economics, however, R is widely used and more versatile. This cheatsheet may help make the transition. https://www.r-bloggers.com/stata-to-r-cheatsheet-for-econometrics/
 
-## Problem Set #3: Due February 25
+## Problem Set #3
 
 Using the Mississippi police expenditure data (http://myweb.fsu.edu/jelsner/temp/data/police.zip):
 
@@ -1700,5 +1700,541 @@ Using the Mississippi police expenditure data (http://myweb.fsu.edu/jelsner/temp
 (6) Fit the appropriate spatial regression model.
 (7) Add the variable `NONWHITE` to the aspatial regression. Is it a significant term in the model?  Test the residuals from the new model for spatial autocorrelation. What do you conclude?
 
-## Multivariate spatial models for lattice data with INLA
-https://github.com/becarioprecario/INLAMSM
+### Example: California house prices
+
+The file `CHP.zip` contains information about housing values at the census tract level across the state of California.
+```{r}
+library(sf)
+
+download.file("http://myweb.fsu.edu/jelsner/temp/data/CHP.zip",
+              "temporary.zip")
+unzip("temporary.zip")
+
+CHP.sf <- read_sf(dsn = "CHP")
+```
+
+The object `CHP.sf` is a simple feature spatial data frame with 29 variables whose values are aggregated to census tracts. There are 7049 tracts. To see the spatial extent of the data and the tract boundaries we use `tm_borders()`.
+```{r}
+library(tmap)
+
+tm_shape(CHP.sf) +
+  tm_borders()
+```
+
+The warning message tells us that at least one of the 7049 geometries is invalid. 
+
+Invalid geometries include null or empty geometries or geometries that are not simple (e.g., intersecting polygons). The `st_is_valid()` function returns a logical vector that lets us determine the number of invalid geometries.
+```{r}
+sum(!st_is_valid(CHP.sf))
+```
+
+To see the reason we include the argument `reason = TRUE`.
+```{r}
+x <- st_is_valid(CHP.sf, reason = TRUE)
+x[!st_is_valid(CHP.sf)]
+```
+
+This tells us that two geometries containing self-intersecting polygons.
+
+To fix this we can create a new set of geometries with the `st_buffer()` function while setting the buffer distance to zero.
+```{r}
+library(dplyr)
+
+CHP.sf <- CHP.sf %>%
+  st_buffer(dist = 0)
+
+sum(!st_is_valid(CHP.sf))
+```
+
+#### Aggregate the attributes to the county level
+
+We will analyze these data at the county level. In Lesson 6 we saw how to aggregate variables in a spatial data frame using functions in the **areal** package. This allows for greater flexibility since the aggregating units do not need to be in alignment.
+
+Since the California tracts are completely contained within county boundaries (aligned) here we use the `aggregate()` function from the **raster** package.
+
+We have county names (`County`) as a character variable so we can aggregate by name after converting the simple feature to an S4 class spatial data frame.
+```{r}
+CHP.sp <- as(CHP.sf, "Spatial")
+
+CHPcounty.sp <- raster::aggregate(CHP.sp, 
+                                  by = "County")
+```
+
+This produces a spatial polygons data frame where the boundaries are counties but the attribute table contains only the county name. 
+
+To see this let's convert the S4 spatial data frames to simple features and create a map.
+```{r}
+CHPcounty.sf <- as(CHPcounty.sp, "sf")
+
+library(tmap)
+
+tmap_mode("view")
+tm_shape(CHPcounty.sf) +
+  tm_borders()
+
+tmap_mode("plot")
+```
+
+Zoom and note that San Francisco County is close to Marin County (to the north) but not by contiguity.
+
+We need to aggregate the variables to the county level. Although it is possible to do everything in one step with `aggregate()` it is best to be careful because how we want a variable aggregated depends on its type (extensive or intensive).
+
+The simplest case is where we can sum the values (extensive variables like the number of houses). First create a simple feature data frame and select a subset of the columns.
+```{r}
+CHP1.sf <- CHP.sf %>%
+    dplyr::select(nhousingUn, recHouses, nMobileHom, Population,
+                  Males, Females, Under5, White, Black,
+                  AmericanIn, Asian, Hispanic, PopInHouse,
+                  nHousehold, Families)
+```
+
+Create a list of the county names by tract.
+```{r}
+CountyList <- list(County = CHP.sf$County)
+CountyList[[1]][1:50]
+```
+
+Then aggregate by county name (`County`) with the `aggregate()` method applied to the simple feature data frame. We employ the base R `sum()` function through the argument `FUN = sum` and specify what to do with missing values (encountered by in the summation) with the  `na.rm = TRUE` argument.
+```{r}
+CHP1.sf <- aggregate(CHP1.sf, 
+                     by = CountyList,
+                     FUN = sum, 
+                     na.rm = TRUE)
+head(CHP1.sf)
+
+tm_shape(CHP1.sf) +
+  tm_fill(col = "nMobileHom") +
+  tm_borders()
+```
+
+The result is a spatial data frame containing county-level totals aggregated from the original tract-level data.
+
+In other cases like with home values we need to use a weighted average to take into account the fact that housing values may be high in a small tract in a county but they may be much lower in a larger tract in the same county (intensive variable). So here we create average values per household in three steps. 
+
+First select the variables of interest.
+```{r}
+CHP2.sf <- CHP.sf %>%
+  dplyr::select(houseValue, yearBuilt, nRooms,
+                nBedrooms, medHHinc, MedianAge,
+                householdS, familySize, nHousehold)
+```
+
+Second multiply these variables by the number of households (`nHousehold`) in each tract.
+```{r}
+CHP2.sf <- CHP2.sf %>%
+  mutate(houseValue = houseValue * nHousehold,
+         yearBuilt = yearBuilt * nHousehold,
+         nRooms = nRooms * nHousehold,
+         nBedrooms = nBedrooms * nHousehold,
+         MedianAge = MedianAge * nHousehold)
+```
+
+Third aggregate to get county totals before dividing by the number of households.
+```{r}
+CHP2.sf <- aggregate(CHP2.sf, 
+                     by = CountyList, 
+                     FUN = sum, 
+                     na.rm = TRUE)
+CHP2.sf <- CHP2.sf %>%
+  mutate(houseValue = houseValue / nHousehold,
+         yearBuilt = yearBuilt / nHousehold,
+         nRooms = nRooms / nHousehold,
+         nBedrooms = nBedrooms / nHousehold,
+         medHHinc = medHHinc / nHousehold,
+         MedianAge = MedianAge / nHousehold,
+         householdS = householdS / nHousehold,
+         familySize = familySize / nHousehold)
+
+head(CHP2.sf)
+```
+
+Map the county level house values together with the number of bedrooms.
+```{r}
+tm_shape(CHP2.sf) +
+  tm_fill(col = c("houseValue", "nBedrooms")) +
+  tm_layout(legend.position = c("right", "top")) +
+  tm_borders()
+```
+
+#### Fit an aspatial regression model to predict house values
+
+We examine the residuals from an aspatial regression of house price on house age and the number of bedrooms. Here we first assign the model formula to the object `mf` and then use the `lm()` function.
+```{r}
+mf <- houseValue ~ yearBuilt + nBedrooms
+model.lm <- lm(mf, data = CHP2.sf)
+summary(model.lm)
+```
+
+According to the model, `yearBuilt` is highly significant. Older houses are more valuable. House values increase by 13K dollars for every additional year of existence. The number of bedrooms is also marginally significant. Every bedroom adds about 192K dollars to the value of a house.
+
+What is the expected (predicted from the model) value of a house built in 1999 with four bedrooms?
+```{r}
+predict(model.lm, 
+        newdata = data.frame(yearBuilt = 1999, 
+                             nBedrooms = 4))
+```
+
+What is the expected value of a house in San Francisco? First, what row contains data from San Francisco County?
+```{r}
+which(CHP2.sf$County == "San Francisco")
+
+predict(model.lm)[38]
+```
+
+How does this compare with the county average?
+```{r}
+CHP2.sf$houseValue[38]
+```
+
+The model under predicts house values in San Francisco by over $100K.
+
+Next, examine the model residuals for spatial autocorrelation. We first compute the neighborhood topology based on contiguity. But then add two links: between San Francisco and Marin County and vice versa (to consider the fact that the Golden Gate bridge connects these two counties in a way that would likely influence housing prices). 
+
+This is done by knowing the row numbers of these two counties and adding these numbers to the neighborhood list object. Note that since county 21 is a neighbor of county 38, county 38 must be a neighbor of county 21 so we need to adjust both.
+```{r}
+library(spdep)
+
+nbs <- poly2nb(CHP2.sf)
+
+CHP2.sf$County[21]
+
+nbs[[21]] <- sort(as.integer(c(nbs[[21]], 38)))
+nbs[[38]] <- sort(as.integer(c(21, nbs[[38]])))
+```
+
+Or we can use nearest neighbors. Start by extracting the coordinates of each county using the `st_coordinates()` function after applying the `st_centroid()` function. We use the `knearneigh()` function to compute the set of k nearest neighbors for each center. Since the CRS is geographic we include the `longlat = TRUE` argument and then  convert the k nearest neighbor object to a neighborhood object with the `knn2nb()` function.
+```{r}
+coords <- st_coordinates(st_centroid(CHP2.sf))
+
+nearestNeighbors <- knearneigh(coords, 
+                               k = 5,
+                               longlat = TRUE)
+knb <- knn2nb(nearestNeighbors)
+summary(knb)
+```
+
+Create the spatial weights matrix and check the residuals from the linear model for spatial autocorrelation.
+```{r}
+wts <- nb2listw(nbs)
+kwt <- nb2listw(knb)
+lm.morantest(model.lm, wts)
+lm.morantest(model.lm, kwt)
+```
+
+The large amount of spatial autocorrelation indicates that a spatial regression model is warranted. The model coefficients are not reliably precise.
+
+#### Fit a spatial regression model using the same explanatory variables
+
+As we saw in Lesson 11, we first need to choose between a lag and an error model. We do this sequentially first using the Lagrange multiplier test and then, if needed, the robust version of the LM test.
+```{r}
+lm.LMtests(model.lm, 
+           listw = wts, 
+           test = c("LMerr", "LMlag"))
+lm.LMtests(model.lm,
+           listw = wts, 
+           test = c("RLMerr", "RLMlag"))
+```
+
+The results from the LM tests do not help us discern between and a lag and an error model. However, the results from the RLM tests favor of a lag model. Recall the lag model includes a spatial lag term on the response variable.
+
+This same decision is reached when using the nearest neighbor weights (`kwt`).
+
+Fit the model. Here we need to specify a lower tolerance for numerically solving the inverse of the covariance matrix. This is needed in this case because the explanatory variables have very different scales. Actually it might be better to scale the variables first.
+```{r}
+library(spatialreg)
+
+model.lag <- lagsarlm(mf, 
+                      data = CHP2.sf, 
+                      listw = wts,
+                      tol.solve = 1e-30)
+summary(model.lag)
+```
+
+The coefficients on year the house was built and on the number of bedrooms have the same sign and remain statistically significant but the values are considerably different.
+
+The value of $\rho$ (coefficient on the spatial lag term) is .774, which is large and significant as indicated by the likelihood ratio test value and its corresponding $p$-value. The z-value and Wald statistic similarly indicate a significant coefficient on the spatial lag term.
+
+The difference in log likelihoods between the spatial and aspatial regression models indicates a large to huge improvement of the spatial model over the aspatial model.
+```{r}
+2 * (logLik(model.lag) - logLik(model.lm))/58
+```
+
+   1 | huge,
+  .1 | large,
+ .01 | good,
+.001 | okay
+
+The AIC for the spatial lag model is lower than that for the linear model and there is no significant residual autocorrelation.
+
+What is the expected value of a house in San Francisco predicted using the spatial lag model.
+```{r}
+predict(model.lag)[38]
+```
+
+The spatial lag model better captures the aggregated housing values in San Francisco than does the aspatial model.
+
+The `trend` term is the collective influence of the two explanatory variables and the `signal` is the spatial smoothing.
+```{r}
+pre <- predict(model.lag)
+str(pre)
+CHP2.sf$houseValue[1:5]
+```
+
+Maps of the spatial signal and the trend terms are made separately.
+```{r}
+CHP2.sf$signal <- attr(pre, "signal")
+CHP2.sf$trend <- attr(pre, "trend")
+
+tm_shape(CHP2.sf) +
+  tm_fill("signal")
+```
+
+The signal term 'explains' (statistically) the spatial influence of San Francisco on housing values across the state. Highest values are centered on San Francisco County and these high values decay northward and eastward quickly. The decay in the influence of San Francisco is more gradual to the south.
+
+```{r}
+tm_shape(CHP2.sf) +
+  tm_fill("trend")
+
+CHP2.sf$preLAG <- CHP2.sf$signal + CHP2.sf$trend
+
+tm_shape(CHP2.sf) +
+  tm_fill("preLAG", midpoint = NA)
+```
+
+The trend term shows that beyond the spatial smoothed term additional factors (year built and number of bedroom) make house values in San Francisco high.
+
+## Bayesian spatial regression using INLA
+
+See for updates to notes below: https://github.com/becarioprecario/INLAMSM
+
+Interest in spatial statistical models has increased substantially in the recent years stemming in part from the availability of methods to fit them. One such method is called Bayesian inference.
+
+Classical statistics relies on the likelihood function ($p(y|\theta)$) which specifies the probability distribution of our data ($y$) under a model defined by parameters ($\theta$). Recall that we compared our spatial models using values of the log likelihood.
+
+Variability on $y$ comes about from sampling. That is we assume that the data are a random sample from a study population and the uncertainty arises because we only observe a single sample instead of the entire population.
+
+But with Bayesian inference, the parameters $\theta$ are unknown quantities modeled through a suitable *prior* probability distribution $p(\theta)$ before we observing any sample $y$. The prior probability distribution reflects our prior belief about $\theta$. Then given the likelihood and the prior the inferential problem is solved using Bayes theorem. That is, we want to know the probability of our model being true given our sample of data $y$ (the posterior distribution).
+$$
+p(\theta|y) = \frac{p(y|\theta) \times p(\theta)}{p(y)}
+$$
+
+Determining the posterior distribution of $\theta$ given our data requires determining $p(y)$ (marginal distribution of our data). This can only be done analytically for a relatively small set of all models (those involving conjugate distributions), none of which are spatial. 
+
+Bayesian models for spatial data started appearing around 2000 with the development of the Markov chain Monte Carlo (MCMC) procedure (Gilks et al. 1996). This allowed researchers to implement realistic models (involving fewer simplifying assumptions). A main contribution to spatial models at this time came with the development of the conditional autoregressive (CAR) representation for specifying spatial autocorrelation (Besag et al. 1991).
+
+MCMC methods are now routinely used in Bayesian inference, but they are limited by the need for alot of processing power. To overcome this Rue et al. (2009) developed a technique called integrated nested Laplace approximation (INLA) that estimates the posterior marginals (not the joint posterior) for models that have an underlying (latent) Gaussian structure.
+
+Latent Gaussian fields appear in a fair number of spatial models. This means that INLA is useful for fitting more complex spatial regression models when only marginal inference on the model parameters is needed.
+
+### The {INLA} package
+
+The {INLA} package (Rue et al. 2014) provides an interface to the free-standing INLA program so models can be fit using standard R commands. The package is available from http://www.r-inla.org/. The model interface is similar to the one used to fit generalized additive models (GAM) with the `gam()` function from the {mgcv} package. 
+
+The `formula` argument can handle fixed effects, nonlinear terms, and random effects. The interface allows for the specification of various priors and model fitting options. Nonlinear and random effects are included in the formula as calls to the `f()` function. Spatial dependence is included as part of a vector of latent effects.
+
+The package includes a model for uncorrelated random effects $u_i$ in aggregated data.
+$$
+u_i \sim N(0, \tau_u)
+$$
+where $\tau_u$ refers to the precision (inverse of the variance) of the Gaussian distribution. The {INLA} package assigns a prior to $\log(\tau_u)$ which, by default, is a log-gamma distribution.
+
+As we've seen in order to model spatial correlation neighborhoods must be defined.
+
+Spatial autocorrelation is modeled using a Gaussian distribution with zero mean and a precision matrix that specifies the correlation between neighbors. Given that these latent effects (unobserved) are Gaussian Markov random fields (GMRF), we can define the variance-covariance matrix of the random effects as:
+$$
+\Sigma = \frac{1}{\tau} Q^{-1}
+$$
+where $\tau$ is a precision parameter and $Q$ encodes the spatial structure as a matrix. Given the assumption of a latent GMRF, the matrix $Q$ is defined such that $Q_{ij}$ is zero if areas $i$ and $j$ are not neighbors. This means $Q$ is sparse.
+
+One way to specify spatial dependence is through the conditional autoregressive (CAR) representation. This produces a $Q$ matrix in which element $Q_{ii}$ is $n_i$ (the number of neighbors of area $i$) and elements $Q_{ij}$ (with $i \ne j$) are one if areas $i$ and $j$ are neighbors and zero otherwise. 
+
+This specification implies that the spatial random effects $v_i$ are distributed as normal with mean equal to the neighborhood average and variance scaled by the number of neighbors.
+$$
+v_i|v_j, \tau_v \sim N\left( \frac{1}{n_i} \sum_{i \sim j} v_j, \frac{1}{\tau_v n_i} \right) \hspace{.5cm} i \ne j
+$$
+where $\tau_v$ is the conditional precision of the random effects. Again, {INLA} uses a log-gamma prior on log($\tau_v$).
+
+Download and install {INLA}. The package relies on a stand-alone C library (GMRF) and therefore is not on CRAN, but you can get all the info from http://www.r-inla.org.
+```{r}
+#install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/stable"), dep = TRUE)
+library(INLA)
+```
+
+Reference: Bivand et al. (2015) Spatial data analysis with R-INLA with some extensions. *Journal of Statistical Software*, v63.
+
+### Example: California house prices
+
+Let's use INLA to fit the spatial regression model to the California house prices. We have our weights matrix (`wts`) as a list w object. We convert this to a full matrix with the `listw2mat()` function. We print out the first ten rows and columns of the matrix.
+```{r}
+wtsF <- listw2mat(wts)
+wtsF[1:10, 1:10]
+```
+
+To match the weights with the tracts in `CHP2.sf`, we need to add an index variable `idx` to the spatial data frame.
+```{r}
+CHP2.sf$idx <- 1:nrow(CHP2.sf)
+head(CHP2.sf)
+```
+
+The model in matrix notation can be expressed as
+$$
+y = X \beta + v + u
+$$
+where $\beta$ is a vector of coefficients for the explanatory variables (and intercept), $v$ is the spatial random effect with a CAR specification, and $u$ is a random Gaussian error term. Note the similarity with the spatial lab model from Lesson 11.
+
+The explanatory effects (including the intercept) are given Gaussian priors with mean of zero and precision of .01 by default. These can be changed through the `control.fixed()` function.
+
+With Bayesian models it is advisable to center and scale the variables. Scaled variables make it is easier to determine prior distributions and, when using MCMC approaches, reasonable initial starting locations are easier to find. Here we use the `scale()` function that subtracts the mean and divides by the standard deviation.
+```{r}
+CHP2.sf <- CHP2.sf %>%
+      mutate(houseValueS = scale(houseValue),
+             yearBuiltS = scale(yearBuilt),
+             nBedroomsS = scale(nBedrooms))
+```
+
+We already specified the explanatory effects (trend) part of the model. Here we repeat using the scaled variables. Then we add the intrinsic CAR specification by using the `f()` function with arguments `model = 'besag'` and `graph = wtsF`. The graph argument must contain the weights matrix in full matrix form.
+```{r}
+mf <- houseValueS ~ yearBuiltS + nBedroomsS + 
+            f(idx, model = 'besag', graph = wtsF)
+```
+
+The `inla()` function fits the model. Here `control.predictor = list(compute = TRUE)` is used to compute summary statistics on the fitted values. Unfortunately RStudio Cloud does not have the proper fortran compiler so this will not work here. It should work on your own computer.
+
+I ran it on my desktop and saved the model object as a serialized R data file and uploaded the file to RStudio Cloud.
+```{r, eval=FALSE}
+model.car <- inla(mf, 
+                  data = CHP2.sf, 
+                  control.predictor = list(compute = TRUE))
+
+saveRDS(model.car, file = "modcar.rds")
+```
+
+We read it in 
+```{r}
+model.car <- readRDS("modcar.rds")
+```
+
+A summary of the model is obtained with the `summary` method.
+```{r}
+summary(model.car)
+```
+
+Compare with a non-Bayesian spatial lag model using the scaled (and centered) variables.
+```{r}
+summary(lagsarlm(houseValueS ~ yearBuiltS + nBedroomsS, 
+                 data = CHP2.sf , 
+                 listw = wts))
+```
+
+The estimated coefficients are similar but the uncertainty about the estimates is coded differently with Bayesian inference. There is no $p$-value. Rather there is an uncertainty interval about the estimated parameter value (called a credible interval).
+
+Here we see that the 95% credible interval on the marginal posterior for the number of bedrooms coefficient includes the value of zero.
+
+The posterior distributions for the coefficients are found in the `model.car$marginals.fixed`.
+```{r}
+names(model.car$marginals.fixed)
+```
+
+There is a marginal distribution for the intercept and marginal distributions for the year built term and the number of bedrooms term.
+
+We use the `plot()` method to plot the distribution on the two explanatory variables.
+```{r}
+plot(model.car$marginals.fixed$"yearBuiltS", type = "l")
+plot(model.car$marginals.fixed$"nBedroomsS", type = "l")
+```
+
+The posterior distributions for the spatial term are found in `model.car$marginals.random`. There is a posterior distribution for each county. Here we plot this distribution for the first county.
+```{r}
+plot(model.car$marginals.random$idx$index.1, type = "l")
+```
+
+Posterior marginals for the fitted values are computed. They include the mean, standard deviation, extreme quantiles, and the mode. Here we add the posterior mean of the fit to the spatial data frame and make a map.
+```{r}
+CHP2.sf$preCAR <- model.car$summary.fitted.values$mean
+
+tm_shape(CHP2.sf) +
+  tm_fill("preCAR", midpoint = NA)
+```
+
+The map shows the posterior mean housing prices (scaled) at the county level across the state.
+
+### Bayesian spatial regression using Stan
+
+Stan is a probabilistic programming language for statistical inference written in C++. The Stan language is used to specify a (Bayesian) statistical model with an imperative program calculating the log probability density function. Stan is named in honour of Stanislaw Ulam, pioneer of the Monte Carlo method.
+
+The {brms} package using the R syntax for modeling data but calls Stan for fitting. https://rdrr.io/cran/brms/man/cor_car.html
+
+Fit a CAR model. Create a symmetric weights matrix from the neighborhood list. Scale the variables. NOTE: I could not get this to work in RStudio Cloud.
+```{r, eval=FALSE}
+library(brms)
+
+nbs <- poly2nb(CHP2.sp)
+W <- nb2mat(nbs, style = "B")
+
+CHP2.sf <- CHP2.sf %>%
+              mutate(houseValueS = scale(houseValue),
+              yearBuiltS = scale(yearBuilt))
+
+mf <- houseValue ~ yearBuiltS + nBedrooms
+
+fit <- brm(mf, 
+           data = CHP2.sf, 
+           family = lognormal(), 
+           autocor = cor_car(W),
+           control = list(adapt_delta = .95)) 
+summary(fit)
+```
+
+Get priors.
+```{r, eval=FALSE}
+get_prior(mf,
+          data = CHP2.sf,
+          family = lognormal(),
+          autocor = cor_car(W))
+```
+
+#### Binomial example on generated spatial data. First setup a 10 by 10 grid.
+```{r, eval=FALSE}
+east <- north <- 1:10
+Grid <- expand.grid(east, north)
+K <- nrow(Grid)
+```
+
+Next set up distance and neighborhood matrices based on rook contiguity.
+```{r, eval=FALSE}
+distance <- as.matrix(dist(Grid))
+W <- array(0, c(K, K))
+W[distance == 1] <- 1 
+```
+
+Next, generate the covariates and response data.
+```{r, eval=FALSE}
+x1 <- rnorm(K)
+x2 <- rnorm(K)
+
+theta <- rnorm(K, sd = 0.05)
+phi <- rmulti_normal(1, mu = rep(0, K), Sigma = 0.4 * exp(-0.1 * distance))
+eta <- x1 + x2 + phi
+prob <- exp(eta) / (1 + exp(eta))
+size <- rep(50, K)
+y <- rbinom(n = K, size = size, prob = prob)
+df <- data.frame(y, size, x1, x2)
+```
+
+Fit a CAR model
+```{r, eval=FALSE}
+fit <- brm(y | trials(size) ~ x1 + x2, 
+           data = df, 
+           family = binomial(), 
+           autocor = cor_car(W)) 
+summary(fit)
+```
+
+### Challenge problem: Home foreclosures in Chicago
+
+Another example: http://www.econ.uiuc.edu/~lab/workshop/Spatial_in_R.html
+
+The data have been posted on my website http://myweb.fsu.edu/jelsner/temp/data/foreclosures.zip.
+
+(1) Follow the code in this example but use simple feature data frames to import the data and map the results.
+(2) Fit a CAR model to these data using INLA.
