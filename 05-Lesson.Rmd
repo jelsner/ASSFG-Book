@@ -2,6 +2,7 @@
 
 Sometimes called lattice data.
 
+
 ## Quantifying spatial autocorrelation
 
 "**An awful lot of time I spend "coding" is actually spent copying and pasting (And much of the rest is spent googling).**"--- Meghan Duffy

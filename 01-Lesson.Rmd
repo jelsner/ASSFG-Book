@@ -2,6 +2,7 @@
 
 **"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."** --- Martin Fowler
 
+
 We will use RStudio Cloud (https://rstudio.cloud/) throughout the semester.
 
 ![RStudio Cloud's landing page](figures/RStudioCloudLanding.png)
