@@ -5,8 +5,4 @@ language:
 delete_merged_file: true
 
 rmd_files: ["index.Rmd", 
-           "01-Lesson.Rmd",
-           "02-Lesson.Rmd",
-           "03-Lesson.Rmd",
-           "04-Lesson.Rmd",
            "05-Lesson.Rmd"]
