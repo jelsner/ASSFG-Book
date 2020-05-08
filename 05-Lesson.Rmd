@@ -434,7 +434,7 @@ The slope of the regression line is upward indicating positive spatial autocorre
 lm(Wsids ~ sids)
 ```
 
-### Statistical significance of spatial autocorrelation
+## Statistical significance of spatial autocorrelation
 
 Even in a random pattern of attribute values across a spatial domain the value of $I$ will almost certainly be non-zero. If we want to use $I$ to establish clustering we need a way to guard against being fooled by this randomness.
 
@@ -1688,18 +1688,6 @@ In 32 out of the 49 tracts the residuals from the spatial model are smaller than
 
 Finally, Stata is the dominant software package for economists needing to fit spatial regression models. Outside of Economics, however, R is widely used and more versatile. This cheatsheet may help make the transition. https://www.r-bloggers.com/stata-to-r-cheatsheet-for-econometrics/
 
-## Problem Set #3
-
-Using the Mississippi police expenditure data (http://myweb.fsu.edu/jelsner/temp/data/police.zip):
-
-(1) Import the data as a simple feature data frame.
-(2) Create a new variable `pPOLICE` as the police expenditure per person by dividing `POLICE` by `POP` and a new variable `NONWHITE` as 100 minus `WHITE`.
-(3) Fit a aspatial linear regression model regressing `pPOLICE` onto `CRIME`.
-(4) Test the model residuals for spatial autocorrelation. Use queen contiguity to define the neighborhoods and `style = "W"` to define the weights. 
-(5) Determine the type of spatial regression (lag or error model) using the LM diagnostics.
-(6) Fit the appropriate spatial regression model.
-(7) Add the variable `NONWHITE` to the aspatial regression. Is it a significant term in the model?  Test the residuals from the new model for spatial autocorrelation. What do you conclude?
-
 ### Example: California house prices
 
 The file `CHP.zip` contains information about housing values at the census tract level across the state of California.
@@ -2230,7 +2218,19 @@ fit <- brm(y | trials(size) ~ x1 + x2,
 summary(fit)
 ```
 
-### Challenge problem: Home foreclosures in Chicago
+## Problem Set #3
+
+Using the Mississippi police expenditure data (http://myweb.fsu.edu/jelsner/temp/data/police.zip):
+
+(1) Import the data as a simple feature data frame.
+(2) Create a new variable `pPOLICE` as the police expenditure per person by dividing `POLICE` by `POP` and a new variable `NONWHITE` as 100 minus `WHITE`.
+(3) Fit a aspatial linear regression model regressing `pPOLICE` onto `CRIME`.
+(4) Test the model residuals for spatial autocorrelation. Use queen contiguity to define the neighborhoods and `style = "W"` to define the weights. 
+(5) Determine the type of spatial regression (lag or error model) using the LM diagnostics.
+(6) Fit the appropriate spatial regression model.
+(7) Add the variable `NONWHITE` to the aspatial regression. Is it a significant term in the model?  Test the residuals from the new model for spatial autocorrelation. What do you conclude?
+
+## Challenge problem: Home foreclosures in Chicago
 
 Another example: http://www.econ.uiuc.edu/~lab/workshop/Spatial_in_R.html
 
