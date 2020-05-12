@@ -5,8 +5,4 @@ language:
 delete_merged_file: true
 
 rmd_files: ["index.Rmd", 
-           "01-Chapter.Rmd",
-           "02-Chapter.Rmd",
-           "03-Chapter.Rmd",
-           "04-Chapter.Rmd",
-           "05-Chapter.Rmd"]
+           "07-Chapter.Rmd"]

@@ -1,10 +1,11 @@
 # Analyzing and Modeling Spatial Data in Areal Units
 
+**"An awful lot of time I spend "coding" is actually spent copying and pasting (And much of the rest is spent googling)."**--- Meghan Duffy
+
+
 ## Quantifying spatial autocorrelation
 
-"**An awful lot of time I spend "coding" is actually spent copying and pasting (And much of the rest is spent googling).**"--- Meghan Duffy
-
-In this lesson we will use functions from the {spdep} package (Roger Bivand et al.). Functions in this package provide tools analyzing and modeling data that are aggregated to polygons. This type of data is widely used in the social sciences including demography and epidemiology. Sometimes called lattice data.
+In this chapter we will use functions from the {spdep} package (Roger Bivand et al.). Functions in this package provide tools analyzing and modeling data that are aggregated to polygons. This type of data is widely used in the social sciences including demography and epidemiology. Sometimes called lattice data.
 
 ### Spatial autocorrelation
 
@@ -48,7 +49,7 @@ We can also define neighbors by distance. For example, if $d_{ij}$ is the distan
 ### An example: Columbus, Ohio crime
 
 Consider crime data at the tract level in the city of Columbus, Ohio (Anselin, 1988: Spatial Econometrics. Boston, Kluwer Academic). The tract polygons are projected with arbitrary spatial coordinates.
-```{r}
+```{r chapter5}
 library(sf)
 
 download.file("http://myweb.fsu.edu/jelsner/temp/data/columbus.zip",

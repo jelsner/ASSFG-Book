@@ -14,7 +14,7 @@ library(tidyverse)
 ```
 
 We will look at the verbs one at a time using the `airquality` data frame. The data frame contains air quality measurements taken in New York City between May and September 1973. (`?airquality`). 
-```{r}
+```{r chapter2}
 dim(airquality)
 head(airquality)
 ```

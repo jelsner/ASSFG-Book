@@ -22,7 +22,7 @@ In this class (and in the R spatial ecosystem) we use functions from the **sp** 
 R's spatial ecosystem continues to evolve. Most changes build on what has already been done. Occasionally there is a significant change that builds from scratch. The **sf** package is a significant change.
 
 Install and load the packages.
-```{r}
+```{r chapter3}
 library(sp)
 library(sf)
 ```

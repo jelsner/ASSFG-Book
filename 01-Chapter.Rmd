@@ -69,7 +69,7 @@ Applied statistics is the analysis and modeling of data. The `c()` function gets
 2  3  0  3  1  0  0  1  2  1
 
 We put these count values into our working directory by typing them into the console as follows. The console is the lower left window.
-```{r}
+```{r chapter1}
 counts <- c(2, 3, 0, 3, 1, 0, 0, 1, 2, 1)
 counts
 ```

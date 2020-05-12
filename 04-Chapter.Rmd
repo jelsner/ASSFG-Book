@@ -9,7 +9,7 @@ How the BBC uses R. https://medium.com/bbc-visual-and-data-journalism/how-the-bb
 So far we've used the `plot()` method as a first-order check on our geocomputations. It is possible to make a publishable quality map using `plot()` but there is a lot of trial and error in getting it to the quality needed. 
 
 An efficient alternative is to use functions from the **tmap** package. There are other packages for making nice maps in R with some of them listed in the syllabus but I like the **tmap** package because it integrates `sf`, `sp`, and `raster` objects seamlessly. 
-```{r}
+```{r chapter4}
 library(tmap)
 ```
 
