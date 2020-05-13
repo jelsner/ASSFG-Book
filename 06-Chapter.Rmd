@@ -2385,29 +2385,20 @@ Integrating the predictions over the area equals the observed number of ore depo
 sum(fitted(model))
 ```
 
-### Challenge problem
-
-Fit a spatial logistic regression model to the Kansas tornado data (`T.ppp25`) using distance to nearest city, terrain roughness, and elevation as explanatory variables. Use the argument `eps = 10000` to specify 10-km-square pixels.  Use the `AIC()` function to compare the model to a simpler model that has the elevation variable removed. What model is better? Plot the predictions from the better model as a probability raster with the actual tornado event locations overlayed.
-
 ## Machine learning on spatial data
 
 https://geocompr.robinlovelace.net/spatial-cv.html
 
-
-
 ## Problem Set #4
 
 1. Create a planar point pattern object (`ppp`) from the tornado reports (genesis points) across Oklahoma over the period 1950--2018 as the event locations. The data are in the shapefile `1950-2018-torn-initpoint`. Create an `owin` object from the state border after projecting the border to an Albers equal area conic projection (EPSG:26975). (15)
-
 2. Rescale the units to kilometers. Estimate the annual tornado intensity per 100 square kilometers. (5)
-
 3. Create a map showing the spatially varying intensity of tornadoes across the state. Overlay the event locations on the map. (10)
-
 4. Create a planar point pattern object from the locations of cities and towns with populations exceeding 500. Use the cities data set from my website (see Lessons 13 & 14). Make a map showing the locations (20)
-
 5. Plot the intensity of tornado reports as a function of distance from nearest town/city. Use an adjustment to the kernel bandwidth of 1.5. (10)
-
 6. Using the tornado events compute and plot the nearest neighbor distance function. Test for clustering using a simulation envelope. Use 99 simulations. Describe the results. (10)
-
 7. Create a multitype point pattern object by combining the tornado events with the town/city locations. Note: first remove the marks from the tornado point pattern data. Add "city" and "tornado" as factor marks to the multitype point pattern. Compute and plot Ripley's K cross function and test for 'interaction' for distances less than 10 km. Use the `envelope()` function to create 99 simulations. Provide an interpretation for the results. (30)
 
+Extra problem:
+
+Fit a spatial logistic regression model to the Kansas tornado data (`T.ppp25`) using distance to nearest city, terrain roughness, and elevation as explanatory variables. Use the argument `eps = 10000` to specify 10-km-square pixels.  Use the `AIC()` function to compare the model to a simpler model that has the elevation variable removed. What model is better? Plot the predictions from the better model as a probability raster with the actual tornado event locations overlayed.
