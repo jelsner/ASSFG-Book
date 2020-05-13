@@ -1871,8 +1871,7 @@ We start with the pine sapling model. Here we use the $L$ function (variance sta
 plot(envelope(modelSP, Lest, 
               nsim = 39, 
               global = TRUE, 
-              correction = 'border'), 
-     legend = FALSE)
+              correction = 'border'), legend = FALSE)
 ```
 
 The empirical curve is in black and the model is in red. The kink is the result of specifying 10 units for the interaction distance. From the results we conclude that an inhibition model is sufficient for describing the pine sapling data. 
@@ -1882,8 +1881,7 @@ What about the maple trees? Our model is saved as `modelMT`.
 plot(envelope(modelMT, Lest, 
               nsim = 39, 
               global = TRUE, 
-              correction = 'border'),
-     legend = FALSE)
+              correction = 'border'), legend = FALSE)
 ```
 
 In the case of the maple trees, a cluster model is sufficient. However, it is not satisfying since we know about the cross correlation with hickories. Also there appears to be more trees in the south. So we are not finished modeling these data.
@@ -1994,8 +1992,7 @@ modelBEI.kppm <- kppm(bei,
 E <- envelope(modelBEI.kppm, Lest, nsim = 39, 
              global = TRUE, 
              correction = "border")
-plot(E, main = "Clustered Inhomogeneous Model", 
-     legend = FALSE)
+plot(E, main = "Clustered Inhomogeneous Model", legend = FALSE)
 ```
 
 The uncertainty band is much wider. The empirical curve fits completely inside the band. The inhomogeneous cluster process appears to be an adequate description of the point pattern data.
