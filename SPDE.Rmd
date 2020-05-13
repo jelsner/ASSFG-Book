@@ -1,0 +1,43 @@
+## Geostatistical modeling using INLA
+
+https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
+
+In this chapter we show how to fit a geostatistical model to predict malaria prevalence in The Gambia using the stochastic partial differential equation (SPDE) approach and the R-INLA package (Rue et al. 2018). 
+
+We use data of malaria prevalence in children obtained at 65 villages in The Gambia which are contained in the geoR package (Ribeiro Jr and Diggle 2018), and high-resolution environmental covariates downloaded with the raster package (Hijmans 2019). We show how to create a triangulated mesh that covers The Gambia, the projection matrix and the data stacks to fit the model. Then we show how to manipulate the results to obtain the malaria prevalence predictions, and 95% credible intervals denoting uncertainty. We also show how to compute exceedance probabilities of prevalence being greater than a given threshold value of interest for policymaking. Results are shown by means of interactive maps created with the leaflet package (Cheng, Karambelkar, and Xie 2018).
+
+### Data
+
+First, we load the {geoR} package and attach the data `gambia` which contains information about malaria prevalence in children obtained at 65 villages in The Gambia.
+```{r}
+library(geoR)
+data(gambia)
+```
+
+Next we inspect the data and see it is a data frame with 2035 observations and the following 8 variables:
+
+`x`: x coordinate of the village (UTM),
+`y`: y coordinate of the village (UTM),
+`pos`: presence (1) or absence (0) of malaria in a blood sample taken from the child,
+`age`: age of the child in days,
+`netuse`: indicator variable denoting whether the child regularly sleeps under a bed net,
+`treated`: indicator variable denoting whether the bed net is treated,
+`green`: satellite-derived measure of the greenness of vegetation in the vicinity of the village,
+`phc`: indicator variable denoting the presence or absence of a health center in the village.
+
+```{r}
+head(gambia)
+```
+
+### Data preparation
+Data in gambia are given at an individual level. Here, we do the analysis at the village level by aggregating the malaria tests by village. We create a data frame called d with columns containing, for each village, the longitude and latitude, the number of malaria tests, the number of positive tests, the prevalence, and the altitude.
+
+#### Prevalence
+We can see that gambia has 2035 rows and the matrix of the unique coordinates has 65 rows. This indicates that 2035 malaria tests were conducted at 65 locations.
+```{r}
+dim(gambia)
+```
+## [1] 2035    8
+```{r}
+dim(unique(gambia[, c("x", "y")]))
+```

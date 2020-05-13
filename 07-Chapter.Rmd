@@ -2043,6 +2043,10 @@ Obtaining a quality statistical interpolation is a nuanced process but with prac
 
 https://github.com/thengl/GeoMLA
 
+## Geostatistical modeling using INLA
+
+https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
+
 ## Problem Set #5
 
 Consider the data set `parana` from the {geoR} package containing rainfall values from the state of Paran\`a. The data are average rainfall (mm) over the period May-June.

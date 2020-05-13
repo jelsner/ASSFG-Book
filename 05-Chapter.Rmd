@@ -2013,6 +2013,8 @@ Latent Gaussian fields appear in a fair number of spatial models. This means tha
 
 ### The {INLA} package
 
+See https://www.paulamoraga.com/book-geospatial/sec-inla.html
+
 The {INLA} package (Rue et al. 2014) provides an interface to the free-standing INLA program so models can be fit using standard R commands. The package is available from http://www.r-inla.org/. The model interface is similar to the one used to fit generalized additive models (GAM) with the `gam()` function from the {mgcv} package. 
 
 The `formula` argument can handle fixed effects, nonlinear terms, and random effects. The interface allows for the specification of various priors and model fitting options. Nonlinear and random effects are included in the formula as calls to the `f()` function. Spatial dependence is included as part of a vector of latent effects.
