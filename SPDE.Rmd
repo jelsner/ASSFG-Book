@@ -1,15 +1,14 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
-## Geostatistical modeling using INLA
+# Latent Field Modeling using INLA
 
 https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
 
-In this chapter we show how to fit a geostatistical model to predict malaria prevalence in The Gambia using the stochastic partial differential equation (SPDE) approach and the R-INLA package (Rue et al. 2018). 
+In this chapter we show how to fit a geostatistical model to predict malaria prevalence in The Gambia using the stochastic partial differential equation (SPDE) approach and the R-INLA package (@RueEtAl2014). 
 
-We use data of malaria prevalence in children obtained at 65 villages in The Gambia which are contained in the geoR package (Ribeiro Jr and Diggle 2018), and high-resolution environmental covariates downloaded with the raster package (Hijmans 2019). We show how to create a triangulated mesh that covers The Gambia, the projection matrix and the data stacks to fit the model. Then we show how to manipulate the results to obtain the malaria prevalence predictions, and 95% credible intervals denoting uncertainty. We also show how to compute exceedance probabilities of prevalence being greater than a given threshold value of interest for policymaking. Results are shown by means of interactive maps created with the leaflet package (Cheng, Karambelkar, and Xie 2018).
+We use data of malaria prevalence in children obtained at 65 villages in The Gambia which are contained in the {geoR} package (@RibeiroEtAl2020), and high-resolution environmental covariates downloaded with the {raster} package (@Hijmans2020). We show how to create a triangulated mesh that covers The Gambia, the projection matrix and the data stacks to fit the model. 
+
+Then we show how to manipulate the results to obtain the malaria prevalence predictions, and 95% credible intervals denoting uncertainty. We also show how to compute exceedance probabilities of prevalence being greater than a given threshold value of interest for policy making. 
+
+Results are shown by means of interactive maps created with the {tmap} package (@Tennekes2018).
 
 ### Prepare the data
 
@@ -106,14 +105,29 @@ tm_shape(sfdf) +
   tm_dots(col = "prev", size = .1)
 ```
 
+We add the the altitude values to the data frame `df` to be able to use it as a covariate in the model. Since the raster is longitude/latitude we convert the village locations to longitude/latitude adding them to the data frame.
+```{r}
+sfdfT <- sfdf %>%
+  st_transform(crs = 4326)
+
+df[, c("long", "lat")] <- st_coordinates(sfdfT)
+```
+
+Now we get the altitude values at the village locations using the `extract()` function from {raster}. The first argument of this function is the altitude raster (`r`). The second argument is a two-column matrix with the coordinates where we want to know the values, that is, the coordinates of the villages given by `d[, c("long", "lat")]`. We assign the altitude vector to the column `altitude` of the data frame `df`.
+```{r}
+df$altitude <- raster::extract(r, df[, c("long", "lat")])
+
+head(df)
+```
+
 ### Specify the model
 
-Here we specify the model to predict the prevalence of malaria in The Gambia using the SPDE approach and functions from the {INLA} package.
+Here we specify the model (mathematically and heuristically) to predict the prevalence of malaria in The Gambia using the stochastic partial differential equation (SPDE) approach and functions from the {INLA} package.
 
-Conditional on the true prevalence $P({\bf x}_i)$ at location ${\bf x}_i$, i = 1, $\ldots, n$, the number of positive results $Y_i$ out of $N_i$ people sampled follows a binomial distribution
+Mathematically, we assume that conditional on the true prevalence $P({\bf x}_i)$ at location ${\bf x}_i$, i = 1, $\ldots, n$, the number of positive results $Y_i$ out of $N_i$ people sampled follows a binomial distribution
 $$
 Y_i|P({\bf x}_i) \sim \hbox{Binomial}(N_i, P({\bf x}_i)) \\
-\hbox{logit}(P({\bf x}_i)) = \beta_0 + \beta_1 \times \hbox{altitude} + S({\bf x}_i))
+\hbox{logit}[P({\bf x}_i)] = \beta_0 + \beta_1 \hbox{altitude} + S({\bf x}_i)
 $$
 
 Here $\beta_0$ is the intercept, $\beta_1$ is the coefficient on altitude and $S({\bf x}_i))$ is a spatial random effect (spatial autocorrelation) that follows a zero-mean Gaussian process with a Mat'ern covariance function
@@ -206,6 +220,31 @@ Ap <- inla.spde.make.A(mesh = mesh,
 ```
 
 #### Organize the model inputs
+
+We use the `inla.stack()` function to organize data, effects, and projection matrices with the following arguments:
+
+* `tag`: string to identify the data,
+* `data`: list of data vectors,
+* `A`: list of projection matrices,
+* `effects`: list with fixed and random effects.
+
+We construct a stack called `stk.e` with data for estimation and we tag it with the string "est". 
+
+The fixed effects are the intercept (b0) and a covariate (altitude). The random effect is the spatial Gaussian random field (s). Therefore, the `effects` argument gets a list with a data.frame with the fixed effects, and s containing the indices of the random effect (`indexs)`. 
+
+The argument `A` is set to a list where the second element is `A`, the projection matrix for the random effects, and the first element is 1 to indicate the fixed effects are mapped one-to-one to the response. 
+
+In the `data` argument we specify the response vector and the number of trials. 
+```{r}
+stk.e <- inla.stack(tag = "est",
+                    data = list(y = df$positive, numtrials = df$total),
+                    A = list(1, A),
+                    effects = list(data.frame(b0 = 1, altitude = df$altitude), s = indexs)
+)
+```
+
+We also construct a stack for prediction that called `stk.p`. This stack has tag equal to "pred", the response vector is set to NA, and the data is specified at the prediction locations. Finally, we put `stk.e` and `stk.p` together in a `stk.full`.
+
 
 ### Fit the model
 

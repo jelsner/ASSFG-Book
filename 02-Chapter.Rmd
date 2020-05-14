@@ -6,7 +6,7 @@
 
 So far we've done things on data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.
 
-The functions in the **dplyr** package as part of the **tidyverse** set of packages simplify data munging tasks. But they work only on data frames. 
+The functions in the {dplyr} package (@WickhamEtAl2020) as part of the {tidyverse} set of packages simplify data munging tasks. But they work only on data frames. 
 
 The function names are _verbs_ so they are easy to remember. Verbs help us to translate our thoughts into code. Recall, functions from packages are made available to the current session with the `library()` function.
 ```{r}
@@ -281,6 +281,9 @@ Let's review by considering another data frame. The file `Torn.sf` is a data fra
 
 Note the column named `date` is a character vector in the format year-month-day.
 ```{r}
+library(sf)
+
+Torn.sf <- read_sf(dsn = "1950-2018-torn-initpoint")
 head(Torn.sf$date)
 ```
 
