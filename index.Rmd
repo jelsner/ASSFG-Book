@@ -16,6 +16,9 @@ link-citations: yes
 Similar material
 Geospatial Health with R-INLA and Shiny: https://www.paulamoraga.com/book-geospatial/
 
+Timeseries Forecasting
+https://weecology.github.io/MATSS/
+
 Movement
 https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/1365-2656.13116 Navigating through the r packages for movement
 

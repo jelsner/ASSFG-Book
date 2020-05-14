@@ -776,8 +776,7 @@ ggplot(LVG.df, aes(x = TmaxF)) +
   theme(legend.position = "none")
 ```
 
-**Challenge:** Make a side-by-side comparison using `facet_wrap()`. Convective vs non-convecting atmospheres.
-
+* https://exts.ggplot2.tidyverse.org/
 * Cheat sheets: https://rstudio.com/resources/cheatsheets/
 * More examples: https://geocompr.robinlovelace.net/ **spData** package.
 
@@ -794,3 +793,5 @@ The object `us_states` from the **spData** package is a simple feature data fram
 5. How many states are in each region? (20)
 6. Make a bar chart showing the total area in millions of square kilometers by region. Hint: include `stat = "identity"` in the `geom_bar()` function. (25)
 7. How much has population density changed between 2010 and 2015 in each state? Calculate the change (in percent relative to population in 2010) for each state. (5)
+
+Extra problem: Make a side-by-side comparison using `facet_wrap()`. Convective vs non-convecting atmospheres.
