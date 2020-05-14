@@ -1,14 +1,12 @@
 # Latent Field Modeling using INLA
 
-https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
+In this chapter I show you how to fit a geostatistical model to predict malaria prevalence in The Gambia using the stochastic partial differential equation (SPDE) approach and the R-INLA package [@RueEtAl2014]. The chapter is adopted from Chapter 9 of @Moraga2020. https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
 
-In this chapter we show how to fit a geostatistical model to predict malaria prevalence in The Gambia using the stochastic partial differential equation (SPDE) approach and the R-INLA package (@RueEtAl2014). 
-
-We use data of malaria prevalence in children obtained at 65 villages in The Gambia which are contained in the {geoR} package (@RibeiroEtAl2020), and high-resolution environmental covariates downloaded with the {raster} package (@Hijmans2020). We show how to create a triangulated mesh that covers The Gambia, the projection matrix and the data stacks to fit the model. 
+We use data of malaria prevalence in children obtained at 65 villages in The Gambia which are contained in the {geoR} package [@RibeiroEtAl2020], and high-resolution environmental covariates downloaded with the {raster} package [@Hijmans2020]. We show how to create a triangulated mesh that covers The Gambia, the projection matrix and the data stacks to fit the model. 
 
 Then we show how to manipulate the results to obtain the malaria prevalence predictions, and 95% credible intervals denoting uncertainty. We also show how to compute exceedance probabilities of prevalence being greater than a given threshold value of interest for policy making. 
 
-Results are shown by means of interactive maps created with the {tmap} package (@Tennekes2018).
+Results are presented with interactive maps created with functions from the {tmap} package [@Tennekes2018].
 
 ### Prepare the data
 
@@ -61,7 +59,7 @@ df <- gambia %>%
 head(df)
 ```
 
-Next we create a simple feature data frame by making the `x` and `y` columns the spatial coordinates.
+Next we create a simple feature data frame by making the `x` and `y` columns the spatial coordinates. We make a map of prevalence using functions from the {tmap} package.
 ```{r}
 library(sf)
 
@@ -69,10 +67,11 @@ sfdf <- st_as_sf(x = df,
                  coords = c("x", "y"),
                  crs = 32628)
 
-library(mapview)
+library(tmap)
+tmap_mode(mode = "view")
 
-mapView(sfdf, 
-        zcol = "prev")
+tm_shape(sfdf) +
+  tm_dots(col = "prev", size = .1)
 ```
 
 #### Environmental factors
@@ -93,11 +92,9 @@ r <- getData(name = "alt",
              mask = TRUE)
 ```
 
-We make a map with the altitude raster using functions from the {tmap} package.
+We make a map with the altitude raster.
 ```{r}
 library(tmap)
-
-tmap_mode(mode = "view")
 
 tm_shape(r) +
   tm_raster() +
@@ -205,8 +202,9 @@ Next we need to define where we want the predictions to be made. The raster of e
 ```{r}
 ra <- raster::aggregate(r,
                         fact = 5,
-                        fun = mean)
+                        fun = mean) 
 dp <- rasterToPoints(ra)
+
 dim(dp)
 head(dp)
 ```
@@ -239,15 +237,122 @@ In the `data` argument we specify the response vector and the number of trials.
 stk.e <- inla.stack(tag = "est",
                     data = list(y = df$positive, numtrials = df$total),
                     A = list(1, A),
-                    effects = list(data.frame(b0 = 1, altitude = df$altitude), s = indexs)
-)
+                    effects = list(data.frame(b0 = 1, altitude = df$altitude), s = indexs))
 ```
 
-We also construct a stack for prediction that called `stk.p`. This stack has tag equal to "pred", the response vector is set to NA, and the data is specified at the prediction locations. Finally, we put `stk.e` and `stk.p` together in a `stk.full`.
+We also construct a stack for prediction that called `stk.p`. This stack has tag equal to "pred", the response vector is set to NA, and the data is specified at the prediction locations. Note the `altitude` variable is in column 3 of the array `dp` from above. Finally, we put `stk.e` and `stk.p` together in a `stk.full`.
+```{r}
+stk.p <- inla.stack(tag = "pred",
+                    data = list(y = NA, numtrials = NA),
+                    A = list(1, Ap),
+                    effects = list(data.frame(b0 = 1, altitude = dp[, 3]), s = indexs))
 
+stk.full <- inla.stack(stk.e, stk.p)
+```
 
 ### Fit the model
 
-Model formula
+We specify the model formula by including the response on the left-hand side, and the fixed and random effects on the right-hand side. We remove the intercept (adding 0) and add it as a covariate term (adding `b0`) so that all the covariate terms can be captured in the projection matrix.
+```{r}
+formula <- y ~ 0 + b0 + altitude + f(s, model = sre)
+```
 
-Call to inla()
+Finally we fit the model by calling the `inla()` function and using the default priors. We specify the formula, family, data, and options. With the `control.predictor` argument we set `compute = TRUE` to compute the posteriors of the predictions. We set `link = 1` to compute the fitted values (`res$summary.fitted.values` and `res$marginals.fitted.values`) with the same link function as the family specified in the model.
+```{r}
+fit <- inla(formula,
+            family = "binomial", 
+            Ntrials = numtrials,
+            control.family = list(link = "logit"),
+            data = inla.stack.data(stk.full),
+            control.predictor = list(compute = TRUE, link = 1, A = inla.stack.A(stk.full)))
+```
+
+### Map the results
+
+The mean prevalence and lower and upper limits of 95% credible intervals are in the data frame `fit$summary.fitted.values`. The rows of the data frame correspond to the prediction locations and can be obtained by selecting the indices of the stack `stk.full` that are tagged with `tag = "pred"`.
+```{r}
+index <- inla.stack.index(stack = stk.full, tag = "pred")$data
+```
+
+We create vectors with the mean prevalence and lower and upper limits of 95% credible intervals with the values of the columns `mean`, `0.025quant` and `0.975quant` and the rows given by index. These vectors are included as columns in the `coop.df` data frame.
+```{r}
+coop.df <- as.data.frame(coop)
+coop.df$prev_mean <- fit$summary.fitted.values[index, "mean"]
+coop.df$prev_ll <- fit$summary.fitted.values[index, "0.025quant"]
+coop.df$prev_ul <- fit$summary.fitted.values[index, "0.975quant"]
+```
+
+Now we create a map with the predicted prevalence (`prev_mean`) at the prediction locations `coop`.
+```{r}
+coop.sfdf <- st_as_sf(x = coop.df, 
+                      coords = c("x", "y"),
+                      crs = 4326)
+
+tmap_mode(mode = "view")
+
+tm_shape(coop.sfdf) +
+  tm_dots(col = "prev_mean", size = .1)
+```
+
+Instead of showing the prevalence predictions at points, we can plot them using a raster. Here, the prediction locations `coop` are not on a regular grid; therefore, we need to create a raster with the predicted values using the `rasterize()` function. 
+
+We transfer the predicted values `prev_mean` from the locations `coop.df` to the raster `ra` that we used to get the prediction locations with the following arguments.
+
+`x = coop`: coordinates where we made the predictions,
+`y = ra`: raster where we transfer the values,
+`field = coop.df$prev_mean`: values to be transferred (prevalence predictions in locations coop),
+`fun = mean`: to assign the mean of the values to cells that have more than one point.
+
+```{r}
+r_prev_mean <- rasterize(x = coop, 
+                         y = ra, 
+                         field = coop.df$prev_mean,
+                         fun = mean)
+
+tm_shape(r_prev_mean) +
+  tm_raster(palette = "YlOrRd", alpha = .5)
+```
+
+We can follow the same approach to create maps with the lower and upper limits of the prevalence predictions.
+
+#### Mapping exceedance probabilities
+
+We can also calculate the exceedance probabilities of malaria prevalence being greater than a given threshold value that is of interest for policymaking. For example, we can be interested in knowing what are the probabilities that malaria prevalence is greater than 20%. Let  $p_i$ be the malarie prevalence at location ${\bf x}_i$. Then the probability that the malaria prevalence $p_i$ exceeds some value $c$ can be written $P(p_i > c)$.
+
+This probability is calculated by subtracting $P(p_i \le c)$ from 1. With {inla} $P(p_i \le c)$ is obtained from the `inla.pmarginal()` function as
+```{r, eval=FALSE}
+1 - inla.pmarginal(q = c, marginal = marg)
+```
+where `marg` is the marginal distribution of the predictions, and `c` is the threshold value.
+
+In our example, we can calculate the probabilites that malaria prevalence exceeds 20% as follows. First, we obtain the posterior marginals of the predictions for each location. These marginals are in the list object `fit$marginals.fitted.values[index]` where `index` is the vector of the indices of the stack `stk.full` corresponding to the predictions. In the previous section, we obtained these indices by using the `inla.stack.index()` function and specifying `tag = "pred"`.
+```{r}
+index <- inla.stack.index(stack = stk.full, tag = "pred")$data
+```
+
+The first element of the list, `fit$marginals.fitted.values[index][[1]]`, contains the marginal distribution of the prevalence prediction corresponding to the first location. The probability that malaria prevalence exceeds 20% at this location is given by
+```{r}
+marg <- fit$marginals.fitted.values[index][[1]]
+1 - inla.pmarginal(q = .20, marginal = marg)
+```
+
+To compute the exceedance probabilities for all the prediction locations, we can use the `sapply()` function with two arguments. The first argument denotes the marginal distributions of the predictions (`fit$marginals.fitted.values[index]`) and the second argument denotes the function to compute the exceedance probabilities (`1- inla.pmarginal()`). Then the `sapply()` function returns a vector of the same length as the list `fit$marginals.fitted.values[index]`, where each element is the result of applying the function `1 - inla.pmarginal()` to the corresponding element of the list of marginals.
+```{r}
+excprob <- sapply(fit$marginals.fitted.values[index],
+                  FUN = function(marg){1-inla.pmarginal(q = .20, marginal = marg)})
+
+head(excprob)
+```
+
+Finally we rasterize these values and make a map.
+```{r}
+r_excprob <- rasterize(x = coop, 
+                       y = ra, 
+                       field = excprob,
+                       fun = mean)
+
+tm_shape(r_excprob) +
+  tm_raster(palette = "RdPu", alpha = .5)
+```
+
+The map shows the probability that malaria prevalence exceeds 20% in The Gambia. This map quantifies the uncertainty relating to the exceedance of the threshold value 20%, and highlights the locations most in need of targeted interventions. In this map, locations with probabilities close to 0 are locations where it is very unlikely that prevalence exceeds 20%, and locations with probabilities close to 1 correspond to locations where it is very likely that prevalence exceeds 20%. Locations with probabilities around .5 have the highest uncertainty and correspond to locations where malaria prevalence is with equal probability below or above 20%.
