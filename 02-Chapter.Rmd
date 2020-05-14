@@ -262,7 +262,7 @@ These properties make it easy to chain together many simple lines of code to do 
 
 The five functions form the basis of a grammar for data. At the most basic level, we can only alter a data frame in five useful ways: we can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`).
 
-### Give it a try: Florida precipitation (http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt)
+## Example 1: Florida precipitation
 
 Suppose we are interested in whether it is getting wetter or drier in Florida during spring? One way to examine this question is to divide the years into two groups early and late and compute averages.
 
@@ -275,7 +275,7 @@ read_table(file = "http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt") %>%
             Var = var(Apr))
 ```
 
-### Another example: US tornadoes
+## Example 2: US tornadoes
 
 Let's review by considering another data frame. The file `Torn.sf` is a data frame. The last column contains the geometry (genesis as a POINT) of the tornadoes in the format of well-known text [WKT](https://en.wikipedia.org/wiki/Well-known_text) making it a 'simple feature' data frame.
 
@@ -287,7 +287,7 @@ Torn.sf <- read_sf(dsn = "1950-2018-torn-initpoint")
 head(Torn.sf$date)
 ```
 
-#### Create new columns with the verb function `mutate()`
+### Create new columns with the verb function `mutate()`
 
 New columns are created with the `mutate()` function. Here we assign to the object `sfdf` the original data frame but with three new columns. 
 
@@ -307,7 +307,7 @@ The simple feature data frame `sfdf` has the same columns as the original data f
 
 Note here the function `glimpse()` has no arguments. It inherits the data frame `sfdf` through the piping operator.
 
-#### Rename a column with `rename()`.
+### Rename a column with `rename()`.
 
 To give a column a new name use the `rename()` function (new name = old name). For example to change the name of the column `yr` to `Year` and `mag` to `EF` type
 ```{r}
@@ -319,7 +319,7 @@ sfdf <- sfdf %>%
 
 The original names of `yr` and `mag` are replaced with `Year` and `EF`.
 
-#### Select columns with `select()`
+### Select columns with `select()`
 
 The `select()` function chooses specified columns by name to create a new data frame. Here we recycle the `sfdf` name.
 ```{r}
@@ -505,7 +505,7 @@ We make the functions available to our currenct working directory by typing
 library(ggplot2)
 ```
 
-### Principle 1: Map data to aesthetics
+### First principle: Map data to aesthetics
 
 Consider the following vectors of data. Create a data frame `df2` using the `data.frame` function.
 ```{r}
@@ -552,7 +552,7 @@ ggplot(data = df2,
 
 We changed a scatter plot to a bubble chart by mapping a new variable to the size aesthetic. Any visualization we see can be deconstructed into geom specifications and mapping from data to the aesthetic attributes of the geometric objects.
 
-### Principle 2: Build plots in layers
+### Second principle: Build plots in layers
 
 The principle of layering is important because to create more advanced visualizations, we often need to:
 
@@ -585,7 +585,7 @@ We used two of the data visualization principles (mapping & layering) to build t
 * To create the bubble chart, we mapped a `zaz` to the size-aesthetic
 * To create the dot distribution map, we added a layer of polygon data under the bubbles.
 
-### Principle 3: Iteration
+### Third principle: Iteration
 
 The third principle is about process. The process begins with mapping and layering but ends with iteration when we add layers that modify scales, legends, colors, etc. The syntax of `ggplot` _layerability_ enables and rewards iteration. 
 
@@ -606,7 +606,7 @@ p2
 
 The `facet_wrap()` function is a layer to iterate (repeat) the entire plot conditional on another variable. It is like the `group_by()` function in the data grammar.
 
-### Returning to the tornado data
+## Example 1: Tornadoes
 
 We plot the number of tornadoes by year for the state of Kansas. Recall, the data are in the data frame `df`.
 ```{r}
@@ -655,7 +655,7 @@ ggplot(aes(x = factor(EF))) +
   facet_wrap(~ Year)
 ```
 
-### Another example: Hot days in Tallahassee
+## Example 2: Hot days in the city
 
 The data are from the National Climatic Data Center (NCDC). They are [daily data](http://www.ncdc.noaa.gov/cdo-web/datasets) from the National Weather Service Forecast Office in Tallahassee. The observing site is the Tallahassee International Airport (previously the Tallahassee Municipal Airport and Tallahassee Regional Airport). 
 
@@ -787,7 +787,7 @@ ggplot(LVG.df, aes(x = TmaxF)) +
 
 Due Date: 
 
-The object `us_states` from the **spData** package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
+The object `us_states` from the {spData} package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
 
 1. Create a new data frame from `us_states` containing only the population information. (10)
 2. Create a new data frame from `us_states`  containing only states from the South region. (10)
