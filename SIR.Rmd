@@ -1,0 +1,61 @@
+# Standardized Incidence Ratios
+
+This material is taken from Chapter 5 of @Moraga2020.
+
+A simple measure of disease risk in areas is the standardized incidence ratio (SIR) which is defined as the ratio of the observed to the expected counts. However, in many situations small areas may present extreme SIRs due to low population sizes or small samples. In these situations, SIRs may be misleading and insufficiently reliable for reporting. In these cases it is better to estimate disease risk using a spatial statistical model. Models can incorporate information from neighboring areas and covariate information resulting in smoothing (shrinking) of extreme values.
+
+A popular spatial statistical model is the Besag-York-Mollié (BYM) model [@BesagEtAl1991] which takes into account that data may be spatially correlated and observations in neighboring areas may be more similar than observations in areas that are farther away. This model includes a spatial random effect that smooths the data according to a neighborhood structure, and an unstructured exchangeable component that models uncorrelated noise. In spatio-temporal settings where disease counts are observed over time, spatio-temporal models that account for spatial structure and temporal correlations and their interactions are used.
+
+The example here is based on data of lung cancer in Pennsylvania counties, US, obtained from the {SpatialEpi} package [@KimWakefield2018], and show results with maps created with the {ggplot2} package [@Wickham2016].
+
+The county bounderies for the state are in the list object `pennLC` with element name `spatial.polygon`. We change the spatial polygons S4 object to an S3 simple feature data frame and make a map using the `st_as_sf()` function from the {sf} package [@Pebesma2018]
+```{r}
+library(SpatialEpi)
+library(sf)
+
+spdf <- pennLC$spatial.polygon
+sfdf <- st_as_sf(spdf)
+plot(sfdf$geometry)
+```
+
+We can obtain the neighbors of each county using the `poly2nb()` function from the {spdep} package [@BivandEtAl2008]. This function returns a neighbors list `nb` based on counties with contiguous boundaries. Each element of the list `nb` represents one county and contains the indices of its neighbors. For example, `nb[[2]]` contains the neighbors of county 2.
+```{r}
+library(spdep)
+
+nb <- poly2nb(sfdf)
+head(nb)
+```
+
+We show the neighbors of each county on a map. For example, we can show the neighbors of counties 2, 44 and 58. First, we create a SpatialPolygonsDataFrame object with the map of Pennsylvania, and data that contains a variable called county with the county names, and a dummy variable called neigh that indicates the neighbors of counties 2, 44 and 58. neigh is equal to 1 for counties that are neighbors of counties 2, 44 and 58, and 0 otherwise.
+```{r}
+df <- data.frame(county = names(spdf), 
+                 neigh = rep(0, length(spdf)))
+rownames(df) <- names(spdf)
+
+spdf <- SpatialPolygonsDataFrame(spdf, df, match.ID = TRUE)
+
+spdf$neigh[nb[[2]]] <- 1
+spdf$neigh[nb[[44]]] <- 1
+spdf$neigh[nb[[58]]] <- 1
+```
+
+Then, we add variables called `long` and `lat` with the centroid coordinates for each county, and a variable `ID` identifying each county.
+```{r}
+coord <- st_coordinates(st_centroid(sfdf))
+
+sfdf$neigh <- spdf$neigh
+sfdf$long <- coord[, 1]
+sfdf$lat <- coord[, 2]
+sfdf$ID <- 1:nrow(coord)
+```
+
+We create the map with the `ggplot()` function from {ggplot2}.
+```{r}
+library(ggplot2)
+
+ggplot(sfdf) + 
+  geom_sf(aes(fill = as.factor(neigh))) +
+  geom_text(aes(long, lat, label = ID), color = "white") +
+  theme_minimal() + 
+  guides(fill = FALSE)
+```
