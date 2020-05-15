@@ -6,6 +6,8 @@ A simple measure of disease risk in areas is the standardized incidence ratio (S
 
 A popular spatial statistical model is the Besag-York-Mollié (BYM) model [@BesagEtAl1991] which takes into account that data may be spatially correlated and observations in neighboring areas may be more similar than observations in areas that are farther away. This model includes a spatial random effect that smooths the data according to a neighborhood structure, and an unstructured exchangeable component that models uncorrelated noise. In spatio-temporal settings where disease counts are observed over time, spatio-temporal models that account for spatial structure and temporal correlations and their interactions are used.
 
+## Defining neighbors
+
 The example here is based on data of lung cancer in Pennsylvania counties, US, obtained from the {SpatialEpi} package [@KimWakefield2018], and show results with maps created with the {ggplot2} package [@Wickham2016].
 
 The county bounderies for the state are in the list object `pennLC` with element name `spatial.polygon`. We change the spatial polygons S4 object to an S3 simple feature data frame and make a map using the `st_as_sf()` function from the {sf} package [@Pebesma2018]
@@ -59,3 +61,9 @@ ggplot(sfdf) +
   theme_minimal() + 
   guides(fill = FALSE)
 ```
+
+We see that county number 25 has counties 20 and 62 as neighbors.
+
+Other neighborhood definitions can be considered (see Chapter 3).
+
+## Standardized incidence ratio
