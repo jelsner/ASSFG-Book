@@ -1,6 +1,6 @@
 # Standardized Incidence Ratios
 
-This material is taken from Chapter 5 of @Moraga2020.
+This material is taken from Chapter 5 of @Moraga2020. https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
 
 A simple measure of disease risk in areas is the standardized incidence ratio (SIR) which is defined as the ratio of the observed to the expected counts. However, in many situations small areas may present extreme SIRs due to low population sizes or small samples. In these situations, SIRs may be misleading and insufficiently reliable for reporting. In these cases it is better to estimate disease risk using a spatial statistical model. Models can incorporate information from neighboring areas and covariate information resulting in smoothing (shrinking) of extreme values.
 
@@ -10,7 +10,7 @@ A popular spatial statistical model is the Besag-York-Mollié (BYM) model [@Besa
 
 The example here is based on data of lung cancer in Pennsylvania counties, US, obtained from the {SpatialEpi} package [@KimWakefield2018], and show results with maps created with the {ggplot2} package [@Wickham2016].
 
-The county bounderies for the state are in the list object `pennLC` with element name `spatial.polygon`. We change the spatial polygons S4 object to an S3 simple feature data frame and make a map using the `st_as_sf()` function from the {sf} package [@Pebesma2018]
+The county bounderies for the state are in the list object `pennLC` with element name `spatial.polygon`. We change the native spatial polygons S4 object to an S3 simple feature data frame using the `st_as_sf()` function from the {sf} package [@Pebesma2018]. We use the `plot()` method on the `geometry` column to make a simple map.
 ```{r}
 library(SpatialEpi)
 library(sf)
@@ -20,7 +20,7 @@ sfdf <- st_as_sf(spdf)
 plot(sfdf$geometry)
 ```
 
-We can obtain the neighbors of each county using the `poly2nb()` function from the {spdep} package [@BivandEtAl2008]. This function returns a neighbors list `nb` based on counties with contiguous boundaries. Each element of the list `nb` represents one county and contains the indices of its neighbors. For example, `nb[[2]]` contains the neighbors of county 2.
+We can obtain the neighbors of each county using the `poly2nb()` function from the {spdep} package [@BivandEtAl2008]. This function returns a neighbors list, here saved as `nb`, based on counties with contiguous boundaries. Each element of the list `nb` represents one county and contains the indices of its neighbors. For example, `nb[[2]]` contains the neighbors of county 2.
 ```{r}
 library(spdep)
 
@@ -28,7 +28,7 @@ nb <- poly2nb(sfdf)
 head(nb)
 ```
 
-We show the neighbors of each county on a map. For example, we can show the neighbors of counties 2, 44 and 58. First, we create a SpatialPolygonsDataFrame object with the map of Pennsylvania, and data that contains a variable called county with the county names, and a dummy variable called neigh that indicates the neighbors of counties 2, 44 and 58. neigh is equal to 1 for counties that are neighbors of counties 2, 44 and 58, and 0 otherwise.
+We show the neighbors of each county on a map. For example, we can show the neighbors of counties 2, 44 and 58. First, we create a `SpatialPolygonsDataFrame` object with the map of Pennsylvania, and data that contains a variable called county with the county names, and a dummy variable called neigh that indicates the neighbors of counties 2, 44 and 58. neigh is equal to 1 for counties that are neighbors of counties 2, 44 and 58, and 0 otherwise.
 ```{r}
 df <- data.frame(county = names(spdf), 
                  neigh = rep(0, length(spdf)))
@@ -62,8 +62,63 @@ ggplot(sfdf) +
   guides(fill = FALSE)
 ```
 
-We see that county number 25 has counties 20 and 62 as neighbors.
+We see that county number 2 has counties 3, 4, 10, 63, and 62 as neighbors. County 44 has counties 14, 31, 34, 55, and 60 as neighbors. 
 
 Other neighborhood definitions can be considered (see Chapter 3).
 
 ## Standardized incidence ratio
+
+A simple measure of disease risk is the standardized incidence ratio (SIR). For each region $i$, $i = 1, \ldots, n$ the SIR is defined as the ratio of observed counts to the expected counts
+$$
+\hbox{SIR}_i = Y_i/E_i.
+$$
+
+The expected count $E_i$ is the total number of cases that one would expect if the population of area $i$ behaves the way the standard population behaves. If we ignore differences in rates for different stratum (e.g., age groups) then we compute the expected counts as
+$$
+E_i = r^{(s)} n^{(i)},
+$$
+where $r^{(s)}$ is the rate in the standard population (total number of cases divided by the total population across all regions), amd $n^{(i)}$ is the population of region $i$.
+
+$\hbox{SIR}_i$ indicates whether region $i$ has higher ($\hbox{SIR}_i > 1$), equal ($\hbox{SIR}_i = 1$) or lower ($\hbox{SIR}_i < 1$) risk than expected relative to the standard population.
+
+When applied to mortality data, the ratio is known as the standardized mortality ratio (SMR).
+
+### Example: Lung cancer in Pennsylvania
+
+The data frame `pennLC$data` from the {SpatialEpi} package contains the number of lung cancer cases and the population of Pennsylvania at county level, stratified on race (white and non-white), gender (female and male) and age (under 40, 40-59, 60-69 and 70+). 
+
+We obtain the number of cases for all the strata together in each county, Y, by aggregating the rows of `pennLC$data` by county and adding up the number of cases.
+```{r}
+library(dplyr)
+
+( County.df <- pennLC$data %>%
+  group_by(county) %>%
+  summarize(Y = sum(cases)) )
+```
+
+We calculate the expected number of cases in each county using indirect standardization. The expected counts in each county represent the total number of disease cases one would expect if the population in the county behaved the way the population of Pennsylvania behaves. We can do this by using the `expected()` function from the {SpatialEpi} package. This function has three arguments, namely,
+
+* `population`: vector of population counts for each strata in each area,
+* `cases`: vector with the number of cases for each strata in each area,
+* `n.strata`: number of strata.
+
+The vectors `population` and `cases` need to be sorted by area first and then, within each area, the counts for all strata need to be listed in the same order. All strata need to be included in the vectors, including strata with 0 cases. Here we use the `arrange()` function from the {dplyr} package.
+```{r}
+( Strata.df <- pennLC$data %>%
+  arrange(county, race, gender, age) )
+```
+
+Then, we obtain the expected counts E in each county by calling the `expected()` function where we set population equal to Strata.df$population and cases equal to Strata.df$cases. There are 2 races, 2 genders and 4 age groups for each county, so number of strata is set to 2 x 2 x 4 = 16.
+```{r}
+( E <- expected(
+  population = Strata.df$population,
+  cases = Strata.df$cases, 
+  n.strata = 16
+) )
+```
+
+Now we add the vector `E` to the data frame `County.df` which contains the counties ids (`county`) and the observed counts (`Y`) making sure the `E` elements correspond to the counties in the same order.
+```{r}
+County.df$E <- E
+head(County.df)
+```
