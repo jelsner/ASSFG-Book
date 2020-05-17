@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 A Grammar for Data | Applied Spatial Statistics for Geographers</title>
+  <meta name="description" content="4 A Grammar for Data | Applied Spatial Statistics for Geographers" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 A Grammar for Data | Applied Spatial Statistics for Geographers" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 A Grammar for Data | Applied Spatial Statistics for Geographers" />
+  
+  
+  
+
+<meta name="author" content="James B. Elsner" />
+
+
+<meta name="date" content="2020-05-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="grammars-for-data-and-graphs.html"/>
+<link rel="next" href="a-grammar-for-graphs.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<script src="libs/Leaflet.Sync-0.0.5/L.Map.Sync.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+<script src="libs/Tor_r-1/data_stars_Tor_rf7b3ea.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a><ul>
+<li class="chapter" data-level="1.1" data-path="getting-started.html"><a href="getting-started.html#rstudios-integrated-development-environment-ide"><i class="fa fa-check"></i><b>1.1</b> RStudio’s integrated development environment (IDE)</a></li>
+<li class="chapter" data-level="1.2" data-path="getting-started.html"><a href="getting-started.html#create-an-html-file"><i class="fa fa-check"></i><b>1.2</b> Create an HTML file</a></li>
+<li class="chapter" data-level="1.3" data-path="getting-started.html"><a href="getting-started.html#basic-r"><i class="fa fa-check"></i><b>1.3</b> Basic R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="getting-started.html"><a href="getting-started.html#functions"><i class="fa fa-check"></i><b>1.3.1</b> Functions</a></li>
+<li class="chapter" data-level="1.3.2" data-path="getting-started.html"><a href="getting-started.html#data-vectors"><i class="fa fa-check"></i><b>1.3.2</b> Data vectors</a></li>
+<li class="chapter" data-level="1.3.3" data-path="getting-started.html"><a href="getting-started.html#vector-types"><i class="fa fa-check"></i><b>1.3.3</b> Vector types</a></li>
+<li class="chapter" data-level="1.3.4" data-path="getting-started.html"><a href="getting-started.html#structured-data"><i class="fa fa-check"></i><b>1.3.4</b> Structured data</a></li>
+<li class="chapter" data-level="1.3.5" data-path="getting-started.html"><a href="getting-started.html#query-data"><i class="fa fa-check"></i><b>1.3.5</b> Query data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="getting-started.html"><a href="getting-started.html#need-additional-help-try-swirl"><i class="fa fa-check"></i><b>1.4</b> Need additional help? Try swirl</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>2</b> Data Frames</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-frames.html"><a href="data-frames.html#another-examples"><i class="fa fa-check"></i><b>2.1</b> Another examples</a></li>
+<li class="chapter" data-level="2.2" data-path="data-frames.html"><a href="data-frames.html#tornadoes-in-the-united-states"><i class="fa fa-check"></i><b>2.2</b> Tornadoes in the United States</a></li>
+<li class="chapter" data-level="2.3" data-path="data-frames.html"><a href="data-frames.html#hurricanes-in-the-united-states"><i class="fa fa-check"></i><b>2.3</b> Hurricanes in the United States</a></li>
+<li class="chapter" data-level="2.4" data-path="data-frames.html"><a href="data-frames.html#your-turn-precipitation-in-florida"><i class="fa fa-check"></i><b>2.4</b> Your turn: Precipitation in Florida</a></li>
+<li class="chapter" data-level="2.5" data-path="data-frames.html"><a href="data-frames.html#more-practice-more-tornadoes"><i class="fa fa-check"></i><b>2.5</b> More practice: More tornadoes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html"><i class="fa fa-check"></i><b>3</b> Grammars for Data and Graphs</a></li>
+<li class="chapter" data-level="4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html"><i class="fa fa-check"></i><b>4</b> A Grammar for Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#tibbles"><i class="fa fa-check"></i><b>4.2</b> Tibbles</a></li>
+<li class="chapter" data-level="4.3" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#select"><i class="fa fa-check"></i><b>4.3</b> Select</a></li>
+<li class="chapter" data-level="4.4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#filter"><i class="fa fa-check"></i><b>4.4</b> Filter</a></li>
+<li class="chapter" data-level="4.5" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#arrange"><i class="fa fa-check"></i><b>4.5</b> Arrange</a></li>
+<li class="chapter" data-level="4.6" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#mutate"><i class="fa fa-check"></i><b>4.6</b> Mutate</a></li>
+<li class="chapter" data-level="4.7" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#summarize"><i class="fa fa-check"></i><b>4.7</b> Summarize</a></li>
+<li class="chapter" data-level="4.8" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#group"><i class="fa fa-check"></i><b>4.8</b> Group</a></li>
+<li class="chapter" data-level="4.9" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#give-it-a-try-florida-precipitation-httpmyweb.fsu.edujelsnertempdataflprecip.txt"><i class="fa fa-check"></i><b>4.9</b> Give it a try: Florida precipitation (<span>http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt</span>)</a></li>
+<li class="chapter" data-level="4.10" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#another-example-us-tornadoes"><i class="fa fa-check"></i><b>4.10</b> Another example: US tornadoes</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#filter-rows-with-filter"><i class="fa fa-check"></i><b>4.10.1</b> Filter rows with <code>filter()</code></a></li>
+<li class="chapter" data-level="4.10.2" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#arrange-rows-with-arrange"><i class="fa fa-check"></i><b>4.10.2</b> Arrange rows with <code>arrange()</code></a></li>
+<li class="chapter" data-level="4.10.3" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#pull-out-a-single-variable-with-pull"><i class="fa fa-check"></i><b>4.10.3</b> Pull out a single variable with <code>pull()</code></a></li>
+<li class="chapter" data-level="4.10.4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#summarize-values-with-summarise"><i class="fa fa-check"></i><b>4.10.4</b> Summarize values with <code>summarise()</code></a></li>
+<li class="chapter" data-level="4.10.5" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#grouped-operations"><i class="fa fa-check"></i><b>4.10.5</b> Grouped operations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html"><i class="fa fa-check"></i><b>5</b> A Grammar for Graphs</a><ul>
+<li class="chapter" data-level="5.1" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-1-map-data-to-aesthetics"><i class="fa fa-check"></i><b>5.1</b> Principle 1: Map data to aesthetics</a></li>
+<li class="chapter" data-level="5.2" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-2-build-plots-in-layers"><i class="fa fa-check"></i><b>5.2</b> Principle 2: Build plots in layers</a></li>
+<li class="chapter" data-level="5.3" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-3-iteration"><i class="fa fa-check"></i><b>5.3</b> Principle 3: Iteration</a></li>
+<li class="chapter" data-level="5.4" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#returning-to-the-tornado-data"><i class="fa fa-check"></i><b>5.4</b> Returning to the tornado data</a></li>
+<li class="chapter" data-level="5.5" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#another-example-hot-days-in-tallahassee"><i class="fa fa-check"></i><b>5.5</b> Another example: Hot days in Tallahassee</a></li>
+<li class="chapter" data-level="5.6" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#problem-set-1"><i class="fa fa-check"></i><b>5.6</b> Problem Set 1</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="spatial-data.html"><a href="spatial-data.html"><i class="fa fa-check"></i><b>6</b> Spatial Data</a><ul>
+<li class="chapter" data-level="6.1" data-path="spatial-data.html"><a href="spatial-data.html#spatial-vector-data-sp-package"><i class="fa fa-check"></i><b>6.1</b> Spatial Vector Data: <strong>sp</strong> Package</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-on-s4-spatial-data-frames"><i class="fa fa-check"></i><b>6.1.1</b> Geocomputation on S4 spatial data frames</a></li>
+<li class="chapter" data-level="6.1.2" data-path="spatial-data.html"><a href="spatial-data.html#a-few-notes-about-coordinate-reference-systems"><i class="fa fa-check"></i><b>6.1.2</b> A few notes about coordinate reference systems</a></li>
+<li class="chapter" data-level="6.1.3" data-path="spatial-data.html"><a href="spatial-data.html#creating-an-s4-object"><i class="fa fa-check"></i><b>6.1.3</b> Creating an S4 object</a></li>
+<li class="chapter" data-level="6.1.4" data-path="spatial-data.html"><a href="spatial-data.html#the-spplot-method"><i class="fa fa-check"></i><b>6.1.4</b> The <code>spplot()</code> method</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="spatial-data.html"><a href="spatial-data.html#simple-features"><i class="fa fa-check"></i><b>6.2</b> Simple Features</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-geometry-sfg"><i class="fa fa-check"></i><b>6.2.1</b> Simple feature geometry (<code>sfg</code>)</a></li>
+<li class="chapter" data-level="6.2.2" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-geometry-column"><i class="fa fa-check"></i><b>6.2.2</b> Simple feature geometry column</a></li>
+<li class="chapter" data-level="6.2.3" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-objects"><i class="fa fa-check"></i><b>6.2.3</b> Simple feature objects</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="spatial-data.html"><a href="spatial-data.html#your-turn"><i class="fa fa-check"></i><b>6.3</b> Your turn</a></li>
+<li class="chapter" data-level="6.4" data-path="spatial-data.html"><a href="spatial-data.html#why-simple-features"><i class="fa fa-check"></i><b>6.4</b> Why simple features?</a></li>
+<li class="chapter" data-level="6.5" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-on-simple-features"><i class="fa fa-check"></i><b>6.5</b> Geocomputation on simple features</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="spatial-data.html"><a href="spatial-data.html#attribute-manipulation"><i class="fa fa-check"></i><b>6.5.1</b> Attribute manipulation</a></li>
+<li class="chapter" data-level="6.5.2" data-path="spatial-data.html"><a href="spatial-data.html#areal-weighted-interpolation"><i class="fa fa-check"></i><b>6.5.2</b> Areal weighted interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="spatial-data.html"><a href="spatial-data.html#spatial-aggregation"><i class="fa fa-check"></i><b>6.6</b> Spatial aggregation</a></li>
+<li class="chapter" data-level="6.7" data-path="spatial-data.html"><a href="spatial-data.html#working-with-rasters"><i class="fa fa-check"></i><b>6.7</b> Working with Rasters</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="spatial-data.html"><a href="spatial-data.html#state-u.s.-boundaries-as-simple-feature-data-frames"><i class="fa fa-check"></i><b>6.7.1</b> State (U.S.) boundaries as simple feature data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="spatial-data.html"><a href="spatial-data.html#rasters"><i class="fa fa-check"></i><b>6.8</b> Rasters</a><ul>
+<li class="chapter" data-level="6.8.1" data-path="spatial-data.html"><a href="spatial-data.html#creating-raster-objects"><i class="fa fa-check"></i><b>6.8.1</b> Creating raster objects</a></li>
+<li class="chapter" data-level="6.8.2" data-path="spatial-data.html"><a href="spatial-data.html#from-a-data-frame"><i class="fa fa-check"></i><b>6.8.2</b> From a data frame</a></li>
+<li class="chapter" data-level="6.8.3" data-path="spatial-data.html"><a href="spatial-data.html#raster-manipulations"><i class="fa fa-check"></i><b>6.8.3</b> Raster manipulations</a></li>
+<li class="chapter" data-level="6.8.4" data-path="spatial-data.html"><a href="spatial-data.html#raster-algebra"><i class="fa fa-check"></i><b>6.8.4</b> Raster algebra</a></li>
+<li class="chapter" data-level="6.8.5" data-path="spatial-data.html"><a href="spatial-data.html#example-aggregate-tornado-genesis-locations-to-a-raster-layer-and-then-compute-local-clustering"><i class="fa fa-check"></i><b>6.8.5</b> Example: Aggregate tornado genesis locations to a raster layer and then compute local clustering</a></li>
+<li class="chapter" data-level="6.8.6" data-path="spatial-data.html"><a href="spatial-data.html#problem-set-2"><i class="fa fa-check"></i><b>6.8.6</b> Problem Set #2</a></li>
+<li class="chapter" data-level="6.8.7" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-functions-on-rasters"><i class="fa fa-check"></i><b>6.8.7</b> Geocomputation functions on rasters</a></li>
+<li class="chapter" data-level="6.8.8" data-path="spatial-data.html"><a href="spatial-data.html#vector-to-raster-conversion"><i class="fa fa-check"></i><b>6.8.8</b> Vector to raster conversion</a></li>
+<li class="chapter" data-level="6.8.9" data-path="spatial-data.html"><a href="spatial-data.html#focal-neighborhood-functions"><i class="fa fa-check"></i><b>6.8.9</b> Focal (neighborhood) functions</a></li>
+<li class="chapter" data-level="6.8.10" data-path="spatial-data.html"><a href="spatial-data.html#summary-functions"><i class="fa fa-check"></i><b>6.8.10</b> Summary functions</a></li>
+<li class="chapter" data-level="6.8.11" data-path="spatial-data.html"><a href="spatial-data.html#convert-a-raster-to-a-spatial-vector-object"><i class="fa fa-check"></i><b>6.8.11</b> Convert a raster to a spatial vector object</a></li>
+<li class="chapter" data-level="6.8.12" data-path="spatial-data.html"><a href="spatial-data.html#example-environmental-data-related-to-tornadoes"><i class="fa fa-check"></i><b>6.8.12</b> Example: Environmental data related to tornadoes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="making-maps.html"><a href="making-maps.html"><i class="fa fa-check"></i><b>7</b> Making Maps</a><ul>
+<li class="chapter" data-level="7.1" data-path="making-maps.html"><a href="making-maps.html#maps-with-tmap"><i class="fa fa-check"></i><b>7.1</b> Maps with tmap</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="making-maps.html"><a href="making-maps.html#example-1-what-state-contains-the-geographic-centroid-of-tornado-activity"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: What state contains the geographic centroid of tornado activity?</a></li>
+<li class="chapter" data-level="7.1.2" data-path="making-maps.html"><a href="making-maps.html#example-2-state-level-tornado-rates"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: State-level tornado rates</a></li>
+<li class="chapter" data-level="7.1.3" data-path="making-maps.html"><a href="making-maps.html#map-layout-facets-and-inserts"><i class="fa fa-check"></i><b>7.1.3</b> Map layout, facets, and inserts</a></li>
+<li class="chapter" data-level="7.1.4" data-path="making-maps.html"><a href="making-maps.html#example-3-tornado-locations-by-month"><i class="fa fa-check"></i><b>7.1.4</b> Example 3: Tornado locations by month</a></li>
+<li class="chapter" data-level="7.1.5" data-path="making-maps.html"><a href="making-maps.html#inset-map"><i class="fa fa-check"></i><b>7.1.5</b> Inset map</a></li>
+<li class="chapter" data-level="7.1.6" data-path="making-maps.html"><a href="making-maps.html#turn-a-static-map-into-an-interactive-map"><i class="fa fa-check"></i><b>7.1.6</b> Turn a static map into an interactive map</a></li>
+<li class="chapter" data-level="7.1.7" data-path="making-maps.html"><a href="making-maps.html#example-4-tornado-occurrences-on-a-grid"><i class="fa fa-check"></i><b>7.1.7</b> Example 4: Tornado occurrences on a grid</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="making-maps.html"><a href="making-maps.html#maps-with-ggplot"><i class="fa fa-check"></i><b>7.2</b> Maps with ggplot</a></li>
+<li class="chapter" data-level="7.3" data-path="making-maps.html"><a href="making-maps.html#cartograms"><i class="fa fa-check"></i><b>7.3</b> Cartograms</a></li>
+<li class="chapter" data-level="7.4" data-path="making-maps.html"><a href="making-maps.html#coordinate-systems"><i class="fa fa-check"></i><b>7.4</b> Coordinate systems</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="making-maps.html"><a href="making-maps.html#projected-coordinate-systems"><i class="fa fa-check"></i><b>7.4.1</b> Projected coordinate systems</a></li>
+<li class="chapter" data-level="7.4.2" data-path="making-maps.html"><a href="making-maps.html#crss-in-r"><i class="fa fa-check"></i><b>7.4.2</b> CRSs in R</a></li>
+<li class="chapter" data-level="7.4.3" data-path="making-maps.html"><a href="making-maps.html#units"><i class="fa fa-check"></i><b>7.4.3</b> Units</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analyzing-and-modeling-spatial-data-in-areal-units.html"><a href="analyzing-and-modeling-spatial-data-in-areal-units.html"><i class="fa fa-check"></i><b>8</b> Analyzing and Modeling Spatial Data in Areal Units</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Spatial Statistics for Geographers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="a-grammar-for-data" class="section level1">
+<h1><span class="header-section-number">4</span> A Grammar for Data</h1>
+<p>So far we’ve done things on data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.</p>
+<p>The functions in the <strong>dplyr</strong> package as part of the <strong>tidyverse</strong> set of packages simplify data munging tasks. But they work only on data frames.</p>
+<p>The function names are <em>verbs</em> so they are easy to remember. Verbs help us to translate our thoughts into code. Recall, functions from packages are made available to the current session with the <code>library()</code> function.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<p>We will look at the verbs one at a time using the <code>airquality</code> data frame. The data frame contains air quality measurements taken in New York City between May and September 1973. (<code>?airquality</code>).</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="kw">dim</span>(airquality)</a></code></pre></div>
+<pre><code>## [1] 153   6</code></pre>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="kw">head</span>(airquality)</a></code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day
+## 1    41     190  7.4   67     5   1
+## 2    36     118  8.0   72     5   2
+## 3    12     149 12.6   74     5   3
+## 4    18     313 11.5   62     5   4
+## 5    NA      NA 14.3   56     5   5
+## 6    28      NA 14.9   66     5   6</code></pre>
+<p>The columns include <code>Ozone</code> (ozone concentration in ppb), <code>Solar.R</code> (solar radiation in langleys), <code>Wind</code> (wind speed in mph), <code>Temp</code> (air temperature in degrees F), <code>Month</code>, and <code>Day</code>.</p>
+<p>We get summary statistics on the values in each column with the <code>summary()</code> method.</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">summary</span>(airquality)</a></code></pre></div>
+<pre><code>##      Ozone           Solar.R           Wind             Temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA&#39;s   :37       NA&#39;s   :7                                       
+##      Month            Day      
+##  Min.   :5.000   Min.   : 1.0  
+##  1st Qu.:6.000   1st Qu.: 8.0  
+##  Median :7.000   Median :16.0  
+##  Mean   :6.993   Mean   :15.8  
+##  3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :9.000   Max.   :31.0  
+## </code></pre>
+<p>Note that columns that have missing values are tabulated. For example, there are 37 missing ozone measurements and 7 missing radiation meaurements.</p>
+<p>Before we get started we need to talk about pipes and tibbles.</p>
+<div id="pipes" class="section level2">
+<h2><span class="header-section-number">4.1</span> Pipes</h2>
+<p>Importantly for literate programming we can apply the <code>summary()</code> function using the pipe operator (<code>%&gt;%</code>). The pipe operator is a function in the <strong>dplyr</strong> package.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">airquality <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</a></code></pre></div>
+<pre><code>##      Ozone           Solar.R           Wind             Temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA&#39;s   :37       NA&#39;s   :7                                       
+##      Month            Day      
+##  Min.   :5.000   Min.   : 1.0  
+##  1st Qu.:6.000   1st Qu.: 8.0  
+##  Median :7.000   Median :16.0  
+##  Mean   :6.993   Mean   :15.8  
+##  3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :9.000   Max.   :31.0  
+## </code></pre>
+<p>We read the pipe as THEN. “airquality data frame THEN summarize”.</p>
+<p>The pipe operator allows us to string together a bunch of functions that when read makes it easy to understand what was done.</p>
+<p>For example, suppose the object of my interest is called <code>me</code>. I could apply a function called <code>wake_up()</code> in two ways.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="kw">wake_up</span>(me)  <span class="co"># way number one</span></a>
+<a class="sourceLine" id="cb168-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb168-3" data-line-number="3">me <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">wake_up</span>()  <span class="co"># way number two</span></a></code></pre></div>
+<p>The second way involves a bit more typing but it is easier to read in a literal sense and thus easier to understand.</p>
+<p>This becomes clear when stringing together functions. For example, what happens to the result of <code>me</code> after the function <code>wake_up()</code> has been applied? How about <code>get_out_of_bed()</code> and the <code>get_dressed()</code>?</p>
+<p>Again, I can apply these functions in two ways.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">get_dressed</span>(<span class="kw">get_out_of_bed</span>(<span class="kw">wake_up</span>(me)))</a>
+<a class="sourceLine" id="cb169-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb169-3" data-line-number="3">me <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb169-4" data-line-number="4"><span class="st">  </span><span class="kw">wake_up</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb169-5" data-line-number="5"><span class="st">  </span><span class="kw">get_out_of_bed</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb169-6" data-line-number="6"><span class="st">  </span><span class="kw">get_dressed</span>()</a></code></pre></div>
+<p>The order of the functions usually matters to the outcome.</p>
+<p>Note that I create format that makes it easy to read. Each line is gets only one verb and each line ends with the pipe.</p>
+<p>Continuing</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1">me <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="st">  </span><span class="kw">wake_up</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-3" data-line-number="3"><span class="st">  </span><span class="kw">get_out_of_bed</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-4" data-line-number="4"><span class="st">  </span><span class="kw">get_dressed</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-5" data-line-number="5"><span class="st">  </span><span class="kw">make_coffee</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-6" data-line-number="6"><span class="st">  </span><span class="kw">drink_coffee</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-7" data-line-number="7"><span class="st">  </span><span class="kw">leave_house</span>()</a></code></pre></div>
+<p>Which is much better in terms of ‘readability’ then <code>leave_house(drink_coffee(make_coffee(get_dressed(get_out_of_bed(wake_up(me))))))</code>.</p>
+</div>
+<div id="tibbles" class="section level2">
+<h2><span class="header-section-number">4.2</span> Tibbles</h2>
+<p>Tibbles are data frames that make life a little easier. R is an old language, and some things that were useful 10 or 20 years ago now get in your way. To make a data frame a tibble (tabular data frame) use the <code>as_tibble()</code> function.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">class</span>(airquality)</a></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1">airquality &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(airquality)</a>
+<a class="sourceLine" id="cb173-2" data-line-number="2"><span class="kw">class</span>(airquality)</a></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>Click on <code>airquality</code> in the environment. It is a data frame. We will use the terms ‘tibble’ and ‘data frame’ interchangeably (mostly).</p>
+<p>Now we are ready to look at some of the commonly used verbs and how to apply them to the data frame <code>airquality</code>.</p>
+</div>
+<div id="select" class="section level2">
+<h2><span class="header-section-number">4.3</span> Select</h2>
+<p>The function <code>select()</code> chooses variables by name. For example, choose the month, day, and temperature columns.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb175-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Month, Day, Temp)</a></code></pre></div>
+<pre><code>## # A tibble: 153 x 3
+##    Month   Day  Temp
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1     5     1    67
+##  2     5     2    72
+##  3     5     3    74
+##  4     5     4    62
+##  5     5     5    56
+##  6     5     6    66
+##  7     5     7    65
+##  8     5     8    59
+##  9     5     9    61
+## 10     5    10    69
+## # … with 143 more rows</code></pre>
+<p>Suppose we want a new data frame with only the temperature and ozone concentrations.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1">df &lt;-<span class="st"> </span>airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="st">        </span><span class="kw">select</span>(Temp, Ozone)</a>
+<a class="sourceLine" id="cb177-3" data-line-number="3">df</a></code></pre></div>
+<pre><code>## # A tibble: 153 x 2
+##     Temp Ozone
+##    &lt;int&gt; &lt;int&gt;
+##  1    67    41
+##  2    72    36
+##  3    74    12
+##  4    62    18
+##  5    56    NA
+##  6    66    28
+##  7    65    23
+##  8    59    19
+##  9    61     8
+## 10    69    NA
+## # … with 143 more rows</code></pre>
+<p>We include an assignment operator (<code>&lt;-</code>, left pointing arrow) and an object name (here <code>df</code>).</p>
+<p>Note: The result of applying a <strong>dplyr</strong> verb is a data frame. From a data frame object to a data frame object.</p>
+</div>
+<div id="filter" class="section level2">
+<h2><span class="header-section-number">4.4</span> Filter</h2>
+<p>The function <code>filter()</code> chooses observations based on specific values. Suppose we want only the observations where the temperature is at or above 80F.</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb179-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">80</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 73 x 6
+##    Ozone Solar.R  Wind  Temp Month   Day
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1    45     252  14.9    81     5    29
+##  2    NA     186   9.2    84     6     4
+##  3    NA     220   8.6    85     6     5
+##  4    29     127   9.7    82     6     7
+##  5    NA     273   6.9    87     6     8
+##  6    71     291  13.8    90     6     9
+##  7    39     323  11.5    87     6    10
+##  8    NA     259  10.9    93     6    11
+##  9    NA     250   9.2    92     6    12
+## 10    23     148   8      82     6    13
+## # … with 63 more rows</code></pre>
+<p>The result is a data frame with the same 6 columns but now only 73 observations. Each of the observations has a temperature of at least 80F.</p>
+<p>Suppose we want a new data frame keeping only observations where temperature is at least 80F AND winds less than 5 mph.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1">df &lt;-<span class="st"> </span>airquality <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb181-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">80</span> <span class="op">&amp;</span><span class="st"> </span>Wind <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb181-3" data-line-number="3">df</a></code></pre></div>
+<pre><code>## # A tibble: 8 x 6
+##   Ozone Solar.R  Wind  Temp Month   Day
+##   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1   135     269   4.1    84     7     1
+## 2    64     175   4.6    83     7     5
+## 3    66      NA   4.6    87     8     6
+## 4   122     255   4      89     8     7
+## 5   168     238   3.4    81     8    25
+## 6   118     225   2.3    94     8    29
+## 7    73     183   2.8    93     9     3
+## 8    91     189   4.6    93     9     4</code></pre>
+</div>
+<div id="arrange" class="section level2">
+<h2><span class="header-section-number">4.5</span> Arrange</h2>
+<p>The function <code>arrange()</code> orders the rows by values given in a particular column.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb183-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(Solar.R)</a></code></pre></div>
+<pre><code>## # A tibble: 153 x 6
+##    Ozone Solar.R  Wind  Temp Month   Day
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1    16       7   6.9    74     7    21
+##  2     1       8   9.7    59     5    21
+##  3    23      13  12      67     5    28
+##  4    23      14   9.2    71     9    22
+##  5     8      19  20.1    61     5     9
+##  6    14      20  16.6    63     9    25
+##  7     9      24  13.8    81     8     2
+##  8     9      24  10.9    71     9    14
+##  9     4      25   9.7    61     5    23
+## 10    13      27  10.3    76     9    18
+## # … with 143 more rows</code></pre>
+<p>The ordering is from lowest value of radiation to highest value. Here we see the first 10 rows. Note <code>Month</code> and <code>Day</code> are no longer chronological.</p>
+<p>Repeat but order by the value of air temperature.</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(Temp)</a></code></pre></div>
+<pre><code>## # A tibble: 153 x 6
+##    Ozone Solar.R  Wind  Temp Month   Day
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1    NA      NA  14.3    56     5     5
+##  2     6      78  18.4    57     5    18
+##  3    NA      66  16.6    57     5    25
+##  4    NA      NA   8      57     5    27
+##  5    18      65  13.2    58     5    15
+##  6    NA     266  14.9    58     5    26
+##  7    19      99  13.8    59     5     8
+##  8     1       8   9.7    59     5    21
+##  9     8      19  20.1    61     5     9
+## 10     4      25   9.7    61     5    23
+## # … with 143 more rows</code></pre>
+<p>Importantly we can string the functions together. For example select the variables radiation, wind, and temperature then filter by temperatures above 90F and arrange by temperature.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb187-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Solar.R, Wind, Temp) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb187-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&gt;</span><span class="st"> </span><span class="dv">90</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb187-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(Temp)</a></code></pre></div>
+<pre><code>## # A tibble: 14 x 3
+##    Solar.R  Wind  Temp
+##      &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+##  1     291  14.9    91
+##  2     167   6.9    91
+##  3     250   9.2    92
+##  4     267   6.3    92
+##  5     272   5.7    92
+##  6     222   8.6    92
+##  7     197   5.1    92
+##  8     259  10.9    93
+##  9     183   2.8    93
+## 10     189   4.6    93
+## 11     225   2.3    94
+## 12     188   6.3    94
+## 13     237   6.3    96
+## 14     203   9.7    97</code></pre>
+<p>The result is a data frame with three columns and 14 rows arranged by increasing temperatures above 90F.</p>
+</div>
+<div id="mutate" class="section level2">
+<h2><span class="header-section-number">4.6</span> Mutate</h2>
+<p>The <code>mutate()</code> function adds new columns to the data frame. For example, create a new column called <code>TempC</code> as the temperature in degrees Celcius. Also create a column called <code>WindMS</code> as the wind speed in meters per second.</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb189-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TempC =</span> (Temp <span class="op">-</span><span class="st"> </span><span class="dv">32</span>) <span class="op">*</span><span class="st"> </span><span class="dv">5</span><span class="op">/</span><span class="dv">9</span>,</a>
+<a class="sourceLine" id="cb189-3" data-line-number="3">         <span class="dt">WindMS =</span> Wind <span class="op">*</span><span class="st"> </span><span class="fl">.44704</span>) </a></code></pre></div>
+<pre><code>## # A tibble: 153 x 8
+##    Ozone Solar.R  Wind  Temp Month   Day TempC WindMS
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1    41     190   7.4    67     5     1  19.4   3.31
+##  2    36     118   8      72     5     2  22.2   3.58
+##  3    12     149  12.6    74     5     3  23.3   5.63
+##  4    18     313  11.5    62     5     4  16.7   5.14
+##  5    NA      NA  14.3    56     5     5  13.3   6.39
+##  6    28      NA  14.9    66     5     6  18.9   6.66
+##  7    23     299   8.6    65     5     7  18.3   3.84
+##  8    19      99  13.8    59     5     8  15     6.17
+##  9     8      19  20.1    61     5     9  16.1   8.99
+## 10    NA     194   8.6    69     5    10  20.6   3.84
+## # … with 143 more rows</code></pre>
+<p>The resulting data frame has 8 columns (two new ones) labeled <code>TempC</code> and <code>WindMS</code>.</p>
+<p>On days when the temperature is below 60 F add a column giving the apparent temperature based on the cooling effect of the wind (wind chill) and then arrange from coldest to warmest apparent temperature.</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb191-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&lt;</span><span class="st"> </span><span class="dv">60</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb191-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TempAp =</span> <span class="fl">35.74</span> <span class="op">+</span><span class="st"> </span><span class="fl">.6215</span> <span class="op">*</span><span class="st"> </span>Temp <span class="op">-</span><span class="st"> </span><span class="fl">35.75</span> <span class="op">*</span><span class="st"> </span>Wind<span class="op">^</span>.<span class="dv">16</span> <span class="op">+</span><span class="st"> </span><span class="fl">.4275</span> <span class="op">*</span><span class="st"> </span>Temp <span class="op">*</span><span class="st"> </span>Wind<span class="op">^</span>.<span class="dv">16</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb191-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(TempAp)</a></code></pre></div>
+<pre><code>## # A tibble: 8 x 7
+##   Ozone Solar.R  Wind  Temp Month   Day TempAp
+##   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;
+## 1    NA      NA  14.3    56     5     5   52.5
+## 2     6      78  18.4    57     5    18   53.0
+## 3    NA      66  16.6    57     5    25   53.3
+## 4    NA     266  14.9    58     5    26   54.9
+## 5    18      65  13.2    58     5    15   55.2
+## 6    NA      NA   8      57     5    27   55.3
+## 7    19      99  13.8    59     5     8   56.4
+## 8     1       8   9.7    59     5    21   57.3</code></pre>
+</div>
+<div id="summarize" class="section level2">
+<h2><span class="header-section-number">4.7</span> Summarize</h2>
+<p>The <code>summarize()</code> function reduces (flattens) the data frame based on a function that computes a statistic. For example, to compute the average wind speed during July type</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb193-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">7</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb193-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Wavg =</span> <span class="kw">mean</span>(Wind))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    Wavg
+##   &lt;dbl&gt;
+## 1  8.94</code></pre>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb195-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb195-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Tavg =</span> <span class="kw">mean</span>(Temp))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    Tavg
+##   &lt;dbl&gt;
+## 1  79.1</code></pre>
+<p>We’ve seen functions that compute statistics including <code>sum()</code>, <code>sd()</code>, <code>min()</code>, <code>max()</code>, <code>var()</code>, <code>range()</code>, <code>median()</code>. Others include</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Summary function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><code>n()</code></td>
+<td align="left">Length of the column</td>
+</tr>
+<tr class="even">
+<td align="right"><code>first()</code></td>
+<td align="left">First value of the column</td>
+</tr>
+<tr class="odd">
+<td align="right"><code>last()</code></td>
+<td align="left">Last value of the column</td>
+</tr>
+<tr class="even">
+<td align="right"><code>n_distinct()</code></td>
+<td align="left">Number of distinct values</td>
+</tr>
+</tbody>
+</table>
+<p>Find the maximum and median wind speed and maximum ozone concentration values during the month of May. Also determine the number of observations during May.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb197-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb197-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Wmax =</span> <span class="kw">max</span>(Wind),</a>
+<a class="sourceLine" id="cb197-4" data-line-number="4">            <span class="dt">Wmed =</span> <span class="kw">median</span>(Wind),</a>
+<a class="sourceLine" id="cb197-5" data-line-number="5">            <span class="dt">OzoneMax =</span> <span class="kw">max</span>(Ozone),</a>
+<a class="sourceLine" id="cb197-6" data-line-number="6">            <span class="dt">NumDays =</span> <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##    Wmax  Wmed OzoneMax NumDays
+##   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;int&gt;
+## 1  20.1  11.5       NA      31</code></pre>
+<p>Why do we get an <code>NA</code> for <code>OzoneMax</code>? How would you fix this?</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb199-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb199-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Wmax =</span> <span class="kw">max</span>(Wind),</a>
+<a class="sourceLine" id="cb199-4" data-line-number="4">            <span class="dt">Wmed =</span> <span class="kw">median</span>(Wind),</a>
+<a class="sourceLine" id="cb199-5" data-line-number="5">            <span class="dt">OzoneMax =</span> <span class="kw">max</span>(Ozone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb199-6" data-line-number="6">            <span class="dt">NumDays =</span> <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##    Wmax  Wmed OzoneMax NumDays
+##   &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt;   &lt;int&gt;
+## 1  20.1  11.5      115      31</code></pre>
+</div>
+<div id="group" class="section level2">
+<h2><span class="header-section-number">4.8</span> Group</h2>
+<p>If we want to summarize separately for each month we use the <code>group_by()</code> function. We split the data frame by some variable (e.g., <code>Month</code>), apply a function to the individual data frames, and then combine the output.</p>
+<p>Find the highest ozone concentration by month. Include the number of observations (days) in the month.</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb201-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Month) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb201-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">OzoneMax =</span>  <span class="kw">max</span>(Ozone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb201-4" data-line-number="4">            <span class="dt">NumDays =</span> <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   Month OzoneMax NumDays
+##   &lt;int&gt;    &lt;int&gt;   &lt;int&gt;
+## 1     5      115      31
+## 2     6       71      30
+## 3     7      135      31
+## 4     8      168      31
+## 5     9       96      30</code></pre>
+<p>Find the average ozone concentration when temperatures are above and below 70 F. Include the number of observations (days) in the two groups.</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1">airquality <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb203-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Temp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">70</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb203-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">OzoneAvg =</span>  <span class="kw">mean</span>(Ozone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb203-4" data-line-number="4">            <span class="dt">NumDays =</span> <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `Temp &gt;= 70` OzoneAvg NumDays
+##   &lt;lgl&gt;           &lt;dbl&gt;   &lt;int&gt;
+## 1 FALSE            18.0      32
+## 2 TRUE             49.1     121</code></pre>
+<p>On average ozone concentration is higher on warm days (Temp &gt;= 70 F) days. Said another way; mean ozone concentration statistically depends on temperature.</p>
+<p>The mean is a model for the data. The statistical dependency of the mean implies that a model for ozone concentration will likely be improved by including temperature as an explanatory variable.</p>
+<p>The important <strong>dplyr</strong> verbs are</p>
+<table>
+<colgroup>
+<col width="53%" />
+<col width="46%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Verb</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><code>select()</code></td>
+<td align="left">selects columns; pick variables by their names</td>
+</tr>
+<tr class="even">
+<td align="right"><code>filter()</code></td>
+<td align="left">filters rows; pick observations by their values</td>
+</tr>
+<tr class="odd">
+<td align="right"><code>arrange()</code></td>
+<td align="left">re-orders the rows</td>
+</tr>
+<tr class="even">
+<td align="right"><code>mutate()</code></td>
+<td align="left">creates new columns; create new variables with functions of existing variables</td>
+</tr>
+<tr class="odd">
+<td align="right"><code>summarize()</code></td>
+<td align="left">summarizes values; collapse many values down to a single summary</td>
+</tr>
+<tr class="even">
+<td align="right"><code>group_by()</code></td>
+<td align="left">allows operations to be grouped</td>
+</tr>
+</tbody>
+</table>
+<p>The syntax of the verb functions in the <strong>dplyr</strong> package are all the same:</p>
+<p>Properties
+* The first argument is a data frame. This argument is implicit when using the <code>%&gt;%</code> operator.
+* The subsequent arguments describe what to do with the data frame. We refer to columns in the data frame directly (without using <code>$</code>).
+* The result is a new data frame</p>
+<p>These properties make it easy to chain together many simple lines of code to do something complex.</p>
+<p>The five functions form the basis of a grammar for data. At the most basic level, we can only alter a data frame in five useful ways: we can reorder the rows (<code>arrange()</code>), pick observations and variables of interest (<code>filter()</code> and <code>select()</code>), add new variables that are functions of existing variables (<code>mutate()</code>), or collapse many values to a summary (<code>summarise()</code>).</p>
+</div>
+<div id="give-it-a-try-florida-precipitation-httpmyweb.fsu.edujelsnertempdataflprecip.txt" class="section level2">
+<h2><span class="header-section-number">4.9</span> Give it a try: Florida precipitation (<a href="http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt" class="uri">http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt</a>)</h2>
+<p>Suppose we are interested in whether it is getting wetter or drier in Florida during spring? One way to examine this question is to divide the years into two groups early and late and compute averages.</p>
+<p>Import the data, select the month of April (<code>Apr</code>) and year (<code>Year</code>), group by years &gt; 1960, summarize the two groups of April rainfall with the mean and variance. Make the code work by filling in the blanks (’___’).</p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">read_table</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb205-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Apr, Year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb205-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1960</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb205-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Avg =</span> <span class="kw">mean</span>(Apr),</a>
+<a class="sourceLine" id="cb205-5" data-line-number="5">            <span class="dt">Var =</span> <span class="kw">var</span>(Apr))</a></code></pre></div>
+</div>
+<div id="another-example-us-tornadoes" class="section level2">
+<h2><span class="header-section-number">4.10</span> Another example: US tornadoes</h2>
+<p>Let’s review by considering another data frame. The file <code>Torn.sf</code> is a data frame. The last column contains the geometry (genesis as a POINT) of the tornadoes in the format of well-known text <a href="https://en.wikipedia.org/wiki/Well-known_text">WKT</a> making it a ‘simple feature’ data frame.</p>
+<p>Note the column named <code>date</code> is a character vector in the format year-month-day.</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="kw">head</span>(Torn.sf<span class="op">$</span>date)</a></code></pre></div>
+<pre><code>## [1] &quot;2001-01-19&quot; &quot;2001-02-16&quot; &quot;2001-02-24&quot; &quot;2001-02-24&quot; &quot;2001-02-24&quot;
+## [6] &quot;2001-02-24&quot;</code></pre>
+<div id="create-new-columns-with-the-verb-function-mutate" class="section level4">
+<h4><span class="header-section-number">4.10.0.1</span> Create new columns with the verb function <code>mutate()</code></h4>
+<p>New columns are created with the <code>mutate()</code> function. Here we assign to the object <code>sfdf</code> the original data frame but with three new columns.</p>
+<ol style="list-style-type: decimal">
+<li><code>Date</code> as an actual calendar date with the <code>as.Date()</code> function,</li>
+<li><code>Length</code> as the damage path length in meters and</li>
+<li><code>Width</code> as the damage path width in meters.</li>
+</ol>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" data-line-number="1">sfdf &lt;-<span class="st"> </span>Torn.sf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb208-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Date =</span> <span class="kw">as.Date</span>(date),</a>
+<a class="sourceLine" id="cb208-3" data-line-number="3">         <span class="dt">Length =</span> len <span class="op">*</span><span class="st"> </span><span class="fl">1609.34</span>,</a>
+<a class="sourceLine" id="cb208-4" data-line-number="4">         <span class="dt">Width =</span> wid <span class="op">*</span><span class="st"> </span><span class="fl">.9144</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb208-5" data-line-number="5"><span class="st">  </span><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 8,952
+## Columns: 26
+## $ om       &lt;dbl&gt; 2, 593, 24, 6, 8, 10, 13, 9, 12, 14, 15, 16, 17, 19, 20, 598…
+## $ yr       &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, …
+## $ mo       &lt;dbl&gt; 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, …
+## $ dy       &lt;dbl&gt; 19, 16, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, …
+## $ date     &lt;chr&gt; &quot;2001-01-19&quot;, &quot;2001-02-16&quot;, &quot;2001-02-24&quot;, &quot;2001-02-24&quot;, &quot;200…
+## $ time     &lt;chr&gt; &quot;12:40:00&quot;, &quot;12:10:00&quot;, &quot;15:24:00&quot;, &quot;15:31:00&quot;, &quot;15:50:00&quot;, …
+## $ tz       &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
+## $ st       &lt;chr&gt; &quot;GA&quot;, &quot;MS&quot;, &quot;MO&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, …
+## $ stf      &lt;dbl&gt; 13, 28, 29, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 28, 5, 28, 2…
+## $ stn      &lt;dbl&gt; 8, 44, 11, 7, 9, 10, 12, 13, 14, 16, 19, 21, 24, 26, 29, 63,…
+## $ mag      &lt;dbl&gt; 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 1, 3, 1, 2, 2, 2, 3, 3, 1, …
+## $ inj      &lt;dbl&gt; 0, 1, 0, 8, 0, 0, 0, 3, 0, 3, 0, 1, 0, 0, 0, 0, 2, 0, 73, 0,…
+## $ fat      &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, …
+## $ loss     &lt;dbl&gt; 0.05, 0.05, 0.15, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …
+## $ closs    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ slat     &lt;dbl&gt; 34.23, 33.02, 37.10, 34.58, 34.77, 34.95, 35.03, 34.77, 35.2…
+## $ slon     &lt;dbl&gt; -83.08, -89.97, -92.72, -92.38, -92.17, -92.00, -91.90, -91.…
+## $ elat     &lt;dbl&gt; 34.23, 33.02, 37.13, 34.73, 34.80, 35.03, 35.12, 34.85, 35.2…
+## $ elon     &lt;dbl&gt; -83.08, -89.87, -92.68, -92.18, -92.13, -91.92, -91.78, -91.…
+## $ len      &lt;dbl&gt; 1.0, 4.0, 6.5, 14.3, 2.2, 8.0, 7.0, 9.0, 3.5, 8.0, 11.0, 5.5…
+## $ wid      &lt;dbl&gt; 50, 500, 50, 200, 85, 300, 100, 60, 40, 300, 200, 100, 300, …
+## $ fc       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ geometry &lt;POINT [°]&gt; POINT (-83.08 34.23), POINT (-89.97 33.02), POINT (-92…
+## $ Length   &lt;dbl&gt; 1609.340, 6437.360, 10460.710, 23013.562, 3540.548, 12874.72…
+## $ Width    &lt;dbl&gt; 45.720, 457.200, 45.720, 182.880, 77.724, 274.320, 91.440, 5…
+## $ Date     &lt;date&gt; 2001-01-19, 2001-02-16, 2001-02-24, 2001-02-24, 2001-02-24,…</code></pre>
+<p>The simple feature data frame <code>sfdf</code> has the same columns as the original data frame but it now includes the columns <code>Date</code>, <code>Length</code>, and <code>Width</code>. The three new columns are placed in the data frame.</p>
+<p>Note here the function <code>glimpse()</code> has no arguments. It inherits the data frame <code>sfdf</code> through the piping operator.</p>
+</div>
+<div id="rename-a-column-with-rename." class="section level4">
+<h4><span class="header-section-number">4.10.0.2</span> Rename a column with <code>rename()</code>.</h4>
+<p>To give a column a new name use the <code>rename()</code> function (new name = old name). For example to change the name of the column <code>yr</code> to <code>Year</code> and <code>mag</code> to <code>EF</code> type</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1">sfdf &lt;-<span class="st"> </span>sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb210-2" data-line-number="2"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">Year =</span> yr,</a>
+<a class="sourceLine" id="cb210-3" data-line-number="3">         <span class="dt">EF =</span> mag) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb210-4" data-line-number="4"><span class="st">  </span><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 8,952
+## Columns: 26
+## $ om       &lt;dbl&gt; 2, 593, 24, 6, 8, 10, 13, 9, 12, 14, 15, 16, 17, 19, 20, 598…
+## $ Year     &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, …
+## $ mo       &lt;dbl&gt; 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, …
+## $ dy       &lt;dbl&gt; 19, 16, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, …
+## $ date     &lt;chr&gt; &quot;2001-01-19&quot;, &quot;2001-02-16&quot;, &quot;2001-02-24&quot;, &quot;2001-02-24&quot;, &quot;200…
+## $ time     &lt;chr&gt; &quot;12:40:00&quot;, &quot;12:10:00&quot;, &quot;15:24:00&quot;, &quot;15:31:00&quot;, &quot;15:50:00&quot;, …
+## $ tz       &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
+## $ st       &lt;chr&gt; &quot;GA&quot;, &quot;MS&quot;, &quot;MO&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, …
+## $ stf      &lt;dbl&gt; 13, 28, 29, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 28, 5, 28, 2…
+## $ stn      &lt;dbl&gt; 8, 44, 11, 7, 9, 10, 12, 13, 14, 16, 19, 21, 24, 26, 29, 63,…
+## $ EF       &lt;dbl&gt; 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 1, 3, 1, 2, 2, 2, 3, 3, 1, …
+## $ inj      &lt;dbl&gt; 0, 1, 0, 8, 0, 0, 0, 3, 0, 3, 0, 1, 0, 0, 0, 0, 2, 0, 73, 0,…
+## $ fat      &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, …
+## $ loss     &lt;dbl&gt; 0.05, 0.05, 0.15, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, …
+## $ closs    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ slat     &lt;dbl&gt; 34.23, 33.02, 37.10, 34.58, 34.77, 34.95, 35.03, 34.77, 35.2…
+## $ slon     &lt;dbl&gt; -83.08, -89.97, -92.72, -92.38, -92.17, -92.00, -91.90, -91.…
+## $ elat     &lt;dbl&gt; 34.23, 33.02, 37.13, 34.73, 34.80, 35.03, 35.12, 34.85, 35.2…
+## $ elon     &lt;dbl&gt; -83.08, -89.87, -92.68, -92.18, -92.13, -91.92, -91.78, -91.…
+## $ len      &lt;dbl&gt; 1.0, 4.0, 6.5, 14.3, 2.2, 8.0, 7.0, 9.0, 3.5, 8.0, 11.0, 5.5…
+## $ wid      &lt;dbl&gt; 50, 500, 50, 200, 85, 300, 100, 60, 40, 300, 200, 100, 300, …
+## $ fc       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ geometry &lt;POINT [°]&gt; POINT (-83.08 34.23), POINT (-89.97 33.02), POINT (-92…
+## $ Length   &lt;dbl&gt; 1609.340, 6437.360, 10460.710, 23013.562, 3540.548, 12874.72…
+## $ Width    &lt;dbl&gt; 45.720, 457.200, 45.720, 182.880, 77.724, 274.320, 91.440, 5…
+## $ Date     &lt;date&gt; 2001-01-19, 2001-02-16, 2001-02-24, 2001-02-24, 2001-02-24,…</code></pre>
+<p>The original names of <code>yr</code> and <code>mag</code> are replaced with <code>Year</code> and <code>EF</code>.</p>
+</div>
+<div id="select-columns-with-select" class="section level4">
+<h4><span class="header-section-number">4.10.0.3</span> Select columns with <code>select()</code></h4>
+<p>The <code>select()</code> function chooses specified columns by name to create a new data frame. Here we recycle the <code>sfdf</code> name.</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1">sfdf &lt;-<span class="st"> </span>sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb212-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Year, </a>
+<a class="sourceLine" id="cb212-3" data-line-number="3">         <span class="dt">Month =</span> mo, </a>
+<a class="sourceLine" id="cb212-4" data-line-number="4">         <span class="dt">ST =</span> st, </a>
+<a class="sourceLine" id="cb212-5" data-line-number="5">         EF, </a>
+<a class="sourceLine" id="cb212-6" data-line-number="6">         Date, </a>
+<a class="sourceLine" id="cb212-7" data-line-number="7">         Length,</a>
+<a class="sourceLine" id="cb212-8" data-line-number="8">         Width, </a>
+<a class="sourceLine" id="cb212-9" data-line-number="9">         <span class="dt">Fatalities =</span> fat,</a>
+<a class="sourceLine" id="cb212-10" data-line-number="10">         <span class="dt">Injuries =</span> inj)</a>
+<a class="sourceLine" id="cb212-11" data-line-number="11"><span class="kw">glimpse</span>(sfdf)</a></code></pre></div>
+<pre><code>## Rows: 8,952
+## Columns: 10
+## $ Year       &lt;dbl&gt; 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001…
+## $ Month      &lt;dbl&gt; 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3…
+## $ ST         &lt;chr&gt; &quot;GA&quot;, &quot;MS&quot;, &quot;MO&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;, &quot;AR&quot;…
+## $ EF         &lt;dbl&gt; 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 1, 3, 1, 2, 2, 2, 3, 3, 1…
+## $ Date       &lt;date&gt; 2001-01-19, 2001-02-16, 2001-02-24, 2001-02-24, 2001-02-2…
+## $ Length     &lt;dbl&gt; 1609.340, 6437.360, 10460.710, 23013.562, 3540.548, 12874.…
+## $ Width      &lt;dbl&gt; 45.720, 457.200, 45.720, 182.880, 77.724, 274.320, 91.440,…
+## $ Fatalities &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0…
+## $ Injuries   &lt;dbl&gt; 0, 1, 0, 8, 0, 0, 0, 3, 0, 3, 0, 1, 0, 0, 0, 0, 2, 0, 73, …
+## $ geometry   &lt;POINT [°]&gt; POINT (-83.08 34.23), POINT (-89.97 33.02), POINT (-…</code></pre>
+<p>Note that we also change the name of the column when we use the <code>=</code> sign. For example <code>Month = mo</code>. <code>mo</code> is the original name of the column but it gets changed to <code>Month</code>.</p>
+<p>The <code>select()</code> function is useful in focusing on a relatively few variables when the data set has many variables.</p>
+<p>We can select columns having common character string names. For example, consider the <code>us_states</code> data frame from the <strong>spData</strong> package.</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="kw">library</span>(spData)</a>
+<a class="sourceLine" id="cb214-2" data-line-number="2"><span class="kw">head</span>(us_states)</a></code></pre></div>
+<pre><code>## Simple feature collection with 6 features and 6 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -114.8136 ymin: 24.55868 xmax: -71.78699 ymax: 42.04964
+## CRS:            EPSG:4269
+##   GEOID        NAME   REGION             AREA total_pop_10 total_pop_15
+## 1    01     Alabama    South 133709.27 [km^2]      4712651      4830620
+## 2    04     Arizona     West 295281.25 [km^2]      6246816      6641928
+## 3    08    Colorado     West 269573.06 [km^2]      4887061      5278906
+## 4    09 Connecticut Norteast  12976.59 [km^2]      3545837      3593222
+## 5    12     Florida    South 151052.01 [km^2]     18511620     19645772
+## 6    13     Georgia    South 152725.21 [km^2]      9468815     10006693
+##                         geometry
+## 1 MULTIPOLYGON (((-88.20006 3...
+## 2 MULTIPOLYGON (((-114.7196 3...
+## 3 MULTIPOLYGON (((-109.0501 4...
+## 4 MULTIPOLYGON (((-73.48731 4...
+## 5 MULTIPOLYGON (((-81.81169 2...
+## 6 MULTIPOLYGON (((-85.60516 3...</code></pre>
+<p>We note two columns contain population information <code>total_pop_10</code> (population from 2010) and <code>total_pop_15</code> (population from 2015).</p>
+<p>Here we select columns containing only the population information. Since both start with the character string <code>total</code> we use the <code>starts_with()</code> function.</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1">us_states <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb216-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;total&quot;</span>))</a></code></pre></div>
+<pre><code>## Simple feature collection with 49 features and 2 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -124.7042 ymin: 24.55868 xmax: -66.9824 ymax: 49.38436
+## CRS:            EPSG:4269
+## First 10 features:
+##    total_pop_10 total_pop_15                       geometry
+## 1       4712651      4830620 MULTIPOLYGON (((-88.20006 3...
+## 2       6246816      6641928 MULTIPOLYGON (((-114.7196 3...
+## 3       4887061      5278906 MULTIPOLYGON (((-109.0501 4...
+## 4       3545837      3593222 MULTIPOLYGON (((-73.48731 4...
+## 5      18511620     19645772 MULTIPOLYGON (((-81.81169 2...
+## 6       9468815     10006693 MULTIPOLYGON (((-85.60516 3...
+## 7       1526797      1616547 MULTIPOLYGON (((-116.916 45...
+## 8       6417398      6568645 MULTIPOLYGON (((-87.52404 4...
+## 9       2809329      2892987 MULTIPOLYGON (((-102.0517 4...
+## 10      4429940      4625253 MULTIPOLYGON (((-92.01783 2...</code></pre>
+<p>Note that the <code>geometry</code> column remains.</p>
+</div>
+<div id="filter-rows-with-filter" class="section level3">
+<h3><span class="header-section-number">4.10.1</span> Filter rows with <code>filter()</code></h3>
+<p>The <code>filter()</code> function selects a subset of the rows of a data frame. The arguments are filtering (subsetting) expressions evaluated using column names of the data frame. For example, we can select all tornadoes recorded during October of 1980.</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1">sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb218-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb218-3" data-line-number="3">         Year <span class="op">==</span><span class="st"> </span><span class="dv">1980</span>)</a></code></pre></div>
+<pre><code>## Simple feature collection with 0 features and 9 fields
+## bbox:           xmin: NA ymin: NA xmax: NA ymax: NA
+## CRS:            4326
+## # A tibble: 0 x 10
+## # … with 10 variables: Year &lt;dbl&gt;, Month &lt;dbl&gt;, ST &lt;chr&gt;, EF &lt;dbl&gt;,
+## #   Date &lt;date&gt;, Length &lt;dbl&gt;, Width &lt;dbl&gt;, Fatalities &lt;dbl&gt;, Injuries &lt;dbl&gt;,
+## #   geometry &lt;GEOMETRY [°]&gt;</code></pre>
+<p><code>Month</code> and <code>Year</code> are column names in <code>df</code> that were created with the <code>rename()</code> and <code>select()</code> functions above.</p>
+<p>Q: How would you create a new data frame containing only tornadoes originating in Wisconsin?</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1">sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb220-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(ST <span class="op">==</span><span class="st"> &quot;WI&quot;</span>)</a></code></pre></div>
+<pre><code>## Simple feature collection with 195 features and 9 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -92.675 ymin: 42.5323 xmax: -87.72 ymax: 46.3618
+## CRS:            4326
+## # A tibble: 195 x 10
+##     Year Month ST       EF Date       Length Width Fatalities Injuries
+##  * &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;date&gt;      &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1  2001     5 WI        1 2001-05-01  2414. 114.           0        0
+##  2  2001     6 WI        1 2001-06-11 12875.  68.6          0        0
+##  3  2001     6 WI        1 2001-06-11 10139.  68.6          0        0
+##  4  2001     6 WI        3 2001-06-18 54718. 805.           2       16
+##  5  2001     8 WI        1 2001-08-25  7242.  45.7          0        0
+##  6  2002     4 WI        1 2002-04-18 22531.  91.4          0        0
+##  7  2002     6 WI        1 2002-06-25   483.  64.0          0        2
+##  8  2002     9 WI        3 2002-09-02 25749. 402.           0       27
+##  9  2002     9 WI        2 2002-09-02 27359.  68.6          0        0
+## 10  2002     9 WI        1 2002-09-02  8047. 183.           0        1
+## # … with 185 more rows, and 1 more variable: geometry &lt;POINT [°]&gt;</code></pre>
+</div>
+<div id="arrange-rows-with-arrange" class="section level3">
+<h3><span class="header-section-number">4.10.2</span> Arrange rows with <code>arrange()</code></h3>
+<p>The function <code>arrange()</code> works like <code>filter()</code> except that instead of subsetting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by.</p>
+<p>Here we use <code>desc()</code> together with <code>arrange()</code> to order a column by descending order of fatalities.</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Fatalities)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-3" data-line-number="3"><span class="st">  </span><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 8,952
+## Columns: 10
+## $ Year       &lt;dbl&gt; 2011, 2011, 2011, 2011, 2005, 2013, 2011, 2008, 2011, 2008…
+## $ Month      &lt;dbl&gt; 5, 4, 4, 4, 11, 5, 4, 2, 4, 5, 4, 4, 4, 4, 2, 2, 4, 4, 5, …
+## $ ST         &lt;chr&gt; &quot;MO&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;KY&quot;, &quot;OK&quot;, &quot;MS&quot;, &quot;TN&quot;, &quot;AL&quot;, &quot;OK&quot;…
+## $ EF         &lt;dbl&gt; 5, 5, 4, 5, 3, 5, 5, 3, 4, 4, 4, 3, 4, 4, 3, 4, 4, 3, 4, 5…
+## $ Date       &lt;date&gt; 2011-05-22, 2011-04-27, 2011-04-27, 2011-04-27, 2005-11-0…
+## $ Length     &lt;dbl&gt; 34793.93, 212432.88, 129841.55, 58950.12, 66465.74, 22289.…
+## $ Width      &lt;dbl&gt; 1463.040, 2011.680, 2377.440, 1207.008, 457.200, 1737.360,…
+## $ Fatalities &lt;dbl&gt; 158, 72, 64, 25, 24, 24, 23, 22, 22, 21, 20, 16, 16, 14, 1…
+## $ Injuries   &lt;dbl&gt; 1150, 145, 1500, 0, 238, 212, 137, 63, 85, 350, 335, 70, 1…
+## $ geometry   &lt;POINT [°]&gt; POINT (-94.5932 37.0524), POINT (-88.1479 34.1043), …</code></pre>
+<p>The deadliest tornado in the record occurred in 2011 killing 158 people many in the city of Joplin, MO.</p>
+<p>Again, note here the <code>glimpse()</code> function has no arguments. It inherits the <em>arranged</em> data frame through the piping operator.</p>
+<p>If we provide more than one column name, each additional column is used to break ties in the values of the preceding column.</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb224-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Fatalities), <span class="kw">desc</span>(Injuries)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb224-3" data-line-number="3"><span class="st">  </span><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 8,952
+## Columns: 10
+## $ Year       &lt;dbl&gt; 2011, 2011, 2011, 2011, 2005, 2013, 2011, 2011, 2008, 2008…
+## $ Month      &lt;dbl&gt; 5, 4, 4, 4, 11, 5, 4, 4, 2, 5, 4, 4, 4, 4, 2, 4, 2, 4, 5, …
+## $ ST         &lt;chr&gt; &quot;MO&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;KY&quot;, &quot;OK&quot;, &quot;MS&quot;, &quot;AL&quot;, &quot;TN&quot;, &quot;OK&quot;…
+## $ EF         &lt;dbl&gt; 5, 5, 4, 5, 3, 5, 5, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 5…
+## $ Date       &lt;date&gt; 2011-05-22, 2011-04-27, 2011-04-27, 2011-04-27, 2005-11-0…
+## $ Length     &lt;dbl&gt; 34793.93, 212432.88, 129841.55, 58950.12, 66465.74, 22289.…
+## $ Width      &lt;dbl&gt; 1463.040, 2011.680, 2377.440, 1207.008, 457.200, 1737.360,…
+## $ Fatalities &lt;dbl&gt; 158, 72, 64, 25, 24, 24, 23, 22, 22, 21, 20, 16, 16, 14, 1…
+## $ Injuries   &lt;dbl&gt; 1150, 145, 1500, 0, 238, 212, 137, 85, 63, 350, 335, 193, …
+## $ geometry   &lt;POINT [°]&gt; POINT (-94.5932 37.0524), POINT (-88.1479 34.1043), …</code></pre>
+</div>
+<div id="pull-out-a-single-variable-with-pull" class="section level3">
+<h3><span class="header-section-number">4.10.3</span> Pull out a single variable with <code>pull()</code></h3>
+<p>The function <code>pull()</code> pulls out a single variable from the data frame.</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">Fatals &lt;-<span class="st"> </span>sfdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="st">  </span><span class="kw">pull</span>(Fatalities)</a>
+<a class="sourceLine" id="cb226-3" data-line-number="3"><span class="kw">head</span>(Fatals)</a></code></pre></div>
+<pre><code>## [1] 0 1 0 0 0 0</code></pre>
+<p>The result is a vector. This is equivalent to <code>Fatals &lt;- sfdf$Fatalities</code>.</p>
+</div>
+<div id="summarize-values-with-summarise" class="section level3">
+<h3><span class="header-section-number">4.10.4</span> Summarize values with <code>summarise()</code></h3>
+<p>The <code>summarize()</code> function collapses a data frame to a single row. Here we first create a regular data frame from the simple feature data frame by using the <code>as.data.frame()</code> function.</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(sfdf)</a>
+<a class="sourceLine" id="cb228-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb228-3" data-line-number="3">df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb228-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mL =</span> <span class="kw">median</span>(Length),</a>
+<a class="sourceLine" id="cb228-5" data-line-number="5">            <span class="dt">mW =</span> <span class="kw">median</span>(Width))</a></code></pre></div>
+<pre><code>##         mL     mW
+## 1 5455.663 137.16</code></pre>
+<p>The above functions are similar: The first argument is a data frame. This is implicit when using <code>%&gt;%</code>. The subsequent arguments describe what to do with it, and you refer to columns in the data frame directly without using <code>$</code>. The result is a new data frame (except when using <code>pull()</code>).</p>
+<p>Together these properties make it easy to chain together multiple simple steps to achieve a complex result. They functions provide the grammar for a data manipulation language.</p>
+<p>The remainder of the language comes from applying the five functions in various order and on various groups.</p>
+</div>
+<div id="grouped-operations" class="section level3">
+<h3><span class="header-section-number">4.10.5</span> Grouped operations</h3>
+<p>The verb functions are powerful when we combine them with the idea of ‘group by’, repeating the operation individually on groups of observations within the data frame.</p>
+<p>We use the <code>group_by()</code> function to describe how to break a data frame down into groups of rows. We can then use the resulting object in the exactly the same functions as above; they’ll automatically work ‘by group’ when the input is a grouped.</p>
+<p>Of the five verbs <code>summarize()</code> is easy to understand and quite useful.</p>
+<p>For example, here we filter the data frame for years starting with 2007 then group by EF rating before summarizing the path length and path width using the <code>median()</code> function.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2007</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb230-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(EF) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb230-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Count =</span> <span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb230-5" data-line-number="5">            <span class="dt">mL =</span> <span class="kw">median</span>(Length),</a>
+<a class="sourceLine" id="cb230-6" data-line-number="6">            <span class="dt">mW =</span> <span class="kw">median</span>(Width))</a></code></pre></div>
+<pre><code>## # A tibble: 5 x 4
+##      EF Count     mL    mW
+##   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1     1  4649  4345.  101.
+## 2     2  1237  9946.  274.
+## 3     3   321 21243.  549.
+## 4     4    71 34842.  805.
+## 5     5     9 58950. 1609.</code></pre>
+<p>The output is a table perhaps as part of exploratory analysis.</p>
+<p>We use <code>summarize()</code> with aggregate functions, which take a vector of values, and return a single number. Functions in the <strong>base</strong> package like <code>min()</code>, <code>max()</code>, <code>mean()</code>, <code>sum()</code>, <code>sd()</code>, <code>median()</code>, and <code>IQR()</code> can be used. The <strong>dplyr</strong> packages has others:</p>
+<ul>
+<li><code>n()</code>: number of observations in the current group.</li>
+<li><code>n_distinct()</code>: count the number of unique values.</li>
+<li><code>first()</code>, <code>last()</code> and <code>nth()</code> - these work similarly to <code>x[1]</code>, <code>x[length(x)]</code>, and <code>x[n]</code> but give you more control of the result if the value isn’t present.</li>
+</ul>
+<p>For example, we use these to find the number of tornadoes by state and the number of months in which there was at least one tornado.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb232-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(ST) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb232-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">months =</span> <span class="kw">n_distinct</span>(Month),</a>
+<a class="sourceLine" id="cb232-4" data-line-number="4">            <span class="dt">nT =</span> <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 48 x 3
+##    ST    months    nT
+##    &lt;chr&gt;  &lt;int&gt; &lt;int&gt;
+##  1 AL        12   579
+##  2 AR        12   469
+##  3 AZ         3     9
+##  4 CA         9    26
+##  5 CO         8    99
+##  6 CT         4    21
+##  7 DE         3     3
+##  8 FL        12   213
+##  9 GA        12   352
+## 10 IA        10   358
+## # … with 38 more rows</code></pre>
+<p>When we group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset. As an example: how would we determine the number of tornadoes by day of year?</p>
+<p>We first use the function <code>day()</code> from the <strong>lubridate</strong> package to extract the day of the month from a <code>Date</code> object and add it to our data frame. We then use <code>group_by()</code> on the month and day. Finally we s</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">library</span>(lubridate)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     intersect, setdiff, union</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb238-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Day =</span> <span class="kw">day</span>(Date)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb238-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Month, Day) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb238-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">nT =</span> <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 355 x 3
+## # Groups:   Month [12]
+##    Month   Day    nT
+##    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
+##  1     1     1     8
+##  2     1     2    45
+##  3     1     3     9
+##  4     1     4     8
+##  5     1     5     8
+##  6     1     7    24
+##  7     1     8    15
+##  8     1     9     3
+##  9     1    10    15
+## 10     1    11     5
+## # … with 345 more rows</code></pre>
+<p>The result is a data frame with the number of tornadoes by day of the year.</p>
+<p>There are functions that combine some of the primitives. For example, we can use <code>tally()</code> instead of <code>summarize(nT = n())</code> or <code>count()</code> instead of both <code>group_by()</code> and <code>summarize()</code>. For example, the following code does the same thing.</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Day =</span> <span class="kw">day</span>(Date)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb240-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(Month, Day)</a></code></pre></div>
+<pre><code>## # A tibble: 355 x 3
+##    Month   Day     n
+##    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
+##  1     1     1     8
+##  2     1     2    45
+##  3     1     3     9
+##  4     1     4     8
+##  5     1     5     8
+##  6     1     7    24
+##  7     1     8    15
+##  8     1     9     3
+##  9     1    10    15
+## 10     1    11     5
+## # … with 345 more rows</code></pre>
+<p>Q: What state had the most tornado fatalities?</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb242-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(ST) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb242-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">nF =</span> <span class="kw">sum</span>(Fatalities)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb242-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(nF))</a></code></pre></div>
+<pre><code>## # A tibble: 48 x 2
+##    ST       nF
+##    &lt;chr&gt; &lt;dbl&gt;
+##  1 AL      284
+##  2 MO      221
+##  3 TN      127
+##  4 MS      100
+##  5 OK       89
+##  6 GA       70
+##  7 AR       68
+##  8 KY       65
+##  9 TX       56
+## 10 NC       42
+## # … with 38 more rows</code></pre>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="grammars-for-data-and-graphs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-grammar-for-graphs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

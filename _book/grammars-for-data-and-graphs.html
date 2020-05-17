@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Grammars for Data and Graphs | Applied Spatial Statistics for Geographers</title>
+  <meta name="description" content="1 Grammars for Data and Graphs | Applied Spatial Statistics for Geographers" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Grammars for Data and Graphs | Applied Spatial Statistics for Geographers" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Grammars for Data and Graphs | Applied Spatial Statistics for Geographers" />
+  
+  
+  
+
+<meta name="author" content="James B. Elsner" />
+
+
+<meta name="date" content="2020-05-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="latent-field-modeling-using-inla.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html"><i class="fa fa-check"></i><b>1</b> Grammars for Data and Graphs</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#a-grammar-for-data"><i class="fa fa-check"></i><b>1.1</b> A Grammar for Data</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#pipes"><i class="fa fa-check"></i><b>1.1.1</b> Pipes</a></li>
+<li class="chapter" data-level="1.1.2" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#tibbles"><i class="fa fa-check"></i><b>1.1.2</b> Tibbles</a></li>
+<li class="chapter" data-level="1.1.3" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#select"><i class="fa fa-check"></i><b>1.1.3</b> Select</a></li>
+<li class="chapter" data-level="1.1.4" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#filter"><i class="fa fa-check"></i><b>1.1.4</b> Filter</a></li>
+<li class="chapter" data-level="1.1.5" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#arrange"><i class="fa fa-check"></i><b>1.1.5</b> Arrange</a></li>
+<li class="chapter" data-level="1.1.6" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#mutate"><i class="fa fa-check"></i><b>1.1.6</b> Mutate</a></li>
+<li class="chapter" data-level="1.1.7" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#summarize"><i class="fa fa-check"></i><b>1.1.7</b> Summarize</a></li>
+<li class="chapter" data-level="1.1.8" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#group"><i class="fa fa-check"></i><b>1.1.8</b> Group</a></li>
+<li class="chapter" data-level="1.1.9" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#give-it-a-try-florida-precipitation-httpmyweb.fsu.edujelsnertempdataflprecip.txt"><i class="fa fa-check"></i><b>1.1.9</b> Give it a try: Florida precipitation (<span>http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt</span>)</a></li>
+<li class="chapter" data-level="1.1.10" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#another-example-us-tornadoes"><i class="fa fa-check"></i><b>1.1.10</b> Another example: US tornadoes</a></li>
+<li class="chapter" data-level="1.1.11" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#filter-rows-with-filter"><i class="fa fa-check"></i><b>1.1.11</b> Filter rows with <code>filter()</code></a></li>
+<li class="chapter" data-level="1.1.12" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#arrange-rows-with-arrange"><i class="fa fa-check"></i><b>1.1.12</b> Arrange rows with <code>arrange()</code></a></li>
+<li class="chapter" data-level="1.1.13" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#pull-out-a-single-variable-with-pull"><i class="fa fa-check"></i><b>1.1.13</b> Pull out a single variable with <code>pull()</code></a></li>
+<li class="chapter" data-level="1.1.14" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#summarize-values-with-summarise"><i class="fa fa-check"></i><b>1.1.14</b> Summarize values with <code>summarise()</code></a></li>
+<li class="chapter" data-level="1.1.15" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#grouped-operations"><i class="fa fa-check"></i><b>1.1.15</b> Grouped operations</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#a-grammar-for-graphs"><i class="fa fa-check"></i><b>1.2</b> A Grammar for Graphs</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#principle-1-map-data-to-aesthetics"><i class="fa fa-check"></i><b>1.2.1</b> Principle 1: Map data to aesthetics</a></li>
+<li class="chapter" data-level="1.2.2" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#principle-2-build-plots-in-layers"><i class="fa fa-check"></i><b>1.2.2</b> Principle 2: Build plots in layers</a></li>
+<li class="chapter" data-level="1.2.3" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#principle-3-iteration"><i class="fa fa-check"></i><b>1.2.3</b> Principle 3: Iteration</a></li>
+<li class="chapter" data-level="1.2.4" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#returning-to-the-tornado-data"><i class="fa fa-check"></i><b>1.2.4</b> Returning to the tornado data</a></li>
+<li class="chapter" data-level="1.2.5" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#another-example-hot-days-in-tallahassee"><i class="fa fa-check"></i><b>1.2.5</b> Another example: Hot days in Tallahassee</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html#problem-set-1"><i class="fa fa-check"></i><b>1.3</b> Problem Set 1</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="latent-field-modeling-using-inla.html"><a href="latent-field-modeling-using-inla.html"><i class="fa fa-check"></i><b>2</b> Latent Field Modeling using INLA</a>
+<ul>
+<li class="chapter" data-level="2.0.1" data-path="latent-field-modeling-using-inla.html"><a href="latent-field-modeling-using-inla.html#prepare-the-data"><i class="fa fa-check"></i><b>2.0.1</b> Prepare the data</a></li>
+<li class="chapter" data-level="2.0.2" data-path="latent-field-modeling-using-inla.html"><a href="latent-field-modeling-using-inla.html#specify-the-model"><i class="fa fa-check"></i><b>2.0.2</b> Specify the model</a></li>
+<li class="chapter" data-level="2.0.3" data-path="latent-field-modeling-using-inla.html"><a href="latent-field-modeling-using-inla.html#fit-the-model"><i class="fa fa-check"></i><b>2.0.3</b> Fit the model</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Spatial Statistics for Geographers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="grammars-for-data-and-graphs" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Grammars for Data and Graphs</h1>
+<p><strong>“The trouble with programmers is that you can never tell what a programmer is doing until it’s too late.”</strong> — Seymour Cray</p>
+<div id="a-grammar-for-data" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> A Grammar for Data</h2>
+<p>So far we’ve done things on data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.</p>
+<p>The functions in the {dplyr} package (<span class="citation">Wickham et al. (<a href="#ref-WickhamEtAl2020" role="doc-biblioref">2020</a>)</span>) as part of the {tidyverse} set of packages simplify data munging tasks. But they work only on data frames.</p>
+<p>The function names are <em>verbs</em> so they are easy to remember. Verbs help us to translate our thoughts into code. Recall, functions from packages are made available to the current session with the <code>library()</code> function.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="grammars-for-data-and-graphs.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.4
+## ✓ tibble  3.0.1     ✓ dplyr   0.8.5
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<p>We will look at the verbs one at a time using the <code>airquality</code> data frame. The data frame contains air quality measurements taken in New York City between May and September 1973. (<code>?airquality</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="grammars-for-data-and-graphs.html#cb5-1"></a><span class="kw">dim</span>(airquality)</span></code></pre></div>
+<pre><code>## [1] 153   6</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="grammars-for-data-and-graphs.html#cb7-1"></a><span class="kw">head</span>(airquality)</span></code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day
+## 1    41     190  7.4   67     5   1
+## 2    36     118  8.0   72     5   2
+## 3    12     149 12.6   74     5   3
+## 4    18     313 11.5   62     5   4
+## 5    NA      NA 14.3   56     5   5
+## 6    28      NA 14.9   66     5   6</code></pre>
+<p>The columns include <code>Ozone</code> (ozone concentration in ppb), <code>Solar.R</code> (solar radiation in langleys), <code>Wind</code> (wind speed in mph), <code>Temp</code> (air temperature in degrees F), <code>Month</code>, and <code>Day</code>.</p>
+<p>We get summary statistics on the values in each column with the <code>summary()</code> method.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="grammars-for-data-and-graphs.html#cb9-1"></a><span class="kw">summary</span>(airquality)</span></code></pre></div>
+<pre><code>##      Ozone           Solar.R           Wind             Temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA&#39;s   :37       NA&#39;s   :7                                       
+##      Month            Day      
+##  Min.   :5.000   Min.   : 1.0  
+##  1st Qu.:6.000   1st Qu.: 8.0  
+##  Median :7.000   Median :16.0  
+##  Mean   :6.993   Mean   :15.8  
+##  3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :9.000   Max.   :31.0  
+## </code></pre>
+<p>Note that columns that have missing values are tabulated. For example, there are 37 missing ozone measurements and 7 missing radiation meaurements.</p>
+<p>Before we get started we need to talk about pipes and tibbles.</p>
+<div id="pipes" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Pipes</h3>
+<p>Importantly for literate programming we can apply the <code>summary()</code> function using the pipe operator (<code>%&gt;%</code>). The pipe operator is a function in the <strong>dplyr</strong> package.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="grammars-for-data-and-graphs.html#cb11-1"></a>airquality <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
+<pre><code>##      Ozone           Solar.R           Wind             Temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA&#39;s   :37       NA&#39;s   :7                                       
+##      Month            Day      
+##  Min.   :5.000   Min.   : 1.0  
+##  1st Qu.:6.000   1st Qu.: 8.0  
+##  Median :7.000   Median :16.0  
+##  Mean   :6.993   Mean   :15.8  
+##  3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :9.000   Max.   :31.0  
+## </code></pre>
+<p>We read the pipe as THEN. “airquality data frame THEN summarize”.</p>
+<p>The pipe operator allows us to string together a bunch of functions that when read makes it easy to understand what was done.</p>
+<p>For example, suppose the object of my interest is called <code>me</code>. I could apply a function called <code>wake_up()</code> in two ways.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="grammars-for-data-and-graphs.html#cb13-1"></a><span class="kw">wake_up</span>(me)  <span class="co"># way number one</span></span>
+<span id="cb13-2"><a href="grammars-for-data-and-graphs.html#cb13-2"></a></span>
+<span id="cb13-3"><a href="grammars-for-data-and-graphs.html#cb13-3"></a>me <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">wake_up</span>()  <span class="co"># way number two</span></span></code></pre></div>
+<p>The second way involves a bit more typing but it is easier to read in a literal sense and thus easier to understand.</p>
+<p>This becomes clear when stringing together functions. For example, what happens to the result of <code>me</code> after the function <code>wake_up()</code> has been applied? How about <code>get_out_of_bed()</code> and the <code>get_dressed()</code>?</p>
+<p>Again, I can apply these functions in two ways.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="grammars-for-data-and-graphs.html#cb14-1"></a><span class="kw">get_dressed</span>(<span class="kw">get_out_of_bed</span>(<span class="kw">wake_up</span>(me)))</span>
+<span id="cb14-2"><a href="grammars-for-data-and-graphs.html#cb14-2"></a></span>
+<span id="cb14-3"><a href="grammars-for-data-and-graphs.html#cb14-3"></a>me <span class="op">%&gt;%</span></span>
+<span id="cb14-4"><a href="grammars-for-data-and-graphs.html#cb14-4"></a><span class="st">  </span><span class="kw">wake_up</span>() <span class="op">%&gt;%</span></span>
+<span id="cb14-5"><a href="grammars-for-data-and-graphs.html#cb14-5"></a><span class="st">  </span><span class="kw">get_out_of_bed</span>() <span class="op">%&gt;%</span></span>
+<span id="cb14-6"><a href="grammars-for-data-and-graphs.html#cb14-6"></a><span class="st">  </span><span class="kw">get_dressed</span>()</span></code></pre></div>
+<p>The order of the functions usually matters to the outcome.</p>
+<p>Note that I create format that makes it easy to read. Each line is gets only one verb and each line ends with the pipe.</p>
+<p>Continuing</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="grammars-for-data-and-graphs.html#cb15-1"></a>me <span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="grammars-for-data-and-graphs.html#cb15-2"></a><span class="st">  </span><span class="kw">wake_up</span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-3"><a href="grammars-for-data-and-graphs.html#cb15-3"></a><span class="st">  </span><span class="kw">get_out_of_bed</span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-4"><a href="grammars-for-data-and-graphs.html#cb15-4"></a><span class="st">  </span><span class="kw">get_dressed</span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-5"><a href="grammars-for-data-and-graphs.html#cb15-5"></a><span class="st">  </span><span class="kw">make_coffee</span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-6"><a href="grammars-for-data-and-graphs.html#cb15-6"></a><span class="st">  </span><span class="kw">drink_coffee</span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-7"><a href="grammars-for-data-and-graphs.html#cb15-7"></a><span class="st">  </span><span class="kw">leave_house</span>()</span></code></pre></div>
+<p>Which is much better in terms of ‘readability’ then <code>leave_house(drink_coffee(make_coffee(get_dressed(get_out_of_bed(wake_up(me))))))</code>.</p>
+</div>
+<div id="tibbles" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Tibbles</h3>
+<p>Tibbles are data frames that make life a little easier. R is an old language, and some things that were useful 10 or 20 years ago now get in your way. To make a data frame a tibble (tabular data frame) use the <code>as_tibble()</code> function.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="grammars-for-data-and-graphs.html#cb16-1"></a><span class="kw">class</span>(airquality)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="grammars-for-data-and-graphs.html#cb18-1"></a>airquality &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(airquality)</span>
+<span id="cb18-2"><a href="grammars-for-data-and-graphs.html#cb18-2"></a><span class="kw">class</span>(airquality)</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>Click on <code>airquality</code> in the environment. It is a data frame. We will use the terms ‘tibble’ and ‘data frame’ interchangeably (mostly).</p>
+<p>Now we are ready to look at some of the commonly used verbs and how to apply them to the data frame <code>airquality</code>.</p>
+</div>
+<div id="select" class="section level3" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Select</h3>
+<p>The function <code>select()</code> chooses variables by name. For example, choose the month, day, and temperature columns.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="grammars-for-data-and-graphs.html#cb20-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb20-2"><a href="grammars-for-data-and-graphs.html#cb20-2"></a><span class="st">  </span><span class="kw">select</span>(Month, Day, Temp)</span></code></pre></div>
+<pre><code>## # A tibble: 153 x 3
+##    Month   Day  Temp
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1     5     1    67
+##  2     5     2    72
+##  3     5     3    74
+##  4     5     4    62
+##  5     5     5    56
+##  6     5     6    66
+##  7     5     7    65
+##  8     5     8    59
+##  9     5     9    61
+## 10     5    10    69
+## # … with 143 more rows</code></pre>
+<p>Suppose we want a new data frame with only the temperature and ozone concentrations.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="grammars-for-data-and-graphs.html#cb22-1"></a>df &lt;-<span class="st"> </span>airquality <span class="op">%&gt;%</span></span>
+<span id="cb22-2"><a href="grammars-for-data-and-graphs.html#cb22-2"></a><span class="st">        </span><span class="kw">select</span>(Temp, Ozone)</span>
+<span id="cb22-3"><a href="grammars-for-data-and-graphs.html#cb22-3"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 153 x 2
+##     Temp Ozone
+##    &lt;int&gt; &lt;int&gt;
+##  1    67    41
+##  2    72    36
+##  3    74    12
+##  4    62    18
+##  5    56    NA
+##  6    66    28
+##  7    65    23
+##  8    59    19
+##  9    61     8
+## 10    69    NA
+## # … with 143 more rows</code></pre>
+<p>We include an assignment operator (<code>&lt;-</code>, left pointing arrow) and an object name (here <code>df</code>).</p>
+<p>Note: The result of applying a <strong>dplyr</strong> verb is a data frame. From a data frame object to a data frame object.</p>
+</div>
+<div id="filter" class="section level3" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> Filter</h3>
+<p>The function <code>filter()</code> chooses observations based on specific values. Suppose we want only the observations where the temperature is at or above 80F.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="grammars-for-data-and-graphs.html#cb24-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb24-2"><a href="grammars-for-data-and-graphs.html#cb24-2"></a><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">80</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 73 x 6
+##    Ozone Solar.R  Wind  Temp Month   Day
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1    45     252  14.9    81     5    29
+##  2    NA     186   9.2    84     6     4
+##  3    NA     220   8.6    85     6     5
+##  4    29     127   9.7    82     6     7
+##  5    NA     273   6.9    87     6     8
+##  6    71     291  13.8    90     6     9
+##  7    39     323  11.5    87     6    10
+##  8    NA     259  10.9    93     6    11
+##  9    NA     250   9.2    92     6    12
+## 10    23     148   8      82     6    13
+## # … with 63 more rows</code></pre>
+<p>The result is a data frame with the same 6 columns but now only 73 observations. Each of the observations has a temperature of at least 80F.</p>
+<p>Suppose we want a new data frame keeping only observations where temperature is at least 80F AND winds less than 5 mph.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="grammars-for-data-and-graphs.html#cb26-1"></a>df &lt;-<span class="st"> </span>airquality <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-2"><a href="grammars-for-data-and-graphs.html#cb26-2"></a><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">80</span> <span class="op">&amp;</span><span class="st"> </span>Wind <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>)</span>
+<span id="cb26-3"><a href="grammars-for-data-and-graphs.html#cb26-3"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 8 x 6
+##   Ozone Solar.R  Wind  Temp Month   Day
+##   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1   135     269   4.1    84     7     1
+## 2    64     175   4.6    83     7     5
+## 3    66      NA   4.6    87     8     6
+## 4   122     255   4      89     8     7
+## 5   168     238   3.4    81     8    25
+## 6   118     225   2.3    94     8    29
+## 7    73     183   2.8    93     9     3
+## 8    91     189   4.6    93     9     4</code></pre>
+</div>
+<div id="arrange" class="section level3" number="1.1.5">
+<h3><span class="header-section-number">1.1.5</span> Arrange</h3>
+<p>The function <code>arrange()</code> orders the rows by values given in a particular column.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="grammars-for-data-and-graphs.html#cb28-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb28-2"><a href="grammars-for-data-and-graphs.html#cb28-2"></a><span class="st">  </span><span class="kw">arrange</span>(Solar.R)</span></code></pre></div>
+<pre><code>## # A tibble: 153 x 6
+##    Ozone Solar.R  Wind  Temp Month   Day
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1    16       7   6.9    74     7    21
+##  2     1       8   9.7    59     5    21
+##  3    23      13  12      67     5    28
+##  4    23      14   9.2    71     9    22
+##  5     8      19  20.1    61     5     9
+##  6    14      20  16.6    63     9    25
+##  7     9      24  13.8    81     8     2
+##  8     9      24  10.9    71     9    14
+##  9     4      25   9.7    61     5    23
+## 10    13      27  10.3    76     9    18
+## # … with 143 more rows</code></pre>
+<p>The ordering is from lowest value of radiation to highest value. Here we see the first 10 rows. Note <code>Month</code> and <code>Day</code> are no longer chronological.</p>
+<p>Repeat but order by the value of air temperature.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="grammars-for-data-and-graphs.html#cb30-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb30-2"><a href="grammars-for-data-and-graphs.html#cb30-2"></a><span class="st">  </span><span class="kw">arrange</span>(Temp)</span></code></pre></div>
+<pre><code>## # A tibble: 153 x 6
+##    Ozone Solar.R  Wind  Temp Month   Day
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1    NA      NA  14.3    56     5     5
+##  2     6      78  18.4    57     5    18
+##  3    NA      66  16.6    57     5    25
+##  4    NA      NA   8      57     5    27
+##  5    18      65  13.2    58     5    15
+##  6    NA     266  14.9    58     5    26
+##  7    19      99  13.8    59     5     8
+##  8     1       8   9.7    59     5    21
+##  9     8      19  20.1    61     5     9
+## 10     4      25   9.7    61     5    23
+## # … with 143 more rows</code></pre>
+<p>Importantly we can string the functions together. For example select the variables radiation, wind, and temperature then filter by temperatures above 90F and arrange by temperature.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="grammars-for-data-and-graphs.html#cb32-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb32-2"><a href="grammars-for-data-and-graphs.html#cb32-2"></a><span class="st">  </span><span class="kw">select</span>(Solar.R, Wind, Temp) <span class="op">%&gt;%</span></span>
+<span id="cb32-3"><a href="grammars-for-data-and-graphs.html#cb32-3"></a><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&gt;</span><span class="st"> </span><span class="dv">90</span>) <span class="op">%&gt;%</span></span>
+<span id="cb32-4"><a href="grammars-for-data-and-graphs.html#cb32-4"></a><span class="st">  </span><span class="kw">arrange</span>(Temp)</span></code></pre></div>
+<pre><code>## # A tibble: 14 x 3
+##    Solar.R  Wind  Temp
+##      &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+##  1     291  14.9    91
+##  2     167   6.9    91
+##  3     250   9.2    92
+##  4     267   6.3    92
+##  5     272   5.7    92
+##  6     222   8.6    92
+##  7     197   5.1    92
+##  8     259  10.9    93
+##  9     183   2.8    93
+## 10     189   4.6    93
+## 11     225   2.3    94
+## 12     188   6.3    94
+## 13     237   6.3    96
+## 14     203   9.7    97</code></pre>
+<p>The result is a data frame with three columns and 14 rows arranged by increasing temperatures above 90F.</p>
+</div>
+<div id="mutate" class="section level3" number="1.1.6">
+<h3><span class="header-section-number">1.1.6</span> Mutate</h3>
+<p>The <code>mutate()</code> function adds new columns to the data frame. For example, create a new column called <code>TempC</code> as the temperature in degrees Celcius. Also create a column called <code>WindMS</code> as the wind speed in meters per second.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="grammars-for-data-and-graphs.html#cb34-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb34-2"><a href="grammars-for-data-and-graphs.html#cb34-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TempC =</span> (Temp <span class="op">-</span><span class="st"> </span><span class="dv">32</span>) <span class="op">*</span><span class="st"> </span><span class="dv">5</span><span class="op">/</span><span class="dv">9</span>,</span>
+<span id="cb34-3"><a href="grammars-for-data-and-graphs.html#cb34-3"></a>         <span class="dt">WindMS =</span> Wind <span class="op">*</span><span class="st"> </span><span class="fl">.44704</span>) </span></code></pre></div>
+<pre><code>## # A tibble: 153 x 8
+##    Ozone Solar.R  Wind  Temp Month   Day TempC WindMS
+##    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1    41     190   7.4    67     5     1  19.4   3.31
+##  2    36     118   8      72     5     2  22.2   3.58
+##  3    12     149  12.6    74     5     3  23.3   5.63
+##  4    18     313  11.5    62     5     4  16.7   5.14
+##  5    NA      NA  14.3    56     5     5  13.3   6.39
+##  6    28      NA  14.9    66     5     6  18.9   6.66
+##  7    23     299   8.6    65     5     7  18.3   3.84
+##  8    19      99  13.8    59     5     8  15     6.17
+##  9     8      19  20.1    61     5     9  16.1   8.99
+## 10    NA     194   8.6    69     5    10  20.6   3.84
+## # … with 143 more rows</code></pre>
+<p>The resulting data frame has 8 columns (two new ones) labeled <code>TempC</code> and <code>WindMS</code>.</p>
+<p>On days when the temperature is below 60 F add a column giving the apparent temperature based on the cooling effect of the wind (wind chill) and then arrange from coldest to warmest apparent temperature.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="grammars-for-data-and-graphs.html#cb36-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb36-2"><a href="grammars-for-data-and-graphs.html#cb36-2"></a><span class="st">  </span><span class="kw">filter</span>(Temp <span class="op">&lt;</span><span class="st"> </span><span class="dv">60</span>) <span class="op">%&gt;%</span></span>
+<span id="cb36-3"><a href="grammars-for-data-and-graphs.html#cb36-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TempAp =</span> <span class="fl">35.74</span> <span class="op">+</span><span class="st"> </span><span class="fl">.6215</span> <span class="op">*</span><span class="st"> </span>Temp <span class="op">-</span><span class="st"> </span><span class="fl">35.75</span> <span class="op">*</span><span class="st"> </span>Wind<span class="op">^</span>.<span class="dv">16</span> <span class="op">+</span><span class="st"> </span><span class="fl">.4275</span> <span class="op">*</span><span class="st"> </span>Temp <span class="op">*</span><span class="st"> </span>Wind<span class="op">^</span>.<span class="dv">16</span>) <span class="op">%&gt;%</span></span>
+<span id="cb36-4"><a href="grammars-for-data-and-graphs.html#cb36-4"></a><span class="st">  </span><span class="kw">arrange</span>(TempAp)</span></code></pre></div>
+<pre><code>## # A tibble: 8 x 7
+##   Ozone Solar.R  Wind  Temp Month   Day TempAp
+##   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;
+## 1    NA      NA  14.3    56     5     5   52.5
+## 2     6      78  18.4    57     5    18   53.0
+## 3    NA      66  16.6    57     5    25   53.3
+## 4    NA     266  14.9    58     5    26   54.9
+## 5    18      65  13.2    58     5    15   55.2
+## 6    NA      NA   8      57     5    27   55.3
+## 7    19      99  13.8    59     5     8   56.4
+## 8     1       8   9.7    59     5    21   57.3</code></pre>
+</div>
+<div id="summarize" class="section level3" number="1.1.7">
+<h3><span class="header-section-number">1.1.7</span> Summarize</h3>
+<p>The <code>summarize()</code> function reduces (flattens) the data frame based on a function that computes a statistic. For example, to compute the average wind speed during July type</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="grammars-for-data-and-graphs.html#cb38-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb38-2"><a href="grammars-for-data-and-graphs.html#cb38-2"></a><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">7</span>) <span class="op">%&gt;%</span></span>
+<span id="cb38-3"><a href="grammars-for-data-and-graphs.html#cb38-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Wavg =</span> <span class="kw">mean</span>(Wind))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    Wavg
+##   &lt;dbl&gt;
+## 1  8.94</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="grammars-for-data-and-graphs.html#cb40-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb40-2"><a href="grammars-for-data-and-graphs.html#cb40-2"></a><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></span>
+<span id="cb40-3"><a href="grammars-for-data-and-graphs.html#cb40-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Tavg =</span> <span class="kw">mean</span>(Temp))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    Tavg
+##   &lt;dbl&gt;
+## 1  79.1</code></pre>
+<p>We’ve seen functions that compute statistics including <code>sum()</code>, <code>sd()</code>, <code>min()</code>, <code>max()</code>, <code>var()</code>, <code>range()</code>, <code>median()</code>. Others include</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Summary function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><code>n()</code></td>
+<td align="left">Length of the column</td>
+</tr>
+<tr class="even">
+<td align="right"><code>first()</code></td>
+<td align="left">First value of the column</td>
+</tr>
+<tr class="odd">
+<td align="right"><code>last()</code></td>
+<td align="left">Last value of the column</td>
+</tr>
+<tr class="even">
+<td align="right"><code>n_distinct()</code></td>
+<td align="left">Number of distinct values</td>
+</tr>
+</tbody>
+</table>
+<p>Find the maximum and median wind speed and maximum ozone concentration values during the month of May. Also determine the number of observations during May.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="grammars-for-data-and-graphs.html#cb42-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb42-2"><a href="grammars-for-data-and-graphs.html#cb42-2"></a><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></span>
+<span id="cb42-3"><a href="grammars-for-data-and-graphs.html#cb42-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Wmax =</span> <span class="kw">max</span>(Wind),</span>
+<span id="cb42-4"><a href="grammars-for-data-and-graphs.html#cb42-4"></a>            <span class="dt">Wmed =</span> <span class="kw">median</span>(Wind),</span>
+<span id="cb42-5"><a href="grammars-for-data-and-graphs.html#cb42-5"></a>            <span class="dt">OzoneMax =</span> <span class="kw">max</span>(Ozone),</span>
+<span id="cb42-6"><a href="grammars-for-data-and-graphs.html#cb42-6"></a>            <span class="dt">NumDays =</span> <span class="kw">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##    Wmax  Wmed OzoneMax NumDays
+##   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;int&gt;
+## 1  20.1  11.5       NA      31</code></pre>
+<p>Why do we get an <code>NA</code> for <code>OzoneMax</code>? How would you fix this?</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="grammars-for-data-and-graphs.html#cb44-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb44-2"><a href="grammars-for-data-and-graphs.html#cb44-2"></a><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></span>
+<span id="cb44-3"><a href="grammars-for-data-and-graphs.html#cb44-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Wmax =</span> <span class="kw">max</span>(Wind),</span>
+<span id="cb44-4"><a href="grammars-for-data-and-graphs.html#cb44-4"></a>            <span class="dt">Wmed =</span> <span class="kw">median</span>(Wind),</span>
+<span id="cb44-5"><a href="grammars-for-data-and-graphs.html#cb44-5"></a>            <span class="dt">OzoneMax =</span> <span class="kw">max</span>(Ozone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb44-6"><a href="grammars-for-data-and-graphs.html#cb44-6"></a>            <span class="dt">NumDays =</span> <span class="kw">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##    Wmax  Wmed OzoneMax NumDays
+##   &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt;   &lt;int&gt;
+## 1  20.1  11.5      115      31</code></pre>
+</div>
+<div id="group" class="section level3" number="1.1.8">
+<h3><span class="header-section-number">1.1.8</span> Group</h3>
+<p>If we want to summarize separately for each month we use the <code>group_by()</code> function. We split the data frame by some variable (e.g., <code>Month</code>), apply a function to the individual data frames, and then combine the output.</p>
+<p>Find the highest ozone concentration by month. Include the number of observations (days) in the month.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="grammars-for-data-and-graphs.html#cb46-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb46-2"><a href="grammars-for-data-and-graphs.html#cb46-2"></a><span class="st">  </span><span class="kw">group_by</span>(Month) <span class="op">%&gt;%</span></span>
+<span id="cb46-3"><a href="grammars-for-data-and-graphs.html#cb46-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">OzoneMax =</span>  <span class="kw">max</span>(Ozone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb46-4"><a href="grammars-for-data-and-graphs.html#cb46-4"></a>            <span class="dt">NumDays =</span> <span class="kw">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   Month OzoneMax NumDays
+##   &lt;int&gt;    &lt;int&gt;   &lt;int&gt;
+## 1     5      115      31
+## 2     6       71      30
+## 3     7      135      31
+## 4     8      168      31
+## 5     9       96      30</code></pre>
+<p>Find the average ozone concentration when temperatures are above and below 70 F. Include the number of observations (days) in the two groups.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="grammars-for-data-and-graphs.html#cb48-1"></a>airquality <span class="op">%&gt;%</span></span>
+<span id="cb48-2"><a href="grammars-for-data-and-graphs.html#cb48-2"></a><span class="st">  </span><span class="kw">group_by</span>(Temp <span class="op">&gt;=</span><span class="st"> </span><span class="dv">70</span>) <span class="op">%&gt;%</span></span>
+<span id="cb48-3"><a href="grammars-for-data-and-graphs.html#cb48-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">OzoneAvg =</span>  <span class="kw">mean</span>(Ozone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb48-4"><a href="grammars-for-data-and-graphs.html#cb48-4"></a>            <span class="dt">NumDays =</span> <span class="kw">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   `Temp &gt;= 70` OzoneAvg NumDays
+##   &lt;lgl&gt;           &lt;dbl&gt;   &lt;int&gt;
+## 1 FALSE            18.0      32
+## 2 TRUE             49.1     121</code></pre>
+<p>On average ozone concentration is higher on warm days (Temp &gt;= 70 F) days. Said another way; mean ozone concentration statistically depends on temperature.</p>
+<p>The mean is a model for the data. The statistical dependency of the mean implies that a model for ozone concentration will likely be improved by including temperature as an explanatory variable.</p>
+<p>The important <strong>dplyr</strong> verbs are</p>
+<table>
+<colgroup>
+<col width="53%" />
+<col width="46%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Verb</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><code>select()</code></td>
+<td align="left">selects columns; pick variables by their names</td>
+</tr>
+<tr class="even">
+<td align="right"><code>filter()</code></td>
+<td align="left">filters rows; pick observations by their values</td>
+</tr>
+<tr class="odd">
+<td align="right"><code>arrange()</code></td>
+<td align="left">re-orders the rows</td>
+</tr>
+<tr class="even">
+<td align="right"><code>mutate()</code></td>
+<td align="left">creates new columns; create new variables with functions of existing variables</td>
+</tr>
+<tr class="odd">
+<td align="right"><code>summarize()</code></td>
+<td align="left">summarizes values; collapse many values down to a single summary</td>
+</tr>
+<tr class="even">
+<td align="right"><code>group_by()</code></td>
+<td align="left">allows operations to be grouped</td>
+</tr>
+</tbody>
+</table>
+<p>The syntax of the verb functions in the <strong>dplyr</strong> package are all the same:</p>
+<p>Properties
+* The first argument is a data frame. This argument is implicit when using the <code>%&gt;%</code> operator.
+* The subsequent arguments describe what to do with the data frame. We refer to columns in the data frame directly (without using <code>$</code>).
+* The result is a new data frame</p>
+<p>These properties make it easy to chain together many simple lines of code to do something complex.</p>
+<p>The five functions form the basis of a grammar for data. At the most basic level, we can only alter a data frame in five useful ways: we can reorder the rows (<code>arrange()</code>), pick observations and variables of interest (<code>filter()</code> and <code>select()</code>), add new variables that are functions of existing variables (<code>mutate()</code>), or collapse many values to a summary (<code>summarise()</code>).</p>
+</div>
+<div id="give-it-a-try-florida-precipitation-httpmyweb.fsu.edujelsnertempdataflprecip.txt" class="section level3" number="1.1.9">
+<h3><span class="header-section-number">1.1.9</span> Give it a try: Florida precipitation (<a href="http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt" class="uri">http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt</a>)</h3>
+<p>Suppose we are interested in whether it is getting wetter or drier in Florida during spring? One way to examine this question is to divide the years into two groups early and late and compute averages.</p>
+<p>Import the data, select the month of April (<code>Apr</code>) and year (<code>Year</code>), group by years &gt; 1960, summarize the two groups of April rainfall with the mean and variance. Make the code work by filling in the blanks (’___’).</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="grammars-for-data-and-graphs.html#cb50-1"></a><span class="kw">read_table</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb50-2"><a href="grammars-for-data-and-graphs.html#cb50-2"></a><span class="st">  </span><span class="kw">select</span>(Apr, Year) <span class="op">%&gt;%</span></span>
+<span id="cb50-3"><a href="grammars-for-data-and-graphs.html#cb50-3"></a><span class="st">  </span><span class="kw">group_by</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1960</span>) <span class="op">%&gt;%</span></span>
+<span id="cb50-4"><a href="grammars-for-data-and-graphs.html#cb50-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Avg =</span> <span class="kw">mean</span>(Apr),</span>
+<span id="cb50-5"><a href="grammars-for-data-and-graphs.html#cb50-5"></a>            <span class="dt">Var =</span> <span class="kw">var</span>(Apr))</span></code></pre></div>
+</div>
+<div id="another-example-us-tornadoes" class="section level3" number="1.1.10">
+<h3><span class="header-section-number">1.1.10</span> Another example: US tornadoes</h3>
+<p>Let’s review by considering another data frame. The file <code>Torn.sf</code> is a data frame. The last column contains the geometry (genesis as a POINT) of the tornadoes in the format of well-known text <a href="https://en.wikipedia.org/wiki/Well-known_text">WKT</a> making it a ‘simple feature’ data frame.</p>
+<p>Note the column named <code>date</code> is a character vector in the format year-month-day.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="grammars-for-data-and-graphs.html#cb51-1"></a><span class="kw">library</span>(sf)</span></code></pre></div>
+<pre><code>## Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="grammars-for-data-and-graphs.html#cb53-1"></a>Torn.sf &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="dt">dsn =</span> <span class="st">&quot;1950-2018-torn-initpoint&quot;</span>)</span>
+<span id="cb53-2"><a href="grammars-for-data-and-graphs.html#cb53-2"></a><span class="kw">head</span>(Torn.sf<span class="op">$</span>date)</span></code></pre></div>
+<pre><code>## [1] &quot;1950-01-03&quot; &quot;1950-01-03&quot; &quot;1950-01-03&quot; &quot;1950-01-13&quot; &quot;1950-01-25&quot;
+## [6] &quot;1950-01-25&quot;</code></pre>
+<div id="create-new-columns-with-the-verb-function-mutate" class="section level4" number="1.1.10.1">
+<h4><span class="header-section-number">1.1.10.1</span> Create new columns with the verb function <code>mutate()</code></h4>
+<p>New columns are created with the <code>mutate()</code> function. Here we assign to the object <code>sfdf</code> the original data frame but with three new columns.</p>
+<ol style="list-style-type: decimal">
+<li><code>Date</code> as an actual calendar date with the <code>as.Date()</code> function,</li>
+<li><code>Length</code> as the damage path length in meters and</li>
+<li><code>Width</code> as the damage path width in meters.</li>
+</ol>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="grammars-for-data-and-graphs.html#cb55-1"></a>sfdf &lt;-<span class="st"> </span>Torn.sf <span class="op">%&gt;%</span></span>
+<span id="cb55-2"><a href="grammars-for-data-and-graphs.html#cb55-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Date =</span> <span class="kw">as.Date</span>(date),</span>
+<span id="cb55-3"><a href="grammars-for-data-and-graphs.html#cb55-3"></a>         <span class="dt">Length =</span> len <span class="op">*</span><span class="st"> </span><span class="fl">1609.34</span>,</span>
+<span id="cb55-4"><a href="grammars-for-data-and-graphs.html#cb55-4"></a>         <span class="dt">Width =</span> wid <span class="op">*</span><span class="st"> </span><span class="fl">.9144</span>) <span class="op">%&gt;%</span></span>
+<span id="cb55-5"><a href="grammars-for-data-and-graphs.html#cb55-5"></a><span class="st">  </span><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 63,645
+## Columns: 26
+## $ om       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
+## $ yr       &lt;dbl&gt; 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, …
+## $ mo       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+## $ dy       &lt;dbl&gt; 3, 3, 3, 13, 25, 25, 26, 11, 11, 11, 11, 12, 12, 12, 12, 12,…
+## $ date     &lt;chr&gt; &quot;1950-01-03&quot;, &quot;1950-01-03&quot;, &quot;1950-01-03&quot;, &quot;1950-01-13&quot;, &quot;195…
+## $ time     &lt;chr&gt; &quot;11:00:00&quot;, &quot;11:55:00&quot;, &quot;16:00:00&quot;, &quot;05:25:00&quot;, &quot;19:30:00&quot;, …
+## $ tz       &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
+## $ st       &lt;chr&gt; &quot;MO&quot;, &quot;IL&quot;, &quot;OH&quot;, &quot;AR&quot;, &quot;MO&quot;, &quot;IL&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, …
+## $ stf      &lt;dbl&gt; 29, 17, 39, 5, 29, 17, 48, 48, 48, 48, 48, 48, 48, 48, 48, 2…
+## $ stn      &lt;dbl&gt; 1, 2, 1, 1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 10, 2, 1,…
+## $ mag      &lt;dbl&gt; 3, 3, 1, 3, 2, 2, 2, 2, 3, 2, 2, 2, 1, 2, 1, 2, 1, 3, 2, 4, …
+## $ inj      &lt;dbl&gt; 3, 3, 1, 1, 5, 0, 2, 0, 12, 5, 6, 8, 0, 0, 32, 2, 0, 15, 0, …
+## $ fat      &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 3, 0, 18,…
+## $ loss     &lt;dbl&gt; 6, 5, 4, 3, 5, 5, 0, 4, 4, 5, 5, 4, 4, 4, 5, 4, 0, 5, 3, 5, …
+## $ closs    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ slat     &lt;dbl&gt; 38.77, 39.10, 40.88, 34.40, 37.60, 41.17, 26.88, 29.42, 29.6…
+## $ slon     &lt;dbl&gt; -90.22, -89.30, -84.58, -94.37, -90.68, -87.33, -98.12, -95.…
+## $ elat     &lt;dbl&gt; 38.8300, 39.1200, 40.8801, 34.4001, 37.6300, 41.1701, 26.880…
+## $ elon     &lt;dbl&gt; -90.0300, -89.2300, -84.5799, -94.3699, -90.6500, -87.3299, …
+## $ len      &lt;dbl&gt; 9.5, 3.6, 0.1, 0.6, 2.3, 0.1, 4.7, 9.9, 12.0, 4.6, 4.5, 8.0,…
+## $ wid      &lt;dbl&gt; 150, 130, 10, 17, 300, 100, 133, 400, 1000, 100, 67, 833, 23…
+## $ fc       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ geometry &lt;POINT [°]&gt; POINT (-90.22 38.77), POINT (-89.3 39.1), POINT (-84.5…
+## $ Date     &lt;date&gt; 1950-01-03, 1950-01-03, 1950-01-03, 1950-01-13, 1950-01-25,…
+## $ Length   &lt;dbl&gt; 15288.730, 5793.624, 160.934, 965.604, 3701.482, 160.934, 75…
+## $ Width    &lt;dbl&gt; 137.1600, 118.8720, 9.1440, 15.5448, 274.3200, 91.4400, 121.…</code></pre>
+<p>The simple feature data frame <code>sfdf</code> has the same columns as the original data frame but it now includes the columns <code>Date</code>, <code>Length</code>, and <code>Width</code>. The three new columns are placed in the data frame.</p>
+<p>Note here the function <code>glimpse()</code> has no arguments. It inherits the data frame <code>sfdf</code> through the piping operator.</p>
+</div>
+<div id="rename-a-column-with-rename." class="section level4" number="1.1.10.2">
+<h4><span class="header-section-number">1.1.10.2</span> Rename a column with <code>rename()</code>.</h4>
+<p>To give a column a new name use the <code>rename()</code> function (new name = old name). For example to change the name of the column <code>yr</code> to <code>Year</code> and <code>mag</code> to <code>EF</code> type</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="grammars-for-data-and-graphs.html#cb57-1"></a>sfdf &lt;-<span class="st"> </span>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb57-2"><a href="grammars-for-data-and-graphs.html#cb57-2"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">Year =</span> yr,</span>
+<span id="cb57-3"><a href="grammars-for-data-and-graphs.html#cb57-3"></a>         <span class="dt">EF =</span> mag) <span class="op">%&gt;%</span></span>
+<span id="cb57-4"><a href="grammars-for-data-and-graphs.html#cb57-4"></a><span class="st">  </span><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 63,645
+## Columns: 26
+## $ om       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
+## $ Year     &lt;dbl&gt; 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, …
+## $ mo       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+## $ dy       &lt;dbl&gt; 3, 3, 3, 13, 25, 25, 26, 11, 11, 11, 11, 12, 12, 12, 12, 12,…
+## $ date     &lt;chr&gt; &quot;1950-01-03&quot;, &quot;1950-01-03&quot;, &quot;1950-01-03&quot;, &quot;1950-01-13&quot;, &quot;195…
+## $ time     &lt;chr&gt; &quot;11:00:00&quot;, &quot;11:55:00&quot;, &quot;16:00:00&quot;, &quot;05:25:00&quot;, &quot;19:30:00&quot;, …
+## $ tz       &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
+## $ st       &lt;chr&gt; &quot;MO&quot;, &quot;IL&quot;, &quot;OH&quot;, &quot;AR&quot;, &quot;MO&quot;, &quot;IL&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, …
+## $ stf      &lt;dbl&gt; 29, 17, 39, 5, 29, 17, 48, 48, 48, 48, 48, 48, 48, 48, 48, 2…
+## $ stn      &lt;dbl&gt; 1, 2, 1, 1, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 10, 2, 1,…
+## $ EF       &lt;dbl&gt; 3, 3, 1, 3, 2, 2, 2, 2, 3, 2, 2, 2, 1, 2, 1, 2, 1, 3, 2, 4, …
+## $ inj      &lt;dbl&gt; 3, 3, 1, 1, 5, 0, 2, 0, 12, 5, 6, 8, 0, 0, 32, 2, 0, 15, 0, …
+## $ fat      &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 3, 0, 18,…
+## $ loss     &lt;dbl&gt; 6, 5, 4, 3, 5, 5, 0, 4, 4, 5, 5, 4, 4, 4, 5, 4, 0, 5, 3, 5, …
+## $ closs    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ slat     &lt;dbl&gt; 38.77, 39.10, 40.88, 34.40, 37.60, 41.17, 26.88, 29.42, 29.6…
+## $ slon     &lt;dbl&gt; -90.22, -89.30, -84.58, -94.37, -90.68, -87.33, -98.12, -95.…
+## $ elat     &lt;dbl&gt; 38.8300, 39.1200, 40.8801, 34.4001, 37.6300, 41.1701, 26.880…
+## $ elon     &lt;dbl&gt; -90.0300, -89.2300, -84.5799, -94.3699, -90.6500, -87.3299, …
+## $ len      &lt;dbl&gt; 9.5, 3.6, 0.1, 0.6, 2.3, 0.1, 4.7, 9.9, 12.0, 4.6, 4.5, 8.0,…
+## $ wid      &lt;dbl&gt; 150, 130, 10, 17, 300, 100, 133, 400, 1000, 100, 67, 833, 23…
+## $ fc       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ geometry &lt;POINT [°]&gt; POINT (-90.22 38.77), POINT (-89.3 39.1), POINT (-84.5…
+## $ Date     &lt;date&gt; 1950-01-03, 1950-01-03, 1950-01-03, 1950-01-13, 1950-01-25,…
+## $ Length   &lt;dbl&gt; 15288.730, 5793.624, 160.934, 965.604, 3701.482, 160.934, 75…
+## $ Width    &lt;dbl&gt; 137.1600, 118.8720, 9.1440, 15.5448, 274.3200, 91.4400, 121.…</code></pre>
+<p>The original names of <code>yr</code> and <code>mag</code> are replaced with <code>Year</code> and <code>EF</code>.</p>
+</div>
+<div id="select-columns-with-select" class="section level4" number="1.1.10.3">
+<h4><span class="header-section-number">1.1.10.3</span> Select columns with <code>select()</code></h4>
+<p>The <code>select()</code> function chooses specified columns by name to create a new data frame. Here we recycle the <code>sfdf</code> name.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="grammars-for-data-and-graphs.html#cb59-1"></a>sfdf &lt;-<span class="st"> </span>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb59-2"><a href="grammars-for-data-and-graphs.html#cb59-2"></a><span class="st">  </span><span class="kw">select</span>(Year, </span>
+<span id="cb59-3"><a href="grammars-for-data-and-graphs.html#cb59-3"></a>         <span class="dt">Month =</span> mo, </span>
+<span id="cb59-4"><a href="grammars-for-data-and-graphs.html#cb59-4"></a>         <span class="dt">ST =</span> st, </span>
+<span id="cb59-5"><a href="grammars-for-data-and-graphs.html#cb59-5"></a>         EF, </span>
+<span id="cb59-6"><a href="grammars-for-data-and-graphs.html#cb59-6"></a>         Date, </span>
+<span id="cb59-7"><a href="grammars-for-data-and-graphs.html#cb59-7"></a>         Length,</span>
+<span id="cb59-8"><a href="grammars-for-data-and-graphs.html#cb59-8"></a>         Width, </span>
+<span id="cb59-9"><a href="grammars-for-data-and-graphs.html#cb59-9"></a>         <span class="dt">Fatalities =</span> fat,</span>
+<span id="cb59-10"><a href="grammars-for-data-and-graphs.html#cb59-10"></a>         <span class="dt">Injuries =</span> inj)</span>
+<span id="cb59-11"><a href="grammars-for-data-and-graphs.html#cb59-11"></a><span class="kw">glimpse</span>(sfdf)</span></code></pre></div>
+<pre><code>## Rows: 63,645
+## Columns: 10
+## $ Year       &lt;dbl&gt; 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950, 1950…
+## $ Month      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
+## $ ST         &lt;chr&gt; &quot;MO&quot;, &quot;IL&quot;, &quot;OH&quot;, &quot;AR&quot;, &quot;MO&quot;, &quot;IL&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;, &quot;TX&quot;…
+## $ EF         &lt;dbl&gt; 3, 3, 1, 3, 2, 2, 2, 2, 3, 2, 2, 2, 1, 2, 1, 2, 1, 3, 2, 4…
+## $ Date       &lt;date&gt; 1950-01-03, 1950-01-03, 1950-01-03, 1950-01-13, 1950-01-2…
+## $ Length     &lt;dbl&gt; 15288.730, 5793.624, 160.934, 965.604, 3701.482, 160.934, …
+## $ Width      &lt;dbl&gt; 137.1600, 118.8720, 9.1440, 15.5448, 274.3200, 91.4400, 12…
+## $ Fatalities &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 3, 0, 1…
+## $ Injuries   &lt;dbl&gt; 3, 3, 1, 1, 5, 0, 2, 0, 12, 5, 6, 8, 0, 0, 32, 2, 0, 15, 0…
+## $ geometry   &lt;POINT [°]&gt; POINT (-90.22 38.77), POINT (-89.3 39.1), POINT (-84…</code></pre>
+<p>Note that we also change the name of the column when we use the <code>=</code> sign. For example <code>Month = mo</code>. <code>mo</code> is the original name of the column but it gets changed to <code>Month</code>.</p>
+<p>The <code>select()</code> function is useful in focusing on a relatively few variables when the data set has many variables.</p>
+<p>We can select columns having common character string names. For example, consider the <code>us_states</code> data frame from the <strong>spData</strong> package.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="grammars-for-data-and-graphs.html#cb61-1"></a><span class="kw">library</span>(spData)</span>
+<span id="cb61-2"><a href="grammars-for-data-and-graphs.html#cb61-2"></a><span class="kw">head</span>(us_states)</span></code></pre></div>
+<pre><code>## Simple feature collection with 6 features and 6 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -114.8136 ymin: 24.55868 xmax: -71.78699 ymax: 42.04964
+## CRS:            EPSG:4269
+##   GEOID        NAME   REGION             AREA total_pop_10 total_pop_15
+## 1    01     Alabama    South 133709.27 [km^2]      4712651      4830620
+## 2    04     Arizona     West 295281.25 [km^2]      6246816      6641928
+## 3    08    Colorado     West 269573.06 [km^2]      4887061      5278906
+## 4    09 Connecticut Norteast  12976.59 [km^2]      3545837      3593222
+## 5    12     Florida    South 151052.01 [km^2]     18511620     19645772
+## 6    13     Georgia    South 152725.21 [km^2]      9468815     10006693
+##                         geometry
+## 1 MULTIPOLYGON (((-88.20006 3...
+## 2 MULTIPOLYGON (((-114.7196 3...
+## 3 MULTIPOLYGON (((-109.0501 4...
+## 4 MULTIPOLYGON (((-73.48731 4...
+## 5 MULTIPOLYGON (((-81.81169 2...
+## 6 MULTIPOLYGON (((-85.60516 3...</code></pre>
+<p>We note two columns contain population information <code>total_pop_10</code> (population from 2010) and <code>total_pop_15</code> (population from 2015).</p>
+<p>Here we select columns containing only the population information. Since both start with the character string <code>total</code> we use the <code>starts_with()</code> function.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="grammars-for-data-and-graphs.html#cb63-1"></a>us_states <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb63-2"><a href="grammars-for-data-and-graphs.html#cb63-2"></a><span class="st">  </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;total&quot;</span>))</span></code></pre></div>
+<pre><code>## Simple feature collection with 49 features and 2 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -124.7042 ymin: 24.55868 xmax: -66.9824 ymax: 49.38436
+## CRS:            EPSG:4269
+## First 10 features:
+##    total_pop_10 total_pop_15                       geometry
+## 1       4712651      4830620 MULTIPOLYGON (((-88.20006 3...
+## 2       6246816      6641928 MULTIPOLYGON (((-114.7196 3...
+## 3       4887061      5278906 MULTIPOLYGON (((-109.0501 4...
+## 4       3545837      3593222 MULTIPOLYGON (((-73.48731 4...
+## 5      18511620     19645772 MULTIPOLYGON (((-81.81169 2...
+## 6       9468815     10006693 MULTIPOLYGON (((-85.60516 3...
+## 7       1526797      1616547 MULTIPOLYGON (((-116.916 45...
+## 8       6417398      6568645 MULTIPOLYGON (((-87.52404 4...
+## 9       2809329      2892987 MULTIPOLYGON (((-102.0517 4...
+## 10      4429940      4625253 MULTIPOLYGON (((-92.01783 2...</code></pre>
+<p>Note that the <code>geometry</code> column remains.</p>
+</div>
+</div>
+<div id="filter-rows-with-filter" class="section level3" number="1.1.11">
+<h3><span class="header-section-number">1.1.11</span> Filter rows with <code>filter()</code></h3>
+<p>The <code>filter()</code> function selects a subset of the rows of a data frame. The arguments are filtering (subsetting) expressions evaluated using column names of the data frame. For example, we can select all tornadoes recorded during October of 1980.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="grammars-for-data-and-graphs.html#cb65-1"></a>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb65-2"><a href="grammars-for-data-and-graphs.html#cb65-2"></a><span class="st">  </span><span class="kw">filter</span>(Month <span class="op">==</span><span class="st"> </span><span class="dv">10</span>, </span>
+<span id="cb65-3"><a href="grammars-for-data-and-graphs.html#cb65-3"></a>         Year <span class="op">==</span><span class="st"> </span><span class="dv">1980</span>)</span></code></pre></div>
+<pre><code>## Simple feature collection with 43 features and 9 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -105.22 ymin: 29.53 xmax: -77.03 ymax: 42.77
+## CRS:            4326
+## # A tibble: 43 x 10
+##     Year Month ST       EF Date       Length  Width Fatalities Injuries
+##  * &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;date&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1  1980    10 NC        1 1980-10-03  2414. 457.            0        0
+##  2  1980    10 NE        2 1980-10-15   161.  70.4           0        0
+##  3  1980    10 KS        0 1980-10-15   161.   9.14          0        0
+##  4  1980    10 KS        0 1980-10-15  8208.  91.4           0        0
+##  5  1980    10 CO        2 1980-10-15  2414.  45.7           0        0
+##  6  1980    10 NE        1 1980-10-15   161.  24.7           0        0
+##  7  1980    10 KS        3 1980-10-15 21404. 137.            0        4
+##  8  1980    10 NE        0 1980-10-15   322.  24.7           0        0
+##  9  1980    10 NE        0 1980-10-15   161.  27.4           0        0
+## 10  1980    10 KS        3 1980-10-16   161.   9.14          0        0
+## # … with 33 more rows, and 1 more variable: geometry &lt;POINT [°]&gt;</code></pre>
+<p><code>Month</code> and <code>Year</code> are column names in <code>df</code> that were created with the <code>rename()</code> and <code>select()</code> functions above.</p>
+<p>Q: How would you create a new data frame containing only tornadoes originating in Wisconsin?</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="grammars-for-data-and-graphs.html#cb67-1"></a>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb67-2"><a href="grammars-for-data-and-graphs.html#cb67-2"></a><span class="st">  </span><span class="kw">filter</span>(ST <span class="op">==</span><span class="st"> &quot;WI&quot;</span>)</span></code></pre></div>
+<pre><code>## Simple feature collection with 1380 features and 9 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -92.78 ymin: 42.5 xmax: -87.17 ymax: 46.72
+## CRS:            4326
+## # A tibble: 1,380 x 10
+##     Year Month ST       EF Date       Length  Width Fatalities Injuries
+##  * &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;date&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+##  1  1950     6 WI        1 1950-06-25   805.   9.14          0        0
+##  2  1950     6 WI        2 1950-06-25 13518.   9.14          0        0
+##  3  1950     6 WI        2 1950-06-25 12553.  15.5           1        0
+##  4  1950     6 WI        4 1950-06-25 21082. 805.            2       12
+##  5  1950     6 WI        3 1950-06-25   161. 274.            0        0
+##  6  1951     6 WI        2 1951-06-19  1609. 427.            0        0
+##  7  1951     7 WI        2 1951-07-03   805.  45.7           0        0
+##  8  1951     9 WI        3 1951-09-12 39268. 183.            0        1
+##  9  1951     9 WI        4 1951-09-26 42487.  91.4           6        3
+## 10  1951     9 WI        4 1951-09-26 14484.  91.4           1        9
+## # … with 1,370 more rows, and 1 more variable: geometry &lt;POINT [°]&gt;</code></pre>
+</div>
+<div id="arrange-rows-with-arrange" class="section level3" number="1.1.12">
+<h3><span class="header-section-number">1.1.12</span> Arrange rows with <code>arrange()</code></h3>
+<p>The function <code>arrange()</code> works like <code>filter()</code> except that instead of subsetting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by.</p>
+<p>Here we use <code>desc()</code> together with <code>arrange()</code> to order a column by descending order of fatalities.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="grammars-for-data-and-graphs.html#cb69-1"></a>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb69-2"><a href="grammars-for-data-and-graphs.html#cb69-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Fatalities)) <span class="op">%&gt;%</span></span>
+<span id="cb69-3"><a href="grammars-for-data-and-graphs.html#cb69-3"></a><span class="st">  </span><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 63,645
+## Columns: 10
+## $ Year       &lt;dbl&gt; 2011, 1953, 1953, 1953, 1955, 2011, 2011, 1966, 1971, 1952…
+## $ Month      &lt;dbl&gt; 5, 6, 5, 6, 5, 4, 4, 3, 2, 3, 2, 5, 4, 3, 12, 4, 4, 5, 5, …
+## $ ST         &lt;chr&gt; &quot;MO&quot;, &quot;MI&quot;, &quot;TX&quot;, &quot;MA&quot;, &quot;OK&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;MS&quot;, &quot;MS&quot;, &quot;AR&quot;…
+## $ EF         &lt;dbl&gt; 5, 5, 5, 4, 5, 5, 4, 5, 4, 4, 5, 5, 4, 4, 5, 4, 5, 5, 4, 4…
+## $ Date       &lt;date&gt; 2011-05-22, 1953-06-08, 1953-05-11, 1953-06-09, 1955-05-2…
+## $ Length     &lt;dbl&gt; 34793.93, 30416.53, 33635.21, 56165.97, 90766.78, 212432.8…
+## $ Width      &lt;dbl&gt; 1463.0400, 761.6952, 533.0952, 822.9600, 1207.0080, 2011.6…
+## $ Fatalities &lt;dbl&gt; 158, 116, 114, 94, 80, 72, 64, 58, 58, 50, 47, 44, 42, 38,…
+## $ Injuries   &lt;dbl&gt; 1150, 844, 597, 1228, 273, 145, 1500, 518, 795, 325, 510, …
+## $ geometry   &lt;POINT [°]&gt; POINT (-94.5932 37.0524), POINT (-83.85 43.1), POINT…</code></pre>
+<p>The deadliest tornado in the record occurred in 2011 killing 158 people many in the city of Joplin, MO.</p>
+<p>Again, note here the <code>glimpse()</code> function has no arguments. It inherits the <em>arranged</em> data frame through the piping operator.</p>
+<p>If we provide more than one column name, each additional column is used to break ties in the values of the preceding column.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="grammars-for-data-and-graphs.html#cb71-1"></a>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb71-2"><a href="grammars-for-data-and-graphs.html#cb71-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Fatalities), <span class="kw">desc</span>(Injuries)) <span class="op">%&gt;%</span></span>
+<span id="cb71-3"><a href="grammars-for-data-and-graphs.html#cb71-3"></a><span class="st">  </span><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 63,645
+## Columns: 10
+## $ Year       &lt;dbl&gt; 2011, 1953, 1953, 1953, 1955, 2011, 2011, 1971, 1966, 1952…
+## $ Month      &lt;dbl&gt; 5, 6, 5, 6, 5, 4, 4, 2, 3, 3, 2, 5, 4, 12, 3, 4, 5, 4, 5, …
+## $ ST         &lt;chr&gt; &quot;MO&quot;, &quot;MI&quot;, &quot;TX&quot;, &quot;MA&quot;, &quot;OK&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;MS&quot;, &quot;MS&quot;, &quot;AR&quot;…
+## $ EF         &lt;dbl&gt; 5, 5, 5, 4, 5, 5, 4, 4, 5, 4, 5, 5, 4, 5, 4, 5, 5, 4, 4, 4…
+## $ Date       &lt;date&gt; 2011-05-22, 1953-06-08, 1953-05-11, 1953-06-09, 1955-05-2…
+## $ Length     &lt;dbl&gt; 34793.93, 30416.53, 33635.21, 56165.97, 90766.78, 212432.8…
+## $ Width      &lt;dbl&gt; 1463.0400, 761.6952, 533.0952, 822.9600, 1207.0080, 2011.6…
+## $ Fatalities &lt;dbl&gt; 158, 116, 114, 94, 80, 72, 64, 58, 58, 50, 47, 44, 42, 38,…
+## $ Injuries   &lt;dbl&gt; 1150, 844, 597, 1228, 273, 145, 1500, 795, 518, 325, 510, …
+## $ geometry   &lt;POINT [°]&gt; POINT (-94.5932 37.0524), POINT (-83.85 43.1), POINT…</code></pre>
+</div>
+<div id="pull-out-a-single-variable-with-pull" class="section level3" number="1.1.13">
+<h3><span class="header-section-number">1.1.13</span> Pull out a single variable with <code>pull()</code></h3>
+<p>The function <code>pull()</code> pulls out a single variable from the data frame.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="grammars-for-data-and-graphs.html#cb73-1"></a>Fatals &lt;-<span class="st"> </span>sfdf <span class="op">%&gt;%</span></span>
+<span id="cb73-2"><a href="grammars-for-data-and-graphs.html#cb73-2"></a><span class="st">  </span><span class="kw">pull</span>(Fatalities)</span>
+<span id="cb73-3"><a href="grammars-for-data-and-graphs.html#cb73-3"></a><span class="kw">head</span>(Fatals)</span></code></pre></div>
+<pre><code>## [1] 0 0 0 1 0 0</code></pre>
+<p>The result is a vector. This is equivalent to <code>Fatals &lt;- sfdf$Fatalities</code>.</p>
+</div>
+<div id="summarize-values-with-summarise" class="section level3" number="1.1.14">
+<h3><span class="header-section-number">1.1.14</span> Summarize values with <code>summarise()</code></h3>
+<p>The <code>summarize()</code> function collapses a data frame to a single row. Here we first create a regular data frame from the simple feature data frame by using the <code>as.data.frame()</code> function.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="grammars-for-data-and-graphs.html#cb75-1"></a>df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(sfdf)</span>
+<span id="cb75-2"><a href="grammars-for-data-and-graphs.html#cb75-2"></a></span>
+<span id="cb75-3"><a href="grammars-for-data-and-graphs.html#cb75-3"></a>df <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb75-4"><a href="grammars-for-data-and-graphs.html#cb75-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mL =</span> <span class="kw">median</span>(Length),</span>
+<span id="cb75-5"><a href="grammars-for-data-and-graphs.html#cb75-5"></a>            <span class="dt">mW =</span> <span class="kw">median</span>(Width))</span></code></pre></div>
+<pre><code>##         mL    mW
+## 1 1126.538 45.72</code></pre>
+<p>The above functions are similar: The first argument is a data frame. This is implicit when using <code>%&gt;%</code>. The subsequent arguments describe what to do with it, and you refer to columns in the data frame directly without using <code>$</code>. The result is a new data frame (except when using <code>pull()</code>).</p>
+<p>Together these properties make it easy to chain together multiple simple steps to achieve a complex result. They functions provide the grammar for a data manipulation language.</p>
+<p>The remainder of the language comes from applying the five functions in various order and on various groups.</p>
+</div>
+<div id="grouped-operations" class="section level3" number="1.1.15">
+<h3><span class="header-section-number">1.1.15</span> Grouped operations</h3>
+<p>The verb functions are powerful when we combine them with the idea of ‘group by’, repeating the operation individually on groups of observations within the data frame.</p>
+<p>We use the <code>group_by()</code> function to describe how to break a data frame down into groups of rows. We can then use the resulting object in the exactly the same functions as above; they’ll automatically work ‘by group’ when the input is a grouped.</p>
+<p>Of the five verbs <code>summarize()</code> is easy to understand and quite useful.</p>
+<p>For example, here we filter the data frame for years starting with 2007 then group by EF rating before summarizing the path length and path width using the <code>median()</code> function.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="grammars-for-data-and-graphs.html#cb77-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb77-2"><a href="grammars-for-data-and-graphs.html#cb77-2"></a><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2007</span>) <span class="op">%&gt;%</span></span>
+<span id="cb77-3"><a href="grammars-for-data-and-graphs.html#cb77-3"></a><span class="st">  </span><span class="kw">group_by</span>(EF) <span class="op">%&gt;%</span></span>
+<span id="cb77-4"><a href="grammars-for-data-and-graphs.html#cb77-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Count =</span> <span class="kw">n</span>(),</span>
+<span id="cb77-5"><a href="grammars-for-data-and-graphs.html#cb77-5"></a>            <span class="dt">mL =</span> <span class="kw">median</span>(Length),</span>
+<span id="cb77-6"><a href="grammars-for-data-and-graphs.html#cb77-6"></a>            <span class="dt">mW =</span> <span class="kw">median</span>(Width))</span></code></pre></div>
+<pre><code>## # A tibble: 7 x 4
+##      EF Count     mL     mW
+##   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1    -9   111   853.   45.7
+## 2     0  7951   869.   45.7
+## 3     1  4649  4345.  101. 
+## 4     2  1237  9946.  274. 
+## 5     3   321 21243.  549. 
+## 6     4    71 34842.  805. 
+## 7     5     9 58950. 1609.</code></pre>
+<p>The output is a table perhaps as part of exploratory analysis.</p>
+<p>We use <code>summarize()</code> with aggregate functions, which take a vector of values, and return a single number. Functions in the <strong>base</strong> package like <code>min()</code>, <code>max()</code>, <code>mean()</code>, <code>sum()</code>, <code>sd()</code>, <code>median()</code>, and <code>IQR()</code> can be used. The <strong>dplyr</strong> packages has others:</p>
+<ul>
+<li><code>n()</code>: number of observations in the current group.</li>
+<li><code>n_distinct()</code>: count the number of unique values.</li>
+<li><code>first()</code>, <code>last()</code> and <code>nth()</code> - these work similarly to <code>x[1]</code>, <code>x[length(x)]</code>, and <code>x[n]</code> but give you more control of the result if the value isn’t present.</li>
+</ul>
+<p>For example, we use these to find the number of tornadoes by state and the number of months in which there was at least one tornado.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="grammars-for-data-and-graphs.html#cb79-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb79-2"><a href="grammars-for-data-and-graphs.html#cb79-2"></a><span class="st">  </span><span class="kw">group_by</span>(ST) <span class="op">%&gt;%</span></span>
+<span id="cb79-3"><a href="grammars-for-data-and-graphs.html#cb79-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">months =</span> <span class="kw">n_distinct</span>(Month),</span>
+<span id="cb79-4"><a href="grammars-for-data-and-graphs.html#cb79-4"></a>            <span class="dt">nT =</span> <span class="kw">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 52 x 3
+##    ST    months    nT
+##    &lt;chr&gt;  &lt;int&gt; &lt;int&gt;
+##  1 AK         3     4
+##  2 AL        12  2143
+##  3 AR        12  1809
+##  4 AZ        12   250
+##  5 CA        12   436
+##  6 CO         9  2174
+##  7 CT         7   104
+##  8 DC         2     2
+##  9 DE        10    61
+## 10 FL        12  3381
+## # … with 42 more rows</code></pre>
+<p>When we group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset. As an example: how would we determine the number of tornadoes by day of year?</p>
+<p>We first use the function <code>day()</code> from the <strong>lubridate</strong> package to extract the day of the month from a <code>Date</code> object and add it to our data frame. We then use <code>group_by()</code> on the month and day. Finally we s</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="grammars-for-data-and-graphs.html#cb81-1"></a><span class="kw">library</span>(lubridate)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     intersect, setdiff, union</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="grammars-for-data-and-graphs.html#cb85-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb85-2"><a href="grammars-for-data-and-graphs.html#cb85-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Day =</span> <span class="kw">day</span>(Date)) <span class="op">%&gt;%</span></span>
+<span id="cb85-3"><a href="grammars-for-data-and-graphs.html#cb85-3"></a><span class="st">  </span><span class="kw">group_by</span>(Month, Day) <span class="op">%&gt;%</span></span>
+<span id="cb85-4"><a href="grammars-for-data-and-graphs.html#cb85-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">nT =</span> <span class="kw">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 366 x 3
+## # Groups:   Month [12]
+##    Month   Day    nT
+##    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
+##  1     1     1    28
+##  2     1     2    89
+##  3     1     3    51
+##  4     1     4    26
+##  5     1     5    36
+##  6     1     6    26
+##  7     1     7    80
+##  8     1     8    47
+##  9     1     9    33
+## 10     1    10    72
+## # … with 356 more rows</code></pre>
+<p>The result is a data frame with the number of tornadoes by day of the year.</p>
+<p>There are functions that combine some of the primitives. For example, we can use <code>tally()</code> instead of <code>summarize(nT = n())</code> or <code>count()</code> instead of both <code>group_by()</code> and <code>summarize()</code>. For example, the following code does the same thing.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="grammars-for-data-and-graphs.html#cb87-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb87-2"><a href="grammars-for-data-and-graphs.html#cb87-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Day =</span> <span class="kw">day</span>(Date)) <span class="op">%&gt;%</span></span>
+<span id="cb87-3"><a href="grammars-for-data-and-graphs.html#cb87-3"></a><span class="st">  </span><span class="kw">count</span>(Month, Day)</span></code></pre></div>
+<pre><code>## # A tibble: 366 x 3
+##    Month   Day     n
+##    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
+##  1     1     1    28
+##  2     1     2    89
+##  3     1     3    51
+##  4     1     4    26
+##  5     1     5    36
+##  6     1     6    26
+##  7     1     7    80
+##  8     1     8    47
+##  9     1     9    33
+## 10     1    10    72
+## # … with 356 more rows</code></pre>
+<p>Q: What state had the most tornado fatalities?</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="grammars-for-data-and-graphs.html#cb89-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb89-2"><a href="grammars-for-data-and-graphs.html#cb89-2"></a><span class="st">  </span><span class="kw">group_by</span>(ST) <span class="op">%&gt;%</span></span>
+<span id="cb89-3"><a href="grammars-for-data-and-graphs.html#cb89-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">nF =</span> <span class="kw">sum</span>(Fatalities)) <span class="op">%&gt;%</span></span>
+<span id="cb89-4"><a href="grammars-for-data-and-graphs.html#cb89-4"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(nF))</span></code></pre></div>
+<pre><code>## # A tibble: 52 x 2
+##    ST       nF
+##    &lt;chr&gt; &lt;dbl&gt;
+##  1 AL      628
+##  2 TX      584
+##  3 MS      461
+##  4 OK      432
+##  5 AR      392
+##  6 MO      346
+##  7 TN      325
+##  8 IN      268
+##  9 OH      225
+## 10 GA      219
+## # … with 42 more rows</code></pre>
+</div>
+</div>
+<div id="a-grammar-for-graphs" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> A Grammar for Graphs</h2>
+<p><strong>“Hell isn’t other people’s code. Hell is your own code from 3 years ago.”</strong> — Jeff Atwood’</p>
+<p>The last lesson introduced the functions from the <strong>dplyr</strong> package for manipulating data frames in a grammatically consistent way. This makes data munging easier. The piping operator allows you to write code that is legible. This lesson introduces a grammar for making graphs.</p>
+<p>Some of this material is taken from <a href="http://sharpsightlabs.com/blog/r-package-think-about-visualization/">Sharp Sight Labs</a>.</p>
+<p>The package <strong>ggplot2</strong> and <strong>dplyr</strong> are part of <strong>tidyverse</strong>, which is a group of packages for data manipulation and visualization. A recent 2016 survey by O’Reilly media showed that <strong>ggplot2</strong> is the most frequently used data visualization tool among employed data scientists. It’s popular because it teaches you how to think about visualizing your data. There are a few principles underlying the syntax.</p>
+<ol style="list-style-type: decimal">
+<li>Mapping data to aesthetics</li>
+<li>Layering</li>
+<li>Building plots iteratively</li>
+</ol>
+<p>We make the functions available to our currenct working directory by typing</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="grammars-for-data-and-graphs.html#cb91-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<div id="principle-1-map-data-to-aesthetics" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Principle 1: Map data to aesthetics</h3>
+<p>Consider the following vectors of data. Create a data frame <code>df2</code> using the <code>data.frame</code> function.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="grammars-for-data-and-graphs.html#cb92-1"></a>foo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">122.419416</span>,<span class="op">-</span><span class="fl">121.886329</span>,<span class="op">-</span><span class="fl">71.05888</span>,<span class="op">-</span><span class="fl">74.005941</span>,<span class="op">-</span><span class="fl">118.243685</span>,<span class="op">-</span><span class="fl">117.161084</span>,<span class="op">-</span><span class="fl">0.127758</span>,<span class="op">-</span><span class="fl">77.036871</span>,</span>
+<span id="cb92-2"><a href="grammars-for-data-and-graphs.html#cb92-2"></a>         <span class="fl">116.407395</span>,<span class="op">-</span><span class="fl">122.332071</span>,<span class="op">-</span><span class="fl">87.629798</span>,<span class="op">-</span><span class="fl">79.383184</span>,<span class="op">-</span><span class="fl">97.743061</span>,<span class="fl">121.473701</span>,<span class="fl">72.877656</span>,<span class="fl">2.352222</span>,</span>
+<span id="cb92-3"><a href="grammars-for-data-and-graphs.html#cb92-3"></a>         <span class="fl">77.594563</span>,<span class="op">-</span><span class="fl">75.165222</span>,<span class="op">-</span><span class="fl">112.074037</span>,<span class="fl">37.6173</span>)</span>
+<span id="cb92-4"><a href="grammars-for-data-and-graphs.html#cb92-4"></a>bar &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">37.77493</span>,<span class="fl">37.338208</span>,<span class="fl">42.360083</span>,<span class="fl">40.712784</span>,<span class="fl">34.052234</span>,<span class="fl">32.715738</span>,<span class="fl">51.507351</span>,<span class="fl">38.907192</span>,<span class="fl">39.904211</span>,</span>
+<span id="cb92-5"><a href="grammars-for-data-and-graphs.html#cb92-5"></a>         <span class="fl">47.60621</span>,<span class="fl">41.878114</span>,<span class="fl">43.653226</span>,<span class="fl">30.267153</span>,<span class="fl">31.230416</span>,<span class="fl">19.075984</span>,<span class="fl">48.856614</span>,<span class="fl">12.971599</span>,<span class="fl">39.952584</span>,<span class="fl">33.448377</span>,<span class="fl">55.755826</span>)</span>
+<span id="cb92-6"><a href="grammars-for-data-and-graphs.html#cb92-6"></a>zaz &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6471</span>,<span class="dv">4175</span>,<span class="dv">3144</span>,<span class="dv">2106</span>,<span class="dv">1450</span>,<span class="dv">1410</span>,<span class="dv">842</span>,<span class="dv">835</span>,<span class="dv">758</span>,<span class="dv">727</span>,<span class="dv">688</span>,<span class="dv">628</span>,<span class="dv">626</span>,<span class="dv">510</span>,<span class="dv">497</span>,<span class="dv">449</span>,<span class="dv">419</span>,<span class="dv">413</span>,<span class="dv">325</span>,<span class="dv">318</span>)</span>
+<span id="cb92-7"><a href="grammars-for-data-and-graphs.html#cb92-7"></a>df2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(foo, bar, zaz)</span>
+<span id="cb92-8"><a href="grammars-for-data-and-graphs.html#cb92-8"></a><span class="kw">glimpse</span>(df2)</span></code></pre></div>
+<pre><code>## Rows: 20
+## Columns: 3
+## $ foo &lt;dbl&gt; -122.419416, -121.886329, -71.058880, -74.005941, -118.243685, -1…
+## $ bar &lt;dbl&gt; 37.77493, 37.33821, 42.36008, 40.71278, 34.05223, 32.71574, 51.50…
+## $ zaz &lt;dbl&gt; 6471, 4175, 3144, 2106, 1450, 1410, 842, 835, 758, 727, 688, 628,…</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="grammars-for-data-and-graphs.html#cb94-1"></a><span class="kw">head</span>(df2)</span></code></pre></div>
+<pre><code>##          foo      bar  zaz
+## 1 -122.41942 37.77493 6471
+## 2 -121.88633 37.33821 4175
+## 3  -71.05888 42.36008 3144
+## 4  -74.00594 40.71278 2106
+## 5 -118.24368 34.05223 1450
+## 6 -117.16108 32.71574 1410</code></pre>
+<p>To make a scatter plot specify the data frame as the first argument in the <code>ggplot()</code> function and the <code>aes()</code> function as the second argument. The arguments of the <code>aes()</code> function are the x and y positions as <code>foo</code> and <code>bar</code>, respectively. The plot is rendered after adding the geometric object <code>geom_point()</code> as a layer.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="grammars-for-data-and-graphs.html#cb96-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, </span>
+<span id="cb96-2"><a href="grammars-for-data-and-graphs.html#cb96-2"></a>       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></span>
+<span id="cb96-3"><a href="grammars-for-data-and-graphs.html#cb96-3"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p>We are mapping data to aesthetic attributes. The <em>points</em> in the scatter plot are geometric objects that we draw. In <strong>ggplot2</strong> lingo, the points are <em>geoms</em>. More specifically the points are <em>point geoms</em> that we denote syntactically with the function <code>geom_point()</code>.</p>
+<p>All geometric objects have aesthetic attributes. Things like:</p>
+<ul>
+<li>x-position</li>
+<li>y-position</li>
+<li>color</li>
+<li>size</li>
+<li>transparency</li>
+</ul>
+<p>When we create a data visualization in <strong>ggplot2</strong>, we are creating a mapping between variables in our data and the aesthetic attributes of the geometric objects in our visualization. When we visualize data, we are mapping between variables in our data frame and the aesthetic attributes of the geometric objects in the plot.</p>
+<p>In our scatter plot example, when we create this plot, we’re mapping <code>foo</code> to the x-position aesthetic and we’re mapping <code>bar</code> to the y-position aesthetic. This may seem trivial <code>foo</code> is the x-axis and <code>bar</code> is on the y-axis. We can do that in Excel.</p>
+<p>But here there is a deeper structure. Theoretically, geometric objects (i.e., the things we draw in a plot, like points) don’t just have attributes like position. They have a color, size, etc.</p>
+<p>For example here we map a new variable to the size aesthetic.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="grammars-for-data-and-graphs.html#cb97-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, </span>
+<span id="cb97-2"><a href="grammars-for-data-and-graphs.html#cb97-2"></a>       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></span>
+<span id="cb97-3"><a href="grammars-for-data-and-graphs.html#cb97-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> zaz))</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>We changed a scatter plot to a bubble chart by mapping a new variable to the size aesthetic. Any visualization we see can be deconstructed into geom specifications and mapping from data to the aesthetic attributes of the geometric objects.</p>
+</div>
+<div id="principle-2-build-plots-in-layers" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Principle 2: Build plots in layers</h3>
+<p>The principle of layering is important because to create more advanced visualizations, we often need to:</p>
+<ul>
+<li>Plot multiple datasets, or</li>
+<li>Plot a dataset with additional contextual information contained in a second dataset, or</li>
+<li>Plot summaries or statistical transformations over the raw data</li>
+</ul>
+<p>Let’s modify the bubble chart by getting additional data and plotting it as a new layer below the bubbles. First get the data from the <strong>maps</strong> package and store it in a new data frame.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="grammars-for-data-and-graphs.html#cb98-1"></a><span class="kw">library</span>(maps)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="grammars-for-data-and-graphs.html#cb101-1"></a>df3 &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;world&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb101-2"><a href="grammars-for-data-and-graphs.html#cb101-2"></a><span class="st">  </span><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 99,338
+## Columns: 6
+## $ long      &lt;dbl&gt; -69.89912, -69.89571, -69.94219, -70.00415, -70.06612, -70.…
+## $ lat       &lt;dbl&gt; 12.45200, 12.42300, 12.43853, 12.50049, 12.54697, 12.59707,…
+## $ group     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ order     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, …
+## $ region    &lt;chr&gt; &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Arub…
+## $ subregion &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
+<p>Plot the new data as a new layer underneath the bubbles.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="grammars-for-data-and-graphs.html#cb103-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></span>
+<span id="cb103-2"><a href="grammars-for-data-and-graphs.html#cb103-2"></a><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> df3, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) <span class="op">+</span></span>
+<span id="cb103-3"><a href="grammars-for-data-and-graphs.html#cb103-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> zaz), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>This is the bubble chart from earlier in the post with a new layer added. We transformed a bubble chart into a new visualization called a “dot distribution map,” which is much more insightful and much more visually interesting.</p>
+<p>The bubble chart is a modified scatter plot and the dot distribution map is a modified bubble chart.</p>
+<p>We used two of the data visualization principles (mapping &amp; layering) to build this visualization:</p>
+<ul>
+<li>To create the scatter plot, we mapped <code>foo</code> to the x-aesthetic and mapped <code>bar</code> to the y-aesthetic</li>
+<li>To create the bubble chart, we mapped a <code>zaz</code> to the size-aesthetic</li>
+<li>To create the dot distribution map, we added a layer of polygon data under the bubbles.</li>
+</ul>
+</div>
+<div id="principle-3-iteration" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Principle 3: Iteration</h3>
+<p>The third principle is about process. The process begins with mapping and layering but ends with iteration when we add layers that modify scales, legends, colors, etc. The syntax of <code>ggplot</code> <em>layerability</em> enables and rewards iteration.</p>
+<p>Let’s assign to <code>p1</code> the output of our plot.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="grammars-for-data-and-graphs.html#cb104-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, </span>
+<span id="cb104-2"><a href="grammars-for-data-and-graphs.html#cb104-2"></a>             <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></span>
+<span id="cb104-3"><a href="grammars-for-data-and-graphs.html#cb104-3"></a><span class="st">        </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> df3, </span>
+<span id="cb104-4"><a href="grammars-for-data-and-graphs.html#cb104-4"></a>                     <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) <span class="op">+</span></span>
+<span id="cb104-5"><a href="grammars-for-data-and-graphs.html#cb104-5"></a><span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> zaz), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="grammars-for-data-and-graphs.html#cb105-1"></a>p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Longitude&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Latitude&quot;</span>)</span>
+<span id="cb105-2"><a href="grammars-for-data-and-graphs.html#cb105-2"></a>p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">scale_size_continuous</span>(<span class="dt">name =</span> <span class="st">&quot;Venture Capital Investment</span><span class="ch">\n</span><span class="st">(USD, Millions)</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb105-3"><a href="grammars-for-data-and-graphs.html#cb105-3"></a>p2</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>The <code>facet_wrap()</code> function is a layer to iterate (repeat) the entire plot conditional on another variable. It is like the <code>group_by()</code> function in the data grammar.</p>
+</div>
+<div id="returning-to-the-tornado-data" class="section level3" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Returning to the tornado data</h3>
+<p>We plot the number of tornadoes by year for the state of Kansas. Recall, the data are in the data frame <code>df</code>.</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="grammars-for-data-and-graphs.html#cb106-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb106-2"><a href="grammars-for-data-and-graphs.html#cb106-2"></a><span class="st">  </span><span class="kw">filter</span>(ST <span class="op">==</span><span class="st"> &quot;KS&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb106-3"><a href="grammars-for-data-and-graphs.html#cb106-3"></a><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></span>
+<span id="cb106-4"><a href="grammars-for-data-and-graphs.html#cb106-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">nT =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb106-5"><a href="grammars-for-data-and-graphs.html#cb106-5"></a><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> nT)) <span class="op">+</span></span>
+<span id="cb106-6"><a href="grammars-for-data-and-graphs.html#cb106-6"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>We create a bar chart indicating the number of tornadoes by EF rating since 2007.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="grammars-for-data-and-graphs.html#cb107-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb107-2"><a href="grammars-for-data-and-graphs.html#cb107-2"></a><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2007</span>, EF <span class="op">!=</span><span class="st"> </span><span class="dv">-9</span>) <span class="op">%&gt;%</span></span>
+<span id="cb107-3"><a href="grammars-for-data-and-graphs.html#cb107-3"></a><span class="st">  </span><span class="kw">group_by</span>(EF) <span class="op">%&gt;%</span></span>
+<span id="cb107-4"><a href="grammars-for-data-and-graphs.html#cb107-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb107-5"><a href="grammars-for-data-and-graphs.html#cb107-5"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(EF), <span class="dt">y =</span> Count)) <span class="op">+</span></span>
+<span id="cb107-6"><a href="grammars-for-data-and-graphs.html#cb107-6"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>Here the argument <code>stat = "identity"</code> indicates the data are already tabulated. That is, by default <code>geom_bar()</code> tables the data if it is integer, character, or factor.</p>
+<p>Improve the bar chart. Make it presentable for publication.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="grammars-for-data-and-graphs.html#cb108-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb108-2"><a href="grammars-for-data-and-graphs.html#cb108-2"></a><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2007</span>, EF <span class="op">!=</span><span class="st"> </span><span class="dv">-9</span>) <span class="op">%&gt;%</span></span>
+<span id="cb108-3"><a href="grammars-for-data-and-graphs.html#cb108-3"></a><span class="st">  </span><span class="kw">group_by</span>(EF) <span class="op">%&gt;%</span></span>
+<span id="cb108-4"><a href="grammars-for-data-and-graphs.html#cb108-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb108-5"><a href="grammars-for-data-and-graphs.html#cb108-5"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(EF), <span class="dt">y =</span> Count, <span class="dt">fill =</span> Count)) <span class="op">+</span></span>
+<span id="cb108-6"><a href="grammars-for-data-and-graphs.html#cb108-6"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span></span>
+<span id="cb108-7"><a href="grammars-for-data-and-graphs.html#cb108-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;EF Rating&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb108-8"><a href="grammars-for-data-and-graphs.html#cb108-8"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Tornadoes&quot;</span>) <span class="op">+</span></span>
+<span id="cb108-9"><a href="grammars-for-data-and-graphs.html#cb108-9"></a><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;green&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;orange&#39;</span>) <span class="op">+</span></span>
+<span id="cb108-10"><a href="grammars-for-data-and-graphs.html#cb108-10"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Count), <span class="dt">vjust =</span> <span class="fl">-.5</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb108-11"><a href="grammars-for-data-and-graphs.html#cb108-11"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb108-12"><a href="grammars-for-data-and-graphs.html#cb108-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>) </span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>Plot a series of bar charts showing the frequency of tornadoes by EF rating for each year since 2005.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="grammars-for-data-and-graphs.html#cb109-1"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb109-2"><a href="grammars-for-data-and-graphs.html#cb109-2"></a><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2005</span>, EF <span class="op">!=</span><span class="st"> </span><span class="dv">-9</span>) <span class="op">%&gt;%</span></span>
+<span id="cb109-3"><a href="grammars-for-data-and-graphs.html#cb109-3"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(EF))) <span class="op">+</span></span>
+<span id="cb109-4"><a href="grammars-for-data-and-graphs.html#cb109-4"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></span>
+<span id="cb109-5"><a href="grammars-for-data-and-graphs.html#cb109-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Year)</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+</div>
+<div id="another-example-hot-days-in-tallahassee" class="section level3" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Another example: Hot days in Tallahassee</h3>
+<p>The data are from the National Climatic Data Center (NCDC). They are <a href="http://www.ncdc.noaa.gov/cdo-web/datasets">daily data</a> from the National Weather Service Forecast Office in Tallahassee. The observing site is the Tallahassee International Airport (previously the Tallahassee Municipal Airport and Tallahassee Regional Airport).</p>
+<p>Import the data.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="grammars-for-data-and-graphs.html#cb110-1"></a>( TLH.df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&quot;</span>,</span>
+<span id="cb110-2"><a href="grammars-for-data-and-graphs.html#cb110-2"></a>                     <span class="dt">na =</span> <span class="st">&quot;-9999&quot;</span>) )</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_logical(),
+##   STATION = col_character(),
+##   ELEVATION = col_double(),
+##   LATITUDE = col_double(),
+##   LONGITUDE = col_double(),
+##   DATE = col_double(),
+##   PRCP = col_double(),
+##   SNWD = col_double(),
+##   SNOW = col_double(),
+##   TMAX = col_double(),
+##   TMIN = col_double(),
+##   WSFG = col_double(),
+##   WT14 = col_double(),
+##   WT07 = col_double(),
+##   WT01 = col_double(),
+##   WT05 = col_double(),
+##   WT16 = col_double(),
+##   WT08 = col_double(),
+##   WT03 = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 113562 parsing failures.
+##  row  col           expected actual                                                          file
+## 1675 TOBS 1/0/T/F/TRUE/FALSE    267 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1676 TOBS 1/0/T/F/TRUE/FALSE    267 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1677 TOBS 1/0/T/F/TRUE/FALSE    278 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1678 TOBS 1/0/T/F/TRUE/FALSE    289 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1679 TOBS 1/0/T/F/TRUE/FALSE    283 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## .... .... .................. ...... .............................................................
+## See problems(...) for more details.</code></pre>
+<pre><code>## # A tibble: 24,119 x 48
+##    STATION ELEVATION LATITUDE LONGITUDE   DATE  PRCP  SNWD  SNOW ACMH  ACSH 
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt; &lt;lgl&gt;
+##  1 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  2 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  3 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  4 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  5 GHCND:…        21     30.4     -84.3 1.95e7     8     0     0 NA    NA   
+##  6 GHCND:…        21     30.4     -84.3 1.95e7     5     0     0 NA    NA   
+##  7 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  8 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  9 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+## 10 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+## # … with 24,109 more rows, and 38 more variables: TSUN &lt;lgl&gt;, TMAX &lt;dbl&gt;,
+## #   TMIN &lt;dbl&gt;, TOBS &lt;lgl&gt;, GAHT &lt;lgl&gt;, FRGT &lt;lgl&gt;, WESD &lt;lgl&gt;, AWND &lt;lgl&gt;,
+## #   WDF1 &lt;lgl&gt;, WDF2 &lt;lgl&gt;, WDF5 &lt;lgl&gt;, WDFG &lt;lgl&gt;, WSF1 &lt;lgl&gt;, WSF2 &lt;lgl&gt;,
+## #   WSF5 &lt;lgl&gt;, WSFG &lt;dbl&gt;, PGTM &lt;lgl&gt;, FMTM &lt;lgl&gt;, WT09 &lt;lgl&gt;, WT14 &lt;dbl&gt;,
+## #   WT07 &lt;dbl&gt;, WT01 &lt;dbl&gt;, WT17 &lt;lgl&gt;, WT06 &lt;lgl&gt;, WT21 &lt;lgl&gt;, WT05 &lt;dbl&gt;,
+## #   WT02 &lt;lgl&gt;, WT11 &lt;lgl&gt;, WT22 &lt;lgl&gt;, WT04 &lt;lgl&gt;, WT13 &lt;lgl&gt;, WT16 &lt;dbl&gt;,
+## #   WT08 &lt;dbl&gt;, WT18 &lt;lgl&gt;, WT03 &lt;dbl&gt;, WT10 &lt;lgl&gt;, WT19 &lt;lgl&gt;, WV03 &lt;lgl&gt;</code></pre>
+<p>The warning concerns the column labeled <code>TOBS</code>. By default the column type is logical but there are cases when the values are numbers. This can be ignored safely.</p>
+<p>The variable of interest is the daily high temperature in the column labeled <code>TMAX</code>. The values are in tens of degrees C so the value of 128 is 12.8 C.</p>
+<p>Mutate to add new columns giving the temperatures (daily maximum and daily minimum) in degrees F (original measuring unit) and the dates in calendar days. Select only the date and maximum and minimum temperature columns.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="grammars-for-data-and-graphs.html#cb115-1"></a>TLH.df &lt;-<span class="st"> </span>TLH.df <span class="op">%&gt;%</span></span>
+<span id="cb115-2"><a href="grammars-for-data-and-graphs.html#cb115-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TmaxF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMAX<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</span>
+<span id="cb115-3"><a href="grammars-for-data-and-graphs.html#cb115-3"></a>         <span class="dt">TminF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMIN<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</span>
+<span id="cb115-4"><a href="grammars-for-data-and-graphs.html#cb115-4"></a>         <span class="dt">Date =</span> <span class="kw">as.Date</span>(<span class="kw">as.character</span>(DATE), </span>
+<span id="cb115-5"><a href="grammars-for-data-and-graphs.html#cb115-5"></a>                        <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb115-6"><a href="grammars-for-data-and-graphs.html#cb115-6"></a><span class="st">  </span><span class="kw">select</span>(Date, TmaxF, TminF) <span class="op">%&gt;%</span></span>
+<span id="cb115-7"><a href="grammars-for-data-and-graphs.html#cb115-7"></a><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 24,119
+## Columns: 3
+## $ Date  &lt;date&gt; 1948-01-01, 1948-01-02, 1948-01-03, 1948-01-04, 1948-01-05, 19…
+## $ TmaxF &lt;dbl&gt; 55, 64, 69, 73, 71, 70, 62, 69, 75, 80, 82, 79, 71, 73, 75, 76,…
+## $ TminF &lt;dbl&gt; 32, 31, 50, 62, 65, 44, 34, 35, 43, 48, 52, 53, 53, 48, 51, 54,…</code></pre>
+<p>Note we again use the <code>as.Date()</code> function (<strong>base</strong> see <code>?as.Date</code>). The format in the data file is a concatenation of a four-digit year, a two-digit month, and a two-digit day. Thus the format argument is <code>format = "%Y%m%d"</code>).</p>
+<p>Q: Is it getting hotter in Tallahassee?</p>
+<p>Let’s compute the annual average high temperature and create a time series graph.</p>
+<p>We use the <code>year()</code> function from the <strong>lubridate</strong> package to get a column called <code>Year</code>, the <code>group_by()</code> function to group by <code>Year</code>, and the <code>summarize()</code> function from the <strong>dplyr</strong> package to get the average daily maximum temperature for each year.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="grammars-for-data-and-graphs.html#cb117-1"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb117-2"><a href="grammars-for-data-and-graphs.html#cb117-2"></a></span>
+<span id="cb117-3"><a href="grammars-for-data-and-graphs.html#cb117-3"></a>df &lt;-<span class="st"> </span>TLH.df <span class="op">%&gt;%</span></span>
+<span id="cb117-4"><a href="grammars-for-data-and-graphs.html#cb117-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Year =</span> <span class="kw">year</span>(Date)) <span class="op">%&gt;%</span></span>
+<span id="cb117-5"><a href="grammars-for-data-and-graphs.html#cb117-5"></a><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></span>
+<span id="cb117-6"><a href="grammars-for-data-and-graphs.html#cb117-6"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">AvgT =</span> <span class="kw">mean</span>(TmaxF)) <span class="op">%&gt;%</span></span>
+<span id="cb117-7"><a href="grammars-for-data-and-graphs.html#cb117-7"></a><span class="kw">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 67
+## Columns: 2
+## $ Year &lt;dbl&gt; 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958…
+## $ AvgT &lt;dbl&gt; 80.93169, 80.13973, 79.02740, 79.63288, 79.22404, 78.92329, 79.8…</code></pre>
+<p>We now have a data frame with two columns: <code>Year</code> and <code>AvgT</code> (annual average daily high temperature in degrees F).</p>
+<p>We now use the grammar of graphs to make a plot. We specify the x aesthetic as <code>Year</code> and the y aesthetic as the <code>AvgT</code>. We include a point layer and a line layer.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="grammars-for-data-and-graphs.html#cb119-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb119-2"><a href="grammars-for-data-and-graphs.html#cb119-2"></a></span>
+<span id="cb119-3"><a href="grammars-for-data-and-graphs.html#cb119-3"></a><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> AvgT)) <span class="op">+</span></span>
+<span id="cb119-4"><a href="grammars-for-data-and-graphs.html#cb119-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb119-5"><a href="grammars-for-data-and-graphs.html#cb119-5"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb119-6"><a href="grammars-for-data-and-graphs.html#cb119-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Average Annual Temperature in Tallahassee, FL (F)&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p>Q: What’s wrong?</p>
+<p>Fix and add a trend line layer. Here we go directly to the graph without saving the resulting data frame. That is, we pipe <code>%&gt;%</code> the resulting data frame after applying the <strong>dplyr</strong> verbs to the <code>ggplot()</code> function. The object in the first argument of the <code>ggplot()</code> function is the result (data frame) from the code above.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="grammars-for-data-and-graphs.html#cb121-1"></a>TLH.df <span class="op">%&gt;%</span></span>
+<span id="cb121-2"><a href="grammars-for-data-and-graphs.html#cb121-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Year =</span> <span class="kw">year</span>(Date)) <span class="op">%&gt;%</span></span>
+<span id="cb121-3"><a href="grammars-for-data-and-graphs.html#cb121-3"></a><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2014</span>) <span class="op">%&gt;%</span></span>
+<span id="cb121-4"><a href="grammars-for-data-and-graphs.html#cb121-4"></a><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></span>
+<span id="cb121-5"><a href="grammars-for-data-and-graphs.html#cb121-5"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">AvgT =</span> <span class="kw">mean</span>(TmaxF)) <span class="op">%&gt;%</span></span>
+<span id="cb121-6"><a href="grammars-for-data-and-graphs.html#cb121-6"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> AvgT)) <span class="op">+</span></span>
+<span id="cb121-7"><a href="grammars-for-data-and-graphs.html#cb121-7"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb121-8"><a href="grammars-for-data-and-graphs.html#cb121-8"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb121-9"><a href="grammars-for-data-and-graphs.html#cb121-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Average Annual Temperature in Tallahassee, FL (F)&quot;</span>) <span class="op">+</span></span>
+<span id="cb121-10"><a href="grammars-for-data-and-graphs.html#cb121-10"></a><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></span>
+<span id="cb121-11"><a href="grammars-for-data-and-graphs.html#cb121-11"></a><span class="st">  </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p>Q: Is the frequency of extremely hot days increasing over time? Let’s consider a daily high temperature of 100 F and above as extremely hot.</p>
+<p>Here we count the number of days at or above 100F using the <code>summarize()</code> function together with the <code>sum()</code> function on the logical operator <code>&gt;=</code>. If a day is missing a high temperature, we remove it with the <code>na.rm = TRUE</code> argument in the <code>sum()</code> function.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="grammars-for-data-and-graphs.html#cb125-1"></a>TLH.df <span class="op">%&gt;%</span></span>
+<span id="cb125-2"><a href="grammars-for-data-and-graphs.html#cb125-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Year =</span> <span class="kw">year</span>(Date)) <span class="op">%&gt;%</span></span>
+<span id="cb125-3"><a href="grammars-for-data-and-graphs.html#cb125-3"></a><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2014</span>) <span class="op">%&gt;%</span></span>
+<span id="cb125-4"><a href="grammars-for-data-and-graphs.html#cb125-4"></a><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></span>
+<span id="cb125-5"><a href="grammars-for-data-and-graphs.html#cb125-5"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">N100 =</span> <span class="kw">sum</span>(TmaxF <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb125-6"><a href="grammars-for-data-and-graphs.html#cb125-6"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> N100, <span class="dt">fill =</span> N100)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb125-7"><a href="grammars-for-data-and-graphs.html#cb125-7"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb125-8"><a href="grammars-for-data-and-graphs.html#cb125-8"></a><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;orange&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></span>
+<span id="cb125-9"><a href="grammars-for-data-and-graphs.html#cb125-9"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> N100), <span class="dt">vjust =</span> <span class="fl">1.5</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb125-10"><a href="grammars-for-data-and-graphs.html#cb125-10"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1950</span>, <span class="dv">2013</span>, <span class="dv">10</span>)) <span class="op">+</span></span>
+<span id="cb125-11"><a href="grammars-for-data-and-graphs.html#cb125-11"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of days in Tallahassee, FL at or above 100&quot;</span>, {}<span class="op">^</span>o, <span class="st">&quot; F&quot;</span>))) <span class="op">+</span></span>
+<span id="cb125-12"><a href="grammars-for-data-and-graphs.html#cb125-12"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb125-13"><a href="grammars-for-data-and-graphs.html#cb125-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x  =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">11</span>), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p>Histogram of daily high temperature.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="grammars-for-data-and-graphs.html#cb126-1"></a><span class="kw">ggplot</span>(TLH.df, <span class="kw">aes</span>(<span class="dt">x =</span> TmaxF)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb126-2"><a href="grammars-for-data-and-graphs.html#cb126-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> ..count..)) <span class="op">+</span></span>
+<span id="cb126-3"><a href="grammars-for-data-and-graphs.html#cb126-3"></a><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;green&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
+<span id="cb126-4"><a href="grammars-for-data-and-graphs.html#cb126-4"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Days&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb126-5"><a href="grammars-for-data-and-graphs.html#cb126-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Daily High Temperature in Tallahassee, FL (&quot;</span>, {}<span class="op">^</span>o, <span class="st">&quot; F)&quot;</span>))) <span class="op">+</span></span>
+<span id="cb126-6"><a href="grammars-for-data-and-graphs.html#cb126-6"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb126-7"><a href="grammars-for-data-and-graphs.html#cb126-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p>Q: The most common high temperatures are in the low 90s, but there are relatively few 100+ days. Why?</p>
+<p>Compare with Las Vegas, Nevada.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="grammars-for-data-and-graphs.html#cb128-1"></a>( LVG.df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/LV_DailySummary.csv&quot;</span>,</span>
+<span id="cb128-2"><a href="grammars-for-data-and-graphs.html#cb128-2"></a>                     <span class="dt">na =</span> <span class="st">&quot;-9999&quot;</span>) )</span></code></pre></div>
+<pre><code>## Warning: Duplicated column names deduplicated: &#39;Measurement Flag&#39; =&gt;
+## &#39;Measurement Flag_1&#39; [13], &#39;Quality Flag&#39; =&gt; &#39;Quality Flag_1&#39; [14],
+## &#39;Source Flag&#39; =&gt; &#39;Source Flag_1&#39; [15], &#39;Time of Observation&#39; =&gt; &#39;Time of
+## Observation_1&#39; [16]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   STATION = col_character(),
+##   STATION_NAME = col_character(),
+##   ELEVATION = col_character(),
+##   LATITUDE = col_character(),
+##   LONGITUDE = col_character(),
+##   DATE = col_double(),
+##   TMAX = col_double(),
+##   `Measurement Flag` = col_logical(),
+##   `Quality Flag` = col_logical(),
+##   `Source Flag` = col_character(),
+##   `Time of Observation` = col_double(),
+##   TMIN = col_double(),
+##   `Measurement Flag_1` = col_logical(),
+##   `Quality Flag_1` = col_logical(),
+##   `Source Flag_1` = col_character(),
+##   `Time of Observation_1` = col_double()
+## )</code></pre>
+<pre><code>## # A tibble: 23,872 x 16
+##    STATION STATION_NAME ELEVATION LATITUDE LONGITUDE   DATE  TMAX
+##    &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   406
+##  2 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   400
+##  3 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   394
+##  4 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   411
+##  5 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   411
+##  6 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   417
+##  7 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   422
+##  8 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   428
+##  9 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   411
+## 10 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   394
+## # … with 23,862 more rows, and 9 more variables: `Measurement Flag` &lt;lgl&gt;,
+## #   `Quality Flag` &lt;lgl&gt;, `Source Flag` &lt;chr&gt;, `Time of Observation` &lt;dbl&gt;,
+## #   TMIN &lt;dbl&gt;, `Measurement Flag_1` &lt;lgl&gt;, `Quality Flag_1` &lt;lgl&gt;, `Source
+## #   Flag_1` &lt;chr&gt;, `Time of Observation_1` &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="grammars-for-data-and-graphs.html#cb132-1"></a>LVG.df &lt;-<span class="st"> </span>LVG.df <span class="op">%&gt;%</span></span>
+<span id="cb132-2"><a href="grammars-for-data-and-graphs.html#cb132-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TmaxF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMAX<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</span>
+<span id="cb132-3"><a href="grammars-for-data-and-graphs.html#cb132-3"></a>         <span class="dt">TminF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMIN<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</span>
+<span id="cb132-4"><a href="grammars-for-data-and-graphs.html#cb132-4"></a>         <span class="dt">Date =</span> <span class="kw">as.Date</span>(<span class="kw">as.character</span>(DATE), </span>
+<span id="cb132-5"><a href="grammars-for-data-and-graphs.html#cb132-5"></a>                        <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb132-6"><a href="grammars-for-data-and-graphs.html#cb132-6"></a><span class="st">  </span><span class="kw">select</span>(Date, TmaxF, TminF)</span>
+<span id="cb132-7"><a href="grammars-for-data-and-graphs.html#cb132-7"></a></span>
+<span id="cb132-8"><a href="grammars-for-data-and-graphs.html#cb132-8"></a><span class="kw">ggplot</span>(LVG.df, <span class="kw">aes</span>(<span class="dt">x =</span> TmaxF)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb132-9"><a href="grammars-for-data-and-graphs.html#cb132-9"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> ..count..)) <span class="op">+</span></span>
+<span id="cb132-10"><a href="grammars-for-data-and-graphs.html#cb132-10"></a><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;green&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></span>
+<span id="cb132-11"><a href="grammars-for-data-and-graphs.html#cb132-11"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Days&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb132-12"><a href="grammars-for-data-and-graphs.html#cb132-12"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Daily High Temperature in Las Vegas, NV (&quot;</span>, {}<span class="op">^</span>o, <span class="st">&quot; F)&quot;</span>))) <span class="op">+</span></span>
+<span id="cb132-13"><a href="grammars-for-data-and-graphs.html#cb132-13"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb132-14"><a href="grammars-for-data-and-graphs.html#cb132-14"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<ul>
+<li><a href="https://exts.ggplot2.tidyverse.org/" class="uri">https://exts.ggplot2.tidyverse.org/</a></li>
+<li>Cheat sheets: <a href="https://rstudio.com/resources/cheatsheets/" class="uri">https://rstudio.com/resources/cheatsheets/</a></li>
+<li>More examples: <a href="https://geocompr.robinlovelace.net/" class="uri">https://geocompr.robinlovelace.net/</a> <strong>spData</strong> package.</li>
+</ul>
+</div>
+</div>
+<div id="problem-set-1" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Problem Set 1</h2>
+<p>Due Date:</p>
+<p>The object <code>us_states</code> from the <strong>spData</strong> package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.</p>
+<ol style="list-style-type: decimal">
+<li>Create a new data frame from <code>us_states</code> containing only the population information. (10)</li>
+<li>Create a new data frame from <code>us_states</code> containing only states from the South region. (10)</li>
+<li>Create a new data framefrom <code>us_states</code> containing only states from the West region having area less then 250,000 square km and a 2015 population more than 5,000,000 residents. Hint: you will need to use <code>as.numeric(AREA)</code> to remove the units. (10)</li>
+<li>What was the total population of the Midwest region in 2010 and 2015? (20)</li>
+<li>How many states are in each region? (20)</li>
+<li>Make a bar chart showing the total area in millions of square kilometers by region. Hint: include <code>stat = "identity"</code> in the <code>geom_bar()</code> function. (25)</li>
+<li>How much has population density changed between 2010 and 2015 in each state? Calculate the change (in percent relative to population in 2010) for each state. (5)</li>
+</ol>
+<p>Extra problem: Make a side-by-side comparison using <code>facet_wrap()</code>. Convective vs non-convecting atmospheres.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-WickhamEtAl2020">
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2020. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="latent-field-modeling-using-inla.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["assfg-book.pdf", "assfg-book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

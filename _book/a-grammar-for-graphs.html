@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 A Grammar for Graphs | Applied Spatial Statistics for Geographers</title>
+  <meta name="description" content="5 A Grammar for Graphs | Applied Spatial Statistics for Geographers" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 A Grammar for Graphs | Applied Spatial Statistics for Geographers" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 A Grammar for Graphs | Applied Spatial Statistics for Geographers" />
+  
+  
+  
+
+<meta name="author" content="James B. Elsner" />
+
+
+<meta name="date" content="2020-05-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="a-grammar-for-data.html"/>
+<link rel="next" href="spatial-data.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<script src="libs/Leaflet.Sync-0.0.5/L.Map.Sync.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+<script src="libs/Tor_r-1/data_stars_Tor_rf7b3ea.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a><ul>
+<li class="chapter" data-level="1.1" data-path="getting-started.html"><a href="getting-started.html#rstudios-integrated-development-environment-ide"><i class="fa fa-check"></i><b>1.1</b> RStudio’s integrated development environment (IDE)</a></li>
+<li class="chapter" data-level="1.2" data-path="getting-started.html"><a href="getting-started.html#create-an-html-file"><i class="fa fa-check"></i><b>1.2</b> Create an HTML file</a></li>
+<li class="chapter" data-level="1.3" data-path="getting-started.html"><a href="getting-started.html#basic-r"><i class="fa fa-check"></i><b>1.3</b> Basic R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="getting-started.html"><a href="getting-started.html#functions"><i class="fa fa-check"></i><b>1.3.1</b> Functions</a></li>
+<li class="chapter" data-level="1.3.2" data-path="getting-started.html"><a href="getting-started.html#data-vectors"><i class="fa fa-check"></i><b>1.3.2</b> Data vectors</a></li>
+<li class="chapter" data-level="1.3.3" data-path="getting-started.html"><a href="getting-started.html#vector-types"><i class="fa fa-check"></i><b>1.3.3</b> Vector types</a></li>
+<li class="chapter" data-level="1.3.4" data-path="getting-started.html"><a href="getting-started.html#structured-data"><i class="fa fa-check"></i><b>1.3.4</b> Structured data</a></li>
+<li class="chapter" data-level="1.3.5" data-path="getting-started.html"><a href="getting-started.html#query-data"><i class="fa fa-check"></i><b>1.3.5</b> Query data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="getting-started.html"><a href="getting-started.html#need-additional-help-try-swirl"><i class="fa fa-check"></i><b>1.4</b> Need additional help? Try swirl</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>2</b> Data Frames</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-frames.html"><a href="data-frames.html#another-examples"><i class="fa fa-check"></i><b>2.1</b> Another examples</a></li>
+<li class="chapter" data-level="2.2" data-path="data-frames.html"><a href="data-frames.html#tornadoes-in-the-united-states"><i class="fa fa-check"></i><b>2.2</b> Tornadoes in the United States</a></li>
+<li class="chapter" data-level="2.3" data-path="data-frames.html"><a href="data-frames.html#hurricanes-in-the-united-states"><i class="fa fa-check"></i><b>2.3</b> Hurricanes in the United States</a></li>
+<li class="chapter" data-level="2.4" data-path="data-frames.html"><a href="data-frames.html#your-turn-precipitation-in-florida"><i class="fa fa-check"></i><b>2.4</b> Your turn: Precipitation in Florida</a></li>
+<li class="chapter" data-level="2.5" data-path="data-frames.html"><a href="data-frames.html#more-practice-more-tornadoes"><i class="fa fa-check"></i><b>2.5</b> More practice: More tornadoes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html"><i class="fa fa-check"></i><b>3</b> Grammars for Data and Graphs</a></li>
+<li class="chapter" data-level="4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html"><i class="fa fa-check"></i><b>4</b> A Grammar for Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#tibbles"><i class="fa fa-check"></i><b>4.2</b> Tibbles</a></li>
+<li class="chapter" data-level="4.3" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#select"><i class="fa fa-check"></i><b>4.3</b> Select</a></li>
+<li class="chapter" data-level="4.4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#filter"><i class="fa fa-check"></i><b>4.4</b> Filter</a></li>
+<li class="chapter" data-level="4.5" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#arrange"><i class="fa fa-check"></i><b>4.5</b> Arrange</a></li>
+<li class="chapter" data-level="4.6" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#mutate"><i class="fa fa-check"></i><b>4.6</b> Mutate</a></li>
+<li class="chapter" data-level="4.7" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#summarize"><i class="fa fa-check"></i><b>4.7</b> Summarize</a></li>
+<li class="chapter" data-level="4.8" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#group"><i class="fa fa-check"></i><b>4.8</b> Group</a></li>
+<li class="chapter" data-level="4.9" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#give-it-a-try-florida-precipitation-httpmyweb.fsu.edujelsnertempdataflprecip.txt"><i class="fa fa-check"></i><b>4.9</b> Give it a try: Florida precipitation (<span>http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt</span>)</a></li>
+<li class="chapter" data-level="4.10" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#another-example-us-tornadoes"><i class="fa fa-check"></i><b>4.10</b> Another example: US tornadoes</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#filter-rows-with-filter"><i class="fa fa-check"></i><b>4.10.1</b> Filter rows with <code>filter()</code></a></li>
+<li class="chapter" data-level="4.10.2" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#arrange-rows-with-arrange"><i class="fa fa-check"></i><b>4.10.2</b> Arrange rows with <code>arrange()</code></a></li>
+<li class="chapter" data-level="4.10.3" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#pull-out-a-single-variable-with-pull"><i class="fa fa-check"></i><b>4.10.3</b> Pull out a single variable with <code>pull()</code></a></li>
+<li class="chapter" data-level="4.10.4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#summarize-values-with-summarise"><i class="fa fa-check"></i><b>4.10.4</b> Summarize values with <code>summarise()</code></a></li>
+<li class="chapter" data-level="4.10.5" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#grouped-operations"><i class="fa fa-check"></i><b>4.10.5</b> Grouped operations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html"><i class="fa fa-check"></i><b>5</b> A Grammar for Graphs</a><ul>
+<li class="chapter" data-level="5.1" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-1-map-data-to-aesthetics"><i class="fa fa-check"></i><b>5.1</b> Principle 1: Map data to aesthetics</a></li>
+<li class="chapter" data-level="5.2" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-2-build-plots-in-layers"><i class="fa fa-check"></i><b>5.2</b> Principle 2: Build plots in layers</a></li>
+<li class="chapter" data-level="5.3" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-3-iteration"><i class="fa fa-check"></i><b>5.3</b> Principle 3: Iteration</a></li>
+<li class="chapter" data-level="5.4" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#returning-to-the-tornado-data"><i class="fa fa-check"></i><b>5.4</b> Returning to the tornado data</a></li>
+<li class="chapter" data-level="5.5" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#another-example-hot-days-in-tallahassee"><i class="fa fa-check"></i><b>5.5</b> Another example: Hot days in Tallahassee</a></li>
+<li class="chapter" data-level="5.6" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#problem-set-1"><i class="fa fa-check"></i><b>5.6</b> Problem Set 1</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="spatial-data.html"><a href="spatial-data.html"><i class="fa fa-check"></i><b>6</b> Spatial Data</a><ul>
+<li class="chapter" data-level="6.1" data-path="spatial-data.html"><a href="spatial-data.html#spatial-vector-data-sp-package"><i class="fa fa-check"></i><b>6.1</b> Spatial Vector Data: <strong>sp</strong> Package</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-on-s4-spatial-data-frames"><i class="fa fa-check"></i><b>6.1.1</b> Geocomputation on S4 spatial data frames</a></li>
+<li class="chapter" data-level="6.1.2" data-path="spatial-data.html"><a href="spatial-data.html#a-few-notes-about-coordinate-reference-systems"><i class="fa fa-check"></i><b>6.1.2</b> A few notes about coordinate reference systems</a></li>
+<li class="chapter" data-level="6.1.3" data-path="spatial-data.html"><a href="spatial-data.html#creating-an-s4-object"><i class="fa fa-check"></i><b>6.1.3</b> Creating an S4 object</a></li>
+<li class="chapter" data-level="6.1.4" data-path="spatial-data.html"><a href="spatial-data.html#the-spplot-method"><i class="fa fa-check"></i><b>6.1.4</b> The <code>spplot()</code> method</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="spatial-data.html"><a href="spatial-data.html#simple-features"><i class="fa fa-check"></i><b>6.2</b> Simple Features</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-geometry-sfg"><i class="fa fa-check"></i><b>6.2.1</b> Simple feature geometry (<code>sfg</code>)</a></li>
+<li class="chapter" data-level="6.2.2" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-geometry-column"><i class="fa fa-check"></i><b>6.2.2</b> Simple feature geometry column</a></li>
+<li class="chapter" data-level="6.2.3" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-objects"><i class="fa fa-check"></i><b>6.2.3</b> Simple feature objects</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="spatial-data.html"><a href="spatial-data.html#your-turn"><i class="fa fa-check"></i><b>6.3</b> Your turn</a></li>
+<li class="chapter" data-level="6.4" data-path="spatial-data.html"><a href="spatial-data.html#why-simple-features"><i class="fa fa-check"></i><b>6.4</b> Why simple features?</a></li>
+<li class="chapter" data-level="6.5" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-on-simple-features"><i class="fa fa-check"></i><b>6.5</b> Geocomputation on simple features</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="spatial-data.html"><a href="spatial-data.html#attribute-manipulation"><i class="fa fa-check"></i><b>6.5.1</b> Attribute manipulation</a></li>
+<li class="chapter" data-level="6.5.2" data-path="spatial-data.html"><a href="spatial-data.html#areal-weighted-interpolation"><i class="fa fa-check"></i><b>6.5.2</b> Areal weighted interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="spatial-data.html"><a href="spatial-data.html#spatial-aggregation"><i class="fa fa-check"></i><b>6.6</b> Spatial aggregation</a></li>
+<li class="chapter" data-level="6.7" data-path="spatial-data.html"><a href="spatial-data.html#working-with-rasters"><i class="fa fa-check"></i><b>6.7</b> Working with Rasters</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="spatial-data.html"><a href="spatial-data.html#state-u.s.-boundaries-as-simple-feature-data-frames"><i class="fa fa-check"></i><b>6.7.1</b> State (U.S.) boundaries as simple feature data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="spatial-data.html"><a href="spatial-data.html#rasters"><i class="fa fa-check"></i><b>6.8</b> Rasters</a><ul>
+<li class="chapter" data-level="6.8.1" data-path="spatial-data.html"><a href="spatial-data.html#creating-raster-objects"><i class="fa fa-check"></i><b>6.8.1</b> Creating raster objects</a></li>
+<li class="chapter" data-level="6.8.2" data-path="spatial-data.html"><a href="spatial-data.html#from-a-data-frame"><i class="fa fa-check"></i><b>6.8.2</b> From a data frame</a></li>
+<li class="chapter" data-level="6.8.3" data-path="spatial-data.html"><a href="spatial-data.html#raster-manipulations"><i class="fa fa-check"></i><b>6.8.3</b> Raster manipulations</a></li>
+<li class="chapter" data-level="6.8.4" data-path="spatial-data.html"><a href="spatial-data.html#raster-algebra"><i class="fa fa-check"></i><b>6.8.4</b> Raster algebra</a></li>
+<li class="chapter" data-level="6.8.5" data-path="spatial-data.html"><a href="spatial-data.html#example-aggregate-tornado-genesis-locations-to-a-raster-layer-and-then-compute-local-clustering"><i class="fa fa-check"></i><b>6.8.5</b> Example: Aggregate tornado genesis locations to a raster layer and then compute local clustering</a></li>
+<li class="chapter" data-level="6.8.6" data-path="spatial-data.html"><a href="spatial-data.html#problem-set-2"><i class="fa fa-check"></i><b>6.8.6</b> Problem Set #2</a></li>
+<li class="chapter" data-level="6.8.7" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-functions-on-rasters"><i class="fa fa-check"></i><b>6.8.7</b> Geocomputation functions on rasters</a></li>
+<li class="chapter" data-level="6.8.8" data-path="spatial-data.html"><a href="spatial-data.html#vector-to-raster-conversion"><i class="fa fa-check"></i><b>6.8.8</b> Vector to raster conversion</a></li>
+<li class="chapter" data-level="6.8.9" data-path="spatial-data.html"><a href="spatial-data.html#focal-neighborhood-functions"><i class="fa fa-check"></i><b>6.8.9</b> Focal (neighborhood) functions</a></li>
+<li class="chapter" data-level="6.8.10" data-path="spatial-data.html"><a href="spatial-data.html#summary-functions"><i class="fa fa-check"></i><b>6.8.10</b> Summary functions</a></li>
+<li class="chapter" data-level="6.8.11" data-path="spatial-data.html"><a href="spatial-data.html#convert-a-raster-to-a-spatial-vector-object"><i class="fa fa-check"></i><b>6.8.11</b> Convert a raster to a spatial vector object</a></li>
+<li class="chapter" data-level="6.8.12" data-path="spatial-data.html"><a href="spatial-data.html#example-environmental-data-related-to-tornadoes"><i class="fa fa-check"></i><b>6.8.12</b> Example: Environmental data related to tornadoes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="making-maps.html"><a href="making-maps.html"><i class="fa fa-check"></i><b>7</b> Making Maps</a><ul>
+<li class="chapter" data-level="7.1" data-path="making-maps.html"><a href="making-maps.html#maps-with-tmap"><i class="fa fa-check"></i><b>7.1</b> Maps with tmap</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="making-maps.html"><a href="making-maps.html#example-1-what-state-contains-the-geographic-centroid-of-tornado-activity"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: What state contains the geographic centroid of tornado activity?</a></li>
+<li class="chapter" data-level="7.1.2" data-path="making-maps.html"><a href="making-maps.html#example-2-state-level-tornado-rates"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: State-level tornado rates</a></li>
+<li class="chapter" data-level="7.1.3" data-path="making-maps.html"><a href="making-maps.html#map-layout-facets-and-inserts"><i class="fa fa-check"></i><b>7.1.3</b> Map layout, facets, and inserts</a></li>
+<li class="chapter" data-level="7.1.4" data-path="making-maps.html"><a href="making-maps.html#example-3-tornado-locations-by-month"><i class="fa fa-check"></i><b>7.1.4</b> Example 3: Tornado locations by month</a></li>
+<li class="chapter" data-level="7.1.5" data-path="making-maps.html"><a href="making-maps.html#inset-map"><i class="fa fa-check"></i><b>7.1.5</b> Inset map</a></li>
+<li class="chapter" data-level="7.1.6" data-path="making-maps.html"><a href="making-maps.html#turn-a-static-map-into-an-interactive-map"><i class="fa fa-check"></i><b>7.1.6</b> Turn a static map into an interactive map</a></li>
+<li class="chapter" data-level="7.1.7" data-path="making-maps.html"><a href="making-maps.html#example-4-tornado-occurrences-on-a-grid"><i class="fa fa-check"></i><b>7.1.7</b> Example 4: Tornado occurrences on a grid</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="making-maps.html"><a href="making-maps.html#maps-with-ggplot"><i class="fa fa-check"></i><b>7.2</b> Maps with ggplot</a></li>
+<li class="chapter" data-level="7.3" data-path="making-maps.html"><a href="making-maps.html#cartograms"><i class="fa fa-check"></i><b>7.3</b> Cartograms</a></li>
+<li class="chapter" data-level="7.4" data-path="making-maps.html"><a href="making-maps.html#coordinate-systems"><i class="fa fa-check"></i><b>7.4</b> Coordinate systems</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="making-maps.html"><a href="making-maps.html#projected-coordinate-systems"><i class="fa fa-check"></i><b>7.4.1</b> Projected coordinate systems</a></li>
+<li class="chapter" data-level="7.4.2" data-path="making-maps.html"><a href="making-maps.html#crss-in-r"><i class="fa fa-check"></i><b>7.4.2</b> CRSs in R</a></li>
+<li class="chapter" data-level="7.4.3" data-path="making-maps.html"><a href="making-maps.html#units"><i class="fa fa-check"></i><b>7.4.3</b> Units</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analyzing-and-modeling-spatial-data-in-areal-units.html"><a href="analyzing-and-modeling-spatial-data-in-areal-units.html"><i class="fa fa-check"></i><b>8</b> Analyzing and Modeling Spatial Data in Areal Units</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Spatial Statistics for Geographers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="a-grammar-for-graphs" class="section level1">
+<h1><span class="header-section-number">5</span> A Grammar for Graphs</h1>
+<p><strong>“Hell isn’t other people’s code. Hell is your own code from 3 years ago.”</strong> — Jeff Atwood’</p>
+<p>The last lesson introduced the functions from the <strong>dplyr</strong> package for manipulating data frames in a grammatically consistent way. This makes data munging easier. The piping operator allows you to write code that is legible. This lesson introduces a grammar for making graphs.</p>
+<p>Some of this material is taken from <a href="http://sharpsightlabs.com/blog/r-package-think-about-visualization/">Sharp Sight Labs</a>.</p>
+<p>The package <strong>ggplot2</strong> and <strong>dplyr</strong> are part of <strong>tidyverse</strong>, which is a group of packages for data manipulation and visualization. A recent 2016 survey by O’Reilly media showed that <strong>ggplot2</strong> is the most frequently used data visualization tool among employed data scientists. It’s popular because it teaches you how to think about visualizing your data. There are a few principles underlying the syntax.</p>
+<ol style="list-style-type: decimal">
+<li>Mapping data to aesthetics</li>
+<li>Layering</li>
+<li>Building plots iteratively</li>
+</ol>
+<p>We make the functions available to our currenct working directory by typing</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
+<div id="principle-1-map-data-to-aesthetics" class="section level2">
+<h2><span class="header-section-number">5.1</span> Principle 1: Map data to aesthetics</h2>
+<p>Consider the following vectors of data. Create a data frame <code>df2</code> using the <code>data.frame</code> function.</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" data-line-number="1">foo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="fl">122.419416</span>,<span class="op">-</span><span class="fl">121.886329</span>,<span class="op">-</span><span class="fl">71.05888</span>,<span class="op">-</span><span class="fl">74.005941</span>,<span class="op">-</span><span class="fl">118.243685</span>,<span class="op">-</span><span class="fl">117.161084</span>,<span class="op">-</span><span class="fl">0.127758</span>,<span class="op">-</span><span class="fl">77.036871</span>,</a>
+<a class="sourceLine" id="cb245-2" data-line-number="2">         <span class="fl">116.407395</span>,<span class="op">-</span><span class="fl">122.332071</span>,<span class="op">-</span><span class="fl">87.629798</span>,<span class="op">-</span><span class="fl">79.383184</span>,<span class="op">-</span><span class="fl">97.743061</span>,<span class="fl">121.473701</span>,<span class="fl">72.877656</span>,<span class="fl">2.352222</span>,</a>
+<a class="sourceLine" id="cb245-3" data-line-number="3">         <span class="fl">77.594563</span>,<span class="op">-</span><span class="fl">75.165222</span>,<span class="op">-</span><span class="fl">112.074037</span>,<span class="fl">37.6173</span>)</a>
+<a class="sourceLine" id="cb245-4" data-line-number="4">bar &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">37.77493</span>,<span class="fl">37.338208</span>,<span class="fl">42.360083</span>,<span class="fl">40.712784</span>,<span class="fl">34.052234</span>,<span class="fl">32.715738</span>,<span class="fl">51.507351</span>,<span class="fl">38.907192</span>,<span class="fl">39.904211</span>,</a>
+<a class="sourceLine" id="cb245-5" data-line-number="5">         <span class="fl">47.60621</span>,<span class="fl">41.878114</span>,<span class="fl">43.653226</span>,<span class="fl">30.267153</span>,<span class="fl">31.230416</span>,<span class="fl">19.075984</span>,<span class="fl">48.856614</span>,<span class="fl">12.971599</span>,<span class="fl">39.952584</span>,<span class="fl">33.448377</span>,<span class="fl">55.755826</span>)</a>
+<a class="sourceLine" id="cb245-6" data-line-number="6">zaz &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6471</span>,<span class="dv">4175</span>,<span class="dv">3144</span>,<span class="dv">2106</span>,<span class="dv">1450</span>,<span class="dv">1410</span>,<span class="dv">842</span>,<span class="dv">835</span>,<span class="dv">758</span>,<span class="dv">727</span>,<span class="dv">688</span>,<span class="dv">628</span>,<span class="dv">626</span>,<span class="dv">510</span>,<span class="dv">497</span>,<span class="dv">449</span>,<span class="dv">419</span>,<span class="dv">413</span>,<span class="dv">325</span>,<span class="dv">318</span>)</a>
+<a class="sourceLine" id="cb245-7" data-line-number="7">df2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(foo, bar, zaz)</a>
+<a class="sourceLine" id="cb245-8" data-line-number="8"><span class="kw">glimpse</span>(df2)</a></code></pre></div>
+<pre><code>## Rows: 20
+## Columns: 3
+## $ foo &lt;dbl&gt; -122.419416, -121.886329, -71.058880, -74.005941, -118.243685, -1…
+## $ bar &lt;dbl&gt; 37.77493, 37.33821, 42.36008, 40.71278, 34.05223, 32.71574, 51.50…
+## $ zaz &lt;dbl&gt; 6471, 4175, 3144, 2106, 1450, 1410, 842, 835, 758, 727, 688, 628,…</code></pre>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb247-1" data-line-number="1"><span class="kw">head</span>(df2)</a></code></pre></div>
+<pre><code>##          foo      bar  zaz
+## 1 -122.41942 37.77493 6471
+## 2 -121.88633 37.33821 4175
+## 3  -71.05888 42.36008 3144
+## 4  -74.00594 40.71278 2106
+## 5 -118.24368 34.05223 1450
+## 6 -117.16108 32.71574 1410</code></pre>
+<p>To make a scatter plot specify the data frame as the first argument in the <code>ggplot()</code> function and the <code>aes()</code> function as the second argument. The arguments of the <code>aes()</code> function are the x and y positions as <code>foo</code> and <code>bar</code>, respectively. The plot is rendered after adding the geometric object <code>geom_point()</code> as a layer.</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, </a>
+<a class="sourceLine" id="cb249-2" data-line-number="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb249-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p>We are mapping data to aesthetic attributes. The <em>points</em> in the scatter plot are geometric objects that we draw. In <strong>ggplot2</strong> lingo, the points are <em>geoms</em>. More specifically the points are <em>point geoms</em> that we denote syntactically with the function <code>geom_point()</code>.</p>
+<p>All geometric objects have aesthetic attributes. Things like:</p>
+<ul>
+<li>x-position</li>
+<li>y-position</li>
+<li>color</li>
+<li>size</li>
+<li>transparency</li>
+</ul>
+<p>When we create a data visualization in <strong>ggplot2</strong>, we are creating a mapping between variables in our data and the aesthetic attributes of the geometric objects in our visualization. When we visualize data, we are mapping between variables in our data frame and the aesthetic attributes of the geometric objects in the plot.</p>
+<p>In our scatter plot example, when we create this plot, we’re mapping <code>foo</code> to the x-position aesthetic and we’re mapping <code>bar</code> to the y-position aesthetic. This may seem trivial <code>foo</code> is the x-axis and <code>bar</code> is on the y-axis. We can do that in Excel.</p>
+<p>But here there is a deeper structure. Theoretically, geometric objects (i.e., the things we draw in a plot, like points) don’t just have attributes like position. They have a color, size, etc.</p>
+<p>For example here we map a new variable to the size aesthetic.</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, </a>
+<a class="sourceLine" id="cb250-2" data-line-number="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> zaz))</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
+<p>We changed a scatter plot to a bubble chart by mapping a new variable to the size aesthetic. Any visualization we see can be deconstructed into geom specifications and mapping from data to the aesthetic attributes of the geometric objects.</p>
+</div>
+<div id="principle-2-build-plots-in-layers" class="section level2">
+<h2><span class="header-section-number">5.2</span> Principle 2: Build plots in layers</h2>
+<p>The principle of layering is important because to create more advanced visualizations, we often need to:</p>
+<ul>
+<li>Plot multiple datasets, or</li>
+<li>Plot a dataset with additional contextual information contained in a second dataset, or</li>
+<li>Plot summaries or statistical transformations over the raw data</li>
+</ul>
+<p>Let’s modify the bubble chart by getting additional data and plotting it as a new layer below the bubbles. First get the data from the <strong>maps</strong> package and store it in a new data frame.</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="kw">library</span>(maps)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1">df3 &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;world&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb254-2" data-line-number="2"><span class="st">  </span><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 99,338
+## Columns: 6
+## $ long      &lt;dbl&gt; -69.89912, -69.89571, -69.94219, -70.00415, -70.06612, -70.…
+## $ lat       &lt;dbl&gt; 12.45200, 12.42300, 12.43853, 12.50049, 12.54697, 12.59707,…
+## $ group     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+## $ order     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, …
+## $ region    &lt;chr&gt; &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Arub…
+## $ subregion &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
+<p>Plot the new data as a new layer underneath the bubbles.</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb256-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> df3, <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb256-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> zaz), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
+<p>This is the bubble chart from earlier in the post with a new layer added. We transformed a bubble chart into a new visualization called a “dot distribution map,” which is much more insightful and much more visually interesting.</p>
+<p>The bubble chart is a modified scatter plot and the dot distribution map is a modified bubble chart.</p>
+<p>We used two of the data visualization principles (mapping &amp; layering) to build this visualization:</p>
+<ul>
+<li>To create the scatter plot, we mapped <code>foo</code> to the x-aesthetic and mapped <code>bar</code> to the y-aesthetic</li>
+<li>To create the bubble chart, we mapped a <code>zaz</code> to the size-aesthetic</li>
+<li>To create the dot distribution map, we added a layer of polygon data under the bubbles.</li>
+</ul>
+</div>
+<div id="principle-3-iteration" class="section level2">
+<h2><span class="header-section-number">5.3</span> Principle 3: Iteration</h2>
+<p>The third principle is about process. The process begins with mapping and layering but ends with iteration when we add layers that modify scales, legends, colors, etc. The syntax of <code>ggplot</code> <em>layerability</em> enables and rewards iteration.</p>
+<p>Let’s assign to <code>p1</code> the output of our plot.</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb257-1" data-line-number="1">p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> df2, </a>
+<a class="sourceLine" id="cb257-2" data-line-number="2">             <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> foo, <span class="dt">y =</span> bar)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb257-3" data-line-number="3"><span class="st">        </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> df3, </a>
+<a class="sourceLine" id="cb257-4" data-line-number="4">                     <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb257-5" data-line-number="5"><span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> zaz), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" data-line-number="1">p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Longitude&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Latitude&quot;</span>)</a>
+<a class="sourceLine" id="cb258-2" data-line-number="2">p2 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">scale_size_continuous</span>(<span class="dt">name =</span> <span class="st">&quot;Venture Capital Investment</span><span class="ch">\n</span><span class="st">(USD, Millions)</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb258-3" data-line-number="3">p2</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
+<p>The <code>facet_wrap()</code> function is a layer to iterate (repeat) the entire plot conditional on another variable. It is like the <code>group_by()</code> function in the data grammar.</p>
+</div>
+<div id="returning-to-the-tornado-data" class="section level2">
+<h2><span class="header-section-number">5.4</span> Returning to the tornado data</h2>
+<p>We plot the number of tornadoes by year for the state of Kansas. Recall, the data are in the data frame <code>df</code>.</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb259-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb259-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(ST <span class="op">==</span><span class="st"> &quot;KS&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb259-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb259-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">nT =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb259-5" data-line-number="5"><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> nT)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb259-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
+<p>We create a bar chart indicating the number of tornadoes by EF rating since 2007.</p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb260-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2007</span>, EF <span class="op">!=</span><span class="st"> </span><span class="dv">-9</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb260-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(EF) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb260-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb260-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(EF), <span class="dt">y =</span> Count)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb260-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-117-1.png" width="672" /></p>
+<p>Here the argument <code>stat = &quot;identity&quot;</code> indicates the data are already tabulated. That is, by default <code>geom_bar()</code> tables the data if it is integer, character, or factor.</p>
+<p>Improve the bar chart. Make it presentable for publication.</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb261-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2007</span>, EF <span class="op">!=</span><span class="st"> </span><span class="dv">-9</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb261-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(EF) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb261-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">Count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb261-5" data-line-number="5"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(EF), <span class="dt">y =</span> Count, <span class="dt">fill =</span> Count)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb261-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb261-7" data-line-number="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;EF Rating&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb261-8" data-line-number="8"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Tornadoes&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb261-9" data-line-number="9"><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;green&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;orange&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb261-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Count), <span class="dt">vjust =</span> <span class="fl">-.5</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb261-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb261-12" data-line-number="12"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>) </a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
+<p>Plot a series of bar charts showing the frequency of tornadoes by EF rating for each year since 2005.</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" data-line-number="1">df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb262-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2005</span>, EF <span class="op">!=</span><span class="st"> </span><span class="dv">-9</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb262-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(EF))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb262-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb262-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Year)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
+</div>
+<div id="another-example-hot-days-in-tallahassee" class="section level2">
+<h2><span class="header-section-number">5.5</span> Another example: Hot days in Tallahassee</h2>
+<p>The data are from the National Climatic Data Center (NCDC). They are <a href="http://www.ncdc.noaa.gov/cdo-web/datasets">daily data</a> from the National Weather Service Forecast Office in Tallahassee. The observing site is the Tallahassee International Airport (previously the Tallahassee Municipal Airport and Tallahassee Regional Airport).</p>
+<p>Import the data.</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1">( TLH.df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&quot;</span>,</a>
+<a class="sourceLine" id="cb263-2" data-line-number="2">                     <span class="dt">na =</span> <span class="st">&quot;-9999&quot;</span>) )</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_logical(),
+##   STATION = col_character(),
+##   ELEVATION = col_double(),
+##   LATITUDE = col_double(),
+##   LONGITUDE = col_double(),
+##   DATE = col_double(),
+##   PRCP = col_double(),
+##   SNWD = col_double(),
+##   SNOW = col_double(),
+##   TMAX = col_double(),
+##   TMIN = col_double(),
+##   WSFG = col_double(),
+##   WT14 = col_double(),
+##   WT07 = col_double(),
+##   WT01 = col_double(),
+##   WT05 = col_double(),
+##   WT16 = col_double(),
+##   WT08 = col_double(),
+##   WT03 = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 113562 parsing failures.
+##  row  col           expected actual                                                          file
+## 1675 TOBS 1/0/T/F/TRUE/FALSE    267 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1676 TOBS 1/0/T/F/TRUE/FALSE    267 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1677 TOBS 1/0/T/F/TRUE/FALSE    278 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1678 TOBS 1/0/T/F/TRUE/FALSE    289 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## 1679 TOBS 1/0/T/F/TRUE/FALSE    283 &#39;http://myweb.fsu.edu/jelsner/temp/data/TLH_DailySummary.csv&#39;
+## .... .... .................. ...... .............................................................
+## See problems(...) for more details.</code></pre>
+<pre><code>## # A tibble: 24,119 x 48
+##    STATION ELEVATION LATITUDE LONGITUDE   DATE  PRCP  SNWD  SNOW ACMH  ACSH 
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt; &lt;lgl&gt;
+##  1 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  2 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  3 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  4 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  5 GHCND:…        21     30.4     -84.3 1.95e7     8     0     0 NA    NA   
+##  6 GHCND:…        21     30.4     -84.3 1.95e7     5     0     0 NA    NA   
+##  7 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  8 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+##  9 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+## 10 GHCND:…        21     30.4     -84.3 1.95e7     0     0     0 NA    NA   
+## # … with 24,109 more rows, and 38 more variables: TSUN &lt;lgl&gt;, TMAX &lt;dbl&gt;,
+## #   TMIN &lt;dbl&gt;, TOBS &lt;lgl&gt;, GAHT &lt;lgl&gt;, FRGT &lt;lgl&gt;, WESD &lt;lgl&gt;, AWND &lt;lgl&gt;,
+## #   WDF1 &lt;lgl&gt;, WDF2 &lt;lgl&gt;, WDF5 &lt;lgl&gt;, WDFG &lt;lgl&gt;, WSF1 &lt;lgl&gt;, WSF2 &lt;lgl&gt;,
+## #   WSF5 &lt;lgl&gt;, WSFG &lt;dbl&gt;, PGTM &lt;lgl&gt;, FMTM &lt;lgl&gt;, WT09 &lt;lgl&gt;, WT14 &lt;dbl&gt;,
+## #   WT07 &lt;dbl&gt;, WT01 &lt;dbl&gt;, WT17 &lt;lgl&gt;, WT06 &lt;lgl&gt;, WT21 &lt;lgl&gt;, WT05 &lt;dbl&gt;,
+## #   WT02 &lt;lgl&gt;, WT11 &lt;lgl&gt;, WT22 &lt;lgl&gt;, WT04 &lt;lgl&gt;, WT13 &lt;lgl&gt;, WT16 &lt;dbl&gt;,
+## #   WT08 &lt;dbl&gt;, WT18 &lt;lgl&gt;, WT03 &lt;dbl&gt;, WT10 &lt;lgl&gt;, WT19 &lt;lgl&gt;, WV03 &lt;lgl&gt;</code></pre>
+<p>The warning concerns the column labeled <code>TOBS</code>. By default the column type is logical but there are cases when the values are numbers. This can be ignored safely.</p>
+<p>The variable of interest is the daily high temperature in the column labeled <code>TMAX</code>. The values are in tens of degrees C so the value of 128 is 12.8 C.</p>
+<p>Mutate to add new columns giving the temperatures (daily maximum and daily minimum) in degrees F (original measuring unit) and the dates in calendar days. Select only the date and maximum and minimum temperature columns.</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" data-line-number="1">TLH.df &lt;-<span class="st"> </span>TLH.df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb268-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TmaxF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMAX<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</a>
+<a class="sourceLine" id="cb268-3" data-line-number="3">         <span class="dt">TminF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMIN<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</a>
+<a class="sourceLine" id="cb268-4" data-line-number="4">         <span class="dt">Date =</span> <span class="kw">as.Date</span>(<span class="kw">as.character</span>(DATE), </a>
+<a class="sourceLine" id="cb268-5" data-line-number="5">                        <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb268-6" data-line-number="6"><span class="st">  </span><span class="kw">select</span>(Date, TmaxF, TminF) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb268-7" data-line-number="7"><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 24,119
+## Columns: 3
+## $ Date  &lt;date&gt; 1948-01-01, 1948-01-02, 1948-01-03, 1948-01-04, 1948-01-05, 19…
+## $ TmaxF &lt;dbl&gt; 55, 64, 69, 73, 71, 70, 62, 69, 75, 80, 82, 79, 71, 73, 75, 76,…
+## $ TminF &lt;dbl&gt; 32, 31, 50, 62, 65, 44, 34, 35, 43, 48, 52, 53, 53, 48, 51, 54,…</code></pre>
+<p>Note we again use the <code>as.Date()</code> function (<strong>base</strong> see <code>?as.Date</code>). The format in the data file is a concatenation of a four-digit year, a two-digit month, and a two-digit day. Thus the format argument is <code>format = &quot;%Y%m%d&quot;</code>).</p>
+<p>Q: Is it getting hotter in Tallahassee?</p>
+<p>Let’s compute the annual average high temperature and create a time series graph.</p>
+<p>We use the <code>year()</code> function from the <strong>lubridate</strong> package to get a column called <code>Year</code>, the <code>group_by()</code> function to group by <code>Year</code>, and the <code>summarize()</code> function from the <strong>dplyr</strong> package to get the average daily maximum temperature for each year.</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="kw">library</span>(lubridate)</a>
+<a class="sourceLine" id="cb270-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb270-3" data-line-number="3">df &lt;-<span class="st"> </span>TLH.df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb270-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Year =</span> <span class="kw">year</span>(Date)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb270-5" data-line-number="5"><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb270-6" data-line-number="6"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">AvgT =</span> <span class="kw">mean</span>(TmaxF)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb270-7" data-line-number="7"><span class="kw">glimpse</span>()</a></code></pre></div>
+<pre><code>## Rows: 67
+## Columns: 2
+## $ Year &lt;dbl&gt; 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958…
+## $ AvgT &lt;dbl&gt; 80.93169, 80.13973, 79.02740, 79.63288, 79.22404, 78.92329, 79.8…</code></pre>
+<p>We now have a data frame with two columns: <code>Year</code> and <code>AvgT</code> (annual average daily high temperature in degrees F).</p>
+<p>We now use the grammar of graphs to make a plot. We specify the x aesthetic as <code>Year</code> and the y aesthetic as the <code>AvgT</code>. We include a point layer and a line layer.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb272-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb272-3" data-line-number="3"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> AvgT)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb272-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb272-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb272-6" data-line-number="6"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Average Annual Temperature in Tallahassee, FL (F)&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
+<p>Q: What’s wrong?</p>
+<p>Fix and add a trend line layer. Here we go directly to the graph without saving the resulting data frame. That is, we pipe <code>%&gt;%</code> the resulting data frame after applying the <strong>dplyr</strong> verbs to the <code>ggplot()</code> function. The object in the first argument of the <code>ggplot()</code> function is the result (data frame) from the code above.</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1">TLH.df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb274-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Year =</span> <span class="kw">year</span>(Date)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb274-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2014</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb274-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb274-5" data-line-number="5"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">AvgT =</span> <span class="kw">mean</span>(TmaxF)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb274-6" data-line-number="6"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> AvgT)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb274-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb274-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb274-9" data-line-number="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Average Annual Temperature in Tallahassee, FL (F)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb274-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb274-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-124-1.png" width="672" /></p>
+<p>Q: Is the frequency of extremely hot days increasing over time? Let’s consider a daily high temperature of 100 F and above as extremely hot.</p>
+<p>Here we count the number of days at or above 100F using the <code>summarize()</code> function together with the <code>sum()</code> function on the logical operator <code>&gt;=</code>. If a day is missing a high temperature, we remove it with the <code>na.rm = TRUE</code> argument in the <code>sum()</code> function.</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1">TLH.df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Year =</span> <span class="kw">year</span>(Date)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2014</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(Year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">N100 =</span> <span class="kw">sum</span>(TmaxF <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> N100, <span class="dt">fill =</span> N100)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;orange&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;red&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> N100), <span class="dt">vjust =</span> <span class="fl">1.5</span>, <span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1950</span>, <span class="dv">2013</span>, <span class="dv">10</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="st">  </span><span class="kw">ylab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Number of days in Tallahassee, FL at or above 100&quot;</span>, {}<span class="op">^</span>o, <span class="st">&quot; F&quot;</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x  =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">11</span>), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
+<p>Histogram of daily high temperature.</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="kw">ggplot</span>(TLH.df, <span class="kw">aes</span>(<span class="dt">x =</span> TmaxF)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> ..count..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb279-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;green&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb279-4" data-line-number="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Days&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb279-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Daily High Temperature in Tallahassee, FL (&quot;</span>, {}<span class="op">^</span>o, <span class="st">&quot; F)&quot;</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb279-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb279-7" data-line-number="7"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
+<p>Q: The most common high temperatures are in the low 90s, but there are relatively few 100+ days. Why?</p>
+<p>Compare with Las Vegas, Nevada.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1">( LVG.df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/LV_DailySummary.csv&quot;</span>,</a>
+<a class="sourceLine" id="cb281-2" data-line-number="2">                     <span class="dt">na =</span> <span class="st">&quot;-9999&quot;</span>) )</a></code></pre></div>
+<pre><code>## Warning: Duplicated column names deduplicated: &#39;Measurement Flag&#39; =&gt;
+## &#39;Measurement Flag_1&#39; [13], &#39;Quality Flag&#39; =&gt; &#39;Quality Flag_1&#39; [14],
+## &#39;Source Flag&#39; =&gt; &#39;Source Flag_1&#39; [15], &#39;Time of Observation&#39; =&gt; &#39;Time of
+## Observation_1&#39; [16]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   STATION = col_character(),
+##   STATION_NAME = col_character(),
+##   ELEVATION = col_character(),
+##   LATITUDE = col_character(),
+##   LONGITUDE = col_character(),
+##   DATE = col_double(),
+##   TMAX = col_double(),
+##   `Measurement Flag` = col_logical(),
+##   `Quality Flag` = col_logical(),
+##   `Source Flag` = col_character(),
+##   `Time of Observation` = col_double(),
+##   TMIN = col_double(),
+##   `Measurement Flag_1` = col_logical(),
+##   `Quality Flag_1` = col_logical(),
+##   `Source Flag_1` = col_character(),
+##   `Time of Observation_1` = col_double()
+## )</code></pre>
+<pre><code>## # A tibble: 23,872 x 16
+##    STATION STATION_NAME ELEVATION LATITUDE LONGITUDE   DATE  TMAX
+##    &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   406
+##  2 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   400
+##  3 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   394
+##  4 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   411
+##  5 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   411
+##  6 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   417
+##  7 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   422
+##  8 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   428
+##  9 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   411
+## 10 GHCND:… LAS VEGAS M… unknown   unknown  unknown   1.95e7   394
+## # … with 23,862 more rows, and 9 more variables: `Measurement Flag` &lt;lgl&gt;,
+## #   `Quality Flag` &lt;lgl&gt;, `Source Flag` &lt;chr&gt;, `Time of Observation` &lt;dbl&gt;,
+## #   TMIN &lt;dbl&gt;, `Measurement Flag_1` &lt;lgl&gt;, `Quality Flag_1` &lt;lgl&gt;, `Source
+## #   Flag_1` &lt;chr&gt;, `Time of Observation_1` &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1">LVG.df &lt;-<span class="st"> </span>LVG.df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb285-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TmaxF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMAX<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</a>
+<a class="sourceLine" id="cb285-3" data-line-number="3">         <span class="dt">TminF =</span> <span class="kw">round</span>(<span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>TMIN<span class="op">/</span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">32</span>),</a>
+<a class="sourceLine" id="cb285-4" data-line-number="4">         <span class="dt">Date =</span> <span class="kw">as.Date</span>(<span class="kw">as.character</span>(DATE), </a>
+<a class="sourceLine" id="cb285-5" data-line-number="5">                        <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb285-6" data-line-number="6"><span class="st">  </span><span class="kw">select</span>(Date, TmaxF, TminF)</a>
+<a class="sourceLine" id="cb285-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb285-8" data-line-number="8"><span class="kw">ggplot</span>(LVG.df, <span class="kw">aes</span>(<span class="dt">x =</span> TmaxF)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb285-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> ..count..)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb285-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_fill_continuous</span>(<span class="dt">low =</span> <span class="st">&#39;green&#39;</span>, <span class="dt">high =</span> <span class="st">&#39;blue&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb285-11" data-line-number="11"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Days&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb285-12" data-line-number="12"><span class="st">  </span><span class="kw">xlab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Daily High Temperature in Las Vegas, NV (&quot;</span>, {}<span class="op">^</span>o, <span class="st">&quot; F)&quot;</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb285-13" data-line-number="13"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb285-14" data-line-number="14"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-127-1.png" width="672" /></p>
+<p><strong>Challenge:</strong> Make a side-by-side comparison using <code>facet_wrap()</code>. Convective vs non-convecting atmospheres.</p>
+<ul>
+<li>Cheat sheets: <a href="https://rstudio.com/resources/cheatsheets/" class="uri">https://rstudio.com/resources/cheatsheets/</a></li>
+<li>More examples: <a href="https://geocompr.robinlovelace.net/" class="uri">https://geocompr.robinlovelace.net/</a> <strong>spData</strong> package.</li>
+</ul>
+</div>
+<div id="problem-set-1" class="section level2">
+<h2><span class="header-section-number">5.6</span> Problem Set 1</h2>
+<p>Due Date:</p>
+<p>The object <code>us_states</code> from the <strong>spData</strong> package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.</p>
+<ol style="list-style-type: decimal">
+<li>Create a new data frame from <code>us_states</code> containing only the population information. (10)</li>
+<li>Create a new data frame from <code>us_states</code> containing only states from the South region. (10)</li>
+<li>Create a new data framefrom <code>us_states</code> containing only states from the West region having area less then 250,000 square km and a 2015 population more than 5,000,000 residents. Hint: you will need to use <code>as.numeric(AREA)</code> to remove the units. (10)</li>
+<li>What was the total population of the Midwest region in 2010 and 2015? (20)</li>
+<li>How many states are in each region? (20)</li>
+<li>Make a bar chart showing the total area in millions of square kilometers by region. Hint: include <code>stat = &quot;identity&quot;</code> in the <code>geom_bar()</code> function. (25)</li>
+<li>How much has population density changed between 2010 and 2015 in each state? Calculate the change (in percent relative to population in 2010) for each state. (5)</li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="a-grammar-for-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="spatial-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

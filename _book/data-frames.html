@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Data Frames | Applied Spatial Statistics for Geographers</title>
+  <meta name="description" content="2 Data Frames | Applied Spatial Statistics for Geographers" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Data Frames | Applied Spatial Statistics for Geographers" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Data Frames | Applied Spatial Statistics for Geographers" />
+  
+  
+  
+
+<meta name="author" content="James B. Elsner" />
+
+
+<meta name="date" content="2020-05-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="getting-started.html"/>
+<link rel="next" href="grammars-for-data-and-graphs.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<script src="libs/Leaflet.Sync-0.0.5/L.Map.Sync.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+<script src="libs/Tor_r-1/data_stars_Tor_rf7b3ea.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a><ul>
+<li class="chapter" data-level="1.1" data-path="getting-started.html"><a href="getting-started.html#rstudios-integrated-development-environment-ide"><i class="fa fa-check"></i><b>1.1</b> RStudio’s integrated development environment (IDE)</a></li>
+<li class="chapter" data-level="1.2" data-path="getting-started.html"><a href="getting-started.html#create-an-html-file"><i class="fa fa-check"></i><b>1.2</b> Create an HTML file</a></li>
+<li class="chapter" data-level="1.3" data-path="getting-started.html"><a href="getting-started.html#basic-r"><i class="fa fa-check"></i><b>1.3</b> Basic R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="getting-started.html"><a href="getting-started.html#functions"><i class="fa fa-check"></i><b>1.3.1</b> Functions</a></li>
+<li class="chapter" data-level="1.3.2" data-path="getting-started.html"><a href="getting-started.html#data-vectors"><i class="fa fa-check"></i><b>1.3.2</b> Data vectors</a></li>
+<li class="chapter" data-level="1.3.3" data-path="getting-started.html"><a href="getting-started.html#vector-types"><i class="fa fa-check"></i><b>1.3.3</b> Vector types</a></li>
+<li class="chapter" data-level="1.3.4" data-path="getting-started.html"><a href="getting-started.html#structured-data"><i class="fa fa-check"></i><b>1.3.4</b> Structured data</a></li>
+<li class="chapter" data-level="1.3.5" data-path="getting-started.html"><a href="getting-started.html#query-data"><i class="fa fa-check"></i><b>1.3.5</b> Query data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="getting-started.html"><a href="getting-started.html#need-additional-help-try-swirl"><i class="fa fa-check"></i><b>1.4</b> Need additional help? Try swirl</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>2</b> Data Frames</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-frames.html"><a href="data-frames.html#another-examples"><i class="fa fa-check"></i><b>2.1</b> Another examples</a></li>
+<li class="chapter" data-level="2.2" data-path="data-frames.html"><a href="data-frames.html#tornadoes-in-the-united-states"><i class="fa fa-check"></i><b>2.2</b> Tornadoes in the United States</a></li>
+<li class="chapter" data-level="2.3" data-path="data-frames.html"><a href="data-frames.html#hurricanes-in-the-united-states"><i class="fa fa-check"></i><b>2.3</b> Hurricanes in the United States</a></li>
+<li class="chapter" data-level="2.4" data-path="data-frames.html"><a href="data-frames.html#your-turn-precipitation-in-florida"><i class="fa fa-check"></i><b>2.4</b> Your turn: Precipitation in Florida</a></li>
+<li class="chapter" data-level="2.5" data-path="data-frames.html"><a href="data-frames.html#more-practice-more-tornadoes"><i class="fa fa-check"></i><b>2.5</b> More practice: More tornadoes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="grammars-for-data-and-graphs.html"><a href="grammars-for-data-and-graphs.html"><i class="fa fa-check"></i><b>3</b> Grammars for Data and Graphs</a></li>
+<li class="chapter" data-level="4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html"><i class="fa fa-check"></i><b>4</b> A Grammar for Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#tibbles"><i class="fa fa-check"></i><b>4.2</b> Tibbles</a></li>
+<li class="chapter" data-level="4.3" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#select"><i class="fa fa-check"></i><b>4.3</b> Select</a></li>
+<li class="chapter" data-level="4.4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#filter"><i class="fa fa-check"></i><b>4.4</b> Filter</a></li>
+<li class="chapter" data-level="4.5" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#arrange"><i class="fa fa-check"></i><b>4.5</b> Arrange</a></li>
+<li class="chapter" data-level="4.6" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#mutate"><i class="fa fa-check"></i><b>4.6</b> Mutate</a></li>
+<li class="chapter" data-level="4.7" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#summarize"><i class="fa fa-check"></i><b>4.7</b> Summarize</a></li>
+<li class="chapter" data-level="4.8" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#group"><i class="fa fa-check"></i><b>4.8</b> Group</a></li>
+<li class="chapter" data-level="4.9" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#give-it-a-try-florida-precipitation-httpmyweb.fsu.edujelsnertempdataflprecip.txt"><i class="fa fa-check"></i><b>4.9</b> Give it a try: Florida precipitation (<span>http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt</span>)</a></li>
+<li class="chapter" data-level="4.10" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#another-example-us-tornadoes"><i class="fa fa-check"></i><b>4.10</b> Another example: US tornadoes</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#filter-rows-with-filter"><i class="fa fa-check"></i><b>4.10.1</b> Filter rows with <code>filter()</code></a></li>
+<li class="chapter" data-level="4.10.2" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#arrange-rows-with-arrange"><i class="fa fa-check"></i><b>4.10.2</b> Arrange rows with <code>arrange()</code></a></li>
+<li class="chapter" data-level="4.10.3" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#pull-out-a-single-variable-with-pull"><i class="fa fa-check"></i><b>4.10.3</b> Pull out a single variable with <code>pull()</code></a></li>
+<li class="chapter" data-level="4.10.4" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#summarize-values-with-summarise"><i class="fa fa-check"></i><b>4.10.4</b> Summarize values with <code>summarise()</code></a></li>
+<li class="chapter" data-level="4.10.5" data-path="a-grammar-for-data.html"><a href="a-grammar-for-data.html#grouped-operations"><i class="fa fa-check"></i><b>4.10.5</b> Grouped operations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html"><i class="fa fa-check"></i><b>5</b> A Grammar for Graphs</a><ul>
+<li class="chapter" data-level="5.1" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-1-map-data-to-aesthetics"><i class="fa fa-check"></i><b>5.1</b> Principle 1: Map data to aesthetics</a></li>
+<li class="chapter" data-level="5.2" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-2-build-plots-in-layers"><i class="fa fa-check"></i><b>5.2</b> Principle 2: Build plots in layers</a></li>
+<li class="chapter" data-level="5.3" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#principle-3-iteration"><i class="fa fa-check"></i><b>5.3</b> Principle 3: Iteration</a></li>
+<li class="chapter" data-level="5.4" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#returning-to-the-tornado-data"><i class="fa fa-check"></i><b>5.4</b> Returning to the tornado data</a></li>
+<li class="chapter" data-level="5.5" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#another-example-hot-days-in-tallahassee"><i class="fa fa-check"></i><b>5.5</b> Another example: Hot days in Tallahassee</a></li>
+<li class="chapter" data-level="5.6" data-path="a-grammar-for-graphs.html"><a href="a-grammar-for-graphs.html#problem-set-1"><i class="fa fa-check"></i><b>5.6</b> Problem Set 1</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="spatial-data.html"><a href="spatial-data.html"><i class="fa fa-check"></i><b>6</b> Spatial Data</a><ul>
+<li class="chapter" data-level="6.1" data-path="spatial-data.html"><a href="spatial-data.html#spatial-vector-data-sp-package"><i class="fa fa-check"></i><b>6.1</b> Spatial Vector Data: <strong>sp</strong> Package</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-on-s4-spatial-data-frames"><i class="fa fa-check"></i><b>6.1.1</b> Geocomputation on S4 spatial data frames</a></li>
+<li class="chapter" data-level="6.1.2" data-path="spatial-data.html"><a href="spatial-data.html#a-few-notes-about-coordinate-reference-systems"><i class="fa fa-check"></i><b>6.1.2</b> A few notes about coordinate reference systems</a></li>
+<li class="chapter" data-level="6.1.3" data-path="spatial-data.html"><a href="spatial-data.html#creating-an-s4-object"><i class="fa fa-check"></i><b>6.1.3</b> Creating an S4 object</a></li>
+<li class="chapter" data-level="6.1.4" data-path="spatial-data.html"><a href="spatial-data.html#the-spplot-method"><i class="fa fa-check"></i><b>6.1.4</b> The <code>spplot()</code> method</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="spatial-data.html"><a href="spatial-data.html#simple-features"><i class="fa fa-check"></i><b>6.2</b> Simple Features</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-geometry-sfg"><i class="fa fa-check"></i><b>6.2.1</b> Simple feature geometry (<code>sfg</code>)</a></li>
+<li class="chapter" data-level="6.2.2" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-geometry-column"><i class="fa fa-check"></i><b>6.2.2</b> Simple feature geometry column</a></li>
+<li class="chapter" data-level="6.2.3" data-path="spatial-data.html"><a href="spatial-data.html#simple-feature-objects"><i class="fa fa-check"></i><b>6.2.3</b> Simple feature objects</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="spatial-data.html"><a href="spatial-data.html#your-turn"><i class="fa fa-check"></i><b>6.3</b> Your turn</a></li>
+<li class="chapter" data-level="6.4" data-path="spatial-data.html"><a href="spatial-data.html#why-simple-features"><i class="fa fa-check"></i><b>6.4</b> Why simple features?</a></li>
+<li class="chapter" data-level="6.5" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-on-simple-features"><i class="fa fa-check"></i><b>6.5</b> Geocomputation on simple features</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="spatial-data.html"><a href="spatial-data.html#attribute-manipulation"><i class="fa fa-check"></i><b>6.5.1</b> Attribute manipulation</a></li>
+<li class="chapter" data-level="6.5.2" data-path="spatial-data.html"><a href="spatial-data.html#areal-weighted-interpolation"><i class="fa fa-check"></i><b>6.5.2</b> Areal weighted interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="spatial-data.html"><a href="spatial-data.html#spatial-aggregation"><i class="fa fa-check"></i><b>6.6</b> Spatial aggregation</a></li>
+<li class="chapter" data-level="6.7" data-path="spatial-data.html"><a href="spatial-data.html#working-with-rasters"><i class="fa fa-check"></i><b>6.7</b> Working with Rasters</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="spatial-data.html"><a href="spatial-data.html#state-u.s.-boundaries-as-simple-feature-data-frames"><i class="fa fa-check"></i><b>6.7.1</b> State (U.S.) boundaries as simple feature data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="spatial-data.html"><a href="spatial-data.html#rasters"><i class="fa fa-check"></i><b>6.8</b> Rasters</a><ul>
+<li class="chapter" data-level="6.8.1" data-path="spatial-data.html"><a href="spatial-data.html#creating-raster-objects"><i class="fa fa-check"></i><b>6.8.1</b> Creating raster objects</a></li>
+<li class="chapter" data-level="6.8.2" data-path="spatial-data.html"><a href="spatial-data.html#from-a-data-frame"><i class="fa fa-check"></i><b>6.8.2</b> From a data frame</a></li>
+<li class="chapter" data-level="6.8.3" data-path="spatial-data.html"><a href="spatial-data.html#raster-manipulations"><i class="fa fa-check"></i><b>6.8.3</b> Raster manipulations</a></li>
+<li class="chapter" data-level="6.8.4" data-path="spatial-data.html"><a href="spatial-data.html#raster-algebra"><i class="fa fa-check"></i><b>6.8.4</b> Raster algebra</a></li>
+<li class="chapter" data-level="6.8.5" data-path="spatial-data.html"><a href="spatial-data.html#example-aggregate-tornado-genesis-locations-to-a-raster-layer-and-then-compute-local-clustering"><i class="fa fa-check"></i><b>6.8.5</b> Example: Aggregate tornado genesis locations to a raster layer and then compute local clustering</a></li>
+<li class="chapter" data-level="6.8.6" data-path="spatial-data.html"><a href="spatial-data.html#problem-set-2"><i class="fa fa-check"></i><b>6.8.6</b> Problem Set #2</a></li>
+<li class="chapter" data-level="6.8.7" data-path="spatial-data.html"><a href="spatial-data.html#geocomputation-functions-on-rasters"><i class="fa fa-check"></i><b>6.8.7</b> Geocomputation functions on rasters</a></li>
+<li class="chapter" data-level="6.8.8" data-path="spatial-data.html"><a href="spatial-data.html#vector-to-raster-conversion"><i class="fa fa-check"></i><b>6.8.8</b> Vector to raster conversion</a></li>
+<li class="chapter" data-level="6.8.9" data-path="spatial-data.html"><a href="spatial-data.html#focal-neighborhood-functions"><i class="fa fa-check"></i><b>6.8.9</b> Focal (neighborhood) functions</a></li>
+<li class="chapter" data-level="6.8.10" data-path="spatial-data.html"><a href="spatial-data.html#summary-functions"><i class="fa fa-check"></i><b>6.8.10</b> Summary functions</a></li>
+<li class="chapter" data-level="6.8.11" data-path="spatial-data.html"><a href="spatial-data.html#convert-a-raster-to-a-spatial-vector-object"><i class="fa fa-check"></i><b>6.8.11</b> Convert a raster to a spatial vector object</a></li>
+<li class="chapter" data-level="6.8.12" data-path="spatial-data.html"><a href="spatial-data.html#example-environmental-data-related-to-tornadoes"><i class="fa fa-check"></i><b>6.8.12</b> Example: Environmental data related to tornadoes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="making-maps.html"><a href="making-maps.html"><i class="fa fa-check"></i><b>7</b> Making Maps</a><ul>
+<li class="chapter" data-level="7.1" data-path="making-maps.html"><a href="making-maps.html#maps-with-tmap"><i class="fa fa-check"></i><b>7.1</b> Maps with tmap</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="making-maps.html"><a href="making-maps.html#example-1-what-state-contains-the-geographic-centroid-of-tornado-activity"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: What state contains the geographic centroid of tornado activity?</a></li>
+<li class="chapter" data-level="7.1.2" data-path="making-maps.html"><a href="making-maps.html#example-2-state-level-tornado-rates"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: State-level tornado rates</a></li>
+<li class="chapter" data-level="7.1.3" data-path="making-maps.html"><a href="making-maps.html#map-layout-facets-and-inserts"><i class="fa fa-check"></i><b>7.1.3</b> Map layout, facets, and inserts</a></li>
+<li class="chapter" data-level="7.1.4" data-path="making-maps.html"><a href="making-maps.html#example-3-tornado-locations-by-month"><i class="fa fa-check"></i><b>7.1.4</b> Example 3: Tornado locations by month</a></li>
+<li class="chapter" data-level="7.1.5" data-path="making-maps.html"><a href="making-maps.html#inset-map"><i class="fa fa-check"></i><b>7.1.5</b> Inset map</a></li>
+<li class="chapter" data-level="7.1.6" data-path="making-maps.html"><a href="making-maps.html#turn-a-static-map-into-an-interactive-map"><i class="fa fa-check"></i><b>7.1.6</b> Turn a static map into an interactive map</a></li>
+<li class="chapter" data-level="7.1.7" data-path="making-maps.html"><a href="making-maps.html#example-4-tornado-occurrences-on-a-grid"><i class="fa fa-check"></i><b>7.1.7</b> Example 4: Tornado occurrences on a grid</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="making-maps.html"><a href="making-maps.html#maps-with-ggplot"><i class="fa fa-check"></i><b>7.2</b> Maps with ggplot</a></li>
+<li class="chapter" data-level="7.3" data-path="making-maps.html"><a href="making-maps.html#cartograms"><i class="fa fa-check"></i><b>7.3</b> Cartograms</a></li>
+<li class="chapter" data-level="7.4" data-path="making-maps.html"><a href="making-maps.html#coordinate-systems"><i class="fa fa-check"></i><b>7.4</b> Coordinate systems</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="making-maps.html"><a href="making-maps.html#projected-coordinate-systems"><i class="fa fa-check"></i><b>7.4.1</b> Projected coordinate systems</a></li>
+<li class="chapter" data-level="7.4.2" data-path="making-maps.html"><a href="making-maps.html#crss-in-r"><i class="fa fa-check"></i><b>7.4.2</b> CRSs in R</a></li>
+<li class="chapter" data-level="7.4.3" data-path="making-maps.html"><a href="making-maps.html#units"><i class="fa fa-check"></i><b>7.4.3</b> Units</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analyzing-and-modeling-spatial-data-in-areal-units.html"><a href="analyzing-and-modeling-spatial-data-in-areal-units.html"><i class="fa fa-check"></i><b>8</b> Analyzing and Modeling Spatial Data in Areal Units</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Spatial Statistics for Geographers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-frames" class="section level1">
+<h1><span class="header-section-number">2</span> Data Frames</h1>
+<p><strong>“Measuring programming progress by lines of code is like measuring aircraft building progress by weight.”</strong> — Bill Gates</p>
+<p>A data frame is used for storing data tables. It is a list of vectors of equal length. For example, the following variable <code>df</code> is a data frame containing three vectors <code>n</code>, <code>s</code>, <code>b</code>.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>) </a>
+<a class="sourceLine" id="cb79-2" data-line-number="2">s &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;aa&quot;</span>, <span class="st">&quot;bb&quot;</span>, <span class="st">&quot;cc&quot;</span>) </a>
+<a class="sourceLine" id="cb79-3" data-line-number="3">b &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>) </a>
+<a class="sourceLine" id="cb79-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb79-5" data-line-number="5">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(n, s, b)</a></code></pre></div>
+<p>There are many built-in data frames. For example, here is a built-in data frame in R, called <code>mtcars</code>.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">mtcars </a></code></pre></div>
+<pre><code>##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</code></pre>
+<p>The top line of the table, called the header, contains the column names. Each horizontal line afterward denotes a data row, which begins with the name of the row, and then followed by the actual data. Each data member of a row is called a cell.</p>
+<p>To retrieve data in a cell, we would enter its row and column coordinates in the single square bracket <code>[]</code> operator. The two coordinates are separated by a comma. In other words, the coordinates begins with row position, then followed by a comma, and ends with the column position. The order is important.</p>
+<p>Here is the cell value from the first row, second column of mtcars.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1">mtcars[<span class="dv">1</span>, <span class="dv">2</span>]</a></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<p>We can use the row and column names instead of the numeric coordinates.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1">mtcars[<span class="st">&quot;Mazda RX4&quot;</span>, <span class="st">&quot;cyl&quot;</span>] </a></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<p>The number of data rows in the data frame is given by the <code>nrow()</code> function.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">nrow</span>(mtcars)</a></code></pre></div>
+<pre><code>## [1] 32</code></pre>
+<p>The number of columns of a data frame is given by the <code>ncol()</code> function.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="kw">ncol</span>(mtcars)</a></code></pre></div>
+<pre><code>## [1] 11</code></pre>
+<p>Further details of the <code>mtcars</code> data set is available in the R documentation.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">help</span>(mtcars)</a></code></pre></div>
+<p>Instead of printing out the entire data frame, it is often desirable to preview it with the <code>head()</code> function beforehand.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">head</span>(mtcars)</a></code></pre></div>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<p>Or with the <code>str()</code> function.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="kw">str</span>(mtcars)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
+##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+##  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+##  $ disp: num  160 160 108 258 360 ...
+##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+##  $ qsec: num  16.5 17 18.6 19.4 17 ...
+##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+<div id="another-examples" class="section level2">
+<h2><span class="header-section-number">2.1</span> Another examples</h2>
+<p>Consider answers on questions given to all students in an introductory statistics class at Bowling Green State University. Some of the questions were: What is your height? Choose a number between 1 and 10. Give the time you went to bed last night. The data are available as a data frame called <code>studentdata</code> in the package <strong>LearnBayes</strong>.</p>
+<p>First, install the package.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co"># install.packages(&quot;LearnBayes&quot;)</span></a>
+<a class="sourceLine" id="cb95-2" data-line-number="2"><span class="kw">library</span>(LearnBayes)</a></code></pre></div>
+<p>Next, make a copy of the data frame and call it <code>df</code>. Then print the first six rows using the <code>head()</code> function and list only the 10th row.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">df &lt;-<span class="st"> </span>LearnBayes<span class="op">::</span>studentdata</a>
+<a class="sourceLine" id="cb96-2" data-line-number="2"><span class="kw">head</span>(df)</a></code></pre></div>
+<pre><code>##   Student Height Gender Shoes Number Dvds ToSleep WakeUp Haircut  Job Drink
+## 1       1     67 female    10      5   10    -2.5    5.5      60 30.0 water
+## 2       2     64 female    20      7    5     1.5    8.0       0 20.0   pop
+## 3       3     61 female    12      2    6    -1.5    7.5      48  0.0  milk
+## 4       4     61 female     3      6   40     2.0    8.5      10  0.0 water
+## 5       5     70   male     4      5    6     0.0    9.0      15 17.5   pop
+## 6       6     63 female    NA      3    5     1.0    8.5      25  0.0 water</code></pre>
+<p>Recall data frames are like spreadsheets with rows and columns. The rows are the observations and the columns are the variables. All columns are of the same length like a matrix. We identify particular data elements of the matrix using the bracket notation [row, column] where row is the row number and column is the column number.</p>
+<p>For example here we identify all the columns in the 10th row.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">df[<span class="dv">10</span>, ]</a></code></pre></div>
+<pre><code>##    Student Height Gender Shoes Number Dvds ToSleep WakeUp Haircut Job Drink
+## 10      10     65   male    10      7   22     2.5    8.5      12   0  milk</code></pre>
+<p>Drink preference was one of the questions. The responses are available in the column labeled <code>Drink</code> as a vector. We identify this vector using the <code>$</code> notation, where the name before the dollar sign identifies the data frame and the name after the dollar sign identifies the column name (<code>dataframeName$columnName</code>).</p>
+<p>So we list all the drink preferences using</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">df<span class="op">$</span>Drink</a></code></pre></div>
+<pre><code>##   [1] water pop   milk  water pop   water water pop   water milk  milk  water
+##  [13] pop   milk  pop   water water pop   water water water water water milk 
+##  [25] pop   water water pop   water water water water pop   water water water
+##  [37] pop   milk  pop   water water water pop   milk  water water water pop  
+##  [49] pop   water milk  pop   pop   water water pop   milk  pop   pop   water
+##  [61] water water water water water milk  pop   pop   pop   water water water
+##  [73] pop   water pop   pop   water pop   pop   milk  water pop   water water
+##  [85] milk  pop   water water pop   water water water milk  water pop   water
+##  [97] pop   pop   pop   water water pop   water pop   milk  milk  water water
+## [109] water water water pop   water milk  milk  milk  water milk  pop   water
+## [121] pop   pop   pop   pop   water water water water water water milk  water
+## [133] pop   milk  water water water water water &lt;NA&gt;  pop   water water pop  
+## [145] milk  milk  water water pop   water water water pop   water &lt;NA&gt;  water
+## [157] water water water water milk  milk  water milk  water water milk  water
+## [169] pop   pop   pop   water pop   pop   water water milk  milk  water water
+## [181] water pop   pop   water water pop   pop   water water milk  water water
+## [193] milk  &lt;NA&gt;  water pop   milk  pop   milk  water water water water water
+## [205] water pop   pop   water milk  water milk  water milk  water milk  water
+## [217] milk  water pop   water water milk  water water pop   milk  milk  water
+## [229] milk  water pop   pop   pop   water water milk  pop   milk  water milk 
+## [241] water water pop   water water water pop   pop   water water pop   water
+## [253] water milk  water pop   water pop   milk  milk  pop   pop   water water
+## [265] water pop   pop   milk  water water water water milk  milk  water water
+## [277] milk  milk  milk  pop   water water &lt;NA&gt;  water water water pop   milk 
+## [289] water water pop   water water milk  pop   milk  milk  water water water
+## [301] pop   water water &lt;NA&gt;  water water water water water pop   water water
+## [313] water water pop   water water water milk  milk  pop   water water water
+## [325] water water pop   pop   milk  milk  water water pop   pop   pop   pop  
+## [337] water milk  water water pop   milk  pop   water water water pop   water
+## [349] water water water water water &lt;NA&gt;  pop   pop   water milk  water water
+## [361] milk  water water pop   water water water water water water pop   water
+## [373] water milk  water water milk  milk  milk  water water water water pop  
+## [385] water water pop   water pop   milk  pop   water water &lt;NA&gt;  water water
+## [397] water water milk  water pop   milk  water water water water water milk 
+## [409] pop   pop   pop   water pop   milk  water water milk  milk  pop   water
+## [421] milk  water pop   milk  water water water water pop   water pop   pop  
+## [433] pop   milk  pop   water milk  pop   water pop   pop   pop   water water
+## [445] water water water water pop   milk  water water water pop   milk  milk 
+## [457] pop   pop   water water milk  water milk  pop   water water water water
+## [469] pop   water milk  water water water water water milk  milk  water water
+## [481] pop   water water milk  water milk  water pop   pop   water water pop  
+## [493] pop   pop   milk  water water pop   water water water water pop   water
+## [505] pop   milk  water &lt;NA&gt;  milk  water pop   water water milk  water water
+## [517] water water water milk  water water pop   water pop   water milk  milk 
+## [529] milk  milk  pop   water pop   milk  &lt;NA&gt;  milk  pop   water water pop  
+## [541] milk  pop   water milk  water pop   water pop   water pop   water water
+## [553] pop   milk  water water water water &lt;NA&gt;  water water pop   pop   milk 
+## [565] water milk  pop   pop   water water water pop   pop   pop   pop   water
+## [577] water water water water pop   pop   water pop   water water water water
+## [589] milk  water water water water pop   pop   water water water water water
+## [601] water water pop   water water &lt;NA&gt;  milk  pop   water water water pop  
+## [613] water pop   water pop   water water pop   pop   water pop   water milk 
+## [625] water pop   pop   pop   water milk  pop   water pop   water water milk 
+## [637] water water water water water water water pop   pop   pop   pop   water
+## [649] pop   water milk  water water pop   pop   pop   water
+## Levels: milk pop water</code></pre>
+<p>Note that some students left that response blank. That is coded as <code>&lt;NA&gt;</code>.</p>
+<p>The names of the columns is available with the <code>names()</code> function.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw">names</span>(df)</a></code></pre></div>
+<pre><code>##  [1] &quot;Student&quot; &quot;Height&quot;  &quot;Gender&quot;  &quot;Shoes&quot;   &quot;Number&quot;  &quot;Dvds&quot;    &quot;ToSleep&quot;
+##  [8] &quot;WakeUp&quot;  &quot;Haircut&quot; &quot;Job&quot;     &quot;Drink&quot;</code></pre>
+<p>We can table the responses with the <code>table()</code> function.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">table</span>(df<span class="op">$</span>Drink)</a></code></pre></div>
+<pre><code>## 
+##  milk   pop water 
+##   113   178   355</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">table</span>(df<span class="op">$</span>Drink,</a>
+<a class="sourceLine" id="cb106-2" data-line-number="2">      <span class="dt">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</a></code></pre></div>
+<pre><code>## 
+##  milk   pop water  &lt;NA&gt; 
+##   113   178   355    11</code></pre>
+<p>The numbers are the frequency of responses by <code>Drink</code> category.</p>
+<p>Use the <code>plot()</code> method to make a plot of this table.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="kw">plot</span>(<span class="dt">x =</span> df<span class="op">$</span>Drink)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>Suppose we are interested in examining how long students slept. This was not asked directly. We compute it from the <code>ToSleep</code> and <code>WakeUp</code> times columns. We assign the result of the difference to a column we call <code>SleepHrs</code>.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">df<span class="op">$</span>SleepHrs &lt;-<span class="st"> </span>df<span class="op">$</span>WakeUp <span class="op">-</span><span class="st"> </span>df<span class="op">$</span>ToSleep</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2"><span class="kw">summary</span>(df<span class="op">$</span>SleepHrs)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   2.500   6.500   7.500   7.385   8.500  12.500       4</code></pre>
+<p>To see the distribution of sleep times, we construct a histogram with the <code>hist()</code> function.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">hist</span>(<span class="dt">x =</span> df<span class="op">$</span>SleepHrs)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p>The histogram function divides the number of sleep hours into one-hour bins and counts the number of students whose computed number of sleep hours falls into each bin. For example based on when they said they went to sleep and when the said they woke up, about 100 students slept between five and six hours the night before the survey.</p>
+<p>Since the gender of each student is recorded, we can make comparisons between those who identify as male and those who identify as female. For instance, do men sleep more than women? We can answer this question graphically with box plots.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw">plot</span>(<span class="dt">x =</span> df<span class="op">$</span>Gender, </a>
+<a class="sourceLine" id="cb112-2" data-line-number="2">     <span class="dt">y =</span> df<span class="op">$</span>SleepHrs)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>No apparent difference.</p>
+<p>Repeat for hair cut prices.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">plot</span>(<span class="dt">x =</span> df<span class="op">$</span>Gender, </a>
+<a class="sourceLine" id="cb113-2" data-line-number="2">     <span class="dt">y =</span> df<span class="op">$</span>Haircut)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>Big difference.</p>
+<p>Finally, is the amount of sleep for a student related to bedtime?</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="kw">plot</span>(<span class="dt">x =</span> df<span class="op">$</span>ToSleep,</a>
+<a class="sourceLine" id="cb114-2" data-line-number="2">     <span class="dt">y =</span> df<span class="op">$</span>SleepHrs)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>The <code>ToSleep</code> variable is centered on midnight so that -2 means they went to sleep at 10p.</p>
+<p>We describe the decreasing relationship by drawing a line through the points. The least-squares line is fit using the <code>lm()</code> function and the line is drawn on the existing plot with the <code>abline()</code> function applied to the linear regression object <code>model</code>.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(SleepHrs <span class="op">~</span><span class="st"> </span>ToSleep, </a>
+<a class="sourceLine" id="cb115-2" data-line-number="2">            <span class="dt">data =</span> df)</a>
+<a class="sourceLine" id="cb115-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb115-4" data-line-number="4"><span class="kw">plot</span>(<span class="dt">x =</span> df<span class="op">$</span>ToSleep,</a>
+<a class="sourceLine" id="cb115-5" data-line-number="5">     <span class="dt">y =</span> df<span class="op">$</span>SleepHrs)</a>
+<a class="sourceLine" id="cb115-6" data-line-number="6"><span class="kw">abline</span>(model)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+</div>
+<div id="tornadoes-in-the-united-states" class="section level2">
+<h2><span class="header-section-number">2.2</span> Tornadoes in the United States</h2>
+<p>We download the data from the Storm Prediction Center (SPC) <a href="http://www.spc.noaa.gov/gis/svrgis/zipped/" class="uri">http://www.spc.noaa.gov/gis/svrgis/zipped/</a>. We give the zipped file a temporary name on our computer (here <code>temporary.zip</code>) using the <code>destfile =</code> argument.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">download.file</span>(<span class="dt">url =</span> <span class="st">&quot;http://www.spc.noaa.gov/gis/svrgis/zipped/1950-2018-torn-initpoint.zip&quot;</span>,</a>
+<a class="sourceLine" id="cb116-2" data-line-number="2">              <span class="dt">destfile =</span> <span class="st">&quot;temporary.zip&quot;</span>)</a></code></pre></div>
+<p>Next we open the zipped file with the <code>unzip()</code> function. This creates a folder in our working directory called <code>1950-2018-torn-initpoint</code>.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">unzip</span>(<span class="st">&quot;temporary.zip&quot;</span>)</a></code></pre></div>
+<p>Finally we load the shapefile into R. We use the <code>read_sf()</code> function from the <strong>sf</strong> package. We specify the data source name <code>dsn =</code>. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="kw">library</span>(sf)</a></code></pre></div>
+<pre><code>## Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1">Torn.sf &lt;-<span class="st"> </span><span class="kw">read_sf</span>(<span class="dt">dsn =</span> <span class="st">&quot;1950-2018-torn-initpoint&quot;</span>)</a></code></pre></div>
+<p>Much more about working with shapefiles and spatial data frames throughout the semester.</p>
+<p>We preview the resulting data frame</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">head</span>(Torn.sf)</a></code></pre></div>
+<pre><code>## Simple feature collection with 6 features and 22 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -94.37 ymin: 34.4 xmax: -84.58 ymax: 41.17
+## CRS:            4326
+## # A tibble: 6 x 23
+##      om    yr    mo    dy date   time     tz st      stf   stn   mag   inj   fat
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1  1950     1     3 1950-… 11:0…     3 MO       29     1     3     3     0
+## 2     2  1950     1     3 1950-… 11:5…     3 IL       17     2     3     3     0
+## 3     3  1950     1     3 1950-… 16:0…     3 OH       39     1     1     1     0
+## 4     4  1950     1    13 1950-… 05:2…     3 AR        5     1     3     1     1
+## 5     5  1950     1    25 1950-… 19:3…     3 MO       29     2     2     5     0
+## 6     6  1950     1    25 1950-… 21:0…     3 IL       17     3     2     0     0
+## # … with 10 more variables: loss &lt;dbl&gt;, closs &lt;dbl&gt;, slat &lt;dbl&gt;, slon &lt;dbl&gt;,
+## #   elat &lt;dbl&gt;, elon &lt;dbl&gt;, len &lt;dbl&gt;, wid &lt;dbl&gt;, fc &lt;dbl&gt;, geometry &lt;POINT
+## #   [°]&gt;</code></pre>
+<p>Each row is a unique tornado report. Observations for each report include the date and time, the state (<code>st</code>), the maximum EF rating (<code>mag</code>), the number of injuries (<code>inj</code>), the number of fatalities (<code>fat</code>), estimated property losses (<code>loss</code>), estimated crop losses (<code>closs</code>), start and end locations in decimal degrees longitude and latitude, length of the damage path in yards (<code>len</code>), width of the damage path in miles (<code>wid</code>).</p>
+<p>There is also a column called <code>geometry</code> indicating the spatial information.</p>
+<p>The total number of tornado reports in the database is returned from the <code>nrow()</code> function.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">nrow</span>(Torn.sf)</a></code></pre></div>
+<pre><code>## [1] 63645</code></pre>
+<p>Create a subset of the data frame keeping only tornadoes in years (<code>yr</code>) since 2001 and with EF ratings (<code>mag</code>) greater than 0. First we create a logical operation</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1">Torn.sf &lt;-<span class="st"> </span>Torn.sf[Torn.sf<span class="op">$</span>yr <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2001</span> <span class="op">&amp;</span><span class="st"> </span>Torn.sf<span class="op">$</span>mag <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, ]</a></code></pre></div>
+<p>Compute the correlation between EF rating (<code>mag</code>) and path length (<code>len</code>) and path width (<code>wid</code>).</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">cor</span>(Torn.sf<span class="op">$</span>mag, Torn.sf<span class="op">$</span>len)</a></code></pre></div>
+<pre><code>## [1] 0.4847975</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">cor</span>(Torn.sf<span class="op">$</span>mag, Torn.sf<span class="op">$</span>wid)</a></code></pre></div>
+<pre><code>## [1] 0.4848238</code></pre>
+<p>Path length is recorded in miles and path width in yards. To convert them to meters and add the converted values as new columns, type</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1">Torn.sf<span class="op">$</span>Length &lt;-<span class="st"> </span>Torn.sf<span class="op">$</span>len <span class="op">*</span><span class="st"> </span><span class="fl">1609.34</span></a>
+<a class="sourceLine" id="cb130-2" data-line-number="2">Torn.sf<span class="op">$</span>Width &lt;-<span class="st"> </span>Torn.sf<span class="op">$</span>wid <span class="op">*</span><span class="st"> </span><span class="fl">.9144</span></a></code></pre></div>
+<p>Create side-by-side box plots of path length (in kilometers) by EF rating.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">plot</span>(<span class="dt">x =</span> <span class="kw">factor</span>(Torn.sf<span class="op">$</span>mag), </a>
+<a class="sourceLine" id="cb131-2" data-line-number="2">     <span class="dt">y =</span> Torn.sf<span class="op">$</span>Length<span class="op">/</span><span class="dv">1000</span>)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p>Create a scatter plot with the size of the point proportional to the EF rating.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">plot</span>(<span class="dt">x =</span> <span class="kw">log</span>(Torn.sf<span class="op">$</span>Width), </a>
+<a class="sourceLine" id="cb132-2" data-line-number="2">     <span class="dt">y =</span> <span class="kw">log</span>(Torn.sf<span class="op">$</span>Length), </a>
+<a class="sourceLine" id="cb132-3" data-line-number="3">     <span class="dt">cex =</span> Torn.sf<span class="op">$</span>mag)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p>Create a map of tornado genesis locations. First get a file containing the U.S. state borders. Then plot the geometry column and overlay the tornado location as points.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw">library</span>(USAboundaries)</a>
+<a class="sourceLine" id="cb133-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb133-3" data-line-number="3">sts &lt;-<span class="st"> </span>state.name[<span class="op">!</span>state.name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>, <span class="st">&quot;Hawaii&quot;</span>)]</a>
+<a class="sourceLine" id="cb133-4" data-line-number="4">stateBorders &lt;-<span class="st"> </span><span class="kw">us_states</span>(<span class="dt">states =</span> sts)</a>
+<a class="sourceLine" id="cb133-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb133-6" data-line-number="6"><span class="kw">plot</span>(stateBorders<span class="op">$</span>geometry,</a>
+<a class="sourceLine" id="cb133-7" data-line-number="7">     <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)</a>
+<a class="sourceLine" id="cb133-8" data-line-number="8"><span class="kw">plot</span>(Torn.sf<span class="op">$</span>geometry, </a>
+<a class="sourceLine" id="cb133-9" data-line-number="9">     <span class="dt">pch =</span> <span class="st">&quot;.&quot;</span>, </a>
+<a class="sourceLine" id="cb133-10" data-line-number="10">     <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>,</a>
+<a class="sourceLine" id="cb133-11" data-line-number="11">     <span class="dt">add =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="assfg-book_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+</div>
+<div id="hurricanes-in-the-united-states" class="section level2">
+<h2><span class="header-section-number">2.3</span> Hurricanes in the United States</h2>
+<p>We load data directly from the web by specifying the URL as a character string using the <code>file =</code> argument.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/US.txt&quot;</span>, </a>
+<a class="sourceLine" id="cb134-2" data-line-number="2">                 <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>The object <code>df</code> is a data frame. A data frame is like a spreadsheet. Values are arranged in rows and columns. Rows are the cases (observations) and columns are the variables. The <code>dim()</code> function returns the size of the data frame defined as the number of rows and the number of columns (in that order).</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw">dim</span>(df)</a></code></pre></div>
+<pre><code>## [1] 166   6</code></pre>
+<p>There are 166 rows and 6 columns in the data frame object <code>df</code>.</p>
+<p>To get a glimpse of the data values we list the first six lines of the data frame using the <code>head()</code> function.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">head</span>(df)</a></code></pre></div>
+<pre><code>##   Year All MUS G FL E
+## 1 1851   1   1 0  1 0
+## 2 1852   3   1 1  2 0
+## 3 1853   0   0 0  0 0
+## 4 1854   2   1 1  0 1
+## 5 1855   1   1 1  0 0
+## 6 1856   2   1 1  1 0</code></pre>
+<p>The columns include <code>Year</code>, number of hurricanes (<code>All</code>), number of major hurricanes (<code>MUS</code>), number of Gulf coast hurricanes (<code>G</code>), number of Florida hurricanes (<code>FL</code>), and number of East coast hurricanes (<code>E</code>) in that order. The last six lines of your data frame are listed using the <code>tail()</code> function.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="kw">tail</span>(df)</a></code></pre></div>
+<pre><code>##     Year All MUS G FL E
+## 161 2011   1   0 0  0 1
+## 162 2012   2   0 0  0 1
+## 163 2013   0   0 0  0 0
+## 164 2014   1   0 0  0 1
+## 165 2015   0   0 0  0 0
+## 166 2016   2   0 0  1 1</code></pre>
+<p>The distribution of Florida hurricane counts by year is obtained using the <code>table()</code> function and specifying the <code>FL</code> column with <code>df$FL</code>.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="kw">table</span>(df<span class="op">$</span>FL)</a></code></pre></div>
+<pre><code>## 
+##  0  1  2  3  4 
+## 93 43 24  5  1</code></pre>
+<p>There are 93 years without a FL hurricane, 43 years with exactly one hurricane, 24 years with two hurricanes, and so on.</p>
+<p>The columns in a data frame are referenced using the <code>df$name</code> syntax, where <code>name</code> refers to the column name.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1">df<span class="op">$</span>FL</a></code></pre></div>
+<pre><code>##   [1] 1 2 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 1 2 0 2 1 0 1 2 1 0 3 0 2 0 0 0 3 1
+##  [38] 2 0 0 0 0 1 2 0 3 1 1 1 0 1 0 1 0 0 2 0 0 1 1 1 0 0 0 1 2 1 0 1 0 1 0 0 2
+##  [75] 1 2 0 2 1 0 0 0 2 2 2 1 0 0 1 0 1 2 0 1 2 1 2 2 1 2 0 0 1 0 0 1 0 0 0 1 0
+## [112] 0 0 3 1 2 1 1 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 2 0 1 0 1 0 0 1 0 0 2 0 0 2
+## [149] 1 0 0 0 0 4 3 0 0 0 0 0 0 0 0 0 0 1</code></pre>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="kw">sum</span>(df<span class="op">$</span>FL)</a></code></pre></div>
+<pre><code>## [1] 110</code></pre>
+<p>Each column is a vector of length equal to the number of rows in the data frame.</p>
+<p>How many hurricanes hit Florida in 1906?</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1">df<span class="op">$</span>FL[df<span class="op">$</span>Year <span class="op">==</span><span class="st"> </span><span class="dv">1906</span>]</a></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>The operator <code>==</code> returns a logical vector of length equal to the number of rows in <code>df</code> with values of <code>TRUE</code> and <code>FALSE</code>. The subset operator <code>[</code> returns the value of the vector <code>df$FL</code> when the logical vector is true.</p>
+<p>What years had the most East coast hurricanes?</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">df<span class="op">$</span>Year[<span class="kw">which</span>(df<span class="op">$</span>E <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(df<span class="op">$</span>E))]</a></code></pre></div>
+<pre><code>## [1] 1893 1954 1955 2004</code></pre>
+<p>As I mentioned last week, there are many functions for working with data frames using <strong>base</strong> R. These functions require understanding data frames as ‘list’ objects, which makes them harder to learn and to remember.</p>
+<p>From the <strong>readr</strong> package as part of the <strong>tidyverse</strong> dialect we can use the <code>read_table()</code> function to create a tabled data frame.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<pre><code>## ── Attaching packages ────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.4
+## ✓ tibble  3.0.1     ✓ dplyr   0.8.5
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">read_table</span>(<span class="dt">file =</span> <span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/US.txt&quot;</span>)</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Year = col_double(),
+##   All = col_double(),
+##   MUS = col_double(),
+##   G = col_double(),
+##   FL = col_double(),
+##   E = col_double()
+## )</code></pre>
+<p>There are many functions for working with data frames using <strong>base</strong> R. These functions require understanding data frames as list objects, which makes them harder to learn and to remember. Next time will explore a more formalized grammar for data wrangling.</p>
+</div>
+<div id="your-turn-precipitation-in-florida" class="section level2">
+<h2><span class="header-section-number">2.4</span> Your turn: Precipitation in Florida</h2>
+<p>Source: Monthly climate series. <a href="http://www.esrl.noaa.gov/psd/data/timeseries/">Source:</a></p>
+<p>Get monthly statewide average rainfall (in inches) back to the year 1895. Copy/paste into a text editor (I use the app TextWrangler) then import into R using the <code>read.table()</code> function.</p>
+<p>I did this and posted the file on my website. Missing values are coded as -9.900 so I included the argument <code>na.string = &quot;-9.900&quot;</code> in the function call.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt&quot;</span>, </a>
+<a class="sourceLine" id="cb157-2" data-line-number="2">                 <span class="dt">na.string =</span> <span class="st">&quot;-9.900&quot;</span>, </a>
+<a class="sourceLine" id="cb157-3" data-line-number="3">                 <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-4" data-line-number="4"><span class="kw">head</span>(df)</a></code></pre></div>
+<pre><code>##   Year   Jan   Feb   Mar   Apr   May    Jun   Jul    Aug    Sep   Oct   Nov
+## 1 1895 3.277 3.241 2.499 4.530 4.252  4.500 7.450  6.103  4.669 3.091 2.649
+## 2 1896 3.928 3.020 2.570 0.498 2.700 11.228 8.217  5.892  4.352 2.959 3.516
+## 3 1897 1.839 6.000 2.125 4.390 2.279  5.221 7.212  6.831 11.144 4.101 1.749
+## 4 1898 0.704 2.009 1.259 1.320 1.509  3.292 8.947 13.090  5.231 5.877 2.190
+## 5 1899 4.523 5.921 1.898 3.398 1.110  5.803 9.264  6.712  5.132 5.882 0.751
+## 6 1900 3.207 4.369 6.800 4.317 3.891  9.993 7.501  4.492  4.930 5.230 1.221
+##     Dec
+## 1 1.586
+## 2 2.071
+## 3 2.680
+## 4 3.891
+## 5 1.939
+## 6 4.290</code></pre>
+<ul>
+<li>What was the statewide average rainfall during the 10th month of the 65th year?</li>
+<li>What was the statewide average rainfall during June of 1900?</li>
+<li>What year had the wettest March?</li>
+<li>What month during 1965 was the wettest?</li>
+</ul>
+</div>
+<div id="more-practice-more-tornadoes" class="section level2">
+<h2><span class="header-section-number">2.5</span> More practice: More tornadoes</h2>
+<p>Use the tornado dataset from the Storm Prediction Center and write code to do or answer the following.</p>
+<ul>
+<li>List the names of the columns in the data frame.</li>
+<li>What is the last year in the data?</li>
+<li>How many tornadoes had at least one fatality?</li>
+<li>Create a table of the number of tornadoes by EF rating.</li>
+<li>Create a table of the number of tornadoes by state.</li>
+<li>Add a new variable to the data frame called <code>area</code> as the product of the path length and path width in units of square meters.</li>
+<li>Map the locations of all the tornadoes with an EF rating of at least 4.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="getting-started.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="grammars-for-data-and-graphs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
