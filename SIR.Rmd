@@ -2,9 +2,9 @@
 
 This material is taken from Chapter 5 of @Moraga2020. https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
 
-A simple measure of disease risk in areas is the standardized incidence ratio (SIR) which is defined as the ratio of the observed to the expected counts. However, in many situations small areas may present extreme SIRs due to low population sizes or small samples. In these situations, SIRs may be misleading and insufficiently reliable for reporting. In these cases it is better to estimate disease risk using a spatial statistical model. Models can incorporate information from neighboring areas and covariate information resulting in smoothing (shrinking) of extreme values.
+The standardized incidence ratio (SIR) is defined as the ratio of the observed to the expected number of disease cases. But, small areas may present extreme SIRs due to low population sizes or small samples. In these situations, SIRs may be misleading and unreliable for reporting. In these cases it is better to estimate disease risk using a spatial statistical model. Models can incorporate information from neighboring areas and covariate information resulting in smoothing (shrinking) of extreme values.
 
-A popular spatial statistical model is the Besag-York-Mollié (BYM) model [@BesagEtAl1991] which takes into account that data may be spatially correlated and observations in neighboring areas may be more similar than observations in areas that are farther away. This model includes a spatial random effect that smooths the data according to a neighborhood structure, and an unstructured exchangeable component that models uncorrelated noise. In spatio-temporal settings where disease counts are observed over time, spatio-temporal models that account for spatial structure and temporal correlations and their interactions are used.
+The Besag-York-Mollié (BYM) model [@BesagEtAl1991] is a popular way to account for spatial autocorrelation. The model smooths the data according to a neighborhood structure. In spatio-temporal settings where disease counts are observed over time, spatio-temporal models that account for spatial structure and temporal correlations and their interactions are used.
 
 ## Defining neighbors
 
@@ -20,7 +20,7 @@ sfdf <- st_as_sf(spdf)
 plot(sfdf$geometry)
 ```
 
-We can obtain the neighbors of each county using the `poly2nb()` function from the {spdep} package [@BivandEtAl2008]. This function returns a neighbors list, here saved as `nb`, based on counties with contiguous boundaries. Each element of the list `nb` represents one county and contains the indices of its neighbors. For example, `nb[[2]]` contains the neighbors of county 2.
+We obtain the neighbors of each county using the `poly2nb()` function from the {spdep} package [@BivandEtAl2008]. This function returns a neighbors list, here saved as `nb`, based on counties with contiguous boundaries. Each element of the list `nb` represents one county and contains the indices of its neighbors. For example, `nb[[2]]` contains the neighbors of county 2.
 ```{r}
 library(spdep)
 
@@ -28,7 +28,7 @@ nb <- poly2nb(sfdf)
 head(nb)
 ```
 
-We show the neighbors of each county on a map. For example, we can show the neighbors of counties 2, 44 and 58. First, we create a `SpatialPolygonsDataFrame` object with the map of Pennsylvania, and data that contains a variable called county with the county names, and a dummy variable called neigh that indicates the neighbors of counties 2, 44 and 58. neigh is equal to 1 for counties that are neighbors of counties 2, 44 and 58, and 0 otherwise.
+We show the neighbors of each county on a map highlighting neighbors of counties 2, 44 and 58. First, we create a `SpatialPolygonsDataFrame` object with the map of Pennsylvania, and data that contains a variable called county with the county names, and a dummy variable called `neigh` that indicates the neighbors of counties 2, 44 and 58. neigh is equal to 1 for counties that are neighbors of counties 2, 44 and 58, and 0 otherwise.
 ```{r}
 df <- data.frame(county = names(spdf), 
                  neigh = rep(0, length(spdf)))
@@ -36,6 +36,7 @@ rownames(df) <- names(spdf)
 
 spdf <- SpatialPolygonsDataFrame(spdf, df, match.ID = TRUE)
 
+# to highlight neighbors of counties 2, 44, and 58
 spdf$neigh[nb[[2]]] <- 1
 spdf$neigh[nb[[44]]] <- 1
 spdf$neigh[nb[[58]]] <- 1
@@ -117,8 +118,71 @@ Then, we obtain the expected counts E in each county by calling the `expected()`
 ) )
 ```
 
-Now we add the vector `E` to the data frame `County.df` which contains the counties ids (`county`) and the observed counts (`Y`) making sure the `E` elements correspond to the counties in the same order.
+Now we add the observed count `Y`, the expected count `E` the computed SIR to `sfdf` and make a map of SIR.
 ```{r}
-County.df$E <- E
-head(County.df)
+sfdf <- sfdf %>%
+  mutate(Y = County.df$Y,
+         E = E,
+         SIR = Y/E)
+
+ggplot(sfdf) + 
+  geom_sf(aes(fill = SIR)) +
+  scale_fill_gradient2(midpoint = 1, 
+                       low = "blue", 
+                       mid = "white", 
+                       high = "red") +
+  theme_minimal()
 ```
+
+Counties with SIR = 1 (color white) the number of lung cancer cases observed is the same as the number of expected cases. In counties where SIR > 1 (color red), the number of lung cancer cases observed is higher than the expected cases. Counties where SIR < 1 (color blue) have fewer lung cancer cases observed than expected.
+
+## Estimating disease risk in small areas
+
+With rare diseases in regions with few people, the expected counts may be very low and SIRs may be misleading. Therefore, it is preferred to estimate disease risk by using models that borrow information from neighboring areas, and incorporate covariate information. This results in smoothing (shrinkage) of extreme values.
+
+Let the observed counts $Y_i$ be modeled with a Poisson distribution having a mean $E_i\theta_i$, where $E_i$ are the expected counts and $\theta_i$ are the relative risks. The logarithm of the relative risk is expressed as the sum of an intercept that models the overall disease risk level, and random effects to account for local variability.
+
+The relative risk quantifies whether an area has a higher ($\theta_i > 1$) or lower ($\theta_i < 1$) risk than the average risk in the population. For example if $\theta_i = 2$, then the risk in area $i$ is twice the average risk in the population.
+
+The model is expressed as
+$$
+Y_i \sim \hbox{Poisson}(E_i\theta_i), i = 1, \ldots, n, \\
+\log(\theta_i) = \alpha + u_i + v_i
+$$
+
+The parameter $\alpha$ represents the overall risk in the region of study, $u_i$ is the spatial random effect respresenting the dependency in risk across neighboring areas (spatial autocorrelation), and $v_i$ is uncorrelated random noise modeled as $v_i \sim N(0, \sigma_v^2)$.
+
+It is common to include covariates to quantify risk factors (e.g., distance to nearest coal plant). Thus the log($\theta_$) is expressed as
+$$
+\log(\theta_i) = \alpha + \beta x_i + u_i + v_i
+$$
+where $x_i$ is the covariate value in area $i$ and $\beta$ is the associated coefficient. The coefficient is interpreted such that a one-unit increase in $x$ changes the relative risk by a factor $\exp(\beta)$, holding the other parameters constant.
+
+A popular form for the combined spatial random effect and uncorrelated random effect terms is the Besag-York-Mollié (BYM) model which assigns a conditional autoregressive distribution to $u_i$ as
+$$
+u_i | {\bf u_{j \ne i}} \sim N(\bar u_{\delta_i}, \frac{\sigma_u^2}{n_{\delta_i}})
+$$
+where $\bar  u_{\delta_i} = \Sigma_{j \in \delta_i} u_j/n_{\delta_i}$ and where $\delta_i$ is the set of neighbors of area $i$ and $n_{\delta_i}$ is the number of neighbors of area $i$.
+
+In words, the logarithm of the disease incidence rate in area $i$ conditional on the incidence rates in the neighborhood of $i$ is modeled with a normal distribution centered on the neighborhood average ($\bar  u_{\delta_i}$) with a variance scaled by the number of neighbors. This is called the conditional autoregressive (CAR) distribution.
+
+### Syntax in INLA
+
+The syntax for the BYM model is given as
+```{r eval=FALSE}
+formula <- Y ~
+  f(id_area_u, model = "besag", graph = g, scale.model = TRUE) +
+  f(id_area_v, model = "iid")
+```
+
+The formula includes the response in the left-hand side, and the fixed and random effects in the right-hand side. By default, the formula includes an intercept. 
+
+Random effects are set using `f()` with parameters equal to the name of the index variable, the model, and other options. The BYM formula includes a spatially structured component with index variable with name `id_area_u` and equal to c(1, 2, ..., I), and model `"besag"` with a CAR distribution and with neighborhood structure given by the graph `g`. 
+
+The option scale.model = TRUE is used to make the precision parameter of models with different CAR priors comparable (Freni-Sterrantino, Ventrucci, and Rue 2018). The formula also includes an unstructured component with index variable with name idareav and equal to c(1, 2, ..., I), and model "iid". This is an independent and identically distributed zero-mean normally distributed random effect. Note that both the variables idareau and idareav are vectors with the indices of the areas. These two variables are identical; however, they still need to be specified as two different objects since R-INLA does not allow to include two effects with f() that use the same index variable. The BYM model can also be specified with the model "bym" which defines both the spatially structured and unstructured components  
+u
+i
+  and  
+v
+i
+ .
