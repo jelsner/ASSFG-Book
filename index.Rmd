@@ -13,9 +13,6 @@ link-citations: yes
 
 # Preface {-}
 
-Similar material
-Geospatial Health with R-INLA and Shiny: https://www.paulamoraga.com/book-geospatial/
-
 Timeseries Forecasting
 https://weecology.github.io/MATSS/
 
@@ -29,12 +26,9 @@ https://ropensci.org/blog/2020/04/07/bookdown-learnings/
 https://evamaerey.github.io/flipbooks/flipbookr/skeleton#1
 https://docs.ropensci.org/stplanr/index.html
 
-For QG next Fall: https://easystats.github.io/performance/index.html
-
-Species distribution models
-Block CV for species distribution models: https://cran.r-project.org/web/packages/blockCV/vignettes/BlockCV_for_SDM.html
+For QG next Fall: 
+https://easystats.github.io/performance/index.html
 
 Climate datasets in R: 
 https://cran.r-project.org/web/packages/climate/vignettes/getstarted.html
 SOI data: http://www.bom.gov.au/climate/current/soihtm1.shtml
-

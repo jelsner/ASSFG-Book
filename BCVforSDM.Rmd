@@ -1,0 +1,3 @@
+# Block Cross-Validation for SDM
+
+https://cran.r-project.org/web/packages/blockCV/vignettes/BlockCV_for_SDM.html

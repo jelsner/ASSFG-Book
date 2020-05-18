@@ -1,6 +1,6 @@
 # Standardized Incidence Ratios
 
-This material is taken from Chapter 5 of @Moraga2020. https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
+This material is derived from Chapters 5 & 6 of @Moraga2020. We make use of simple features and mapping with {ggplot2} and {tmap}. https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
 
 The standardized incidence ratio (SIR) is defined as the ratio of the observed to the expected number of disease cases. But, small areas may present extreme SIRs due to low population sizes or small samples. In these situations, SIRs may be misleading and unreliable for reporting. In these cases it is better to estimate disease risk using a spatial statistical model. Models can incorporate information from neighboring areas and covariate information resulting in smoothing (shrinking) of extreme values.
 
@@ -84,7 +84,7 @@ $\hbox{SIR}_i$ indicates whether region $i$ has higher ($\hbox{SIR}_i > 1$), equ
 
 When applied to mortality data, the ratio is known as the standardized mortality ratio (SMR).
 
-### Example: Lung cancer in Pennsylvania
+### Example 1: Lung cancer in Pennsylvania
 
 The data frame `pennLC$data` from the {SpatialEpi} package contains the number of lung cancer cases and the population of Pennsylvania at county level, stratified on race (white and non-white), gender (female and male) and age (under 40, 40-59, 60-69 and 70+). 
 
@@ -92,9 +92,10 @@ We obtain the number of cases for all the strata together in each county, Y, by 
 ```{r}
 library(dplyr)
 
-( County.df <- pennLC$data %>%
+County.df <- pennLC$data %>%
   group_by(county) %>%
-  summarize(Y = sum(cases)) )
+  summarize(Y = sum(cases))
+head(County.df)
 ```
 
 We calculate the expected number of cases in each county using indirect standardization. The expected counts in each county represent the total number of disease cases one would expect if the population in the county behaved the way the population of Pennsylvania behaves. We can do this by using the `expected()` function from the {SpatialEpi} package. This function has three arguments, namely,
@@ -105,8 +106,9 @@ We calculate the expected number of cases in each county using indirect standard
 
 The vectors `population` and `cases` need to be sorted by area first and then, within each area, the counts for all strata need to be listed in the same order. All strata need to be included in the vectors, including strata with 0 cases. Here we use the `arrange()` function from the {dplyr} package.
 ```{r}
-( Strata.df <- pennLC$data %>%
-  arrange(county, race, gender, age) )
+Strata.df <- pennLC$data %>%
+  arrange(county, race, gender, age)
+head(Strata.df)
 ```
 
 Then, we obtain the expected counts E in each county by calling the `expected()` function where we set population equal to Strata.df$population and cases equal to Strata.df$cases. There are 2 races, 2 genders and 4 age groups for each county, so number of strata is set to 2 x 2 x 4 = 16.
@@ -150,15 +152,15 @@ Y_i \sim \hbox{Poisson}(E_i\theta_i), i = 1, \ldots, n, \\
 \log(\theta_i) = \alpha + u_i + v_i
 $$
 
-The parameter $\alpha$ represents the overall risk in the region of study, $u_i$ is the spatial random effect respresenting the dependency in risk across neighboring areas (spatial autocorrelation), and $v_i$ is uncorrelated random noise modeled as $v_i \sim N(0, \sigma_v^2)$.
+The parameter $\alpha$ represents the overall risk in the region of study, $u_i$ is the spatially structured random effect respresenting the dependency in risk across neighboring areas (spatial autocorrelation), and $v_i$ is the uncorrelated random noise modeled as $v_i \sim N(0, \sigma_v^2)$.
 
-It is common to include covariates to quantify risk factors (e.g., distance to nearest coal plant). Thus the log($\theta_$) is expressed as
+It is common to include covariates to quantify risk factors (e.g., distance to nearest coal plant). Thus the log($\theta_i$) is expressed as
 $$
 \log(\theta_i) = \alpha + \beta x_i + u_i + v_i
 $$
 where $x_i$ is the covariate value in area $i$ and $\beta$ is the associated coefficient. The coefficient is interpreted such that a one-unit increase in $x$ changes the relative risk by a factor $\exp(\beta)$, holding the other parameters constant.
 
-A popular form for the combined spatial random effect and uncorrelated random effect terms is the Besag-York-Mollié (BYM) model which assigns a conditional autoregressive distribution to $u_i$ as
+A popular form for the combined spatially structured random effect and the uncorrelated random effect is the Besag-York-Mollié (BYM) model which assigns a conditional autoregressive distribution to $u_i$ as
 $$
 u_i | {\bf u_{j \ne i}} \sim N(\bar u_{\delta_i}, \frac{\sigma_u^2}{n_{\delta_i}})
 $$
@@ -171,18 +173,153 @@ In words, the logarithm of the disease incidence rate in area $i$ conditional on
 The syntax for the BYM model is given as
 ```{r eval=FALSE}
 formula <- Y ~
-  f(id_area_u, model = "besag", graph = g, scale.model = TRUE) +
-  f(id_area_v, model = "iid")
+  f(ID_u, model = "besag", graph = g, scale.model = TRUE) +
+  f(ID_v, model = "iid")
 ```
 
-The formula includes the response in the left-hand side, and the fixed and random effects in the right-hand side. By default, the formula includes an intercept. 
+The formula includes the response in the left-hand side, and the fixed and random effects on the right-hand side. By default, the formula includes an intercept. 
 
-Random effects are set using `f()` with parameters equal to the name of the index variable, the model, and other options. The BYM formula includes a spatially structured component with index variable with name `id_area_u` and equal to c(1, 2, ..., I), and model `"besag"` with a CAR distribution and with neighborhood structure given by the graph `g`. 
+The random effects are set using `f()` with parameters equal to the name of the index variable, the model, and other options. The BYM formula includes a spatially structured random effect with index variable with name `ID_u` and equal to c(1, 2, ..., I), and model `"besag"` with a CAR distribution and with neighborhood structure given by the graph `g`. The option `scale.model = TRUE` is used to make the precision parameter of models with different CAR priors comparable (Freni-Sterrantino, Ventrucci, and Rue 2018). 
 
-The option scale.model = TRUE is used to make the precision parameter of models with different CAR priors comparable (Freni-Sterrantino, Ventrucci, and Rue 2018). The formula also includes an unstructured component with index variable with name idareav and equal to c(1, 2, ..., I), and model "iid". This is an independent and identically distributed zero-mean normally distributed random effect. Note that both the variables idareau and idareav are vectors with the indices of the areas. These two variables are identical; however, they still need to be specified as two different objects since R-INLA does not allow to include two effects with f() that use the same index variable. The BYM model can also be specified with the model "bym" which defines both the spatially structured and unstructured components  
-u
-i
-  and  
-v
-i
- .
+The formula also includes an uncorrelated random effect with index variable with name `ID_v` again equal to c(1, 2, ..., I), and model "iid". This is an independent and identically distributed zero-mean normally distributed random effect. Note that both the `ID` variables are identical but need to be specified as two different objects since R-INLA does not allow to include two effects with `f()` that use the same index variable. 
+
+The BYM model can also be specified with the model "bym" which defines both the spatially structured random effect and the uncorrelated random effect ($u_i$ and $v_i$).
+
+### Parameterization of the BYM model
+
+Simpson et al. (2017) proposed a parametrization of the BYM model called BYM2 which makes parameters interpretable and facilitates the assignment of meaningful penalized complexity (PC) priors. The BYM2 model combines the scaled spatially structured random effect ${\bf u_*}$ with a scaled unstructured effect ${\bf v_*}$ as
+$$
+{\bf b} = \frac{1}{\sqrt{\tau_b}}(\sqrt{1 - \phi}{\bf v_*} + \sqrt{\phi}{\bf u_*}).
+$$
+
+Here the precision parameter $\tau_b > 0$ controls the marginal variance contribution of the weighted sum of ${\bf u_*}$ and ${\bf v_*}$. The mixing parameter $0 \le \phi \le 1$ measures the proportion of the marginal variance explained by the structured random effect. Thus the BYM2 model is equal to a spatial only model when $\phi = 1$ and to an random noise when $\phi = 0$.
+
+In INLA we specify the BYM2 model as follows:
+```{r}
+formula <- Y ~ f(ID, model = "bym2", graph = g)
+```
+again where `ID` is an index for the areas and `g` is the graph of the neighborhood structure.
+
+The priors for the BYM2 model penalize for model complexity in terms of deviation from the base model which has a constant relative risk over all areas. To define the prior for the marginal precision $\tau_b$ we use the probability statement $P[(1/\sqrt{\tau_b}) > U] = \alpha$. A prior for $\phi$ is defined using $P(\phi < U) = \alpha$.
+
+### Example 1 continued
+
+Here we continue with the example to calculate the relative risks of lung cancer in the Pennsylvania counties using the BYM2 random effects term. Moraga (2018) analyzes the same data by using a BYM model that includes a covariate related to the proportion of smokers. 
+
+First we define the formula that includes the response variable `Y` on the left and the random effect `"bym2"` on the right. Note that we do not need to include an intercept as it is included by default. In the random effect, we specify the index variable `id_area` with the indices of the random effect. This variable is equal to c(1, 2, ..., I) where I is the number of counties (67). The number of counties is obtained with the number of rows in the simple feature data frame `sfdf`.
+
+We define the prior for the marginal precision $\tau_b$ by considering a standard deviation of .5 as a reasonable upper bound. We use the rule of thumb describe in Simpson et al. (2017) and set $U = .5/.31$ and $\alpha = .01$.
+
+We define the prior for the mixing parameter $\phi$ as 2/3 which is a conservative choice that assumes that the unstructured random effect accounts for more variability than the spatially structured random effect.
+```{r}
+prior <- list(
+  prec = list(
+    prior = "pc.prec",
+    param = c(.5/.31, .01)),
+  phi = list(
+    prior = "pc",
+    param = c(.5, 2/3))
+  )
+```
+
+We also need to compute the graph object `g` with the neighborhood matrix that will be used in the spatially structured random effect. We use the `nb2INLA()` function to convert the neighborhood list object `nb` into an external file with the representation of the neighborhood matrix as required by R-INLA. Then we read this file using the `inla.read.graph()` function and assign it to the object `g`.
+```{r}
+library(INLA)
+
+nb2INLA("adj", nb)
+g <- inla.read.graph(filename = "adj")
+```
+
+Next we specify the full formula.
+```{r}
+formula <- Y ~ f(ID, model = "bym2", graph = g, hyper = prior)
+```
+
+Finally we fit the model with the `inla()` function specifying the formula, the family, the data, the expected counts.
+```{r}
+fit <- inla(formula,
+            family = "poisson", 
+            data = sfdf,
+            E = E, 
+            control.predictor = list(compute = TRUE)
+)
+```
+
+We obtain a summary of the model fit with the `summary()` method.
+```{r}
+summary(fit)
+```
+
+Object `fit$summary.fitted.values` contains summaries of the relative risks including the mean posterior and the lower and upper limits of 95% credible intervals of the relative risks. Specifically, column `mean` is the mean posterior and `0.025quant` and `0.975quant` are the 2.5 and 97.5 percentiles, respectively.
+```{r}
+head(fit$summary.fitted.values)
+```
+
+The correlation between the raw SIRs and the posterior means is
+```{r}
+cor(sfdf$SIR, fit$summary.fitted.values$mean)
+```
+
+#### Map the results
+
+To map the results we add columns to our `sfdf` and then use `ggplot()`.
+```{r}
+sfdf <- sfdf %>%
+  mutate(RRmean = fit$summary.fitted.values$mean,
+         RRlo = fit$summary.fitted.values$"0.025quant",
+         RRhi = fit$summary.fitted.values$"0.975quant")
+
+gRRmean <- ggplot(sfdf) + 
+  geom_sf(aes(fill = RRmean)) +
+  scale_fill_gradient2(midpoint = 1, 
+                       low = "blue", 
+                       mid = "white", 
+                       high = "red",
+                       limits = c(.7, 1.5)) +
+  theme_minimal()
+
+gRRlo <- ggplot(sfdf) + 
+  geom_sf(aes(fill = RRlo)) +
+  scale_fill_gradient2(midpoint = 1, 
+                       low = "blue", 
+                       mid = "white", 
+                       high = "red",
+                       limits = c(.7, 1.5)) +
+  theme_minimal()
+
+gRRhi <- ggplot(sfdf) + 
+  geom_sf(aes(fill = RRhi)) +
+  scale_fill_gradient2(midpoint = 1, 
+                       low = "blue", 
+                       mid = "white", 
+                       high = "red",
+                       limits = c(.7, 1.5)) +
+  theme_minimal()
+
+library(patchwork)
+
+gRRmean / gRRlo /gRRhi
+```
+
+A data frame with the summary of the BYM2 random effects is in `fit$summary.random$ID`. This has the number of rows equal to 2 times the number of areas (2 * 67) where the first 67 rows correspond to the combined spatially structured and unstructured random effects (${\bf b}$) and the the second 67 rows to the spatially structured random effect (${\bf u_*}$).
+```{r}
+head(fit$summary.random$ID)
+```
+
+We make a map of the posterior mean of the ${\bf b}$ term.
+```{r}
+sfdf <- sfdf %>%
+  mutate(bmean = fit$summary.random$ID[1:67, "mean"])
+
+ggplot(sfdf) + 
+  geom_sf(aes(fill = bmean)) +
+  scale_fill_gradient2(midpoint = 0, 
+                       low = "blue", 
+                       mid = "white", 
+                       high = "red") +
+  theme_minimal()
+```
+
+### Example 2: Lip cancers in Scotland
+
+As another example here we estimate the risk of lip cancer in men in Scotland, UK. We use data on the number of observed and expected lip cancer cases, and the proportion of population engaged in agriculture, fishing, or forestry (AFF) for each of the Scotland counties. These data are obtained from the {SpatialEpi} package [@KimWakefield2018].

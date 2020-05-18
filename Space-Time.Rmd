@@ -1,0 +1,76 @@
+# Space-Time
+
+https://rpubs.com/jelsner/tornadoRisk_longTermView
+https://rpubs.com/jelsner/tornadoRisk_shortTermView
+
+Focus on the Southeast U.S. Decrease the grid size.
+Update with stars package? No because stars doesnt work with rasters.
+
+Constructing space-time data frames. Vector and raster examples.
+
+```{r}
+sfdfL <- st_read(dsn = "1950-2018-torn-aspath") %>%
+  filter(yr == 2014, st == "FL")
+```
+
+Next we project the geographic coordinate reference system to a specific Lambert conic conformal projection. The spatial units are set to meters.
+```{r}
+sfdfL <- st_transform(sfdfL, 
+                      crs = "+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-90 +units=m")
+```
+
+Next we add a buffer to the geometries to represent the tornado path ('footprint'). The width of the buffer is 1/2 the width given in the attribute table in the column `wid`. First we create new variables giving the width (and length) in units of meters.
+```{r}
+sfdfL <- sfdfL %>%
+  mutate(Width = wid * .9144,
+         Length = len * 1609.34)
+sfdfB <- st_buffer(sfdfL, 
+                   dist = sfdfL$Width/2,
+                   endCapStyle = 'ROUND')
+```
+
+Next set the raster domain slightly larger than the bounding box and assign a resolution of one degree in longitude and one degree in latitude. Check the extent of the raster with the `extent()` function.
+```{r}
+r <- raster(xmn = -125, xmx = -67, ymn = 24, ymx = 50)
+res(r) <- 1
+
+extent(r)
+```
+
+Use the `rasterize()` function to count the number of times each raster cell contains a tornado genesis location. The first argument is the spatial data frame (dough; here a simple feature data frame) and the second is the raster without values (cooking cutter). The argument `field =` specifies a column name in the spatial data frame (here just an identifier) and the argument `fun =` specifies what to do (here simply count the unique instances of the field in each cell).
+```{r}
+Tor_r <- rasterize(Alltors, r, 
+                   field = "om", 
+                   fun = "count")
+
+class(Tor_r)
+dim(Tor_r)
+```
+
+The result is a raster layer. The number of tornadoes occurring in each cell are the values.
+```{r}
+values(Tor_r)[1:200]
+```
+
+Raster cells without tornadoes are given a value of `NA` the integers are the number of times the cell contained a tornado.
+
+We make a quick map with the `plot()` method.
+```{r}
+plot(Tor_r)
+```
+
+It looks right. Some cells across the Plains and the South have quite a few tornadoes others not as many.
+
+A spatial statistic indicating how similar values in neighboring cells tend to be is Moran's I. It is implemented on rasters with the `Moran()` function. 
+
+First we convert the `NA` values to zero since they do not really represent missing information but rather no tornadoes. We do this by including a `background =` argument specifying a value of 0.
+```{r}
+Tor_r <- rasterize(Alltors, r, 
+                   field = "om", 
+                   fun = "count",
+                   background = 0)
+```
+
+```{r}
+Moran(Tor_r)
+```
