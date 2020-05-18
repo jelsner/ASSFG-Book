@@ -323,3 +323,122 @@ ggplot(sfdf) +
 ### Example 2: Lip cancers in Scotland
 
 As another example here we estimate the risk of lip cancer in men in Scotland, UK. We use data on the number of observed and expected lip cancer cases, and the proportion of population engaged in agriculture, fishing, or forestry (AFF) for each of the Scotland counties. These data are obtained from the {SpatialEpi} package [@KimWakefield2018].
+
+We examine the data in the list object `scotland` from the {SpatialEpi} package.
+```{r}
+data(scotland)
+names(scotland)
+
+names(scotland$data)
+```
+
+Create a simple feature data frame with a geometry column and data as attributes.
+```{r}
+spdf <- scotland$spatial.polygon
+sfdf <- st_as_sf(spdf) %>%
+  st_make_valid() %>%
+  cbind(scotland$data) %>%
+  mutate(SIR = cases/expected)
+head(sfdf)
+```
+
+Map the SIRs.
+```{r}
+library(tmap)
+
+tm_shape(sfdf) +
+  tm_polygons(col = "SIR")
+```
+
+Note the correlation between SIR and AFF.
+```{r}
+cor(sfdf$AFF, sfdf$SIR)
+```
+
+#### Model specification, setup, and fit
+
+As before, the model is expressed as
+$$
+Y_i \sim \hbox{Poisson}(E_i\theta_i), i = 1, \ldots, n, \\
+\log(\theta_i) = \alpha + \beta_{\hbox{AFF}} \times \hbox{AFF}_i +  u_i + v_i,
+$$
+
+where $E_i$ is the expected count and $\theta_i$ is the relative risk in area $i$. The logarithm of $\theta_i$ is logically related to the overall risk $\alpha$, the covariate (AFF) through the term $\beta_{\hbox{AFF}} \times \hbox{AFF}_i$ and the spatial structured and unstructured random terms.
+
+The term $u_i$ is the spatial structured random effect and is modeled using a conditional autoregressive distribution that requires a neighborhood matrix.
+```{r}
+nb <- poly2nb(sfdf)
+head(nb)
+
+nb2INLA("adj", nb)
+g <- inla.read.graph(filename = "adj")
+```
+
+We need specify IDs for $u_i$ and $v_i$.
+```{r}
+sfdf$IDu <- 1:nrow(sfdf)
+sfdf$IDv <- 1:nrow(sfdf)
+```
+
+We specify the model formula by including the response in the left-hand side, and the fixed and random effects in the right-hand side. The response variable is `cases` and we use the covariate `AFF`. Random effects are defined using `f()` with parameters equal to the name of the index variable and the chosen model. For $u_i$ we use `model = "besag"` with neighborhood matrix given by `g`. We also use option `scale.model = TRUE` to make the precision parameter of models with different CAR priors comparable. For $v_i$ we use `model = "iid"`.
+```{r}
+formula <- cases ~ AFF +
+  f(IDu, model = "besag", graph = g, scale.model = TRUE) +
+  f(IDv, model = "iid")
+```
+
+We fit the model by calling the `inla()` function. We specify the formula, `family = "poisson"`, data, and the expected counts (`expected`). We also set `control.predictor = list(compute = TRUE)` to compute the posteriors of the predictions.
+```{r}
+fit <- inla(formula,
+            family = "poisson", 
+            data = sfdf,
+            E = expected, 
+            control.predictor = list(compute = TRUE))
+
+summary(fit)
+```
+
+#### Results
+
+We observed the intercept has a value of -.305 with a 95% credible interval of (-.539, -.068). The coefficient on AFF has a value of 4.330 with a 95% credible interval of (1.744, 6.770) indicating that lip cancer rates increase with the percentage of workers in this category.
+
+We plot the marginal density of this coefficient
+```{r}
+marginal <- inla.smarginal(fit$marginals.fixed$AFF) %>%
+   data.frame()
+ggplot(marginal, aes(x = x, y = y)) + 
+  geom_line() +
+  labs(x = expression(beta[AFF]), y = "Density") +
+  geom_vline(xintercept = 0, col = "black") + 
+  theme_minimal()
+```
+
+We map the posterior mean relative risks as follows.
+```{r}
+sfdf <- sfdf %>%
+  mutate(RRmean = fit$summary.fitted.values$mean)
+
+tm_shape(sfdf) +
+  tm_polygons(col = "RRmean")
+```
+
+#### Exceedance probabilities
+
+We can  calculate the probabilities of relative risk estimates being greater than a given threshold value. These probabilities are called exceedance probabilities and are useful to assess unusual elevation of disease risk. The probability that the relative risk of area $i$ is higher than a value $c$ is $P(\theta_i > c)$. In INLA $P(\theta_i \le c)$ is computed with `inla.pmarginal()`.
+
+The probability that the first county has a relative risk exceeding 2 is
+```{r}
+1 - inla.pmarginal(q = 2, marginal = fit$marginals.fitted.values[[1]])
+```
+
+To calculate the exceedance probabilities for all counties, we can use the `sapply()` function passing as arguments the list with the marginals of all counties (`fit$marginals.fitted.values`), and the function to calculate the exceedance probabilities (`1- inla.pmarginal()`). The `sapply()` function returns a vector of the same length as the list `fit$marginals.fitted.values` which we add to the simple feature data frame before making a map.
+```{r}
+exc <- sapply(fit$marginals.fitted.values, 
+              FUN = function(marg){1 - inla.pmarginal(q = 2, marginal = marg)})
+sfdf$exc <- exc
+
+tm_shape(sfdf) +
+  tm_polygons(col = "exc", title = "Probability\nRelative Risk > 2")
+```
+
+This map provides evidence of excess risk within individual areas. In areas with probabilities close to 1, it is very likely that the relative risk exceeds 2, and areas with probabilities close to 0 correspond to areas where it is very unlikely that the relative risk exceeds 2. Areas with probabilities around 0.5 have the highest uncertainty, and correspond to areas where the relative risk is below or above 2 with equal probability. We observe that the counties in the north of Scotland are the counties where it is most likely that relative risk exceeds 2.
