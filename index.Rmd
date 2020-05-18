@@ -13,6 +13,8 @@ link-citations: yes
 
 # Preface {-}
 
+https://betanalpha.github.io/assets/case_studies/principled_bayesian_workflow.html#1_questioning_authority
+
 Timeseries Forecasting
 https://weecology.github.io/MATSS/
 
