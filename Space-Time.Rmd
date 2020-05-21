@@ -41,7 +41,8 @@ Use the `rasterize()` function to count the number of times each raster cell con
 ```{r}
 Tor_r <- rasterize(Alltors, r, 
                    field = "om", 
-                   fun = "count")
+                   fun = "count",
+                   background = 0)
 
 class(Tor_r)
 dim(Tor_r)

@@ -29,6 +29,7 @@ https://evamaerey.github.io/flipbooks/flipbookr/skeleton#1
 https://docs.ropensci.org/stplanr/index.html
 
 For QG next Fall: 
+https://data.library.virginia.edu/getting-started-with-quantile-regression/
 https://easystats.github.io/performance/index.html
 
 Climate datasets in R: 
