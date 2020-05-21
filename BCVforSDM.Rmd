@@ -1,3 +1,244 @@
 # Block Cross-Validation for SDM
 
 https://cran.r-project.org/web/packages/blockCV/vignettes/BlockCV_for_SDM.html
+
+## Introduction
+
+The use of spatial and environmental blocks to separate training and testing sets is needed for realistic error estimation in datasets with dependence structures, and for estimating the predictive performance of models involving mapped distributions [@RobertsEtAl2017]. 
+
+Package {blockCV} provides functions to separate train and test sets using buffers, spatial and environmental blocks. It provides several options for how those blocks are constructed. It also has a function that applies geostatistical techniques to investigate the existing level of spatial autocorrelation in the covariates to inform the choice of a suitable distance band by which to separate the data sets. In addition, some visualization tools are provided to help the user choose the block size and explore generated folds.
+
+The package has been written with Species Distribution Modelling (SDM) in mind, and the functions allow for a number of common scenarios (including presence-absence and presence-background species data, rare and common species, raster data for predictor variables). Although it can be applied to any spatial modelling e.g. multi-class responses for remote sensing image classification.
+
+You can find more information about blocking strategies of blockCV package and in general block cross-validation technique in the package associated paper [@ValaviEtAl2018].
+
+This chapter presents the main functions of the package and illustrates its usage with three examples: modelling using {randomForest}, {maxnet} (new implementation of Maxent software in R) and {biomod2} packages.
+
+## Package data
+
+The package contains the raw format of the following data:
+* Raster covariates of Australian Wet Tropic region (`.tif`)
+* Simulated species data (`.csv`)
+
+These data are used to illustrate how the package is used. The raster data include several bioclimatic and topographic variables from Australian Wet Tropic region aggregated to 800 m resolution. The species data contains records of a species, simulated based on the above environmental variables for the region. There are two .csv files with presence-absence and presence-background data.
+
+First we load the packages and import the raster data.
+```{r}
+library(blockCV)
+library(raster)
+library(sf)
+
+awt <- raster::brick(system.file("extdata", "awt.grd", package = "blockCV"))
+```
+
+The presence absence species data include 116 presence points and 138 absence points. The appropriate format of species data for the blockCV package is simple features (sf) or SpatialPointsDataFrame. We convert the data frame to simple feature data frame as follows:
+```{r}
+PA.df <- read.csv(system.file("extdata", "PA.csv", package = "blockCV"))
+PA.sf <- st_as_sf(PA.df, 
+                  coords = c("x", "y"), 
+                  crs = crs(awt))
+PA.sf
+```
+
+Map these data.
+```{r}
+library(tmap)
+
+tm_shape(awt[[1]]) +
+  tm_raster() +
+tm_shape(PA.sf[PA.sf$Species == 1,]) +
+  tm_bubbles(size = .4, col = "red") +
+tm_shape(PA.sf[PA.sf$Species == 0,]) +
+  tm_bubbles(size = .4, col = "gray")
+```
+
+The presence background data include the 116 presence points and 10,000 random background points (0s here).
+```{r}
+PB.df <- read.csv(system.file("extdata", "PB.csv", package = "blockCV"))
+PB.sf <- st_as_sf(PB.df, 
+                  coords = c("x", "y"), 
+                  crs = crs(awt))
+
+table(PB.sf$Species)
+```
+
+## Blocking strategies
+
+### Blocking
+
+The function `spatialBlock()` creates spatially separated folds based on a pre-specified distance (cell size of the blocks). It then assigns blocks to the training and testing folds with random, checkerboard pattern or in a systematic manner. The function can also divide the study region into vertical and horizontal bins with a given number of rows and columns.
+
+The range argument (`theRange`) needs to be in meters. When the input map has geographic coordinate system (decimal degrees), the block size is calculated based on dividing `theRange` by 111325 (the standard distance of a degree in meters, on the Equator).
+
+The xOffset and yOffset can be used to shift the spatial position of the blocks in horizontal and vertical axes, respectively. This only works when the block have been built based on theRange. The blocks argument allows users to define an external spatial polygon as blocking layer. The polygon layer must cover all the species points. In addition, blocks can be masked by species spatial data. This option keeps the blocks that cover species data and remove the rest.
+
+Here we block by specified range with random assignment.
+```{r}
+sb <- spatialBlock(speciesData = PA.sf,
+                   species = "Species",
+                   rasterLayer = awt,
+                   theRange = 70000, # size of the blocks
+                   k = 5,
+                   selection = "random",
+                   iteration = 100, # find evenly dispersed folds
+                   biomod2Format = TRUE,
+                   xOffset = 0, # shift the blocks horizontally
+                   yOffset = 0)
+```
+
+Here we block by rows and columns with checkerboard assignment.
+```{r}
+sb2 <- spatialBlock(speciesData = PA.sf, # presence-background data
+                    species = "Species",
+                    rasterLayer = awt,
+                    rows = 5,
+                    cols = 6,
+                    k = 5,
+                    selection = "systematic",
+                    biomod2Format = TRUE)
+```
+
+For visualising the species data on top of the spatial blocks, one can use `geom_sf()` function of the {ggplot2} package. However, a more sophisticated way of plotting each fold separately is presented in the visualisation tools section.
+```{r}
+library(ggplot2)
+
+sb$plots + 
+  geom_sf(data = PA.sf, alpha = 0.5)
+```
+
+### Buffering
+
+The function `buffering()` generates spatially separated training and testing folds by considering buffers of specified distance around each observation point. This approach is a form of leave-one-out cross-validation. Each fold is generated by excluding nearby observations around each testing point within the specified distance (ideally the range of spatial autocorrelation). In this method the test set never directly abuts a training presence or absence.
+
+When working with presence-background (presence and pseudo-absence) data (specified by `spDataType` argument), only presence records are used for specifying the folds. Consider a target presence point. The buffer is defined around this target point, using the specified range (`theRange`). The testing fold comprises the target presence point and all background points within the buffer. Any non-target presence points inside the buffer are excluded. All points (presence and background) outside of buffer are used for training set. The method cycles through all the presence data, so the number of folds is equal to the number of presence points in the dataset.
+
+For presence-absence data, folds are created based on all records, both presences and absences. As above, a target observation (presence or absence) forms a test point, all presence and absence points other than the target point within the buffer are ignored, and the training set comprises all presences and absences outside the buffer. 
+
+Apart from the folds, the number of training-presence, training-absence, testing-presence and testing-absence records is stored and returned in the records table. If `species = NULL` (no column with 0s and 1s is defined), the procedure is like presence-absence data. All other types of data (continuous, count or multi-class response) should be used like this.
+
+Buffering with presence-absence data
+```{r}
+bf1 <- buffering(speciesData = PA.sf,
+                 theRange = 70000,
+                 species = "Species", # to count the number of presences and absences/backgrounds
+                 spDataType = "PA", # presence-absence  data type
+                 progress = TRUE)
+```
+
+In the following buffering example, presence-background data are used. As explained above, by default the background data within any target point will remain in the testing fold. This can be changed by setting `addBG = FALSE` (this option only works when `spDataType = "PB"`; note the default value is `"PA"`).
+
+Buffering with presence-background data
+```{r eval=FALSE}
+bf2 <- buffering(speciesData = PB.sf, # presence-background data
+                 theRange = 70000,
+                 species = "Species",
+                 spDataType = "PB", # presence-background data type
+                 addBG = TRUE, # add background data to testing folds
+                 progress = TRUE)
+```
+
+### Environmental block
+
+The function `envBlock()` uses clustering methods to specify sets of similar environmental conditions based on the input covariates. Species data corresponding to any of these groups or clusters are assigned to a fold.
+
+As k-means algorithms use Euclidean distance to estimate clusters, the input covariates should be quantitative variables. Since variables with wider ranges of values might dominate the clusters and bias the environmental clustering (Hastie et al., 2009), all the input rasters are first standardized within the function. This is done either by normalizing based on subtracting the mean and dividing by the standard deviation of each raster (the default) or optionally by standardizing using linear scaling to constrain all raster values between 0 and 1. 
+
+By default, the clustering is done in the raster space. In this approach, the clusters will be consistent throughout the region and across species (in the same region). However, this may result in cluster(s) that cover none of the species records especially when species data is not dispersed throughout the region or the number of clusters (k or folds) is high. In this case, the number of folds is less than the specified k. If `rasterBlock = FALSE`, the clustering will be done based only on the values of the predictors at the species presence and absence/background points. In this case, and the number of the folds will be the same as k.
+
+Note that the input raster layer should cover all the species points, otherwise an error will rise. The records with no raster value should be deleted prior to the analysis.
+```{r}
+eb <- envBlock(rasterLayer = awt,
+               speciesData = PA.sf,
+               species = "Species",
+               k = 5,
+               standardization = "standard", # rescale variables between 0 and 1
+               rasterBlock = FALSE,
+               numLimit = 50)
+```
+
+## The effective range of spatial autocorrelation
+
+To support a first choice of block size, prior to any model fitting, package {blockCV} includes the option for the user to look at the existing autocorrelation in the predictors, as an indication of landscape spatial structure in their study area. The tool does not suggest any absolute solution to the problem, but serves as a guide to the user. 
+
+The function works by automatically fitting variograms to each continuous raster and finding the effective range of spatial autocorrelation. Variogram is a fundamental geostatistical tool for measuring spatial autocorrelation. It does so by assessing variability between all pairs of points. It provides information about the effective range of spatial autocorrelation which is the range over which observations are independent.
+```{r}
+sac <- spatialAutoRange(rasterLayer = awt,
+                        sampleNumber = 5000,
+                        doParallel = TRUE,
+                        showPlots = TRUE)
+
+summary(sac)
+
+library(automap)
+
+plot(sac$variograms[[1]])
+```
+
+## PRISM temperatures
+
+```{r}
+library(prism)
+options(prism.path = "PRISM")
+
+get_prism_dailys(
+  type = "tmax",
+  minDate = "2020-05-16", 
+  maxDate = "2020-05-16", 
+  keepZip = FALSE 
+)
+get_prism_dailys(
+  type = "tmin",
+  minDate = "2020-05-16", 
+  maxDate = "2020-05-16", 
+  keepZip = FALSE 
+)
+
+tmin.r <- raster("PRISM/PRISM_tmin_early_4kmD2_20200516_bil/PRISM_tmin_early_4kmD2_20200516_bil.bil")
+tmax.r <- raster("PRISM/PRISM_tmax_early_4kmD2_20200516_bil/PRISM_tmax_early_4kmD2_20200516_bil.bil")
+
+Leon.sf <- USAboundaries::us_counties(states = "FL") %>%
+  dplyr::filter(name %in% c("Leon", "Gadsden", "Liberty", "Wakulla", "Jefferson", "Jackson", "Calhoun")) %>%
+  sf::st_transform(crs = projection(tmax.r))
+
+tmin.r2 <- crop(tmin.r, Leon.sf)
+tmax.r2 <- crop(tmax.r, Leon.sf)
+
+Moran(tmin.r2)
+Moran(tmax.r2)
+
+temps <- brick(tmin.r2, tmax.r2)
+tempsp <- projectRaster(temps, crs = "+proj=lcc +lat_1=33 +lat_2=45 +lat_0=39 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+
+sac <- spatialAutoRange(rasterLayer = temps,
+                        sampleNumber = 1000,
+                        doParallel = TRUE,
+                        showPlots = TRUE)
+
+summary(sac)
+
+plot(sac$variograms[[1]])
+```
+
+30-year normals: April
+```{r}
+get_prism_normals(type = "tmin",
+                  mon = 4,
+                  resolution = "800m")
+tmin.r <- raster("PRISM/PRISM_tmin_30yr_normal_800mM2_04_bil/PRISM_tmin_30yr_normal_800mM2_04_bil.bil")
+tmin.r2 <- crop(tmin.r, Leon.sf)
+
+get_prism_normals(type = "tmax",
+                  mon = 4,
+                  resolution = "800m")
+tmax.r <- raster("PRISM/PRISM_tmax_30yr_normal_800mM2_04_bil/PRISM_tmax_30yr_normal_800mM2_04_bil.bil")
+tmax.r2 <- crop(tmax.r, Leon.sf)
+
+temps <- brick(tmin.r2, tmax.r2)
+
+sac <- spatialAutoRange(rasterLayer = temps,
+                        sampleNumber = 1000,
+                        doParallel = TRUE,
+                        showPlots = TRUE)
+
+summary(sac)
+```
