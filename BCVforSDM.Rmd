@@ -178,6 +178,7 @@ plot(sac$variograms[[1]])
 
 Clear, calm days in April "1991-04-02" "1992-04-15" "1993-04-11" "1994-04-02" "1995-04-09"
 ```{r}
+CCdates <- "2020-04-09" # record hot day 94F at airport
 CCdates <- c("1991-04-02", "1992-04-15", "1993-04-11", "1994-04-02", "1995-04-09")
 CCstring <- gsub("-", "", CCdates)
 ```
@@ -188,7 +189,7 @@ options(prism.path = "PRISM")
 ```
 
 ```{r}
-i <- 3
+i <- 1
 
 get_prism_dailys(
   type = "tmax",
@@ -203,8 +204,8 @@ get_prism_dailys(
   keepZip = FALSE 
 )
 
-tmin.r <- raster(paste0("PRISM/PRISM_tmin_stable_4kmD2_", CCstring[i], "_bil/PRISM_tmin_stable_4kmD2_", CCstring[i], "_bil.bil"))
-tmax.r <- raster(paste0("PRISM/PRISM_tmax_stable_4kmD2_", CCstring[i], "_bil/PRISM_tmax_stable_4kmD2_", CCstring[i], "_bil.bil"))
+tmin.r <- raster(paste0("PRISM/PRISM_tmin_provisional_4kmD2_", CCstring[i], "_bil/PRISM_tmin_provisional_4kmD2_", CCstring[i], "_bil.bil"))
+tmax.r <- raster(paste0("PRISM/PRISM_tmax_provisional_4kmD2_", CCstring[i], "_bil/PRISM_tmax_provisional_4kmD2_", CCstring[i], "_bil.bil"))
 
 Leon.sf <- USAboundaries::us_counties(states = "FL") %>%
   dplyr::filter(name %in% c("Leon", "Gadsden", "Liberty", "Wakulla", "Jefferson", "Jackson", "Calhoun")) %>%
@@ -220,7 +221,7 @@ temps <- brick(tmin.r2, tmax.r2)
 #tempsp <- projectRaster(temps, crs = "+proj=lcc +lat_1=33 +lat_2=45 +lat_0=39 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
 
 sac <- spatialAutoRange(rasterLayer = temps,
-                        sampleNumber = 2000,
+                        sampleNumber = 100,
                         doParallel = TRUE,
                         showPlots = TRUE)
 
