@@ -1,8 +1,7 @@
 book_filename: "assfg-book"
-language:
-  ui:
-  chapter_name: "Chapter "
+chapter_name: "Chapter "
 delete_merged_file: true
-
-rmd_files: ["index.Rmd", 
-           "SIR.Rmd"]
+repo: https://github.com/jelsner/ASSFG-Book
+rmd_files: ["index.Rmd", "01-Chapter.Rmd"]
+clean: [packages.bib, bookdown.bbl]
+new_session: no
