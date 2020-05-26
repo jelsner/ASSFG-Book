@@ -1272,6 +1272,10 @@ tm_shape(t.sf) +
 
 The model with a non-zero nugget is smoother. The greater the nugget relative to the sill (relative nugget effect), the smoother the interpolation.
 
+## Combine prediction and uncertainty in a single map
+
+See `Pixelate.Rmd`.
+
 ## Synthetic data
 
 Synthetic data are useful as input to a deterministic model. An example is rainfall as input to spatially-distributed rainfall-runoff model. Interpolated values of precipitation and their variances might be of little value, but running the rainfall-runoff model with a large number of simulated rainfall fields can give a realistic assessment of the uncertainty in runoff arising from the variability in the rainfall.
