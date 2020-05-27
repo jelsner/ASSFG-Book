@@ -422,22 +422,22 @@ abline(model)
 
 ### Tornadoes in the United States
 
-We download the data from the Storm Prediction Center (SPC) http://www.spc.noaa.gov/gis/svrgis/zipped/. We give the zipped file a temporary name on our computer (here `temporary.zip`) using the `destfile =` argument.
+We download the data from the Storm Prediction Center (SPC) http://www.spc.noaa.gov/gis/svrgis/zipped/. We give the zipped file a temporary name on our computer (here `temp.zip`) using the `destfile =` argument.
 ```{r}
 download.file(url = "http://www.spc.noaa.gov/gis/svrgis/zipped/1950-2018-torn-initpoint.zip",
-              destfile = "temporary.zip")
+              destfile = "data/temp.zip")
 ```
 
 Next we open the zipped file with the `unzip()` function. This creates a folder in our working directory called `1950-2018-torn-initpoint`.
 ```{r}
-unzip("temporary.zip")
+unzip("data/temp.zip")
 ```
 
 Finally we load the shapefile into R. We use the `read_sf()` function from the **sf** package. We specify the data source name `dsn =`. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).
 ```{r}
 library(sf)
 
-Torn.sf <- read_sf(dsn = "1950-2018-torn-initpoint")
+Torn.sf <- read_sf(dsn = "data/1950-2018-torn-initpoint")
 ```
 
 Much more about working with shapefiles and spatial data frames throughout the semester.
