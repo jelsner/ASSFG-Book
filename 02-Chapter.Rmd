@@ -7,7 +7,7 @@ editor_options:
 
 **“The trouble with programmers is that you can never tell what a programmer is doing until it’s too late.”** --- Seymour Cray
 
-## A Grammar for Data
+## Grammar for Data
 
 So far we've done things on data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.
 
@@ -288,7 +288,7 @@ Note the column named `date` is a character vector in the format year-month-day.
 ```{r}
 library(sf)
 
-Torn.sf <- read_sf(dsn = "1950-2018-torn-initpoint")
+Torn.sf <- read_sf(dsn = "data/1950-2018-torn-initpoint")
 head(Torn.sf$date)
 ```
 
@@ -491,7 +491,7 @@ df %>%
   arrange(desc(nF))
 ```
 
-## A Grammar for Graphs
+## Grammar for Graphs
 
 **"Hell isn't other people's code. Hell is your own code from 3 years ago."** --- Jeff Atwood'
 
@@ -789,6 +789,35 @@ gLVG <- ggplot(LVG.df, aes(x = TmaxF)) +
 
 library(patchwork)
 gTLH / gLVG
+```
+
+### Geofacet
+
+Bar plot of the number of tornadoes by month and by state. The code uses the {geofacet} package [@Hafen2020].
+```{r}
+Torn.sf <- read_sf(dsn = "data/1950-2018-torn-initpoint")
+
+library(geofacet)
+library(scales)
+
+Torn.sf %>% 
+  as.data.frame() %>%
+  group_by(mo, st) %>%
+  summarise(nT = n()) %>%
+  mutate(month = factor(month.name[mo], levels = month.name)) %>%
+#  filter(st != "DC") %>%
+ggplot(aes(as.factor(mo), nT)) +
+  geom_col(fill = "gray70") +
+  facet_geo(~ st, grid = "us_state_grid3", scales = "free_y") +
+  scale_x_discrete(breaks = 1:12, labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D")) +
+  scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) +
+  labs(title = "Relative peakedness of the tornado season in the Plains",
+       caption = "SPC data from 1950-2018") +
+  xlab("") + ylab("") +
+  theme_minimal() +
+  theme(strip.text.x = element_text(size = 6),
+        axis.text.x = element_text(size = 6),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
 
 * https://exts.ggplot2.tidyverse.org/
