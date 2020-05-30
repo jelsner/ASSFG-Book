@@ -770,3 +770,7 @@ res(repr)
 ```
 
 Again, the `res()` command gives back a numeric vector without any unit, forcing us to know that the unit of the WGS84 projection is decimal degrees.
+
+### Coastal buffers
+
+https://github.com/cabuelow/coastal-buffers/blob/master/coastal-buffers.R
