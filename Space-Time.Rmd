@@ -31,10 +31,10 @@ sfdfB <- st_buffer(sfdfL,
 
 Next set the raster domain slightly larger than the bounding box and assign a resolution of one degree in longitude and one degree in latitude. Check the extent of the raster with the `extent()` function.
 ```{r}
-r <- raster(xmn = -125, xmx = -67, ymn = 24, ymx = 50)
-res(r) <- 1
+frame <- raster(xmn = -125, xmx = -67, ymn = 24, ymx = 50)
+res(frame) <- 1
 
-extent(r)
+extent(frame)
 ```
 
 Use the `rasterize()` function to count the number of times each raster cell contains a tornado genesis location. The first argument is the spatial data frame (dough; here a simple feature data frame) and the second is the raster without values (cooking cutter). The argument `field =` specifies a column name in the spatial data frame (here just an identifier) and the argument `fun =` specifies what to do (here simply count the unique instances of the field in each cell).

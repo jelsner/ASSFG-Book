@@ -1,0 +1,483 @@
+---
+title: "GEO5122: Applied Spatial Statistics"
+author: "James B. Elsner"
+date: "Spring 2021"
+output: 
+  html_document:
+  keep_md: false
+editor_options: 
+  chunk_output_type: console
+---
+
+How would you determine which of these two cities is snowier: Milwaukee or Madison?
+
+How would you determine if the strongest hurricanes are getting stronger as a result of climate change?
+
+How would you determine whether tornadoes are more likely to occur over smooth terrain?
+
+### Contact information
+
+* Instructor Location: Bellamy Building, Room 323a
+* Lesson Hours: Mon/Wed 9:05 a.m. - 9:55 a.m.
+* Lab Hours: Fri 9:05 a.m. - 9:55 a.m.
+* Student Hours: Mon/Wed 9:55 a.m. - 10:30 a.m.
+* Email: <jelsner@fsu.edu>
+
+### Links to my stuff
+
+* [Website](http://myweb.fsu.edu/jelsner/_site/)
+* [GitHub](https://github.com/jelsner/)
+* [Twitter](https://twitter.com/JBElsner)
+
+### Course description
+
+This course is for students who want to be able to analyze, model, and map spatial data using the R programming language. It assumes students know statistics through linear regression and they have some prior experience with using R. Students without knowledge of R should seek help through online tutorials.
+
+This course is a survey of the methods used to describe, analyze, and model spatial data. The focus is on applications. Emphasis is given to how spatial statistical methods are related. Topics include diagnostics and models for lattice data, point pattern data, and geostatistical data.
+
+### Expected learning outcomes
+
+1. Learn how to apply statistical methods and models to spatial data, 
+2. learn about the various packages in R for analyzing and modeling spatial data, and 
+3. learn how to interpret the results of a spatial data model. 
+
+Most class time will be spent working through the R code in the lesson notes. The lesson notes are comprehensive. The lesson notes are written using markdown. Markdown is a way to write content for the Web. Each lesson is contained in a file having the suffix `.Rmd` (an R markdown file) within a RStudio Cloud project with the same name. 
+
+### Course materials
+
+* You will need access to the internet and a laptop computer (an iPad should work).
+* All course materials are available through RStudio Cloud (https://rstudio.cloud/spaces/40772/projects).
+* There is no required textbook. 
+* Much of the material for the course comes from the online book: R for Data Science https://r4ds.had.co.nz/
+* Additional help is available online (e.g., https://tinystats.github.io/teacups-giraffes-and-statistics/index.html)
+
+### Class meetings
+
+- Interactive lessons
+- Mostly learn-by-doing
+- Bring your laptop/iPad to class every day
+
+### Grades
+
+You are responsible for:
+
+1. Working through the R markdown files (`.Rmd`) files (you can do this in class or out of class), 
+2. Handing in the assignments on time
+
+Grades are determined solely by how well you do on the assignments.
+
+### Grading standard
+
+* A:  Outstanding: few, in any, errors/omissions
+* B:  Good: only minor errors/omissions
+* C:  Satisfactory: minor omissions, at least one major error/omission
+* D:  Poor: several major errors/omissions
+* F:  Fail: many major errors/omissions
+
+I'll use the +/- grading system.
+
+Grades will be posted on * [FSU Canvas](https://canvas.fsu.edu)
+
+### Academic honor code
+
+http://www.eng.fsu.edu/~peterson/fsuhc.html
+
+### Americans With Disabilities Act
+
+Students with disabilities needing academic accommodation should: (1) register with and provide documentation to the Student Disability Resource Center; (2) bring a letter indicating the need for accommodation and what type. This should be done during the first week of classes.
+
+### Diversity & inclusiveness
+
+Students from all diverse backgrounds and perspectives will be well-served by this course. Student learning needs be addressed both in and out of class, and that the diversity that you bring to this class will be viewed as a resource, strength and benefit. It is my intent to present materials and activities that are respectful of diversity: gender identity, sexuality, disability, age, socioeconomic status, ethnicity, race, nationality, religion, and culture. Let me know ways to improve the effectiveness of the course for you personally, or for other students or student groups.
+
+- If you have a name and/or set of pronouns that differ from those that appear in your official FSU records, please let me know.
+- If you feel your performance is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your academic dean is an excellent resource. 
+- If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it.
+
+### Syllabus change policy
+
+This syllabus is a guide for the course and is subject to change with advanced notice.
+
+### Outline
+
+Topics:
+
+1. Wrangling data and making graphs (~ 2 weeks)
+2. Working with spatial data and making maps (~ 2 weeks)
+3. Quantifying spatial autocorrelation and spatial regression (~ 2 weeks)
+4. Analyzing and modeling point pattern data (~ 3 weeks)
+5. Estimating a variogram and spatial interpolation (~ 3 weeks)
+6. Other topics (~ 2 weeks)
+
+Calendars
+
+Lessons:
+* January 6, 8
+* January 11, 13
+* January 20, 22
+* January 25, 27
+* February 1, 3
+* February 8, 10
+* February 15, 17
+* February 22, 24
+* March 1, 3
+* March 8, 10
+* March 15, 17
+* March 22, 24
+* March 29, 31
+* April 5, 7
+* April 12, 14
+
+Labs: 
+* January 15
+* January 29
+* February 5
+* February 12
+* February 19
+* February 26
+* March 5
+* March 12
+* March 26
+* April 9
+* April 16
+
+### Main reference books
+
+1. Bivand, R. S., E. J. Pebesma, and V. G. Gomez-Rubio, 2013: Applied Spatial Data Analysis with R, 2nd Edition, Springer. A source for much of the material in the lesson notes.
+2. Lovelace, R. Nowosad, J. and Muenchow, J. Geocomputation with R. https://geocompr.robinlovelace.net/ A source for some of the material in the lesson notes.
+3. Healy, K., 2018: Data Visualization: A practical introduction, https://socviz.co/. This book teaches you how to really look at your data. A source for some of the early material in the lesson notes.
+4. Waller, L. A., and C. A. Gotway, 2004: Applied Spatial Statistics for Public Health Data, John Wiley & Sons, Inc. (Available as an e-book in the FSU library). Good overall reference material for analyzing and modeling spatial data.
+
+### Main online resources related to material covered in the course:
+
+* Cheat Sheets: https://rstudio.com/resources/cheatsheets/
+* R Cookbook: How to do specific things: https://rc2e.com/
+* R for Geospatial Processing: https://bakaniko.github.io/FOSS4G2019_Geoprocessing_with_R_workshop/
+* Spatial Data Science: https://keen-swartz-3146c4.netlify.com/
+
+### Other related online resources not necessarily covered in the course:
+
+#### Maps/graphs:
+
+* Inset maps: https://geocompr.github.io/post/2019/ggplot2-inset-maps/
+* cartography package in R: https://riatelab.github.io/cartography/docs/articles/cartography.html
+* geovisualization with mapdeck: https://spatial.blog.ryerson.ca/2019/11/21/geovis-mapdeck-package-in-r/
+* 3D elevation with ray shader: https://www.rayshader.com/
+* 3D elevation to 3D printer: https://blog.hoxo-m.com/entry/2019/12/19/080000
+* Accelerate your plots with ggforce: https://rviews.rstudio.com/2019/09/19/intro-to-ggforce/
+* tmaptools::geocode_OSM("Florida State University")
+* Summary statistics and ggplot: https://ggplot2tutor.com/summary_statistics/summary_statistics/
+
+#### Space-time statistics: 
+
+* Space-time Bayesian modeling package: https://cran.r-project.org/web/packages/spTimer/spTimer.pdf
+* Working with space-time rasters: https://github.com/surfcao/geog5330/blob/master/week12/raster.Rmd
+* Space-time trajectories.
+
+#### Bayesian models:
+
+* Bayesian Linear Mixed Models: Random intercepts, slopes and missing data: https://willhipson.netlify.com/post/bayesian_mlm/bayesian_mlm/
+* Doing Bayesian Data Analysis in brms and the tidyverse: https://bookdown.org/ajkurz/DBDA_recoded/ 
+* Spatial models with INLA: https://becarioprecario.bitbucket.io/inla-gitbook/index.html
+* Geospatial Health Data: Modeling and Visualization with R-INLA and Shiny: https://paula-moraga.github.io/book-geospatial/
+
+#### Spatial data:
+
+* Google earthengine: https://earthengine.google.com/
+* Burden of roof: Revisiting housing costs with tidycensus: https://austinwehrwein.com/data-visualization/housing/
+* The Care and Feeding of Spatial Data: https://docs.google.com/presentation/d/1BHlrSZWmw9tRWfYFVsRLNhAoX6KzhOhsnezTqL-R0sU/edit#slide=id.g6aeb55b281_0_550 
+* Accessing remotely sensed imagery: https://twitter.com/mouthofmorrison/status/1212840820019208192/photo/1
+* Spatial data sets from Brazil: https://github.com/ipeaGIT/geobr
+
+#### Machine learning:
+
+* Supervised machine learning case studies: https://supervised-ml-course.netlify.com/
+* Machine Learning for Spatial Prediction: https://www.youtube.com/watch?v=2pdRk4cj1P0&feature=youtu.be
+
+#### Spatial networks:
+
+* Spatial Networks in R with sf and tidygraph: https://www.r-spatial.org/r/2019/09/26/spatial-networks.html
+* Travel times/distances: https://github.com/rCarto/osrm
+
+#### Gender/racial balance assessments
+
+* https://jlsumner.shinyapps.io/syllabustool/
+
+### Additional reference books
+
+* Anselin, L., 2005: Spatial Regression Analysis in R, Spatial Analysis Laboratory, Center for Spatially Integrated Social Science.
+* Baddeley, A., and R. Turner, 2005: spatstat: An R Package for Analyzing Spatial Point Patterns, Journal of Statistical Software, v12.
+* Blangiardo, M., and M. Cameletti, 2015: Spatial and Spatio-temporal Bayesian Models with R-INLA, John Wiley & Sons, Inc., New York. An introduction to Bayesian models for spatial data.
+* Cressie, N. A. C., 1993: Statistics for Spatial Data, Wiley Series in Probability and Mathematical Statistics, John Wiley & Sons, Inc., New York.  A mathematical treatment of spatial data analysis.
+* Cressie, N. A. C., and C. K. Wikle, 2011: Statistics for Spatio-Temporal Data, Wiley Series in Probability and Mathematical Statistics, John Wiley & Sons, Inc., New York.  A mathematical treatment of space-time statistics with an emphasis on Bayesian models.
+* Diggle, P. J., 2003: Statistical Analysis of Spatial Point Patterns, Second Edition, Arnold Publishers. An introduction to the concepts and methods of statistical analysis of spatial point patterns.
+* Fotherhingham, A. S., C. Brunsdon, and M. Charlton, 2000: Quantitative Geography: Perspectives on Spatial Data Analysis, SAGE Publications, London.  A survey of spatial data analysis from the perspective of modern geography.
+* Haining, R., 2003: Spatial Data Analysis: Theory and Practice, Cambridge University Press.  A confluence of geographic information science and applied spatial statistics.
+* Illian, J., A. Penttinen, H. Stoyan, and D. Stoyan, 2008: Statistical Analysis and Modeling of Spatial Point Patterns, Wiley Series in Statistics in Practice, John Wiley & Sons, Inc., New York.  A mathematical treatment of spatial point processes.
+* Ripley, B. D., 1981: Spatial Statistics, Wiley, New York. A reference book on spatial data analysis with emphasis on point pattern analysis.
+* Wickham, H., 2009: ggplot2: Elegant Graphics for Data Analysis, Springer UseR! Series, Springer, New York.  An introduction to the ggplot package for graphics.
+
+### Examples of my research
+
+- [More hots](https://eartharxiv.org/q4y8z/)
+- [Stronger tornadoes](https://eartharxiv.org/wpkt9/)
+
+### Examples of other research
+
+- [A year as told by fitbit](http://livefreeordichotomize.com/2017/12/27/a-year-as-told-by-fitbit/) by Nick Strayer
+- [R-Ladies global tour](http://www.masalmon.eu/2017/10/06/globalrladiestour/) by Maelle Salmon
+- [Text analysis of Trump's tweets confirms he writes only the (angrier) Android half](http://varianceexplained.org/r/trump-tweets/) by David Robinson
+
+## Reproducible research 
+
+A scientific paper has at least two goals: announce a new result and convince readers that the result is correct. Scientific papers should describe the results _and_ provide a clear protocol to allow repetition and extension.
+
+Analysis and modeling tools should integrate text with code to make it easier to provide a clear protocol of what was done.
+
+* Such tools make doing research efficient. Changes are made with little effort.
+* Such tools allow others to build on what you've done. Research achieves more faster.
+* Collaboration is easier.
+* Code sharing leads to greater research impact. Research impact leads to promotion & tenure.
+
+Free and open source software for geospatial data has progressed at an astonishing rate. High performance spatial libraries are now widely available. 
+
+However, much of it is still not easy to script. Open source Geographic Information Systems (GIS) such as QGIS (see https://qgis.org) have greatly reduced the 'barrier to entry' but emphasis on the Graphical User Interface (GUI) makes reproducible research difficult. 
+
+Instead this course focuses on a Command Line Interface (CLI), enabling reproducible, and 'computational' workflows.
+
+### Join RStudio Cloud
+
+* Go to [RStudio Cloud](https://rstudio.cloud), and log in.
+* Click on this link https://rstudio.cloud/spaces/40772/join?access_code=T667RyB4%2BmzxJcD85mJQiQ4PTlPhLcZ3UnsvBrl%2F to join the Applied Spatial Statistics workspace on RStudio Cloud.
+* Make a copy of the project `Syllabus` and launch it.
+* In the Files pane in the bottom right corner, spot the file called `Syllabus.Rmd`. Open it, and then click on the "Knit" button.
+* Go back to the file and change my name to your name (in the `yaml` -- we'll talk about what this means later) and knit again.
+* Once done, place a green sticky note on your laptop. If you have questions, place a pink sticky note on your laptop.
+
+### R & RStudio
+
+* R is a free software environment for statistical computing and graphics. It compiles and runs on Windows, Mac, and Linux.
+* R is maintained by the R core-development team; an international group of mostly volunteer developers.
+* Excellent graphing functions. Powerful and extensible syntax. Thousands of functions.
+* No commercial support but plenty of free online support.
+* It's a programming language so you need to appreciate syntax issues. 
+* Lets you take advantage of the new, cutting edge applications in spatial statistics.
+* A large and increasing number of scientists are reporting results in the context of R, and it's important to know what they are talking about. Most of the world's leading statisticians use and contribute to R.
+* R does GIS without the cost of a license.  
+* The **knitr** package is an engine for dynamic report generation with R.
+* RStudio is an open-source integrated development environment (IDE) for R. It runs on your desktop (Windows, Mac, or Linux) or over the web using RStudio Server. 
+
+In this class we will use RStudio Cloud. However, if you want to work with R and RStudio on your laptop or desktop (without RStudio Cloud) here are the steps for getting started.
+
+(1) Download R
+
+* Point browser to http://www.r-project.org.
+* Select the CRAN (Comprehensive R Archive Network). Scroll to a mirror site. 
+* Windows > base > R-xxxx-win32.exe Save File.
+* On your computer, select the download icon and follow the instructions to install R.
+
+(2) Download RStudio
+
+* Click on http://rstudio.org
+* Download RStudio Desktop
+* Install and open RStudio
+
+## Learning R
+
+### Swirl
+
+The package **swirl** contains functions to help you learn the basics of R. The `install.packages` function gets the package from an CRAN mirror site. This needs to be done only once to your local computer. You can update packages using `update.packages`. To make the functions work in your current session you must use the `library` function. This needs to be done for every session, but only once per session.
+```{r, eval=FALSE}
+install.packages("swirl")
+library(swirl)
+```
+
+Type:
+```{r, eval=FALSE}
+swirl()
+```
+
+Choose the lesson: R Programming. Work through lessons 1:8
+
+Getting help: https://www.r-project.org/help.html
+
+### Getting started
+
+Statistics is the analysis and modeling of data. Use the `c()` function to input small bits of data into R. The function combines (concatenates) items in a list together. For example, consider a set of hypothetical annual land falling hurricane counts over a ten-year period.
+
+2  3  0  3  1  0  0  1  2  1
+
+We get save these counts in our working directory by typing them into the console as follows. The console is the lower left window.
+```{r}
+counts <- c(2, 3, 0, 3, 1, 0, 0, 1, 2, 1)
+counts
+```
+
+We assign the values to an object called `counts`. The assignment operator is an equal sign (`<-` or `=`).  Values do not print. They are assigned to an object name. They are printed by typing the object name as we did on the second line. When printed the values are prefaced with a `[1]`. This indicates that the object is a vector and the first entry in the vector has a value of 2 (The number immediately to the right of `[1]`).
+
+We use the arrow keys to retrieve previous commands. Each command is stored in the history file. The up-arrow key moves backwards through the history file. The left and right arrow keys move the cursor along the line.
+ 
+### Functions
+
+We apply functions to data stored in objects.
+```{r}
+sum(counts)
+length(counts)
+sum(counts)/length(counts)
+mean(counts)
+```
+
+The function `sum()` totals the number of hurricanes over all years, `length()` gives the number of elements in the vector. Other functions include, `sort()`, `min()`, `max()`, `range()`, `diff()`, and `cumsum()`. Try these functions on the landfall counts. What does `range()` function do?  What does `diff()` do?
+
+### Data vectors
+
+The hurricane count data stored in the object `counts` is a vector. This means that R keeps track of the order that the data were entered. There is a first element, a second element, and so on. This is good for several reasons.
+
+The vector of counts has a natural order; year 1, year 2, etc. We don't want to mix these. We would like to be able to make changes to the data item by item instead of entering the values again. Also, vectors are math objects so that math operations can be performed on them.
+
+For example, suppose `counts` contain the annual landfall count from the first decade of a longer record.  We want to keep track of counts over other decades. This could be done by the following, example.
+```{r}
+d1 <- counts
+d2 <- c(0, 5, 4, 2, 3, 0, 3, 3, 2, 1)
+```
+
+Most functions operate on each element of the data vector at the same time.
+```{r}
+d1 + d2
+```
+
+The first year of the first decade is added from the first year of the second decade and so on.
+
+What happens if we apply the `c()` function to these two vectors?  Try it.
+```{r}
+c(d1, d2)
+```
+
+If we are interested in each year's count as a difference from the decade mean, we type:
+```{r}
+d1 - mean(d1)
+```
+
+In this case a single number (the mean of the first decade) is subtracted from a vector. The result is from subtracting the number from each entry in the data vector. This is an example of data recycling. R repeats values from one vector so that the vector lengths match. Here the mean is repeated 10 times.
+
+#### Variance
+
+Suppose we are interested in the variance of the set of landfall counts. The variance is computed as
+$$
+\hbox{var}(x) = \frac{(x_1 - \bar x)^2 + (x_2 - \bar x)^2 + \cdots + (x_n - \bar x)^2}{n-1} = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar x)^2
+$$
+
+Although the `var()` function computes this, here we see how we do this using the simpler functions and recycling. The key is to find the squared differences and then sum.
+```{r}
+x <- d1
+xbar <- mean(x)
+x - xbar
+(x - xbar)^2
+sum((x - xbar)^2)
+n <- length(x)
+n
+sum((x - xbar)^2)/(n - 1)
+var(x)
+```
+
+### Vector types
+
+A restriction on vectors is that all the values must have the same type. This can be numeric, as in counts, character strings, as in
+```{r}
+simpsons <- c('Homer', 'Marge', 'Bart', 'Lisa', 'Maggie')
+simpsons
+```
+
+Character strings are made with matching quotes, either double, `"`, or single, `'`. If we mix types the values will be coerced into a common type, which is usually a character string. Arithmetic operations do not work on character strings.
+
+Returning to the land falling hurricane counts. Now suppose the National Hurricane Center (NHC) reanalyzes a storm, and that the 6th year of the 2nd decade is a 1 rather than a 0 for the number of landfalls. In this case we type:
+```{r}
+d2[6] <- 1
+```
+
+This assigns to the 6th year of the decade a value of one. The assignment to the 6th entry in the vector `d2` is done by referencing the entry with square brackets `[]`. 
+
+Keep this straight: Parentheses `()` are used for functions and square brackets `[]` are used to extract values from vectors (and arrays, lists, etc).
+```{r}
+d2
+d2[2]
+d2[-4]
+d2[c(1, 3, 5, 7, 9)]
+```
+
+The first line prints all the values of the vector `df2`. The second prints only the 2nd value of the vector. The third prints all but the 4th value. The fourth prints the values with odd element numbers.
+
+### Structured data
+
+Sometimes we need to create structured data. For example, the integers 1 through 99. To enter these we use the `:` operator.
+```{r, eval=FALSE}
+1:99
+rev(1:99)
+99:1
+```
+
+The `seq()` function is more general than `:`. We specify the sequence interval with the `by =` or `length =` arguments.
+```{r}
+seq(1, 9, by = 2)
+seq(1, 10, by = 2)
+seq(1, 9, length = 5)
+```
+
+The `rep()` function is to create repetitive sequences. The first argument is a value or vector that we want repeated and the second argument is the number of times we want it repeated.
+```{r}
+rep(1, times = 10)
+rep(simpsons, times = 2)
+```
+
+In the second example the vector `simpsons` containing the Simpson characters is repeated twice.
+
+To repeat each element of the vector use the `each =` argument.
+```{r}
+rep(simpsons, each = 2)
+```
+
+More complicated patterns can be repeated by specifying pairs of equal-sized vectors. In this case, each element of the first vector is repeated the corresponding number of times specified by the element in the second vector.
+```{r}
+rep(c("long", "short"), c(2, 3))
+```
+
+### Query data
+
+To find the maximum number of landfalls in the first decade we type.
+```{r}
+max(d1)
+```
+
+Which years had the maximum?
+```{r}
+d1 == 3
+```
+
+Notice the double equals signs (`==`).  This tests each value in `d1` to see if it is equal to 3. The 2nd and 4th values are equal to 3 so `TRUE`s are returned. Think of this as asking R a question. Is the value equal to 3?  R answers all at once with a vector of `TRUE`'s and `FALSE`'s.
+
+Now the question is -- how do you get the vector element corresponding to the `TRUE` values?  That is, which years have 3 landfalls?
+```{r}
+which(d1 == 3)
+```
+
+The function `which.max()` can be used to get the first maximum.
+```{r}
+which.max(d1)
+```
+
+We might also want to know the total number of landfalls in each decade and the number of years in a decade without a landfall.  Or how about the ratio of the mean number of landfalls over the two decades.
+```{r}
+sum(d1)
+sum(d2)
+sum(d1 == 0)
+sum(d2 == 0)
+mean(d2)/mean(d1)
+```
+
+So there is 85% more landfalls during the second decade. Is this statistically significant?
+
+It's good practice to start with a clean working directory. This is done using the `rm()` (remove) function.
+```{r}
+rm(d1, d2)
+rm(list = ls())
+```

@@ -31,7 +31,9 @@ https://docs.ropensci.org/stplanr/index.html
 For QG next Fall: 
 https://data.library.virginia.edu/getting-started-with-quantile-regression/
 https://easystats.github.io/performance/index.html
+https://wilkelab.org/ggtext/
 
 Climate datasets in R: 
 https://cran.r-project.org/web/packages/climate/vignettes/getstarted.html
-SOI data: http://www.bom.gov.au/climate/current/soihtm1.shtml
+
+https://www.ncdc.noaa.gov/teleconnections/enso/indicators/soi/data.csv

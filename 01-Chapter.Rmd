@@ -57,7 +57,7 @@ https://happygitwithr.com/install-git.html
 
 ## Create an HTML file
 
-Your assignments and class project will be done in an Rmd file.
+Your assignments will be done in an Rmd file.
 
 1. Click on the Assignment project.
 2. Open the corresponding assignment Rmd file.
