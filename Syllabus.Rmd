@@ -53,16 +53,15 @@ Most class time will be spent working through the R code in the lesson notes. Th
 
 ### Class meetings
 
-- Interactive lessons
-- Mostly learn-by-doing
-- Bring your laptop/iPad to class every day
+- Remote lessons
+- Remote/F2F lab assignments
 
 ### Grades
 
 You are responsible for:
 
 1. Working through the R markdown files (`.Rmd`) files (you can do this in class or out of class), 
-2. Handing in the assignments on time
+2. Handing in the lab assignments on time
 
 Grades are determined solely by how well you do on the assignments.
 
@@ -102,12 +101,12 @@ This syllabus is a guide for the course and is subject to change with advanced n
 
 Topics:
 
-1. Wrangling data and making graphs (~ 2 weeks)
-2. Working with spatial data and making maps (~ 2 weeks)
-3. Quantifying spatial autocorrelation and spatial regression (~ 2 weeks)
-4. Analyzing and modeling point pattern data (~ 3 weeks)
-5. Estimating a variogram and spatial interpolation (~ 3 weeks)
-6. Other topics (~ 2 weeks)
+1. Wrangling data and making graphs (~ 4 lessons)
+2. Working with spatial data and making maps (~ 4 lessons)
+3. Quantifying spatial autocorrelation and spatial regression (~ 4 lessons)
+4. Analyzing and modeling point pattern data (~ 6 lessons)
+5. Estimating a variogram and spatial interpolation (~ 6 lessons)
+6. Other topics (~ 6 lessons)
 
 Calendars
 
@@ -183,6 +182,7 @@ Labs:
 
 #### Spatial data:
 
+* Progress in the R ecosystem for representing and handling spatial data https://link.springer.com/article/10.1007/s10109-020-00336-0
 * Google earthengine: https://earthengine.google.com/
 * Burden of roof: Revisiting housing costs with tidycensus: https://austinwehrwein.com/data-visualization/housing/
 * The Care and Feeding of Spatial Data: https://docs.google.com/presentation/d/1BHlrSZWmw9tRWfYFVsRLNhAoX6KzhOhsnezTqL-R0sU/edit#slide=id.g6aeb55b281_0_550 
@@ -192,11 +192,11 @@ Labs:
 #### Machine learning:
 
 * Supervised machine learning case studies: https://supervised-ml-course.netlify.com/
-* Machine Learning for Spatial Prediction: https://www.youtube.com/watch?v=2pdRk4cj1P0&feature=youtu.be
+* Machine learning for spatial prediction: https://www.youtube.com/watch?v=2pdRk4cj1P0&feature=youtu.be
 
 #### Spatial networks:
 
-* Spatial Networks in R with sf and tidygraph: https://www.r-spatial.org/r/2019/09/26/spatial-networks.html
+* Spatial Networks in R with {sf} and {tidygraph}: https://www.r-spatial.org/r/2019/09/26/spatial-networks.html
 * Travel times/distances: https://github.com/rCarto/osrm
 
 #### Gender/racial balance assessments

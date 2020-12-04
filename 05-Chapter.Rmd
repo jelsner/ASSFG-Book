@@ -1988,6 +1988,10 @@ tm_shape(CHP2.sf) +
 
 The trend term shows that beyond the spatial smoothed term additional factors (year built and number of bedroom) make house values in San Francisco high.
 
+## Spatial filtering
+
+https://cran.r-project.org/web/packages/spatialreg/vignettes/SpatialFiltering.html
+
 ## Bayesian spatial regression using INLA
 
 See for updates to notes below: https://github.com/becarioprecario/INLAMSM

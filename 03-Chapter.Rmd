@@ -4,7 +4,9 @@
 
 Spatial data in R.
 
-## Spatial Vector Data: **sp** Package
+Rearrange this chapter. Move {sp} topics toward end. Start with {sf}, {rasters}, and then {stars}. Finally {sp}
+
+## Vector and raster data models
 
 The *vector data model* represents the world using points, lines and polygons. These objects have discrete, well-defined borders, meaning that these datasets usually have a high level of precision (Of course precision does not imply accuracy).
 
@@ -20,6 +22,8 @@ There is overlap. Geographers, ecologists, demographers often use vector and ras
 In this class (and in the R spatial ecosystem) we use functions from the **sp** and **sf** packages to work with vector data and functions in the **raster** packages to work with raster datasets.
 
 R's spatial ecosystem continues to evolve. Most changes build on what has already been done. Occasionally there is a significant change that builds from scratch. The **sf** package is a significant change.
+
+## S4 spatial class
 
 Install and load the packages.
 ```{r chapter3}
@@ -230,7 +234,7 @@ The output from `gBuffer()` is a `SpatialPolyons` object.
 
 There are many more functions for geocomputation on S4 spatial data frames. The reference manual is available here https://cran.r-project.org/web/packages/rgeos/rgeos.pdf
 
-### A few notes about coordinate reference systems
+### Notes about coordinate reference systems
 
 CRS provide a standardized way of describing locations. Many different CRS are used to describe geographic data. The CRS that is chosen depends on when the data was collected, the geographic extent of the data, the purpose of the data, etc.
 
