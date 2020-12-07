@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Space-Time
 
 https://rpubs.com/jelsner/tornadoRisk_longTermView
@@ -9,69 +14,113 @@ Update with stars package? No because stars doesnt work with rasters.
 Constructing space-time data frames. Vector and raster examples.
 
 ```{r}
-sfdfL <- st_read(dsn = "1950-2018-torn-aspath") %>%
-  filter(yr == 2014, st == "FL")
-```
+library(sf)
 
-Next we project the geographic coordinate reference system to a specific Lambert conic conformal projection. The spatial units are set to meters.
-```{r}
-sfdfL <- st_transform(sfdfL, 
-                      crs = "+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-90 +units=m")
-```
+Torn.sf <- st_read(dsn = "Data/1950-2018-torn-initpoint") %>%
+  filter(yr >= 2003)
 
-Next we add a buffer to the geometries to represent the tornado path ('footprint'). The width of the buffer is 1/2 the width given in the attribute table in the column `wid`. First we create new variables giving the width (and length) in units of meters.
-```{r}
-sfdfL <- sfdfL %>%
-  mutate(Width = wid * .9144,
-         Length = len * 1609.34)
-sfdfB <- st_buffer(sfdfL, 
-                   dist = sfdfL$Width/2,
-                   endCapStyle = 'ROUND')
+st_crs(Torn.sf)
 ```
 
 Next set the raster domain slightly larger than the bounding box and assign a resolution of one degree in longitude and one degree in latitude. Check the extent of the raster with the `extent()` function.
 ```{r}
-frame <- raster(xmn = -125, xmx = -67, ymn = 24, ymx = 50)
-res(frame) <- 1
+library(raster)
+
+frame <- raster(xmn = -106, xmx = -67, ymn = 24, ymx = 50)
+res(frame) <- .5
 
 extent(frame)
 ```
 
-Use the `rasterize()` function to count the number of times each raster cell contains a tornado genesis location. The first argument is the spatial data frame (dough; here a simple feature data frame) and the second is the raster without values (cooking cutter). The argument `field =` specifies a column name in the spatial data frame (here just an identifier) and the argument `fun =` specifies what to do (here simply count the unique instances of the field in each cell).
+Use the `rasterize()` function to count the number of times each raster cell contains a tornado genesis location. The first argument is the spatial data frame and the second is the raster without values. The argument `field =` specifies a column name in the spatial data frame (here just an identifier) and the argument `fun =` specifies what to do (here simply count the unique instances of the field in each cell). Raster cells without tornadoes are given a value of 0 based on the `background =` argument.
+
 ```{r}
-Tor_r <- rasterize(Alltors, r, 
+t0 <- Sys.time()
+Torn.r <- rasterize(Torn.sf, frame, 
                    field = "om", 
                    fun = "count",
                    background = 0)
+Sys.time() - t0
 
-class(Tor_r)
-dim(Tor_r)
+class(Torn.r)
+dim(Torn.r)
 ```
+
+This took 5 minutes.
 
 The result is a raster layer. The number of tornadoes occurring in each cell are the values.
 ```{r}
-values(Tor_r)[1:200]
+values(Torn.r)[1:200]
 ```
 
-Raster cells without tornadoes are given a value of `NA` the integers are the number of times the cell contained a tornado.
 
 We make a quick map with the `plot()` method.
 ```{r}
-plot(Tor_r)
+plot(Torn.r)
 ```
 
 It looks right. Some cells across the Plains and the South have quite a few tornadoes others not as many.
 
 A spatial statistic indicating how similar values in neighboring cells tend to be is Moran's I. It is implemented on rasters with the `Moran()` function. 
 
-First we convert the `NA` values to zero since they do not really represent missing information but rather no tornadoes. We do this by including a `background =` argument specifying a value of 0.
 ```{r}
-Tor_r <- rasterize(Alltors, r, 
-                   field = "om", 
-                   fun = "count",
-                   background = 0)
+Moran(Torn.r)
 ```
 
+Moran's I is a global measure of clustering (high values near high values and low values near low values). Values range from -1 to +1 where positive values indicate clustering and negative values indicate regularity (e.g., chessboard).
+
+The estimate of .84 indicates a high level of tornado clustering at this scale. Under the null hypothesis of no spatial autocorrelation the expected value for Moran's I is close to zero [-1/(n-1), where n is the number of cells].
+
+With raster data the neighborhood definition is constant across the study region.
+
+Clusters at a local level can be found using a local indicator of spatial autocorrelation. One such indicator is local Moran's I, which is computed at each cell (using the `MoranLocal()` function) so the result is a raster.
 ```{r}
-Moran(Tor_r)
+Torn_lmi.r <- MoranLocal(Torn.r)
+
+plot(Torn_lmi.r)
+```
+
+Here we can more clearly delineate the hot spots of tornadoes over the south-central Plains.
+
+```{r}
+library(tmap)
+library(USAboundaries)
+
+States.sf <- us_states()
+
+tm_shape(Torn_lmi.r) +
+  tm_raster(n = 10) +
+tm_shape(States.sf) +
+  tm_borders()
+```
+
+Local Getis Ord
+```{r}
+Torn.sp <- rasterToPolygons(Torn.r)
+
+nbs <- poly2nb(Torn.sp)
+wts <- nb2listw(nbs)
+
+localG.r <- frame
+values(localG.r) <- as.vector(localG(Torn.sp$layer,
+                              listw = wts))
+
+tm_shape(localG.r) +
+  tm_raster(n = 10) +
+tm_shape(States.sf) +
+  tm_borders()
+
+localGclumps.r <- as.integer(localG.r > 3)
+plot(localGclumps.r)
+
+rc <- clump(localGclumps.r)
+freq(rc)
+plot(rc)
+
+tm_shape(rc) +
+  tm_raster(n = 8) +
+tm_shape(States.sf) +
+  tm_borders()
+
+
 ```

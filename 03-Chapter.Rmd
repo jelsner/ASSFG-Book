@@ -688,6 +688,23 @@ End latitude = 36.9838
 crs = geographic
 number of fatalities = 158
 
+```{r}
+# sfg object
+Joplin_track <- st_linestring(rbind(c(-94.5932, 37.0524), c(-94.2213, 36.9838)))
+
+# sfc object
+Joplin.geometry <- st_sfc(Joplin_track, 
+                          crs = 4326)
+
+# data.frame object
+Joplin.attributes <- data.frame(name = "Joplin Tornado",
+                                nFat = 158)
+
+# sf object
+Joplin.sf <- st_sf(Joplin.attributes, 
+                   geometry = Joplin.geometry)
+```
+
 (2) The object `us_states` from the **spData** package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
 
 A. Create a new data frame containing only the population information. (10)
@@ -1683,7 +1700,9 @@ cellStats(r1, stat = 'mean')
 cellStats(b, stat = 'sum')
 ```
 
-### Example: Aggregate tornado genesis locations to a raster layer and then compute local clustering
+### Example: Aggregate tornado genesis locations to a raster layer and compute local clustering
+
+SUBSTITUTE Space-Time.Rmd here
 
 (Re)import the tornado data shapefile as a simple feature data frame with the genesis location as a point geometry. Filter to remove tornadoes occurring in Hawaii, Alaska, and Puerto Rico.
 ```{r}

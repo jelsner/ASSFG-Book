@@ -1841,7 +1841,7 @@ tm_shape(CHP2.sf) +
   tm_borders()
 ```
 
-#### Fit an aspatial regression model to predict house values
+#### Fit a nonspatial regression model to predict house values
 
 We examine the residuals from an aspatial regression of house price on house age and the number of bedrooms. Here we first assign the model formula to the object `mf` and then use the `lm()` function.
 ```{r}
@@ -1996,7 +1996,7 @@ https://cran.r-project.org/web/packages/spatialreg/vignettes/SpatialFiltering.ht
 
 See for updates to notes below: https://github.com/becarioprecario/INLAMSM
 
-Interest in spatial statistical models has increased substantially in the recent years stemming in part from the availability of methods to fit them. One such method is called Bayesian inference.
+Interest in spatial statistical models has increased in the recent years stemming in part from the availability of methods to fit them. One such method is called Bayesian inference.
 
 Classical statistics relies on the likelihood function ($p(y|\theta)$) which specifies the probability distribution of our data ($y$) under a model defined by parameters ($\theta$). Recall that we compared our spatial models using values of the log likelihood.
 
@@ -2013,7 +2013,7 @@ Bayesian models for spatial data started appearing around 2000 with the developm
 
 MCMC methods are now routinely used in Bayesian inference, but they are limited by the need for alot of processing power. To overcome this Rue et al. (2009) developed a technique called integrated nested Laplace approximation (INLA) that estimates the posterior marginals (not the joint posterior) for models that have an underlying (latent) Gaussian structure.
 
-Latent Gaussian fields appear in a fair number of spatial models. This means that INLA is useful for fitting more complex spatial regression models when only marginal inference on the model parameters is needed.
+Latent Gaussian fields appear in a large number of spatial models. This means that INLA is useful for fitting more complex spatial regression models when only marginal inference on the model parameters is needed.
 
 ### The {INLA} package
 
