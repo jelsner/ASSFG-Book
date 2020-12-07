@@ -4,7 +4,7 @@
 
 ## Grammar for Data
 
-So far we've done things on data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.
+So far we've worked with data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.
 
 The functions in the {dplyr} package (@WickhamEtAl2020) as part of the {tidyverse} set of packages simplify data munging tasks. But they work only on data frames. 
 
