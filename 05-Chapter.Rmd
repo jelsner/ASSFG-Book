@@ -1,13 +1,10 @@
-# Analyzing and Modeling Spatial Data in Areal Units
+# Analyzing and modeling spatial data aggregated to areal units
 
 **"An awful lot of time I spend "coding" is actually spent copying and pasting (And much of the rest is spent googling)."**--- Meghan Duffy
-
 
 ## Quantifying spatial autocorrelation
 
 In this chapter we will use functions from the {spdep} package (Roger Bivand et al.). Functions in this package provide tools analyzing and modeling data that are aggregated to polygons. This type of data is widely used in the social sciences including demography and epidemiology. Sometimes called lattice data.
-
-### Spatial autocorrelation
 
 The concept of spatial autocorrelation plays a central role in spatial statistics. How it gets estimated and exploited depends on the spatial geometry of the data. For example, Ripley's K function estimates spatial autocorrelation of events as point geometries. 
 In the case of data aggregated to polygons (or raster cells) spatial autocorrelation measures the degree to which attribute values tend to cluster. Recall attributes are variables in a spatial data frame (either as a column in a simple feature object or as a layer in a raster object). 

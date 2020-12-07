@@ -1,4 +1,4 @@
-# Spatial Data
+# Working with spatial data
 
 **“Feeling a little uncomfortable with your skills is a sign of learning, and continuous learning is what the tech industry thrives on!”** — Vanessa Hurst
 

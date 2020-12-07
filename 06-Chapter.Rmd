@@ -1,4 +1,4 @@
-# Analyzing and Modeling Spatial Point Pattern Data
+# Analyzing and modeling spatial data as point patterns
 
 **"Programming is the art of doing one thing at a time"** --- Michael Feathers
 

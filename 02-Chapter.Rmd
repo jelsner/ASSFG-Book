@@ -1,4 +1,4 @@
-# Grammars for Data and Graphs
+# Working with data frames and making graphs
 
 **“The trouble with programmers is that you can never tell what a programmer is doing until it’s too late.”** --- Seymour Cray
 
@@ -809,9 +809,7 @@ ggplot(aes(as.factor(mo), nT)) +
 * Cheat sheets: https://rstudio.com/resources/cheatsheets/
 * More examples: https://geocompr.robinlovelace.net/ **spData** package.
 
-## Problem Set 1
-
-Due Date: 
+## Problem Set
 
 The object `us_states` from the {spData} package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
 

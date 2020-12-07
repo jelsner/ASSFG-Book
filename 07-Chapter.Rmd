@@ -1,4 +1,4 @@
-# Statistical Spatial Interpolation
+# Interpolating spatial data
 
 **"Compassion isn't about being nice, it's about reducing suffering for others."** -- April Wensel
 
