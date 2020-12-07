@@ -1347,8 +1347,6 @@ head(out.sf)
 ## Spatial aggregation
 https://www.jla-data.net/eng/spatial-aggregation/
 
-
-
 **"If you're stuck on a coding issue, sleep on it. That way when you wake up and try to fix it and it's still broken, at least you got some sleep."** --- Kelly Vaughn
 
 ## Expectations for your final project. 
@@ -1700,91 +1698,7 @@ cellStats(r1, stat = 'mean')
 cellStats(b, stat = 'sum')
 ```
 
-### Example: Aggregate tornado genesis locations to a raster layer and compute local clustering
-
-SUBSTITUTE Space-Time.Rmd here
-
-(Re)import the tornado data shapefile as a simple feature data frame with the genesis location as a point geometry. Filter to remove tornadoes occurring in Hawaii, Alaska, and Puerto Rico.
-```{r}
-Alltors <- st_read(dsn = "1950-2018-torn-initpoint") %>%
-  dplyr::filter(!st %in% c("HI", "AK", "PR"))
-```
-
-Note: here I use the syntax `dplyr::filter()` since the **dplyr** `filter()` function is masked by the same named function in the **raster** package.
-
-Create a raster of grid cells across the bounding box. First determining the spatial domain of the set of all tornadoes.
-```{r}
-st_bbox(Alltors)
-```
-
-Next set the raster domain slightly larger than the bounding box and assign a resolution of one degree in longitude and one degree in latitude. Check the extent of the raster with the `extent()` function.
-```{r}
-r <- raster(xmn = -125, xmx = -67, ymn = 24, ymx = 50)
-res(r) <- 1
-
-extent(r)
-```
-
-Use the `rasterize()` function to count the number of times each raster cell contains a tornado genesis location. The first argument is the spatial data frame (dough; here a simple feature data frame) and the second is the raster without values (cooking cutter). The argument `field =` specifies a column name in the spatial data frame (here just an identifier) and the argument `fun =` specifies what to do (here simply count the unique instances of the field in each cell).
-```{r}
-Tor_r <- rasterize(Alltors, r, 
-                   field = "om", 
-                   fun = "count")
-
-class(Tor_r)
-dim(Tor_r)
-```
-
-The result is a raster layer. The number of tornadoes occurring in each cell are the values.
-```{r}
-values(Tor_r)[1:200]
-```
-
-Raster cells without tornadoes are given a value of `NA` the integers are the number of times the cell contained a tornado.
-
-We make a quick map with the `plot()` method.
-```{r}
-plot(Tor_r)
-```
-
-It looks right. Some cells across the Plains and the South have quite a few tornadoes others not as many.
-
-A spatial statistic indicating how similar values in neighboring cells tend to be is Moran's I. It is implemented on rasters with the `Moran()` function. 
-
-First we convert the `NA` values to zero since they do not really represent missing information but rather no tornadoes. We do this by including a `background =` argument specifying a value of 0.
-```{r}
-Tor_r <- rasterize(Alltors, r, 
-                   field = "om", 
-                   fun = "count",
-                   background = 0)
-```
-
-```{r}
-Moran(Tor_r)
-```
-
-Moran's I is a global measure of clustering (high values near high values and low values near low values). Values range from -1 to +1 where positive values indicate clustering and negative values indicate regularity (e.g., chessboard).
-
-The estimate of .82 indicates a high level of tornado clustering at this scale. Under the null hypothesis of no spatial autocorrelation the expected value for Moran's I is close to zero [-1/(n-1), where n is the number of cells].
-
-With raster data the neighborhood definition is constant across the study region.
-
-Clusters at a local level can be found using a local indicator of spatial autocorrelation. One such indicator is local Moran's I, which is computed at each cell (using the `MoranLocal()` function) so the result is a raster.
-```{r}
-Tor_r.lmi <- MoranLocal(Tor_r)
-
-plot(Tor_r.lmi)
-```
-
-Here we can more clearly delineate the hot spots of tornadoes over the south-central Plains.
-
-### Problem Set #2
-
-1. What tornado (by date and EF rating [`mag`]) in the historical record has a genesis location closest to the geographic center of Wisconsin? Hint: Use the `which.min()` function on the vector of distances to identify the row number in the tornado data frame (50).
-
-2. Determine Moran's I and plot local Moran's I for the occurrence of tornadoes across Kansas aggregated to a .2 degree latitude/longitude raster bounded by -102.1 and -94.5 degrees east longitude and 36.9 to 40.1 degrees north latitude (50).
-
-### Geocomputation functions on rasters
+## Geocomputation functions on rasters
 
 The `crop()` function takes a geographic subset of a larger raster object. A raster is cropped by providing an extent object or other spatial object from which an extent can be extracted (objects from classes deriving from raster and from spatial in the **sp** package). 
 
@@ -1824,6 +1738,121 @@ Point-to-raster conversion is often done to analyze point-pattern data. For exam
 Polygon to raster conversion is typically done to create a `RasterLayer` that can act as a mask, i.e. to set to `NA` a set of cells of a raster object, or to summarize values on a raster by zone. For example a country polygon is transferred to a raster that is then used to set all the cells outside that country to `NA`; whereas polygons representing administrative regions such as states can be transferred to a raster to summarize raster values by region.
 
 It is also possible to convert the values of a raster layer to points or polygons, using `rasterToPoints()` and `rasterToPolygons()`. These functions return values only for cells that are not missing (`NA`).
+
+#### Example: Tornado counts by raster
+
+https://rpubs.com/jelsner/tornadoRisk_longTermView
+https://rpubs.com/jelsner/tornadoRisk_shortTermView
+
+```{r}
+library(sf)
+
+Torn.sf <- st_read(dsn = "Data/1950-2018-torn-initpoint") %>%
+  filter(yr >= 2003)
+
+st_crs(Torn.sf)
+```
+
+Next set the raster domain slightly larger than the bounding box and assign a resolution of one degree in longitude and one degree in latitude. Check the extent of the raster with the `extent()` function.
+```{r}
+library(raster)
+
+frame <- raster(xmn = -106, xmx = -67, ymn = 24, ymx = 50)
+res(frame) <- .5
+
+extent(frame)
+```
+
+Use the `rasterize()` function to count the number of times each raster cell contains a tornado genesis location. The first argument is the spatial data frame and the second is the raster without values. The argument `field =` specifies a column name in the spatial data frame (here just an identifier) and the argument `fun =` specifies what to do (here simply count the unique instances of the field in each cell). Raster cells without tornadoes are given a value of 0 based on the `background =` argument.
+
+```{r}
+t0 <- Sys.time()
+Torn.r <- rasterize(Torn.sf, frame, 
+                   field = "om", 
+                   fun = "count",
+                   background = 0)
+Sys.time() - t0
+
+class(Torn.r)
+dim(Torn.r)
+```
+
+This took 5 minutes.
+
+The result is a raster layer. The number of tornadoes occurring in each cell are the values.
+```{r}
+values(Torn.r)[1:200]
+```
+
+
+We make a quick map with the `plot()` method.
+```{r}
+plot(Torn.r)
+```
+
+It looks right. Some cells across the Plains and the South have quite a few tornadoes others not as many.
+
+A spatial statistic indicating how similar values in neighboring cells tend to be is Moran's I. It is implemented on rasters with the `Moran()` function. 
+
+```{r}
+Moran(Torn.r)
+```
+
+Moran's I is a global measure of clustering (high values near high values and low values near low values). Values range from -1 to +1 where positive values indicate clustering and negative values indicate regularity (e.g., chessboard).
+
+The estimate of .84 indicates a high level of tornado clustering at this scale. Under the null hypothesis of no spatial autocorrelation the expected value for Moran's I is close to zero [-1/(n-1), where n is the number of cells].
+
+With raster data the neighborhood definition is constant across the study region.
+
+Clusters at a local level can be found using a local indicator of spatial autocorrelation. One such indicator is local Moran's I, which is computed at each cell (using the `MoranLocal()` function) so the result is a raster.
+```{r}
+Torn_lmi.r <- MoranLocal(Torn.r)
+
+plot(Torn_lmi.r)
+```
+
+Here we can more clearly delineate the hot spots of tornadoes over the south-central Plains.
+
+```{r}
+library(tmap)
+library(USAboundaries)
+
+States.sf <- us_states()
+
+tm_shape(Torn_lmi.r) +
+  tm_raster(n = 10) +
+tm_shape(States.sf) +
+  tm_borders()
+```
+
+Local Getis Ord
+```{r}
+Torn.sp <- rasterToPolygons(Torn.r)
+
+nbs <- poly2nb(Torn.sp)
+wts <- nb2listw(nbs)
+
+localG.r <- frame
+values(localG.r) <- as.vector(localG(Torn.sp$layer,
+                              listw = wts))
+
+tm_shape(localG.r) +
+  tm_raster(n = 10) +
+tm_shape(States.sf) +
+  tm_borders()
+
+localGclumps.r <- as.integer(localG.r > 3)
+plot(localGclumps.r)
+
+rc <- clump(localGclumps.r)
+freq(rc)
+plot(rc)
+
+tm_shape(rc) +
+  tm_raster(n = 8) +
+tm_shape(States.sf) +
+  tm_borders()
+```
 
 ### Focal (neighborhood) functions
 
@@ -1925,3 +1954,10 @@ Create a new raster `hicape` with cells equal to `TRUE` for those exceeding the 
 hicape <- cape > mean(capeFL)
 length(cape[cape > mean(capeFL)])
 ```
+
+## Problem Set
+
+1. What tornado (by date and EF rating [`mag`]) in the historical record has a genesis location closest to the geographic center of Wisconsin? Hint: Use the `which.min()` function on the vector of distances to identify the row number in the tornado data frame (50).
+
+2. Determine Moran's I and plot local Moran's I for the occurrence of tornadoes across Kansas aggregated to a .2 degree latitude/longitude raster bounded by -102.1 and -94.5 degrees east longitude and 36.9 to 40.1 degrees north latitude (50).
+
