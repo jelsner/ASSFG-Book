@@ -10,9 +10,7 @@ editor_options:
 ---
 
 How would you determine which of these two cities is snowier: Milwaukee or Madison?
-
 How would you determine if the strongest hurricanes are getting stronger as a result of climate change?
-
 How would you determine whether tornadoes are more likely to occur over smooth terrain?
 
 ### Contact information
@@ -31,17 +29,15 @@ How would you determine whether tornadoes are more likely to occur over smooth t
 
 ### Course description
 
-This course is for students who want to be able to analyze, model, and map spatial data using the R programming language. It assumes students know statistics through linear regression and they have some prior experience with using R. Students without knowledge of R should seek help through online tutorials.
+This course is for students who want to learn how to analyze, map, and model spatial data using the R programming language. It assumes students know some basic statistics through linear regression. It also assumes students have some prior experience with using R. Students without knowledge of R should seek help through online tutorials.
 
-This course is a survey of the methods used to describe, analyze, and model spatial data. The focus is on applications. Emphasis is given to how spatial statistical methods are related. Topics include diagnostics and models for lattice data, point pattern data, and geostatistical data.
+In this course we survey the methods used to describe, analyze, and model spatial data. Focus is on applications. Some emphasis is given to how spatial statistical methods are related.
 
 ### Expected learning outcomes
 
 1. Learn how to apply statistical methods and models to spatial data, 
 2. learn about the various packages in R for analyzing and modeling spatial data, and 
 3. learn how to interpret the results of a spatial data model. 
-
-Most class time will be spent working through the R code in the lesson notes. The lesson notes are comprehensive. The lesson notes are written using markdown. Markdown is a way to write content for the Web. Each lesson is contained in a file having the suffix `.Rmd` (an R markdown file) within a RStudio Cloud project with the same name. 
 
 ### Course materials
 
@@ -54,16 +50,18 @@ Most class time will be spent working through the R code in the lesson notes. Th
 ### Class meetings
 
 - Remote lessons
-- Remote/F2F lab assignments
+- Remote/F2F problem sets
+
+During each remote lesson I will work through and explain the R code within a lesson notes file. The lesson notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. Each lesson is contained in a file having the suffix `.Rmd` (an R markdown file). The file will be opened in with the RStudio application.
 
 ### Grades
 
 You are responsible for:
 
 1. Working through the R markdown files (`.Rmd`) files (you can do this in class or out of class), 
-2. Handing in the lab assignments on time
+2. Handing in the problem sets on time
 
-Grades are determined solely by how well you do on the assignments.
+Grades are determined solely by how well you do on the problem sets.
 
 ### Grading standard
 
@@ -159,32 +157,30 @@ Labs:
 #### Maps/graphs:
 
 * Inset maps: https://geocompr.github.io/post/2019/ggplot2-inset-maps/
-* cartography package in R: https://riatelab.github.io/cartography/docs/articles/cartography.html
-* geovisualization with mapdeck: https://spatial.blog.ryerson.ca/2019/11/21/geovis-mapdeck-package-in-r/
-* 3D elevation with ray shader: https://www.rayshader.com/
+* {cartography} package in R: https://riatelab.github.io/cartography/docs/articles/cartography.html
+* geovisualization with {mapdeck}: https://spatial.blog.ryerson.ca/2019/11/21/geovis-mapdeck-package-in-r/
+* 3D elevation with {rayshader}: https://www.rayshader.com/
 * 3D elevation to 3D printer: https://blog.hoxo-m.com/entry/2019/12/19/080000
-* Accelerate your plots with ggforce: https://rviews.rstudio.com/2019/09/19/intro-to-ggforce/
-* tmaptools::geocode_OSM("Florida State University")
+* Accelerate your plots with {ggforce}: https://rviews.rstudio.com/2019/09/19/intro-to-ggforce/
 * Summary statistics and ggplot: https://ggplot2tutor.com/summary_statistics/summary_statistics/
 
 #### Space-time statistics: 
 
 * Space-time Bayesian modeling package: https://cran.r-project.org/web/packages/spTimer/spTimer.pdf
 * Working with space-time rasters: https://github.com/surfcao/geog5330/blob/master/week12/raster.Rmd
-* Space-time trajectories.
 
 #### Bayesian models:
 
 * Bayesian Linear Mixed Models: Random intercepts, slopes and missing data: https://willhipson.netlify.com/post/bayesian_mlm/bayesian_mlm/
-* Doing Bayesian Data Analysis in brms and the tidyverse: https://bookdown.org/ajkurz/DBDA_recoded/ 
+* Doing Bayesian Data Analysis in {brms} and the {tidyverse}: https://bookdown.org/ajkurz/DBDA_recoded/ 
 * Spatial models with INLA: https://becarioprecario.bitbucket.io/inla-gitbook/index.html
-* Geospatial Health Data: Modeling and Visualization with R-INLA and Shiny: https://paula-moraga.github.io/book-geospatial/
+* Geospatial Health Data: Modeling and Visualization with {RINLA} and {shiny}: https://paula-moraga.github.io/book-geospatial/
 
 #### Spatial data:
 
 * Progress in the R ecosystem for representing and handling spatial data https://link.springer.com/article/10.1007/s10109-020-00336-0
 * Google earthengine: https://earthengine.google.com/
-* Burden of roof: Revisiting housing costs with tidycensus: https://austinwehrwein.com/data-visualization/housing/
+* Burden of roof: Revisiting housing costs with {tidycensus}: https://austinwehrwein.com/data-visualization/housing/
 * The Care and Feeding of Spatial Data: https://docs.google.com/presentation/d/1BHlrSZWmw9tRWfYFVsRLNhAoX6KzhOhsnezTqL-R0sU/edit#slide=id.g6aeb55b281_0_550 
 * Accessing remotely sensed imagery: https://twitter.com/mouthofmorrison/status/1212840820019208192/photo/1
 * Spatial data sets from Brazil: https://github.com/ipeaGIT/geobr
