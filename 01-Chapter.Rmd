@@ -2,11 +2,7 @@
 
 **"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."** --- Martin Fowler
 
-We will use RStudio Cloud (https://rstudio.cloud/) throughout the semester.
-
-![RStudio Cloud's landing page](figures/RStudioCloudLanding.png)
-
-If you prefer to work with R and RStudio on your own computer (without RStudio Cloud) then
+## Get R and RStudio
 
 First get R
 
@@ -25,7 +21,7 @@ Then get RStudio
 
 https://happygitwithr.com/install-git.html
 
-## RStudio's integrated development environment (IDE)
+## About RStudio's IDE
 
 * Written in HTML
 * Top menus
