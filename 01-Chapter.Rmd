@@ -28,31 +28,27 @@ https://happygitwithr.com/install-git.html
   + File > New File > R Markdown
   + Tools > Global Options > Appearance
   
-* Upper left panel is the markdown file. This is where we add text and code. 
-
+* Upper left panel is the markdown file. This is where we put our text and code. 
   + Run code chunks from this panel 
   + Output from the operations can be placed in this panel or in the Console (see the gear icon above)
   + All the text, code, and output can be rendered to an HTML file or a PDF or Word document (see the Knit button above)
   
 * Upper right panel shows what is in your current environment and the history of the commands you issued.
-
   + This is also where you can connect to github
   
 * Lower left panel is the Console
-
   + I think of this as a sandbox where you try out small bits of code. If it works and is relevant move it to the markdown file.
   + This is also where output from running code will be placed.
   + Not a place for plain text
   
 * Lower right panel shows your project files, the plots that get made, and all the packages associated with the project.
-
   + The File tab shows the files in the project. The most important one is the .Rmd.
   + The Plot tab currently shows a blank sheet
   + The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
 
-## Create an HTML file
+## Turn your assignments into an HTML file
 
-Your assignments will be done in an Rmd file.
+Your assignments will be done inside an Rmd file.
 
 1. Click on the Assignment project.
 2. Open the corresponding assignment Rmd file.
@@ -581,7 +577,7 @@ head(df)
 * What year had the wettest March?
 * What month during 1965 was the wettest?
 
-### More practice: More tornadoes
+### Your turn: U.S. tornadoes
 
 Use the tornado dataset from the Storm Prediction Center and write code to do or answer the following.
 
