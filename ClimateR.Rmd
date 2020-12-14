@@ -15,17 +15,97 @@ library(climateR)
 library(AOI)
 ```
 
-Get rainfall data
+Get grid MET data. http://www.climatologylab.org/gridmet.html
+
+Single variable, one day, one state.
 ```{r}
+param_meta$gridmet
+
 rain <- getGridMET(aoi_get(state = "FL"), 
                    param = "prcp", 
-                   startDate = "2020-01-19")
-str(rain, max.level = 2)
-```
-
-```{r}
-library(rasterVis)
+                   startDate = "2020-03-10")
 
 plot(rain$prcp)
 plot(aoi_get(state = "FL")$geometry, add = TRUE)
+
+data <- getGridMET(aoi_get(state = "FL"), 
+                   param = "fmoist_1000", 
+                   startDate = "2020-03-10")
+
+plot(data$fmoist_1000)
+plot(aoi_get(state = "FL")$geometry, add = TRUE)
 ```
+
+Get for ANF boundaries.
+```{r}
+download.file(url = "https://www.dropbox.com/s/wo52hwy6ol83nt8/NorthFloridaPublicLandHexagons10km.zip?dl=1",
+              destfile = "data/TempPubLand.zip")
+unzip("data/TempPubLand.zip", exdir = "data")
+
+LandHex.sf <- read_sf(dsn = "data/NorthFloridaPublicLandHexagons10km") %>%
+  dplyr::filter(NAME == "APALACHICOLA")
+
+data <- getGridMET(LandHex.sf, 
+                   param = "fmoist_1000", 
+                   startDate = "2020-03-10")
+
+plot(data$fmoist_1000)
+plot(LandHex.sf$geometry, add = TRUE) # not the same CRS
+```
+
+Convert to a {stars} object
+```{r}
+library(stars)
+data.st <- st_as_stars(data$fmoist_1000)
+
+data.st
+```
+
+Map
+```{r}
+library(tmap)
+
+tm_shape(data.st) +
+  tm_raster() +
+tm_shape(LandHex.sf) +
+  tm_borders()
+```
+
+One variable, 31 days.
+```{r}
+data <- getGridMET(LandHex.sf, 
+                   param = "fmoist_1000", 
+                   startDate = "2020-03-01",
+                   endDate = "2020-03-31")
+data.st <- st_as_stars(data$fmoist_1000)
+
+names(data.st) <- "fmoist_1000"
+
+library(lubridate)
+
+days <- seq(as_date("2020-03-01"), 
+            as_date("2020-03-31"), 
+            by = "day")
+
+( data.st <- st_set_dimensions(data.st, 
+                               which = 3, 
+                               values = days, names = "date") )
+
+LandHexLL.sf <- LandHex.sf %>%
+  st_transform(crs = st_crs(data.st))
+
+X <- st_crop(data.st, 
+             LandHexLL.sf, 
+             crop = TRUE)
+
+ggplot() +  
+  geom_stars(data = X) + 
+  facet_wrap("date") +
+  scale_fill_viridis_c() +
+  coord_sf() +
+  theme_map() +
+  theme(legend.position = "bottom") +
+  theme(legend.key.width = unit(2, "cm"))
+```
+
+
