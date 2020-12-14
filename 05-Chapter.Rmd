@@ -50,11 +50,10 @@ Consider crime data at the tract level in the city of Columbus, Ohio (Anselin, 1
 library(sf)
 
 download.file("http://myweb.fsu.edu/jelsner/temp/data/columbus.zip",
-              "columbus.zip")
-unzip("columbus.zip")
+              destfile = "data/columbus.zip")
+unzip("data/columbus.zip", exdir = "data")
 
-CC.sf <- read_sf(dsn = "columbus", 
-                 layer = "columbus")
+CC.sf <- read_sf(dsn = "data/columbus")
 ```
 
 The simple feature data frame contains the following names and geometry.
@@ -560,6 +559,9 @@ Let's return to the Columbus crime data and fit a linear regression model with `
 model <- lm(CRIME ~ INC + HOVAL, 
             data = CC.sf)
 summary(model)
+
+library(equatiomatic)
+extract_eq(model)
 ```
 
 The model statistically explains 55% of the variation in crime. As income and housing values increase crime goes down. 

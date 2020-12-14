@@ -1,0 +1,31 @@
+---
+title: "ClimateR package"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+From: https://mikejohnson51.github.io/climateR-intro
+
+```{r}
+remotes::install_github("mikejohnson51/AOI") # suggested!
+remotes::install_github("mikejohnson51/climateR")
+
+library(climateR)
+library(AOI)
+```
+
+Get rainfall data
+```{r}
+rain <- getGridMET(aoi_get(state = "FL"), 
+                   param = "prcp", 
+                   startDate = "2020-01-19")
+str(rain, max.level = 2)
+```
+
+```{r}
+library(rasterVis)
+
+plot(rain$prcp)
+plot(aoi_get(state = "FL")$geometry, add = TRUE)
+```
