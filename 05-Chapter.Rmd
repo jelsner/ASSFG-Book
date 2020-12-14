@@ -2238,3 +2238,7 @@ The data have been posted on my website http://myweb.fsu.edu/jelsner/temp/data/f
 
 (1) Follow the code in this example but use simple feature data frames to import the data and map the results.
 (2) Fit a CAR model to these data using INLA.
+
+## Standarized incidence ratios
+
+See `StandardizedIncidenceRatios.Rmd`
