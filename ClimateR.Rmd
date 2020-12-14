@@ -108,4 +108,36 @@ ggplot() +
   theme(legend.key.width = unit(2, "cm"))
 ```
 
+Two variables, 31 days.
+```{r}
+data <- getGridMET(LandHex.sf, 
+                   param = c("prcp", "tmax"),
+                   startDate = "2019-03-01",
+                   endDate = "2019-03-31")
+
+data.st <- st_as_stars(data$prcp)
+names(data.st) <- "prcp"
+
+days <- seq(as_date("2020-03-01"), 
+            as_date("2020-03-31"), 
+            by = "day")
+
+data.st <- st_set_dimensions(data.st, 
+                             which = 3, 
+                             values = days, names = "date")
+
+( data.st <- data.st %>%
+  mutate(tmax = ( as.vector(data$tmax) - 273.16 ) * 9/5 + 32,
+         prcp = if_else(prcp < 0, 0, prcp)) )
+
+ggplot() +  
+  geom_stars(data = data.st[1]) + 
+  facet_wrap("date") +
+  scale_fill_viridis_c() +
+  coord_sf() +
+  theme_map() +
+  theme(legend.position = "bottom") +
+  theme(legend.key.width = unit(2, "cm"))
+
+```
 
