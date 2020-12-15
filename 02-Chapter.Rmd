@@ -1,10 +1,8 @@
 # Working with data frames and making graphs
 
-**“The trouble with programmers is that you can never tell what a programmer is doing until it’s too late.”** --- Seymour Cray
-
-## Grammar for Data
-
 So far we've worked with data stored as vectors. But we often import data as data frames so we need to know how to manipulate data frames in a logical and friendly way.
+
+## A grammar for working with data frames
 
 The functions in the {dplyr} package (@WickhamEtAl2020) as part of the {tidyverse} set of packages simplify data munging tasks. But they work only on data frames. 
 
@@ -32,7 +30,7 @@ Before we get started we need to talk about pipes and tibbles.
 
 ### Pipes
 
-Importantly for literate programming we can apply the `summary()` function using the pipe operator (`%>%`). The pipe operator is a function in the **dplyr** package.
+Importantly for literate programming we can apply the `summary()` function using the pipe operator (`%>%`). The pipe operator is a function in the {dplyr} package.
 ```{r}
 airquality %>% summary()
 ```
@@ -109,7 +107,7 @@ df
 
 We include an assignment operator (`<-`, left pointing arrow) and an object name (here `df`).
 
-Note: The result of applying a **dplyr** verb is a data frame. From a data frame object to a data frame object.
+Note: The result of applying a {dplyr} verb is a data frame. From a data frame object to a data frame object.
 
 The function `filter()` chooses observations based on specific values. Suppose we want only the observations where the temperature is at or above 80F.
 ```{r}
@@ -230,7 +228,7 @@ On average ozone concentration is higher on warm days (Temp >= 70 F) days. Said 
 
 The mean is a model for the data. The statistical dependency of the mean implies that a model for ozone concentration will likely be improved by including temperature as an explanatory variable.
 
-The important **dplyr** verbs are
+The important {dplyr} verbs are
 
 Verb          | Description
 -------------:|:-----------
@@ -241,7 +239,7 @@ Verb          | Description
 `summarize()` | summarizes values; collapse many values down to a single summary
 `group_by()`  | allows operations to be grouped
 
-The syntax of the verb functions in the **dplyr** package are all the same:
+The syntax of the verb functions in the {dplyr} package are all the same:
 
 Properties
 * The first argument is a data frame. This argument is implicit when using the `%>%` operator.
@@ -330,7 +328,7 @@ Note that we also change the name of the column when we use the `=` sign. For ex
 
 The `select()` function is useful in focusing on a relatively few variables when the data set has many variables. 
 
-We can select columns having common character string names. For example, consider the `us_states` data frame from the **spData** package.
+We can select columns having common character string names. For example, consider the `us_states` data frame from the {spData} package.
 ```{r}
 library(spData)
 head(us_states)
@@ -434,7 +432,7 @@ df %>%
 
 The output is a table perhaps as part of exploratory analysis.
 
-We use `summarize()` with aggregate functions, which take a vector of values, and return a single number. Functions in the **base** package like `min()`, `max()`, `mean()`, `sum()`, `sd()`, `median()`, and `IQR()` can be used. The **dplyr** packages has others:
+We use `summarize()` with aggregate functions, which take a vector of values, and return a single number. Functions in the {base} package like `min()`, `max()`, `mean()`, `sum()`, `sd()`, `median()`, and `IQR()` can be used. The {dplyr} packages has others:
 
 * `n()`: number of observations in the current group.
 * `n_distinct()`: count the number of unique values.
@@ -450,7 +448,7 @@ df %>%
 
 When we group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset. As an example: how would we determine the number of tornadoes by day of year?
 
-We first use the function `day()` from the **lubridate** package to extract the day of the month from a `Date` object and add it to our data frame. We then use `group_by()` on the month and day. Finally we s
+We first use the function `day()` from the {lubridate} package to extract the day of the month from a `Date` object and add it to our data frame. We then use `group_by()` on the month and day. Finally we summarize by counting the number of cases.
 ```{r}
 library(lubridate)
 df %>%
@@ -476,15 +474,13 @@ df %>%
   arrange(desc(nF))
 ```
 
-## Grammar for Graphs
+## a grammar for making graphs
 
-**"Hell isn't other people's code. Hell is your own code from 3 years ago."** --- Jeff Atwood'
-
-The last lesson introduced the functions from the **dplyr** package for manipulating data frames in a grammatically consistent way. This makes data munging easier. The piping operator allows you to write code that is legible. This lesson introduces a grammar for making graphs.
+The last lesson introduced the functions from the {dplyr} package for manipulating data frames in a grammatically consistent way. This makes data munging easier. The piping operator allows you to write code that is legible. This lesson introduces a grammar for making graphs.
 
 Some of this material is taken from [Sharp Sight Labs](http://sharpsightlabs.com/blog/r-package-think-about-visualization/).
 
-The package **ggplot2** and **dplyr** are part of **tidyverse**, which is a group of packages for data manipulation and visualization. A recent 2016 survey by O'Reilly media showed that **ggplot2** is the most frequently used data visualization tool among employed data scientists. It's popular because it teaches you how to think about visualizing your data. There are a few principles underlying the syntax.
+The package {ggplot2} and {dplyr} are part of {tidyverse}, which is a group of packages for data manipulation and visualization. A recent 2016 survey by O'Reilly media showed that {ggplot2} is the most frequently used data visualization tool among employed data scientists. It's popular because it teaches you how to think about visualizing your data. There are a few principles underlying the syntax.
 
 1. Mapping data to aesthetics
 2. Layering
@@ -517,7 +513,7 @@ ggplot(data = df2,
   geom_point()
 ```
 
-We are mapping data to aesthetic attributes. The _points_ in the scatter plot are geometric objects that we draw. In **ggplot2** lingo, the points are _geoms_. More specifically the points are _point geoms_ that we denote syntactically with the function `geom_point()`.
+We are mapping data to aesthetic attributes. The _points_ in the scatter plot are geometric objects that we draw. In {ggplot2} lingo, the points are _geoms_. More specifically the points are _point geoms_ that we denote syntactically with the function `geom_point()`.
 
 All geometric objects have aesthetic attributes. Things like:
 
@@ -527,7 +523,7 @@ All geometric objects have aesthetic attributes. Things like:
 * size
 * transparency
 
-When we create a data visualization in **ggplot2**, we are creating a mapping between variables in our data and the aesthetic attributes of the geometric objects in our visualization. When we visualize data, we are mapping between variables in our data frame and the aesthetic attributes of the geometric objects in the plot.
+When we create a data visualization in {ggplot2}, we are creating a mapping between variables in our data and the aesthetic attributes of the geometric objects in our visualization. When we visualize data, we are mapping between variables in our data frame and the aesthetic attributes of the geometric objects in the plot.
 
 In our scatter plot example, when we create this plot, we're mapping `foo` to the x-position aesthetic and we're mapping `bar` to the y-position aesthetic. This may seem trivial `foo` is the x-axis and `bar` is on the y-axis. We can do that in Excel.
 
@@ -550,7 +546,7 @@ The principle of layering is important because to create more advanced visualiza
 * Plot a dataset with additional contextual information contained in a second dataset, or
 * Plot summaries or statistical transformations over the raw data
 
-Let's modify the bubble chart by getting additional data and plotting it as a new layer below the bubbles. First get the data from the **maps** package and store it in a new data frame.
+Let's modify the bubble chart by getting additional data and plotting it as a new layer below the bubbles. First get the data from the {maps} package and store it in a new data frame.
 ```{r}
 library(maps)
 
@@ -670,13 +666,13 @@ TLH.df <- TLH.df %>%
 glimpse()
 ```
 
-Note we again use the `as.Date()` function (**base** see `?as.Date`). The format in the data file is a concatenation of a four-digit year, a two-digit month, and a two-digit day. Thus the format argument is `format = "%Y%m%d"`).
+Note we again use the `as.Date()` function ({base} see `?as.Date`). The format in the data file is a concatenation of a four-digit year, a two-digit month, and a two-digit day. Thus the format argument is `format = "%Y%m%d"`).
 
 Q: Is it getting hotter in Tallahassee? 
 
 Let's compute the annual average high temperature and create a time series graph. 
 
-We use the `year()` function from the **lubridate** package to get a column called `Year`, the `group_by()` function to group by `Year`, and  the `summarize()` function from the **dplyr** package to get the average daily maximum temperature for each year.
+We use the `year()` function from the {lubridate} package to get a column called `Year`, the `group_by()` function to group by `Year`, and  the `summarize()` function from the {dplyr} package to get the average daily maximum temperature for each year.
 ```{r}
 library(lubridate)
 
@@ -701,7 +697,7 @@ ggplot(df, aes(x = Year, y = AvgT)) +
 
 Q: What's wrong? 
 
-Fix and add a trend line layer. Here we go directly to the graph without saving the resulting data frame. That is, we pipe `%>%` the resulting data frame after applying the **dplyr** verbs to the `ggplot()` function. The object in the first argument of the `ggplot()` function is the result (data frame) from the code above.
+Fix and add a trend line layer. Here we go directly to the graph without saving the resulting data frame. That is, we pipe `%>%` the resulting data frame after applying the {dplyr} verbs to the `ggplot()` function. The object in the first argument of the `ggplot()` function is the result (data frame) from the code above.
 ```{r}
 TLH.df %>%
   mutate(Year = year(Date)) %>%
@@ -807,7 +803,7 @@ ggplot(aes(as.factor(mo), nT)) +
 
 * https://exts.ggplot2.tidyverse.org/
 * Cheat sheets: https://rstudio.com/resources/cheatsheets/
-* More examples: https://geocompr.robinlovelace.net/ **spData** package.
+* More examples: https://geocompr.robinlovelace.net/ {spData} package.
 
 ## Problem Set
 

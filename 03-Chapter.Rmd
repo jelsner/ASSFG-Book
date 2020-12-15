@@ -1,445 +1,21 @@
 # Working with spatial data
 
-**“Feeling a little uncomfortable with your skills is a sign of learning, and continuous learning is what the tech industry thrives on!”** — Vanessa Hurst
-
-Spatial data in R.
-
 Rearrange this chapter. Move {sp} topics toward end. Start with {sf}, {rasters}, and then {stars}. Finally {sp}
 
-## Vector and raster data models
+The _vector data model_ represents the world using points, lines and polygons. These objects have discrete, well-defined borders, meaning that these data sets usually have a high level of precision (Of course precision does not imply accuracy).
 
-The *vector data model* represents the world using points, lines and polygons. These objects have discrete, well-defined borders, meaning that these datasets usually have a high level of precision (Of course precision does not imply accuracy).
-
-The *raster data model* divides geographic space into a grid of cells of constant size (resolution). The raster model is used for representing continuous phenomena such as elevation or rainfall. Rasters aggregate specific features to a given resolution, meaning that they are consistent over space and scalable (many worldwide raster datasets are available). The downside is that the smallest features are blurred or lost.
+The _raster data model_ divides geographic space into a grid of cells of constant size (resolution). The raster model is used for representing continuous phenomena such as elevation or rainfall. Rasters aggregate specific features to a given resolution, meaning that they are consistent over space and scale-able (many worldwide raster data sets are available). The downside is that the smallest features are blurred or lost.
 
 Choosing between vector or raster models depends on your application:
 
 * Vector data tends to dominate the social sciences because human settlements and boundaries have discrete borders.
 * Raster data (e.g., remotely sensed imagery) tends to dominate the environmental sciences because environmental conditions are typically continuous.
 
-There is overlap. Geographers, ecologists, demographers often use vector and raster data. 
+Geographers, ecologists, demographers often use vector and raster data. 
 
 In this class (and in the R spatial ecosystem) we use functions from the **sp** and **sf** packages to work with vector data and functions in the **raster** packages to work with raster datasets.
 
 R's spatial ecosystem continues to evolve. Most changes build on what has already been done. Occasionally there is a significant change that builds from scratch. The **sf** package is a significant change.
-
-## S4 spatial class
-
-Install and load the packages.
-```{r chapter3}
-library(sp)
-library(sf)
-```
-
-Functions in these packages link to software libraries outside of R. For example GDAL is a set of libraries for reading and writing geospatial data and PROJ is a set of libraries for performing conversions between cartographic projections.
-
-The **sp** package has methods for working with 'vector' spatial data. Note: 'vector' is in quotes because this is different than vector as a data type.
-
-Several of the packages for analyzing and modeling spatial data we will use this semester depend on **sp**. Check out [sp](http://cran.r-project.org/web/packages/sp/index.html) and note the number of packages that depend on **sp** (reverse depends and reverse imports).
-
-Spatial objects from the **sp** package fall into two types: 1) spatial-only information (the topology). These include `SpatialPoints`, `SpatialLines`, `SpatialPolygons`, etc, and 2) extensions to these cases where attribute information is available and stored in a data frame. These include `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, etc.
-
-As an example, we download the shapefile from the SPC (if it's not already available in your working directory) and use `st_read()` from the **sf** package keeping only tornadoes since 2007. Note that we use the `filter()` function and the piping operator from the **dplyr** package as part of the **tidyverse** group of packages.
-```{r}
-library(tidyverse)
-
-sfdf <- st_read(dsn = "1950-2018-torn-aspath") %>%
-  filter(yr >= 2007)
-
-class(sfdf)
-```
-
-The object `sfdf` is of class `sf` and `data.frame` (simple feature data frame).
-
-Note: `st_read()` is the same as `read_sf()` that we used in the last two lessons except the attribute table is a data frame rather than a tabled data frame (tibble).
-
-To convert `sfdf` with class `sf` as an S3 object to an S4 spatial object use `as(sfdf, "Spatial")`. 
-```{r}
-sldf <- as(sfdf, "Spatial")
-```
-
-The spatial object `sldf` is a S4 spatial object of class `SpatialLinesDataFrame`. Information contained in S4 spatial objects is accessed through a slot name. For example, `x@coords` contains the coordinates of a S4 spatial object `x` and `x@data` contains the attribute table as a data frame.
-```{r}
-glimpse(sldf@data)
-```
-
-The `@` symbol is similar to the `$` symbol for regular data frames.
-
-Slots in a `SpatialLinesDataFrame` include `data`, `lines`, `bbox`, and `proj4string`.
-```{r}
-slotNames(sldf)
-```
-
-Selecting, retrieving, or replacing attributes in S4 spatial data frames is done with methods in **base** R. For example `[]` is used to select rows and/or columns. To select `mag` of the 7th tornado type
-```{r}
-sldf$mag[7]
-```
-
-Other methods include: `plot`, `summary`,`dim` and `names` (operate on the data slot), `as.data.frame`, `as.matrix` and `image` (for gridded spatial data), and `length` (number of features).
-
-CAUTION: we can't use the **dplyr** verbs on S4 data frames. To convert from an S4 spatial data frame to a simple feature data frame, use `st_as_sf()`.
-
-### Geocomputation on S4 spatial data frames
-
-Geocomputation refers to math performed on geographic data. The interface to the geometry engine-open source (GEOS) is through the **rgeos** package.
-```{r}
-library(rgeos)
-```
-
-When possible we will do our geocomputations on simple feature data frames (S3). However, sometimes it is more convenient to perform geocomputations on S4 data frames. Also much of the current R code you might encounter doing GIS will be written with S4 objects.
-
-Geocomputation should not be done on spatial objects with geographic coordinates (lat/lon). To see if the S4 spatial data frame is projected type
-```{r}
-is.projected(sldf)
-```
-
-To see the coordinate reference system (CRS) of the spatial data frame type
-```{r}
-sldf@proj4string
-```
-
-The CRS arguments include the projection (`+proj`), the datum (`+datum`), and the ellipsoid (`+ellps`). Here we see the projection is `longlat` indicating that this is a geographic CRS (not projected).
-
-To create a projected `SpatialLinesDataFrame` we use the `spTransform()` function. The first argument is the original spatial data frame and the second argument is the coordinate reference system as a character string.
-```{r}
-sldfP <- spTransform(sldf, 
-                     CRS = CRS("+proj=merc +ellps=GRS80 +units=m"))
-is.projected(sldfP)
-```
-
-The CRS character string is in the open GIS standard format. It includes the projection type (here Mercator), the ellipsoid shape (here GRS80) and the spatial units (here meters).
-```{r}
-sldfP@proj4string
-```
-
-We now have two copies of our `SpatialLinesDataFrame` object (unprojected `sldf` and projected `sldfP`).
-
-We perform geocomputation on the projected spatial data frame using functions from the **rgeos** package. 
-
-Computations can be done across all features (e.g., all tornado reports together) or feature by feature (`byid = TRUE`). For example, to the `gEnvelope()` function computes the rectangular bounding box surrounding all the features.
-```{r}
-library(rgeos)
-
-box <- gEnvelope(sldfP)
-class(box)
-```
-
-The assigned object `box` is of class `SpatialPolygons`. It contains a single polygon rectangle. The `byid = FALSE` is the default. There are no attributes.
-
-Plot the box and the tornadoes using **base** R.
-```{r}
-plot(box)
-plot(sldfP, add = TRUE)
-```
-
-Note that the `plot()` method applied to an S4 spatial object plots the geometries without the attributes.
-
-Another example: Consider the ESRI shapefile containing police expenditure data from Mississippi. The data are on my Web site and are downloaded and imported as follows.
-```{r}
-download.file("http://myweb.fsu.edu/jelsner/temp/data/police.zip",
-              "police.zip")
-unzip("police.zip")
-
-sfdf <- st_read(dsn = "police")
-```
-
-Create an S4 spatial object from the simple feature object.
-```{r}
-spdf <- as(sfdf, "Spatial")
-```
-
-Note that the proj4string is specified as `NA` (missing). We know these data have a geographic CRS so we assign it as follows.
-```{r}
-proj4string(spdf) <- "+proj=longlat +datum=WGS84 +ellps=WGS84"
-```
-
-The `plot()` method plots the polygons. First using the native geographic coordinates then using projected coordinates. We set up the side-by-side plots using the `par()` function.
-```{r}
-par(mfrow = c(1, 2))
-
-plot(spdf)
-spdfP <- spTransform(spdf, 
-                     CRS = CRS("+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-80 +units=km"))
-plot(spdfP)
-
-par(mfrow = c(1, 1))
-```
-
-Note: Here the projection is a Lambert conformal conic with secant latitudes at 30 and 60N and centered at 80W longitude.
-
-By including the `byid = TRUE` argument in the `gEnvelope()` function, we create a spatial polygon object with 82 rectangles.
-```{r}
-boxes <- gEnvelope(spdfP, 
-                   byid = TRUE)
-plot(boxes)
-```
-
-The `gCentroid()` function computes the geometric center of the spatial object and returns a S4 spatial object of class `SpatialPoints`.
-```{r}
-centers <- gCentroid(spdfP, 
-                     byid = TRUE)
-class(centers)
-plot(centers)
-```
-
-The function `gArea()` returns the geographical area (in square kilometers) of the geometries.
-```{r}
-areas <- gArea(spdfP, 
-               byid = TRUE) %>%
-   glimpse()
-```
-
-The output here is a numeric vector of length 82 listing the area of each county (in square kilometers).
-
-Q: How would you determine the area of the entire state?
-
-The `gContains()` function tests whether one geometry contains or is contained within another geometry. For example, which county contains the geographic center of the state? First determine the center with the `gCentroid()` function then determine which county contains it using the `gContain()` function.
-```{r}
-center <- gCentroid(spdfP)
-countyCenter <- gContains(spdfP, 
-                          center, 
-                          byid = TRUE)
-countyCenter
-```
-
-The result is a matrix containing all values equal to `FALSE` except for the county containing the geographic center.
-
-To see this we use the `plot()` method. First the county boundaries then the center point as a red cross.
-```{r, eval=FALSE}
-plot(spdfP)
-plot(center, 
-     add = TRUE,
-     col = "red")
-```
-
-Suppose we want to subset the center county making it it's own `SpatialPolygonsDataFrame`. We first turn the `matrix` object `countyCenter` into a vector then use the `[]` operator on `spdfP`.
-```{r, eval=FALSE}
-centerCounty <- spdfP[as.vector(countyCenter), ]
-plot(spdfP)
-plot(centerCounty, 
-     col = "red", 
-     add = TRUE)
-```
-
-The `gBuffer()` function expands the given geometry to include the area within the specified width with specific styling options. Here we create a buffer around the state at a distance of 100 km.
-```{r, eval=FALSE}
-largerState <- gBuffer(spdfP, 
-                       width = 100)
-plot(largerState)
-plot(spdfP, 
-     add = TRUE)
-```
-
-The output from `gBuffer()` is a `SpatialPolyons` object.
-
-There are many more functions for geocomputation on S4 spatial data frames. The reference manual is available here https://cran.r-project.org/web/packages/rgeos/rgeos.pdf
-
-### Notes about coordinate reference systems
-
-CRS provide a standardized way of describing locations. Many different CRS are used to describe geographic data. The CRS that is chosen depends on when the data was collected, the geographic extent of the data, the purpose of the data, etc.
-
-When data with different CRS are combined it is important to transform them to a common CRS so they align with one another. This is similar to making sure that units are the same when measuring volume or distances. 
-
-In S4 spatial objects, CRS information is available in the `proj4string` slot.
-```{r}
-proj4string(sldf)
-```
-
-Information is given as a character string that includes the projection (here `+proj=longlat`), the datum (here `+datum=WGS84 +towgs84=0,0,0`), and the ellipsoid (here `+ellps=WGS84`). The syntax uses the PROJ standard. Various options are listed with the `projInfo()` function from the **rgdal** package.
-```{r}
-library(rgdal)
-
-head(projInfo(type = "proj"))
-projInfo(type = "datum")
-head(projInfo(type = "ellps"))
-```
-
-The ellipsoid describes the shape of the Earth and the datum provides the information needed to anchor the abstract coordinates to the Earth. The datum defines an origin point of the coordinate axes and defines the direction of the axes. 
-
-The datum always specifies the ellipsoid, but the ellipsoid does not specify the datum. Datums are based on specific ellipsoids and sometimes have the same name as the ellipsoid. 
-A CRS can be referenced by its EPSG code (e.g., `epsg:4121`). The EPSG is a structured dataset of CRSs originally compiled by the European Petroleum Survey Group (EPSG). Details of a particular EPSG code is obtained by
-```{r}
-CRS("+init=epsg:4326")
-```
-
-EPSG codes for commonly used CRSs include: 
-
-* Geographic
-
-- WGS84 (EPSG:4326) Used by organizations that provide GIS data for the entire globe. Used by Google Earth.
-- NAD83 (EPSG:4269) Used by U.S. federal agencies.
-
-* Projected
-
-- Mercator (EPSG:3857) Mercator, tiles from Google Maps, Open Street Maps, Stamen Maps
-- UTM, Zone 10 (EPSG:32610) Pacific Northwest
-
-When `readOGR()` and `st_read()` are used to load spatial data, the CRS information is included as part of the spatial object.
-```{r}
-proj4string(sldf)
-attr(sfdf$geometry, "crs")$proj4string
-```
-
-To assign a known CRS to a S4 spatial object `x` type either:
-```{r, eval=FALSE}
-proj4string(x) <- CRS("+init=epsg:28992")
-proj4string(x) <- CRS("+proj=utm +zone=10 +datum=WGS84")
-```
-
-CAUTION: Assigning a CRS does not re-project the geometry. Also, this is only for S4 spatial data. To transform from one CRS to another use the `spTransform` function from the **rgdal** package. For example, type either:
-```{r, eval=FALSE}
-xT <- spTransform(x, CRS("+init=epsg:4238"))
-xT <- spTransform(x, proj4string(z))
-```
-
-Here `z` is a spatial data with a valid CRS.
-
-An overview of CRSs is available here https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
-
-Note: NOAA’s National Geodetic Survey is currently working on the modernization of the National Spatial Reference System (NSRS), which will replace the North American Datum of 1983 (NAD83) and the North American Vertical Datum of 1988 (NAVD88) with a new geometric reference frame and geopotential datum in 2022.
-
-Dennis Riordan, the NGS representative for the Gulf coast, has agreed to give a presentation on this change to our class on February 11th. I will open it up to other students and faculty.
-
-### Creating an S4 object
-
-Most of the time there is no need to create a spatial data frame since it will be imported as such. However it's helpful to understand how spatial data are constructed and stored.
-
-For example, here we import a data frame the contains information on the location of the CRAN sites in 2007.
-```{r}
-df <- read.table(file = "http://myweb.fsu.edu/jelsner/temp/data/CRAN051001a.txt",
-                 header = TRUE)
-head(df)
-```
-
-Note here I use the `read.table()` function from base R. It is very similar to the `read_table()` function from the **readr** package but the default requires you to specify whether the first row of the file contains column names (`header = TRUE`).
-
-Each row is a location. The location includes the name of the location and spatial coordinates. 
-
-Here we create a spatial points data frame using the `coordinates()` function (from the **sp** package). We first assign to the object `spdf` the original data frame. We then specify what columns in `spdf` we want as the coordinates. Here use the columns labeled `long` and `lat`.
-```{r}
-spdf <- df
-coordinates(spdf) <- c("long", "lat")
-```
-
-Note: Unlike most functions, the `coordinates()` is on the left side of the assignment operator.
-
-```{r}
-head(spdf)
-head(spdf@data)
-```
-
-The columns `long` and `lat` are moved to the `coords` slot of the now spatial points data frame.
-
-```{r}
-head(slot(spdf, "coords"))
-```
-
-The `proj4string` slot is coded as `NA` indicating that there is no coordinate reference system (CRS). We see that with the `proj4string()` function or with `spdf@proj4string`.
-```{r}
-proj4string(spdf)
-spdf@proj4string
-```
-
-Since the coordinates are longitude and latitude we assign a geographic CRS. We do that by first using the `CRS()` function and specifying a PROJ character string. We then assign this to the spatial points data frame with the `proj4string()` function.
-```{r}
-llCRS <- CRS("+proj=longlat +ellps=WGS84")
-proj4string(spdf) <- llCRS
-proj4string(spdf)
-```
-
-We can speak of a geographic CRS (model for shape of the earth plus lat/lon) or a projected CRS (model for shape of Earth plus a specific geometric model for projecting to a flat surface).
-```{r}
-is.projected(spdf)
-```
-
-Once the data has a CRS, it can be re-projected using the `spTransform()` function in the **rgdal** package.
-
-### The `spplot()` method
-
-The easiest way to make a thematic map with an S4 spatial data frame is with the `spplot()` method. The first argument in the `spplot()` function is the spatial data frame object and the second argument specifies what column to use to fill or color.
-
-For example, returning to the police expenditure spatial polygons data frame (`spdfP`) we create a map of police expenditures by county. The expendures are in the column labeled `POLICE` so we specify this column name with the argument `zcol = "POLICE"`.
-```{r}
-spplot(spdfP, 
-       zcol = "POLICE")
-```
-
-The result is a choropleth map indicating police expenditures with a default color ramp from dark blue (indicating low expenditure) to yellow (indicating high expenditure).
-
-While easy to apply the default settings on this method fail to produce a good map. We can improve things but it requires some trial-and-error.
-
-For example, to improve the color ramp. We first specify a range of values using the `seq()` function then a set of 6 colors using the `brewer.pal()` function from the **RColorBrewer** package. We determine the range with the `range()` function. 
-
-We specify the color palette to be 6 shades of green. We then add the arguments `col.regions =` and `at =` in the `spplot()` function call.
-```{r}
-library(RColorBrewer)
-
-range(spdfP$POLICE)
-
-rng <- seq(0, 12000, 2000)
-cls <- brewer.pal(6, "Greens")
-spplot(spdfP, 
-       zcol = "POLICE", 
-       col.regions = cls, 
-       at = rng)
-```
-
-Better.
-
-We reuse this code making small modifications to create a thematic map showing percentage of the population that is unemployed.
-```{r}
-range(spdfP$UNEMP)
-
-rng <- seq(4, 18, 2)
-cls <- brewer.pal(7, "Blues")
-spplot(spdfP, 
-       zcol = "UNEMP", 
-       col.regions = cls, 
-       at = rng,
-       colorkey = list(space = "bottom"), 
-       sub = "Unemployment (%)")
-```
-
-Note that the color key is blaced on the bottom.
-
-We add a north arrow by first determining the bounding box of the plot and then creating a list that specifies the scale and location of the arrow. This list gets passed to the `spplot()` function through the `sp.layout =` argument. Here we start by reprojecting the spatial data frame.
-```{r}
-spdfP <- spTransform(spdfP, 
-                     CRS = CRS("+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-90 +units=km"))
-
-bbox(spdfP)
-
-l1 <- list("SpatialPolygonsRescale", 
-           layout.north.arrow(), 
-           offset = c(-125, 4200), 
-           scale = 40)
-spplot(spdfP, 
-       zcol = "UNEMP", 
-       col.regions = cls, 
-       at = rng,
-       sp.layout = list(l1),
-       colorkey = list(space = "bottom"), 
-       sub = "Unemployment (%)")
-```
- 
-Similarly, we add a scale bar.
-```{r}
-l3 <- list("SpatialPolygonsRescale", 
-          layout.scale.bar(), 
-          offset = c(-125, 3734), 
-	        scale = 50, fill = c("transparent","black"))
-l4 <- list("sp.text", c(-125, 3724), "0")
-l5 <- list("sp.text", c(-75, 3724), "50 km")
-spplot(spdfP, 
-       zcol = "UNEMP", 
-       col.regions = cls, 
-       at = rng,
-  sp.layout = list(l1, l3, l4, l5), 
-  colorkey = list(space = "bottom"), 
-  sub = "Unemployment (%)")
-```
-
-This takes a lot of trial and error.
 
 ## Simple Features
 
@@ -967,6 +543,18 @@ plot(st_buffer(state.sf, dist = 100))
 plot(state.sf, add = TRUE)
 ```
 
+### Length of boundary lines for U.S. states
+
+```{r}
+library(USAboundaries)
+states <- us_states() %>%
+  st_transform(crs = 2163) # US National Atlas Equal Area 
+st_length(states)
+
+states2 <- st_cast(states, to = "MULTILINESTRING")
+st_length(states2)
+```
+
 ### Attribute manipulation
 
 The **sf** package provides methods that allow `sf` objects to behave like regular data frames (see  https://geocompr.robinlovelace.net/attr.html).
@@ -1347,42 +935,7 @@ head(out.sf)
 ## Spatial aggregation
 https://www.jla-data.net/eng/spatial-aggregation/
 
-**"If you're stuck on a coding issue, sleep on it. That way when you wake up and try to fix it and it's still broken, at least you got some sleep."** --- Kelly Vaughn
-
-## Expectations for your final project. 
-
-The project is worth 50% of your grade. Requirements: (1) Ten minute presentation from an Rmd file on RStudio Cloud in Your Workspace. (2) The Rmd must knit to produce a HTML file.
-
-Two options: 
-
-1. Demonstrate working knowledge of a method (e.g., kriging) that was presented in class but apply it to your own dataset.
-2. Demonstrate working knowledge of a method (e.g., animal tracking) that was not presented in class. Make sure that the method has a spatial component.
-
-What to include in your Rmd file to demonstrate working knowledge:
-
-1. Choose one (or more) spatial data sets. Explain why you are interested in these data (two or three sentences).
-2. Import the data to R and make a map. Explain what the map shows (two or three sentences).
-3. Compute a spatial summary statistic on one (or more) variables in the data (e.g., spatial intensity, Moran's I, variogram). Describe it's statistical and physical meaning.
-4. Compare the summary statistic computed on your data to the same statistic estimated from a null model (e.g., no clustering). Include an estimate of uncertainty. 
-5. Fit a spatial statistical model to the data and interpret the results.
-
-Examples and guidelines:
-
-1 (Option 1). A spatial regression model for the distribution of some species. Map the locations of the species (e.g., as points or as a count in cells across a grid). Quantify the spatial clustering by computing the spatial autocorrelation of counts or by showing a nearest-neighbor statistic. Map the explanatory variables (e.g., distance to roads, landcover type, etc). Fit a non-spatial regression model and examine the residuals for spatial autocorrelation. Fit a spatial regression model (spatial lag or spatial error) to predict the counts and give an interpretation of the results.
-
-2 (Option 1). Spatially interpolate pollution levels from soil samples. Show a map of the soil sample values. Estimate the variogram. Test for anisotropy. Fit a variogram model. Interpolate using universal or ordinary kriging. Map the surface and include the original sample values. Map the predicted variance. Interpret the results. If there are covariates try a co-kriging model.
-
-3 (Option 1). Point pattern model for the distribution ant hills in a prairie. Map the hill locations perhaps including marks indicating size. Quantify the clustering by computing nearest-neighbor statistics. Make inferences regarding the clustering. Fit a point pattern model perhaps with a trend and explanatory variables (e.g., soil type, proximity to vegetation, etc). Use the model for simulation. Compare simulated point patterns with the actual point pattern.
-
-4 (Option 2). Demonstrate the key spatial functions from a package not covered in class. The functions must be related to spatial analysis. Some examples of packages that will not be presented in this class.
-
-* Animal tracking https://cran.r-project.org/web/packages/adehabitatLT/vignettes/adehabitatLT.pdf
-* Tracking in general https://cran.r-project.org/web/views/Tracking.html
-* Running/cycling/swimming data from GPS-enabled tracking https://cran.r-project.org/web/packages/trackeR/vignettes/trackeR.pdf
-* Sustainable transport planning https://cran.r-project.org/web/packages/stplanr/vignettes/stplanr-paper.html
-* At a minimum choose a package from those listed in the CRAN Spatial View https://cran.r-project.org/web/views/Spatial.html
-
-### Review: State (U.S.) boundaries as simple feature data frames
+### Example: State (U.S.) boundaries as simple feature data frames
 
 Consider the U.S. state of Kansas. A boundary file containing the borders as a polygon is available in the **USAboundaries** package. The package contains historical and contemporary boundaries with the data provided by the U.S. Census Bureau.
 
@@ -1698,7 +1251,7 @@ cellStats(r1, stat = 'mean')
 cellStats(b, stat = 'sum')
 ```
 
-## Geocomputation functions on rasters
+## Geocomputation on rasters
 
 The `crop()` function takes a geographic subset of a larger raster object. A raster is cropped by providing an extent object or other spatial object from which an extent can be extracted (objects from classes deriving from raster and from spatial in the **sp** package). 
 
@@ -1954,6 +1507,428 @@ Create a new raster `hicape` with cells equal to `TRUE` for those exceeding the 
 hicape <- cape > mean(capeFL)
 length(cape[cape > mean(capeFL)])
 ```
+
+## The S4 spatial class
+
+Install and load the packages.
+```{r}
+library(sp)
+library(sf)
+```
+
+Functions in these packages link to software libraries outside of R. For example GDAL is a set of libraries for reading and writing geospatial data and PROJ is a set of libraries for performing conversions between cartographic projections.
+
+The **sp** package has methods for working with 'vector' spatial data. Note: 'vector' is in quotes because this is different than vector as a data type.
+
+Several of the packages for analyzing and modeling spatial data we will use this semester depend on **sp**. Check out [sp](http://cran.r-project.org/web/packages/sp/index.html) and note the number of packages that depend on **sp** (reverse depends and reverse imports).
+
+Spatial objects from the **sp** package fall into two types: 1) spatial-only information (the topology). These include `SpatialPoints`, `SpatialLines`, `SpatialPolygons`, etc, and 2) extensions to these cases where attribute information is available and stored in a data frame. These include `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, etc.
+
+As an example, we download the shapefile from the SPC (if it's not already available in your working directory) and use `st_read()` from the **sf** package keeping only tornadoes since 2007. Note that we use the `filter()` function and the piping operator from the **dplyr** package as part of the **tidyverse** group of packages.
+```{r}
+library(tidyverse)
+
+sfdf <- st_read(dsn = "1950-2018-torn-aspath") %>%
+  filter(yr >= 2007)
+
+class(sfdf)
+```
+
+The object `sfdf` is of class `sf` and `data.frame` (simple feature data frame).
+
+Note: `st_read()` is the same as `read_sf()` that we used in the last two lessons except the attribute table is a data frame rather than a tabled data frame (tibble).
+
+To convert `sfdf` with class `sf` as an S3 object to an S4 spatial object use `as(sfdf, "Spatial")`. 
+```{r}
+sldf <- as(sfdf, "Spatial")
+```
+
+The spatial object `sldf` is a S4 spatial object of class `SpatialLinesDataFrame`. Information contained in S4 spatial objects is accessed through a slot name. For example, `x@coords` contains the coordinates of a S4 spatial object `x` and `x@data` contains the attribute table as a data frame.
+```{r}
+glimpse(sldf@data)
+```
+
+The `@` symbol is similar to the `$` symbol for regular data frames.
+
+Slots in a `SpatialLinesDataFrame` include `data`, `lines`, `bbox`, and `proj4string`.
+```{r}
+slotNames(sldf)
+```
+
+Selecting, retrieving, or replacing attributes in S4 spatial data frames is done with methods in **base** R. For example `[]` is used to select rows and/or columns. To select `mag` of the 7th tornado type
+```{r}
+sldf$mag[7]
+```
+
+Other methods include: `plot`, `summary`,`dim` and `names` (operate on the data slot), `as.data.frame`, `as.matrix` and `image` (for gridded spatial data), and `length` (number of features).
+
+CAUTION: we can't use the **dplyr** verbs on S4 data frames. To convert from an S4 spatial data frame to a simple feature data frame, use `st_as_sf()`.
+
+The interface to the geometry engine-open source (GEOS) is through the **rgeos** package.
+```{r}
+library(rgeos)
+```
+
+### Geocomputation on S4 spatial data frames
+
+When possible we will do our geocomputations on simple feature data frames (S3). However, sometimes it is more convenient to perform geocomputations on S4 data frames. Also much of the current R code you might encounter doing GIS will be written with S4 objects.
+
+Geocomputation should not be done on spatial objects with geographic coordinates (lat/lon). To see if the S4 spatial data frame is projected type
+```{r}
+is.projected(sldf)
+```
+
+To see the coordinate reference system (CRS) of the spatial data frame type
+```{r}
+sldf@proj4string
+```
+
+The CRS arguments include the projection (`+proj`), the datum (`+datum`), and the ellipsoid (`+ellps`). Here we see the projection is `longlat` indicating that this is a geographic CRS (not projected).
+
+To create a projected `SpatialLinesDataFrame` we use the `spTransform()` function. The first argument is the original spatial data frame and the second argument is the coordinate reference system as a character string.
+```{r}
+sldfP <- spTransform(sldf, 
+                     CRS = CRS("+proj=merc +ellps=GRS80 +units=m"))
+is.projected(sldfP)
+```
+
+The CRS character string is in the open GIS standard format. It includes the projection type (here Mercator), the ellipsoid shape (here GRS80) and the spatial units (here meters).
+```{r}
+sldfP@proj4string
+```
+
+We now have two copies of our `SpatialLinesDataFrame` object (unprojected `sldf` and projected `sldfP`).
+
+We perform geocomputation on the projected spatial data frame using functions from the **rgeos** package. 
+
+Computations can be done across all features (e.g., all tornado reports together) or feature by feature (`byid = TRUE`). For example, to the `gEnvelope()` function computes the rectangular bounding box surrounding all the features.
+```{r}
+library(rgeos)
+
+box <- gEnvelope(sldfP)
+class(box)
+```
+
+The assigned object `box` is of class `SpatialPolygons`. It contains a single polygon rectangle. The `byid = FALSE` is the default. There are no attributes.
+
+Plot the box and the tornadoes using **base** R.
+```{r}
+plot(box)
+plot(sldfP, add = TRUE)
+```
+
+Note that the `plot()` method applied to an S4 spatial object plots the geometries without the attributes.
+
+Another example: Consider the ESRI shapefile containing police expenditure data from Mississippi. The data are on my Web site and are downloaded and imported as follows.
+```{r}
+download.file("http://myweb.fsu.edu/jelsner/temp/data/police.zip",
+              "police.zip")
+unzip("police.zip")
+
+sfdf <- st_read(dsn = "police")
+```
+
+Create an S4 spatial object from the simple feature object.
+```{r}
+spdf <- as(sfdf, "Spatial")
+```
+
+Note that the proj4string is specified as `NA` (missing). We know these data have a geographic CRS so we assign it as follows.
+```{r}
+proj4string(spdf) <- "+proj=longlat +datum=WGS84 +ellps=WGS84"
+```
+
+The `plot()` method plots the polygons. First using the native geographic coordinates then using projected coordinates. We set up the side-by-side plots using the `par()` function.
+```{r}
+par(mfrow = c(1, 2))
+
+plot(spdf)
+spdfP <- spTransform(spdf, 
+                     CRS = CRS("+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-80 +units=km"))
+plot(spdfP)
+
+par(mfrow = c(1, 1))
+```
+
+Note: Here the projection is a Lambert conformal conic with secant latitudes at 30 and 60N and centered at 80W longitude.
+
+By including the `byid = TRUE` argument in the `gEnvelope()` function, we create a spatial polygon object with 82 rectangles.
+```{r}
+boxes <- gEnvelope(spdfP, 
+                   byid = TRUE)
+plot(boxes)
+```
+
+The `gCentroid()` function computes the geometric center of the spatial object and returns a S4 spatial object of class `SpatialPoints`.
+```{r}
+centers <- gCentroid(spdfP, 
+                     byid = TRUE)
+class(centers)
+plot(centers)
+```
+
+The function `gArea()` returns the geographical area (in square kilometers) of the geometries.
+```{r}
+areas <- gArea(spdfP, 
+               byid = TRUE) %>%
+   glimpse()
+```
+
+The output here is a numeric vector of length 82 listing the area of each county (in square kilometers).
+
+Q: How would you determine the area of the entire state?
+
+The `gContains()` function tests whether one geometry contains or is contained within another geometry. For example, which county contains the geographic center of the state? First determine the center with the `gCentroid()` function then determine which county contains it using the `gContain()` function.
+```{r}
+center <- gCentroid(spdfP)
+countyCenter <- gContains(spdfP, 
+                          center, 
+                          byid = TRUE)
+countyCenter
+```
+
+The result is a matrix containing all values equal to `FALSE` except for the county containing the geographic center.
+
+To see this we use the `plot()` method. First the county boundaries then the center point as a red cross.
+```{r, eval=FALSE}
+plot(spdfP)
+plot(center, 
+     add = TRUE,
+     col = "red")
+```
+
+Suppose we want to subset the center county making it it's own `SpatialPolygonsDataFrame`. We first turn the `matrix` object `countyCenter` into a vector then use the `[]` operator on `spdfP`.
+```{r, eval=FALSE}
+centerCounty <- spdfP[as.vector(countyCenter), ]
+plot(spdfP)
+plot(centerCounty, 
+     col = "red", 
+     add = TRUE)
+```
+
+The `gBuffer()` function expands the given geometry to include the area within the specified width with specific styling options. Here we create a buffer around the state at a distance of 100 km.
+```{r, eval=FALSE}
+largerState <- gBuffer(spdfP, 
+                       width = 100)
+plot(largerState)
+plot(spdfP, 
+     add = TRUE)
+```
+
+The output from `gBuffer()` is a `SpatialPolyons` object.
+
+There are many more functions for geocomputation on S4 spatial data frames. The reference manual is available here https://cran.r-project.org/web/packages/rgeos/rgeos.pdf
+
+### Creating an S4 object
+
+Most of the time there is no need to create a spatial data frame since it will be imported as such. However it's helpful to understand how spatial data are constructed and stored.
+
+For example, here we import a data frame the contains information on the location of the CRAN sites in 2007.
+```{r}
+df <- read.table(file = "http://myweb.fsu.edu/jelsner/temp/data/CRAN051001a.txt",
+                 header = TRUE)
+head(df)
+```
+
+Note here I use the `read.table()` function from base R. It is very similar to the `read_table()` function from the **readr** package but the default requires you to specify whether the first row of the file contains column names (`header = TRUE`).
+
+Each row is a location. The location includes the name of the location and spatial coordinates. 
+
+Here we create a spatial points data frame using the `coordinates()` function (from the **sp** package). We first assign to the object `spdf` the original data frame. We then specify what columns in `spdf` we want as the coordinates. Here use the columns labeled `long` and `lat`.
+```{r}
+spdf <- df
+coordinates(spdf) <- c("long", "lat")
+```
+
+Note: Unlike most functions, the `coordinates()` is on the left side of the assignment operator.
+
+```{r}
+head(spdf)
+head(spdf@data)
+```
+
+The columns `long` and `lat` are moved to the `coords` slot of the now spatial points data frame.
+
+```{r}
+head(slot(spdf, "coords"))
+```
+
+The `proj4string` slot is coded as `NA` indicating that there is no coordinate reference system (CRS). We see that with the `proj4string()` function or with `spdf@proj4string`.
+```{r}
+proj4string(spdf)
+spdf@proj4string
+```
+
+Since the coordinates are longitude and latitude we assign a geographic CRS. We do that by first using the `CRS()` function and specifying a PROJ character string. We then assign this to the spatial points data frame with the `proj4string()` function.
+```{r}
+llCRS <- CRS("+proj=longlat +ellps=WGS84")
+proj4string(spdf) <- llCRS
+proj4string(spdf)
+```
+
+We can speak of a geographic CRS (model for shape of the earth plus lat/lon) or a projected CRS (model for shape of Earth plus a specific geometric model for projecting to a flat surface).
+```{r}
+is.projected(spdf)
+```
+
+Once the data has a CRS, it can be re-projected using the `spTransform()` function in the **rgdal** package.
+
+### The `spplot()` method
+
+The easiest way to make a thematic map with an S4 spatial data frame is with the `spplot()` method. The first argument in the `spplot()` function is the spatial data frame object and the second argument specifies what column to use to fill or color.
+
+For example, returning to the police expenditure spatial polygons data frame (`spdfP`) we create a map of police expenditures by county. The expendures are in the column labeled `POLICE` so we specify this column name with the argument `zcol = "POLICE"`.
+```{r}
+spplot(spdfP, 
+       zcol = "POLICE")
+```
+
+The result is a choropleth map indicating police expenditures with a default color ramp from dark blue (indicating low expenditure) to yellow (indicating high expenditure).
+
+While easy to apply the default settings on this method fail to produce a good map. We can improve things but it requires some trial-and-error.
+
+For example, to improve the color ramp. We first specify a range of values using the `seq()` function then a set of 6 colors using the `brewer.pal()` function from the **RColorBrewer** package. We determine the range with the `range()` function. 
+
+We specify the color palette to be 6 shades of green. We then add the arguments `col.regions =` and `at =` in the `spplot()` function call.
+```{r}
+library(RColorBrewer)
+
+range(spdfP$POLICE)
+
+rng <- seq(0, 12000, 2000)
+cls <- brewer.pal(6, "Greens")
+spplot(spdfP, 
+       zcol = "POLICE", 
+       col.regions = cls, 
+       at = rng)
+```
+
+Better.
+
+We reuse this code making small modifications to create a thematic map showing percentage of the population that is unemployed.
+```{r}
+range(spdfP$UNEMP)
+
+rng <- seq(4, 18, 2)
+cls <- brewer.pal(7, "Blues")
+spplot(spdfP, 
+       zcol = "UNEMP", 
+       col.regions = cls, 
+       at = rng,
+       colorkey = list(space = "bottom"), 
+       sub = "Unemployment (%)")
+```
+
+Note that the color key is blaced on the bottom.
+
+We add a north arrow by first determining the bounding box of the plot and then creating a list that specifies the scale and location of the arrow. This list gets passed to the `spplot()` function through the `sp.layout =` argument. Here we start by reprojecting the spatial data frame.
+```{r}
+spdfP <- spTransform(spdfP, 
+                     CRS = CRS("+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-90 +units=km"))
+
+bbox(spdfP)
+
+l1 <- list("SpatialPolygonsRescale", 
+           layout.north.arrow(), 
+           offset = c(-125, 4200), 
+           scale = 40)
+spplot(spdfP, 
+       zcol = "UNEMP", 
+       col.regions = cls, 
+       at = rng,
+       sp.layout = list(l1),
+       colorkey = list(space = "bottom"), 
+       sub = "Unemployment (%)")
+```
+ 
+Similarly, we add a scale bar.
+```{r}
+l3 <- list("SpatialPolygonsRescale", 
+          layout.scale.bar(), 
+          offset = c(-125, 3734), 
+	        scale = 50, fill = c("transparent","black"))
+l4 <- list("sp.text", c(-125, 3724), "0")
+l5 <- list("sp.text", c(-75, 3724), "50 km")
+spplot(spdfP, 
+       zcol = "UNEMP", 
+       col.regions = cls, 
+       at = rng,
+  sp.layout = list(l1, l3, l4, l5), 
+  colorkey = list(space = "bottom"), 
+  sub = "Unemployment (%)")
+```
+
+This takes a lot of trial and error.
+
+## Space-time data
+
+See stars.Rmd in space-time projects.
+
+## Notes on coordinate reference systems
+
+CRS provide a standardized way of describing locations. Many different CRS are used to describe geographic data. The CRS that is chosen depends on when the data was collected, the geographic extent of the data, the purpose of the data, etc.
+
+When data with different CRS are combined it is important to transform them to a common CRS so they align with one another. This is similar to making sure that units are the same when measuring volume or distances. 
+
+In S4 spatial objects, CRS information is available in the `proj4string` slot.
+```{r}
+proj4string(sldf)
+```
+
+Information is given as a character string that includes the projection (here `+proj=longlat`), the datum (here `+datum=WGS84 +towgs84=0,0,0`), and the ellipsoid (here `+ellps=WGS84`). The syntax uses the PROJ standard. Various options are listed with the `projInfo()` function from the **rgdal** package.
+```{r}
+library(rgdal)
+
+head(projInfo(type = "proj"))
+projInfo(type = "datum")
+head(projInfo(type = "ellps"))
+```
+
+The ellipsoid describes the shape of the Earth and the datum provides the information needed to anchor the abstract coordinates to the Earth. The datum defines an origin point of the coordinate axes and defines the direction of the axes. 
+
+The datum always specifies the ellipsoid, but the ellipsoid does not specify the datum. Datums are based on specific ellipsoids and sometimes have the same name as the ellipsoid. 
+A CRS can be referenced by its EPSG code (e.g., `epsg:4121`). The EPSG is a structured dataset of CRSs originally compiled by the European Petroleum Survey Group (EPSG). Details of a particular EPSG code is obtained by
+```{r}
+CRS("+init=epsg:4326")
+```
+
+EPSG codes for commonly used CRSs include: 
+
+* Geographic
+
+- WGS84 (EPSG:4326) Used by organizations that provide GIS data for the entire globe. Used by Google Earth.
+- NAD83 (EPSG:4269) Used by U.S. federal agencies.
+
+* Projected
+
+- Mercator (EPSG:3857) Mercator, tiles from Google Maps, Open Street Maps, Stamen Maps
+- UTM, Zone 10 (EPSG:32610) Pacific Northwest
+
+When `readOGR()` and `st_read()` are used to load spatial data, the CRS information is included as part of the spatial object.
+```{r}
+proj4string(sldf)
+attr(sfdf$geometry, "crs")$proj4string
+```
+
+To assign a known CRS to a S4 spatial object `x` type either:
+```{r, eval=FALSE}
+proj4string(x) <- CRS("+init=epsg:28992")
+proj4string(x) <- CRS("+proj=utm +zone=10 +datum=WGS84")
+```
+
+CAUTION: Assigning a CRS does not re-project the geometry. Also, this is only for S4 spatial data. To transform from one CRS to another use the `spTransform` function from the **rgdal** package. For example, type either:
+```{r, eval=FALSE}
+xT <- spTransform(x, CRS("+init=epsg:4238"))
+xT <- spTransform(x, proj4string(z))
+```
+
+Here `z` is a spatial data with a valid CRS.
+
+An overview of CRSs is available here https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
+
+Note: NOAA’s National Geodetic Survey is currently working on the modernization of the National Spatial Reference System (NSRS), which will replace the North American Datum of 1983 (NAD83) and the North American Vertical Datum of 1988 (NAVD88) with a new geometric reference frame and geopotential datum in 2022.
+
+
 
 ## Problem Set
 

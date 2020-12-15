@@ -1,9 +1,5 @@
 # Getting started
 
-**"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."** --- Martin Fowler
-
-## Get R and RStudio
-
 First get R
 
 * Go to http://www.r-project.org.
@@ -17,11 +13,11 @@ Then get RStudio
 * Download RStudio Desktop
 * Install and open RStudio
 
-## Learn git
+Learn git
 
 https://happygitwithr.com/install-git.html
 
-## About RStudio's IDE
+About RStudio's IDE
 
 * Written in HTML
 * Top menus
@@ -244,7 +240,7 @@ rm(d1, d2)
 
 ## Need additional help? Try swirl
 
-The package **swirl** contains functions to help you learn the basics of R. The `install.packages()` function gets the package from an CRAN mirror site. This needs to be done only once to your local computer. You can update packages using `update.packages()`. To make the functions work in your current session you must use the `library()` function. This needs to be done for every session, but only once per session.
+The package {swirl} contains functions to help you learn the basics of R. The `install.packages()` function gets the package from an CRAN mirror site. This needs to be done only once to your local computer. You can update packages using `update.packages()`. To make the functions work in your current session you must use the `library()` function. This needs to be done for every session, but only once per session.
 ```{r, eval=FALSE}
 install.packages("swirl")
 library(swirl)
@@ -316,7 +312,7 @@ str(mtcars)
 
 ### Another example
 
-Consider answers on questions given to all students in an introductory statistics class at Bowling Green State University. Some of the questions were: What is your height? Choose a number between 1 and 10. Give the time you went to bed last night. The data are available as a data frame called `studentdata` in the package **LearnBayes**.
+Consider answers on questions given to all students in an introductory statistics class at Bowling Green State University. Some of the questions were: What is your height? Choose a number between 1 and 10. Give the time you went to bed last night. The data are available as a data frame called `studentdata` in the package {LearnBayes}.
 
 First, install the package.
 ```{r}
@@ -426,7 +422,7 @@ Next we open the zipped file with the `unzip()` function. This creates a folder 
 unzip("data/temp.zip")
 ```
 
-Finally we load the shapefile into R. We use the `read_sf()` function from the **sf** package. We specify the data source name `dsn =`. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).
+Finally we load the shapefile into R. We use the `read_sf()` function from the {sf} package. We specify the data source name `dsn =`. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).
 ```{r}
 library(sf)
 
@@ -546,17 +542,17 @@ What years had the most East coast hurricanes?
 df$Year[which(df$E == max(df$E))]
 ```
 
-As I mentioned last week, there are many functions for working with data frames using **base** R. These functions require understanding data frames as 'list' objects, which makes them harder to learn and to remember.
+As I mentioned last week, there are many functions for working with data frames using {base} R. These functions require understanding data frames as 'list' objects, which makes them harder to learn and to remember.
 
-From the **readr** package as part of the **tidyverse** dialect we can use the `read_table()` function to create a tabled data frame.
+From the {readr} package as part of the {tidyverse} dialect we can use the `read_table()` function to create a tabled data frame.
 ```{r}
 library(tidyverse)
 df <- read_table(file = "http://myweb.fsu.edu/jelsner/temp/data/US.txt")
 ```
 
-There are many functions for working with data frames using **base** R. These functions require understanding data frames as list objects, which makes them harder to learn and to remember. Next time will explore a more formalized grammar for data wrangling.
+Functions in {base} R for working with data frames require understanding them as list objects. This makes the functions harder to learn and remember. Next time will explore a more formalized grammar for data wrangling.
 
-### Your turn: Precipitation in Florida
+## Your turn: Precipitation in Florida
 
 Source: Monthly climate series. [Source:](http://www.esrl.noaa.gov/psd/data/timeseries/)
 
@@ -574,8 +570,6 @@ head(df)
 * What was the statewide average rainfall during June of 1900?
 * What year had the wettest March?
 * What month during 1965 was the wettest?
-
-### Your turn: U.S. tornadoes
 
 Use the tornado dataset from the Storm Prediction Center and write code to do or answer the following.
 
