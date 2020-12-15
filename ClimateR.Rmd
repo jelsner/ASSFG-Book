@@ -8,49 +8,78 @@ editor_options:
 From: https://mikejohnson51.github.io/climateR-intro
 
 ```{r}
-remotes::install_github("mikejohnson51/AOI") # suggested!
-remotes::install_github("mikejohnson51/climateR")
+library(rgdal)
+library(sf)
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
 
+# remotes::install_github("mikejohnson51/AOI") # suggested!
+# remotes::install_github("mikejohnson51/climateR")
 library(climateR)
 library(AOI)
 ```
 
 Get grid MET data. http://www.climatologylab.org/gridmet.html
 
-Single variable, one day, one state.
+What variables are available?
 ```{r}
 param_meta$gridmet
+```
 
-rain <- getGridMET(aoi_get(state = "FL"), 
+Get a single variable, one day, over one state.
+```{r}
+FL.sf <- aoi_get(state = "FL")
+plot(FL.sf$geometry)
+
+rain <- getGridMET(FL.sf, 
                    param = "prcp", 
                    startDate = "2020-03-10")
+class(rain$prcp)
 
 plot(rain$prcp)
-plot(aoi_get(state = "FL")$geometry, add = TRUE)
+plot(FL.sf$geometry, add = TRUE)
+```
 
+Get the 1000 hr dead fuel moisture.
+```{r}
 data <- getGridMET(aoi_get(state = "FL"), 
                    param = "fmoist_1000", 
                    startDate = "2020-03-10")
 
 plot(data$fmoist_1000)
-plot(aoi_get(state = "FL")$geometry, add = TRUE)
+plot(FL.sf$geometry, add = TRUE)
+```
+
+Point based data
+```{r}
+AOI <- AOI::geocode('Tallahassee, Florida', pt = TRUE)
+ts  <- getGridMET(AOI, param = 'tmax', startDate = "2020-01-01", endDate = "2020-11-30")
+
+ggplot(data = ts) + 
+  aes(x = date, y = ( tmax - 273.16 ) ) + 
+  geom_line() +
+  theme_linedraw() + 
+  labs(title = "Daily High Temperature: Tallahassee, FL 2020", x = "Date", y = "Temperature (C)")
 ```
 
 Get for ANF boundaries.
 ```{r}
-download.file(url = "https://www.dropbox.com/s/wo52hwy6ol83nt8/NorthFloridaPublicLandHexagons10km.zip?dl=1",
-              destfile = "data/TempPubLand.zip")
-unzip("data/TempPubLand.zip", exdir = "data")
+# download.file(url = "https://www.dropbox.com/s/wo52hwy6ol83nt8/NorthFloridaPublicLandHexagons10km.zip?dl=1",
+#               destfile = "data/TempPubLand.zip")
+# unzip("data/TempPubLand.zip", exdir = "data")
 
 LandHex.sf <- read_sf(dsn = "data/NorthFloridaPublicLandHexagons10km") %>%
   dplyr::filter(NAME == "APALACHICOLA")
+```
 
+Get grid met data.
+```{r}
 data <- getGridMET(LandHex.sf, 
                    param = "fmoist_1000", 
                    startDate = "2020-03-10")
 
 plot(data$fmoist_1000)
-plot(LandHex.sf$geometry, add = TRUE) # not the same CRS
 ```
 
 Convert to a {stars} object
@@ -80,8 +109,6 @@ data <- getGridMET(LandHex.sf,
 data.st <- st_as_stars(data$fmoist_1000)
 
 names(data.st) <- "fmoist_1000"
-
-library(lubridate)
 
 days <- seq(as_date("2020-03-01"), 
             as_date("2020-03-31"), 
@@ -140,36 +167,38 @@ ggplot() +
   theme(legend.key.width = unit(2, "cm"))
 ```
 
-Point based data
-```{r}
-AOI <- AOI::geocode('Tallahassee, Florida', pt = TRUE)
-ts  <- getGridMET(AOI, param = 'tmax', startDate = "2020-01-01", endDate = "2020-11-30")
-
-ggplot(data = ts) + 
-  aes(x = date, y = ( tmax - 273.16 ) ) + 
-  geom_line() +
-  theme_linedraw() + 
-  labs(title = "Daily High Temperature: Tallahassee, FL 2020", x = "Date", y = "Temperature (C)")
-```
-
 Compute KDBI for each grid point
 
-Start with grid locations (1:30, 1)
+Start with computing net rainfall.
 ```{r}
-NetRst <- NULL
+Q <- 269  
+R <- 59.23 # average annual rainfall for TLH
 
-for(i in 1:30){
+NetRst <- array(data = rep(0, times = 30 * 17 * 31), dim = c(30, 17, 31))
+Qlst <- array(data = rep(0, times = 30 * 17 * 31), dim = c(30, 17, 31))
 
-Rainfall24 <- data.st$prcp[i, 1, ]
+for(x in 1:30){
+  for(y in 1:17){
+
+Rainfall24 <- data.st$prcp[x, y, ]
+MaxTemp <- data.st$tmax[x, y, ]
+for(i in 1:31){
+  if(is.na(Rainfall24[i])) Rainfall24[i] = 0
+  if(is.na(MaxTemp[i])) MaxTemp[i] = mean(data.st$tmax[, , ], na.rm = TRUE)
+}
+
 PR <- lag(Rainfall24)
 PR[1] <- 0
 
 CumR <- 0
 NetR <- numeric()
 
+Ql <- numeric()
+DeltaQl <- numeric()
+
 for(i in 1:length(Rainfall24)) {
   R24 <- Rainfall24[i]
-  if (R24 == 0) {
+  if (R24 == 0 | is.na(R24)) {
     NetR[i] <- 0
     CumR <- 0
   } 
@@ -189,11 +218,62 @@ for(i in 1:length(Rainfall24)) {
       CumR <- CumR + R24
       }
   }
+  DeltaQ <- (800 - Q) * (.968 * exp(.0486 * MaxTemp[i]) - 8.3) /(1 + 10.88 * exp(-.0441 * R)) * .001 
+  Q <- ifelse(NetR[i] == 0,  Q + DeltaQ,  (Q + DeltaQ) - NetR[i] * 100)
+  Q <- ifelse(Q < 0, 0, Q) 
+  Ql <- c(Ql, Q)
 }
 
-NetRst <- c(NetRst, NetR)
-
+NetRst[x, y, ] <- NetR
+Qlst[x, y, ] <- Ql
+   }
 }
-
-
 ```
+
+```{r}
+data.st$NetR <- NetRst
+data.st$Ql <- Qlst
+
+ggplot() +  
+  geom_stars(data = data.st[4]) + 
+  facet_wrap("date") +
+  scale_fill_viridis_c() +
+  coord_sf() +
+  theme_map() +
+  theme(legend.position = "bottom") +
+  theme(legend.key.width = unit(2, "cm"))
+
+LandHexLL.sf <- LandHex.sf %>%
+  st_transform(crs = st_crs(data.st))
+
+X <- st_crop(data.st, 
+             LandHexLL.sf, 
+             crop = TRUE)
+
+ggplot() +  
+  geom_stars(data = X[4]) + 
+  facet_wrap("date") +
+  scale_fill_viridis_c() +
+  coord_sf() +
+  theme_map() +
+  theme(legend.position = "bottom") +
+  theme(legend.key.width = unit(2, "cm"))
+```
+
+Add the 1000 hr (and 100 hr) dead fuel moisture and compare with the Ql (KDBI)
+```{r}
+data <- getGridMET(LandHex.sf, 
+                   param = "fmoist_100", 
+                   startDate = "2020-03-01",
+                   endDate = "2020-03-31")
+( data.st <- data.st %>%
+  mutate(fmoist_100 = as.vector(data$fmoist_100)) )
+
+X <- st_crop(data.st, 
+             LandHexLL.sf, 
+             crop = TRUE)
+
+cor.test(X$Ql, X$fmoist_100)
+```
+
+The correlation between KDBI and dead fuel moisture index is stronger with 1000 hr than with 100 hr
