@@ -6,14 +6,14 @@
 
 First get R
 
-* Point browser to http://www.r-project.org.
+* Go to http://www.r-project.org.
 * Select the CRAN (Comprehensive R Archive Network). Scroll to a mirror site. 
 * Choose the appropriate file for your hardware.
 * Follow the instructions to install R.
 
 Then get RStudio
 
-* Click on http://rstudio.org
+* Go to on http://rstudio.org
 * Download RStudio Desktop
 * Install and open RStudio
 
@@ -260,8 +260,6 @@ Choose the lesson: R Programming. Work through lessons 1:8
 Getting help: https://www.r-project.org/help.html
 
 ## Data Frames
-
-**"Measuring programming progress by lines of code is like measuring aircraft building progress by weight."** --- Bill Gates
 
 A data frame is used for storing data tables. It is a list of vectors of equal length. For example, the following variable `df` is a data frame containing three vectors `n`, `s`, `b`.
 ```{r}
