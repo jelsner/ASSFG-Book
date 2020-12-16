@@ -4,10 +4,7 @@ The _vector data model_ represents the world using points, lines and polygons. T
 
 The _raster data model_ divides geographic space into a grid of cells of constant size (resolution). The raster model is used for representing continuous phenomena such as elevation or rainfall. Rasters aggregate specific features to a given resolution, meaning that they are consistent over space and scale-able (many worldwide raster data sets are available). The downside is that the smallest features are blurred or lost.
 
-Choosing between vector or raster models depends on your application:
-
-* Vector data tends to dominate the social sciences because human settlements and boundaries have discrete borders.
-* Raster data (e.g., remotely sensed imagery) tends to dominate the environmental sciences because environmental conditions are typically continuous.
+The choice of data model depends on your application: Vector data tends to dominate the social sciences because human settlements and boundaries have discrete borders. Raster data (e.g., remotely sensed imagery) tends to dominate the environmental sciences because environmental conditions are typically continuous.
 
 Geographers, ecologists, demographers use vector and raster data. In this class we use functions from the {sf} package to work with vector data and functions in the {raster} packages to work with raster datasets. Functions from the {stars} package can work with both vector and raster data models.
 
