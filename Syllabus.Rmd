@@ -41,8 +41,8 @@ In this course we survey the methods used to describe, analyze, and model spatia
 
 ### Course materials
 
-* You will need access to the internet and a laptop computer (an iPad should work).
-* All course materials are available through RStudio Cloud (https://rstudio.cloud/spaces/40772/projects).
+* You will need access to the internet and a computer.
+* All course materials are available through Canvas and GitHub.
 * There is no required textbook. 
 * Much of the material for the course comes from the online book: R for Data Science https://r4ds.had.co.nz/
 * Additional help is available online (e.g., https://tinystats.github.io/teacups-giraffes-and-statistics/index.html)
@@ -108,10 +108,10 @@ Topics:
 
 Calendars
 
-Lessons:
+Remote Lessons:
 * January 6, 8
-* January 11, 13
-* January 20, 22
+* January 11, 13, 15
+* January 20
 * January 25, 27
 * February 1, 3
 * February 8, 10
@@ -125,8 +125,8 @@ Lessons:
 * April 5, 7
 * April 12, 14
 
-Labs: 
-* January 15
+Lab Assignments: 
+* January 22
 * January 29
 * February 5
 * February 12

@@ -4,7 +4,7 @@ So far we've worked with data stored as vectors. But we often import data as dat
 
 ## A grammar for working with data frames
 
-The functions in the {dplyr} package (@WickhamEtAl2020) as part of the {tidyverse} set of packages simplify data munging tasks. But they work only on data frames. 
+The functions in the {dplyr} package (Wickham et al. 2020) as part of the {tidyverse} set of packages simplify data munging tasks. But they work only on data frames. 
 
 The function names are _verbs_ so they are easy to remember. Verbs help us to translate our thoughts into code. Recall, functions from packages are made available to the current session with the `library()` function.
 ```{r}
@@ -27,8 +27,6 @@ summary(airquality)
 Note that columns that have missing values are tabulated. For example, there are 37 missing ozone measurements and 7 missing radiation meaurements.
 
 Before we get started we need to talk about pipes and tibbles.
-
-### Pipes
 
 Importantly for literate programming we can apply the `summary()` function using the pipe operator (`%>%`). The pipe operator is a function in the {dplyr} package.
 ```{r}
@@ -77,8 +75,6 @@ me %>%
 
 Which is much better in terms of 'readability' then `leave_house(drink_coffee(make_coffee(get_dressed(get_out_of_bed(wake_up(me))))))`.
 
-### Tibbles
-
 Tibbles are data frames that make life a little easier. R is an old language, and some things that were useful 10 or 20 years ago now get in your way. To make a data frame a tibble (tabular data frame) use the `as_tibble()` function.
 ```{r}
 class(airquality)
@@ -89,8 +85,6 @@ class(airquality)
 Click on `airquality` in the environment. It is a data frame. We will use the terms 'tibble' and 'data frame' interchangeably (mostly).
 
 Now we are ready to look at some of the commonly used verbs and how to apply them to the data frame `airquality`.
-
-### Action verbs
 
 The function `select()` chooses variables by name. For example, choose the month, day, and temperature columns.
 ```{r}
@@ -250,7 +244,7 @@ These properties make it easy to chain together many simple lines of code to do 
 
 The five functions form the basis of a grammar for data. At the most basic level, we can only alter a data frame in five useful ways: we can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`).
 
-## Example 1: Florida precipitation
+Example 1: Florida precipitation
 
 Suppose we are interested in whether it is getting wetter or drier in Florida during spring? One way to examine this question is to divide the years into two groups early and late and compute averages.
 
@@ -263,7 +257,7 @@ read_table(file = "http://myweb.fsu.edu/jelsner/temp/data/FLprecip.txt") %>%
             Var = var(Apr))
 ```
 
-## Example 2: US tornadoes
+Example 2: US tornadoes
 
 Let's review by considering another data frame. The file `Torn.sf` is a data frame. The last column contains the geometry (genesis as a POINT) of the tornadoes in the format of well-known text [WKT](https://en.wikipedia.org/wiki/Well-known_text) making it a 'simple feature' data frame.
 
@@ -275,7 +269,7 @@ Torn.sf <- read_sf(dsn = "data/1950-2018-torn-initpoint")
 head(Torn.sf$date)
 ```
 
-### Create new columns with the verb function `mutate()`
+Create new columns with the verb function `mutate()`
 
 New columns are created with the `mutate()` function. Here we assign to the object `sfdf` the original data frame but with three new columns. 
 
@@ -295,7 +289,7 @@ The simple feature data frame `sfdf` has the same columns as the original data f
 
 Note here the function `glimpse()` has no arguments. It inherits the data frame `sfdf` through the piping operator.
 
-### Rename a column with `rename()`.
+Rename a column with `rename()`.
 
 To give a column a new name use the `rename()` function (new name = old name). For example to change the name of the column `yr` to `Year` and `mag` to `EF` type
 ```{r}
@@ -307,7 +301,7 @@ sfdf <- sfdf %>%
 
 The original names of `yr` and `mag` are replaced with `Year` and `EF`.
 
-### Select columns with `select()`
+Select columns with `select()`
 
 The `select()` function chooses specified columns by name to create a new data frame. Here we recycle the `sfdf` name.
 ```{r}
@@ -344,7 +338,7 @@ us_states %>%
 
 Note that the `geometry` column remains.
 
-### Filter rows with `filter()`
+Filter rows with `filter()`
 
 The `filter()` function selects a subset of the rows of a data frame. The arguments are filtering (subsetting) expressions evaluated using column names of the data frame. For example, we can select all tornadoes recorded during October of 1980.
 ```{r}
@@ -362,7 +356,7 @@ sfdf %>%
   filter(ST == "WI")
 ```
 
-### Arrange rows with `arrange()`
+Arrange rows with `arrange()`
 
 The function `arrange()` works like `filter()` except that instead of subsetting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by.
 
@@ -384,7 +378,7 @@ sfdf %>%
   glimpse()
 ```
 
-### Pull out a single variable with `pull()`
+Pull out a single variable with `pull()`
 
 The function `pull()` pulls out a single variable from the data frame.
 ```{r}
@@ -395,7 +389,7 @@ head(Fatals)
 
 The result is a vector. This is equivalent to `Fatals <- sfdf$Fatalities`.
 
-### Summarize values with `summarise()`
+Summarize values with `summarise()`
 
 The `summarize()` function collapses a data frame to a single row. Here we first create a regular data frame from the simple feature data frame by using the `as.data.frame()` function.
 ```{r}
@@ -412,7 +406,7 @@ Together these properties make it easy to chain together multiple simple steps t
 
 The remainder of the language comes from applying the five functions in various order and on various groups.
 
-### Grouped operations
+Grouped operations
 
 The verb functions are powerful when we combine them with the idea of 'group by', repeating the operation individually on groups of observations within the data frame. 
 
@@ -474,7 +468,7 @@ df %>%
   arrange(desc(nF))
 ```
 
-## a grammar for making graphs
+## A grammar for making graphs
 
 The last lesson introduced the functions from the {dplyr} package for manipulating data frames in a grammatically consistent way. This makes data munging easier. The piping operator allows you to write code that is legible. This lesson introduces a grammar for making graphs.
 
@@ -491,7 +485,7 @@ We make the functions available to our currenct working directory by typing
 library(ggplot2)
 ```
 
-### First principle: Map data to aesthetics
+First principle: Map data to aesthetics
 
 Consider the following vectors of data. Create a data frame `df2` using the `data.frame` function.
 ```{r}
@@ -538,7 +532,7 @@ ggplot(data = df2,
 
 We changed a scatter plot to a bubble chart by mapping a new variable to the size aesthetic. Any visualization we see can be deconstructed into geom specifications and mapping from data to the aesthetic attributes of the geometric objects.
 
-### Second principle: Build plots in layers
+Second principle: Build plots in layers
 
 The principle of layering is important because to create more advanced visualizations, we often need to:
 
@@ -571,7 +565,7 @@ We used two of the data visualization principles (mapping & layering) to build t
 * To create the bubble chart, we mapped a `zaz` to the size-aesthetic
 * To create the dot distribution map, we added a layer of polygon data under the bubbles.
 
-### Third principle: Iteration
+Third principle: Iteration
 
 The third principle is about process. The process begins with mapping and layering but ends with iteration when we add layers that modify scales, legends, colors, etc. The syntax of `ggplot` _layerability_ enables and rewards iteration. 
 
@@ -592,7 +586,7 @@ p2
 
 The `facet_wrap()` function is a layer to iterate (repeat) the entire plot conditional on another variable. It is like the `group_by()` function in the data grammar.
 
-## Example 1: Tornadoes
+Example 1: Tornadoes
 
 We plot the number of tornadoes by year for the state of Kansas. Recall, the data are in the data frame `df`.
 ```{r}
@@ -641,7 +635,7 @@ ggplot(aes(x = factor(EF))) +
   facet_wrap(~ Year)
 ```
 
-## Example 2: Hot days in the city
+Example 2: Hot days in the city
 
 The data are from the National Climatic Data Center (NCDC). They are [daily data](http://www.ncdc.noaa.gov/cdo-web/datasets) from the National Weather Service Forecast Office in Tallahassee. The observing site is the Tallahassee International Airport (previously the Tallahassee Municipal Airport and Tallahassee Regional Airport). 
 
@@ -772,7 +766,7 @@ library(patchwork)
 gTLH / gLVG
 ```
 
-### Geofacet
+Geofacet
 
 Bar plot of the number of tornadoes by month and by state. The code uses the {geofacet} package [@Hafen2020].
 ```{r}
@@ -805,7 +799,7 @@ ggplot(aes(as.factor(mo), nT)) +
 * Cheat sheets: https://rstudio.com/resources/cheatsheets/
 * More examples: https://geocompr.robinlovelace.net/ {spData} package.
 
-## Problem Set
+## Assignment #1
 
 The object `us_states` from the {spData} package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
 
@@ -817,4 +811,4 @@ The object `us_states` from the {spData} package is a simple feature data frame 
 6. Make a bar chart showing the total area in millions of square kilometers by region. Hint: include `stat = "identity"` in the `geom_bar()` function. (25)
 7. How much has population density changed between 2010 and 2015 in each state? Calculate the change (in percent relative to population in 2010) for each state. (5)
 
-Extra problem: Make a side-by-side comparison using `facet_wrap()`. Convective vs non-convecting atmospheres.
+Extra problem: Make a side-by-side comparison using `facet_wrap()`. Convective vs non-convective atmospheres.

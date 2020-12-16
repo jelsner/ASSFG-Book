@@ -1,8 +1,6 @@
 # Working with spatial data
 
-Rearrange this chapter. Move {sp} topics toward end. Start with {sf}, {rasters}, and then {stars}. Finally {sp}
-
-The _vector data model_ represents the world using points, lines and polygons. These objects have discrete, well-defined borders, meaning that these data sets usually have a high level of precision (Of course precision does not imply accuracy).
+The _vector data model_ represents the world using points, lines and polygons. These objects have discrete, well-defined borders, meaning that these data sets usually have a high level of precision (precision does not imply accuracy).
 
 The _raster data model_ divides geographic space into a grid of cells of constant size (resolution). The raster model is used for representing continuous phenomena such as elevation or rainfall. Rasters aggregate specific features to a given resolution, meaning that they are consistent over space and scale-able (many worldwide raster data sets are available). The downside is that the smallest features are blurred or lost.
 
@@ -11,23 +9,21 @@ Choosing between vector or raster models depends on your application:
 * Vector data tends to dominate the social sciences because human settlements and boundaries have discrete borders.
 * Raster data (e.g., remotely sensed imagery) tends to dominate the environmental sciences because environmental conditions are typically continuous.
 
-Geographers, ecologists, demographers often use vector and raster data. 
+Geographers, ecologists, demographers use vector and raster data. In this class we use functions from the {sf} package to work with vector data and functions in the {raster} packages to work with raster datasets. Functions from the {stars} package can work with both vector and raster data models.
 
-In this class (and in the R spatial ecosystem) we use functions from the **sp** and **sf** packages to work with vector data and functions in the **raster** packages to work with raster datasets.
+R's spatial ecosystem continues to evolve. Most changes build on what has already been done. Occasionally there is a significant change that builds from scratch. The introduction of the {sf} package is a significant change.
 
-R's spatial ecosystem continues to evolve. Most changes build on what has already been done. Occasionally there is a significant change that builds from scratch. The **sf** package is a significant change.
-
-## Simple Features
+## Simple feature data frames
 
 Simple features is a standard from the Open (as in 'open source') Geospatial Consortium (OGC) to represent geographic information. It simplifies working with geographic data by condensing geographic forms into a single geometry class.
 
 The standard is implemented in spatial databases (e.g., PostGIS), commercial GIS (e.g., ESRI) and forms the vector data basis for libraries such as [GDAL](http://www.gdal.org/). A subset of simple features forms the [GeoJSON](http://geojson.org/) standard.
 
-The **sf** package (Pebesma 2017) supports these classes and includes plotting and other methods. 
+The {sf} package (Pebesma 2017) supports these classes and includes plotting and other methods. 
 
-Functions in the **sf** package can represent all of the common vector geometry types: points, lines, polygons and their respective 'multi' versions (which group together features of the same type into a single feature). The functions in the **sf** also support geometry collections, which can contain multiple geometry types in a single object. But the `raster` data classes are not supported.
+Functions in the {sf} package can represent all of the common vector geometry types: points, lines, polygons and their respective 'multi' versions (which group together features of the same type into a single feature). Functions also support geometry collections, which can contain multiple geometry types in a single object. But the `raster` data classes are not supported.
 
-The **sf** package incorporates the three main packages of the spatial R ecosystem: **sp** (Pebesma and Bivand 2017) for the class system, **rgdal** (Bivand, Keitt, and Rowlingson 2017) for reading and writing data, and **rgeos** (Bivand and Rundel 2017) for spatial operations done with GEOS. 
+The {sf} package incorporates the three main packages of the spatial R ecosystem: {sp} (Pebesma and Bivand 2017) for the class system, {rgdal} (Bivand, Keitt, and Rowlingson 2017) for reading and writing data, and {rgeos} (Bivand and Rundel 2017) for spatial operations done with GEOS. 
 
 Simple features are data frames with a spatial column. The spatial column is usually called `geometry` (or `geom`). The geometry column is referenced like a regular column. For example, `world$geom` refers to the spatial column of the `world` simple feature data frame.
 
@@ -78,7 +74,7 @@ A collection of these is made:
 
 * Geometry collection - `GEOMETRYCOLLECTION (MULTIPOINT (5 2, 1 3, 3 4, 3 2), LINESTRING (1 5, 4 4, 4 1, 2 2, 3 2)))`
 
-### Simple feature geometry (`sfg`)
+Simple feature geometry (`sfg`)
 
 The `sfg` class represents the simple feature geometry types: point, linestring, polygon (and their 'multi' equivalents, such as multipoints) or geometry collection.
 
@@ -129,7 +125,7 @@ poly.with.hole.list <- list(poly.border, poly.hole)
 st_polygon(poly.with.hole.list)
 ```
 
-### Simple feature geometry column
+Simple feature geometry column
 
 One `sfg` object contains a single simple feature geometry. A simple feature geometry column (`sfc`) is a list of `sfg` objects together with information about the coordinate reference system. 
 
@@ -200,7 +196,7 @@ st_sfc(point1, point2,
 
 In this case the epsg string remains empty demonstrating there is no general method to convert from proj4string to epsg.
 
-### Simple feature objects
+Simple feature objects
 
 Features (geometries) often come with associated attributes. The attributes might represent the name of the geometry, measured values, groups to which the geometry belongs, etc. 
 
@@ -253,7 +249,7 @@ In this case the `geometry` column is
 * no longer has a plot method, and
 * lacks all dedicated methods listed above for class `sf`
 
-### Your turn
+## Worked examples
 
 (1) Create a simple feature data frame from the following information about the Joplin tornado that killed 158 people on May 22, 2011. Hint: use `st_linestring()` and `rbind()`.
 
@@ -350,19 +346,17 @@ head(sfdf)
 
 https://web.cvent.com/event/36ebe042-0113-44f1-8e36-b9bc5d0733bf/summary?RefId=conference&utm_campaign=Site%20Promo&utm_medium=Ste&utm_source=ConfPage
 
-### Why simple features?
-
-Why use the **sf** package when **sp** is already tried and tested?
+Why use the {sf} package when {sp} is already tried and tested?
 
 * Fast reading and writing of data
 * Enhanced plotting performance
 * `sf` objects are treated as data frames in most operations
-* `sf` functions are combined using `%>%` operator and they work well with the **tidyverse** packages
+* `sf` functions are combined using `%>%` operator and they work well with the {tidyverse} packages
 * `sf` function names are consistent and intuitive (all begin with `st_`)
 
-These advantages have prompted the development of spatial packages (including **tmap**, **mapview**. and **tidycensus**) to add support for simple feature objects. However, it will take years for some packages to transition and some will sunset. 
+These advantages have prompted the development of spatial packages (including {tmap}, {mapview}. and {tidycensus}) to add support for simple feature objects. However, it will take years for some packages to transition and some will sunset. 
 
-In our current workflow we can take advantage of simple features because it is easy to convert between the two classes. Consider the `world` S3 spatial data frame from the **spData** package. We  convert it to a S4 spatial data frame with the `as()` method.
+In our current workflow we can take advantage of simple features because it is easy to convert between the two classes. Consider the `world` S3 spatial data frame from the {spData} package. We  convert it to a S4 spatial data frame with the `as()` method.
 ```{r}
 library(sf)
 library(sp)
@@ -380,51 +374,6 @@ world.sf <- st_as_sf(world.sp, "sf")
 ```
 
 We can create basic maps from simple feature data frames with the base `plot()` method (`plot.sf()`). The function creates a multi-panel one sub-plot for each variable.
-
-As an example consider the ESRI shapefile containing police expenditure data from Mississippi. The data are on my Web site and are downloaded and imported as follows. Here we download the data as a zipped file, unzip it, import it with the `st_read()` function then assign a geographic coordinate reference system (CRS) to it using the EPSG number 4326.
-```{r}
-download.file("http://myweb.fsu.edu/jelsner/temp/data/police.zip",
-              "police.zip")
-unzip("police.zip")
-
-sfdf <- st_read(dsn = "police")
-```
-
-Create an S4 spatial object from the simple feature object, give it a geographic coordinate reference system (CRS), and then transform it to a Lambert conformal conic (LCC) projection.
-```{r}
-spdf <- as(sfdf, "Spatial")
-proj4string(spdf) <- "+proj=longlat +datum=WGS84 +ellps=WGS84"
-
-spdfP <- spTransform(spdf, 
-                     CRS = CRS("+proj=lcc +lat_1=60 +lat_2=30 +lon_0=-90 +units=km"))
-
-```
-
-How do you choose what projection to use?
-
-1. Check what government agencies are using for the area of interest
-2. Google 'best projection for [area]'
-3. Default to state plane for US states or UTM zones for global areas
-
-Now compare the `plot()` method with the `spplot()` method.
-```{r}
-sfdfP <- st_as_sf(spdfP, "sf")
-
-plot(sfdfP["WHITE"])
-spplot(spdfP["WHITE"])
-```
-
-Using the `world` simple feature data frame we can map country-level population.
-```{r}
-plot(world["pop"])
-```
-
-Or map the continents.
-```{r}
-plot(world["continent"])
-```
-
-More on making maps with spatial data frames later.
 
 ## Geocomputation on simple features
 
@@ -543,8 +492,8 @@ plot(st_buffer(state.sf, dist = 100))
 plot(state.sf, add = TRUE)
 ```
 
-### Length of boundary lines for U.S. states
-
+Length of boundary lines for U.S. states
+ (new code)
 ```{r}
 library(USAboundaries)
 states <- us_states() %>%
@@ -555,17 +504,14 @@ states2 <- st_cast(states, to = "MULTILINESTRING")
 st_length(states2)
 ```
 
-### Attribute manipulation
-
-The **sf** package provides methods that allow `sf` objects to behave like regular data frames (see  https://geocompr.robinlovelace.net/attr.html).
-
+Objects of class `sf` behave like regular data frames.
 ```{r}
 methods(class = "sf")
 ```
 
 Many of these functions were developed for data frames including `rbind()` (for binding rows of data together) and `$` (for creating new columns). The key feature of `sf` objects is that they store spatial and non-spatial data in the same way, as columns in a `data.frame`.
 
-The geometry column of **sf** objects is typically called `geometry` but any name can be used. This allows geometries with any name to be used.
+The geometry column of {sf} objects is typically called `geometry` but any name can be used. This allows geometries with any name to be used.
 
 The following command, for example, creates a geometry column named `g`.
 ```{r}
@@ -590,11 +536,11 @@ world_df <- st_set_geometry(world, NULL)
 class(world_df)
 ```
 
+## Attribute variables
+
 Recall attributes are the variables (stored as columns) in a spatial data frame.
 
 There is no harm in keeping the geometry column because data operations on `sf` objects only change an object's geometry when appropriate (e.g. by dissolving borders between adjacent polygons following aggregation). This means that the speed of operations with attribute data in `sf` objects is the same as with columns in a data frames.
-
-#### Attribute subsetting
 
 Subset functions include `[`, `subset()` and `$`. **dplyr** subset functions include `select()`, `filter()`, and `pull()`. Both sets of functions preserve the spatial components of attribute data in `sf` objects.
 
@@ -664,9 +610,7 @@ world3 <- world %>%
 head(world3)
 ```
 
-#### Attribute aggregation
-
-Aggregation summarize datasets by a grouping variable, typically an attribute column. An example of attribute aggregation is calculating the number of people per continent based on country-level data (one row per country). 
+Aggregation summarizes a data frame by a grouping variable, typically an attribute column. An example of attribute aggregation is calculating the number of people per continent based on country-level data (one row per country). 
 
 The `world` dataset contains the necessary ingredients: the columns `pop` and `continent`, the population and the grouping variable, respectively. The goal is to find the `sum()` of country populations for each continent.
 
@@ -701,8 +645,6 @@ world %>%
   top_n(n = 3, wt = pop) %>%
   st_set_geometry(value = NULL) 
 ```
-
-#### Attribute joining
 
 Combining data from different sources based on a shared 'key' variable is common. The **dplyr** package has multiple join functions including `left_join()` and `inner_join()`. Names follow conventions used in the SQL database language.
 
@@ -767,7 +709,7 @@ The difference between `mutate()` and `transmute()` is that the latter skips all
 
 More information: https://geocompr.robinlovelace.net/attr.html
 
-### Areal weighted interpolation
+## Areal weighted interpolation
 
 Areal weighted interpolation estimates the value of some attribute from a set of polygons to an overlapping but incongruent set of target polygons. For example, suppose we want demographic information given at the Census tract level to be estimated within the tornado damage path.
 
@@ -804,7 +746,7 @@ This assumption is not likely to be valid in general (e.g., tracts with large pa
 
 The interpolation is done with the `aw_interpolate()` function.
 
-#### Example: Population given at tract level interpolated to the ward level
+### Example 1: Population given at tract level interpolated to the ward level
 
 The number of people within each Census tract is known. But suppose we want the number of people in each ward. Wards are overlapping but incongruent polygons relative to the tracts.
 
@@ -845,7 +787,8 @@ If the variable is intensive then use `intensive = ` instead of `extensive = ` t
 
 Options are documented in both the function documentation (use `?aw_interpolate`) as well as in a dedicated vignette.
 
-#### Estimate total residential population under each tornado path during 2014
+
+### Example 2: Estimate total residential population under each tornado path during 2014
 
 Here we are interested in the total (residential) population under each tornado occurring in Florida during 2014. We begin by creating a polygon geometry for each tornado record.
 
@@ -933,9 +876,10 @@ head(out.sf)
 ```
 
 ## Spatial aggregation
+
 https://www.jla-data.net/eng/spatial-aggregation/
 
-### Example: State (U.S.) boundaries as simple feature data frames
+Example: State (U.S.) boundaries as simple feature data frames
 
 Consider the U.S. state of Kansas. A boundary file containing the borders as a polygon is available in the **USAboundaries** package. The package contains historical and contemporary boundaries with the data provided by the U.S. Census Bureau.
 
@@ -989,11 +933,11 @@ st_distance(KSgeocenter, KStorcenter)
 
 ## Working with Rasters
 
-Recall that the *vector data model* represents the world using points, lines and polygons and we use classes from the **sp** and **sf** packages to work with vector data. The *raster data model* divides geographic space into a grid of cells of constant size (resolution) and we use classes from the **raster** package to work with raster data.
+The _raster data model_ divides geographic space into a grid of cells of constant size (resolution) and we use classes from the {raster} package to work with raster data.
 
 A raster in R is a data structure that divides space into rectangles called 'cells' (or 'pixels'). Each cell has an attribute value.
 
-The **raster** package has functions for creating, reading, manipulating, and writing raster data as S4 objects and functions for raster manipulation common in GIS.
+The {raster} package has functions for creating, reading, manipulating, and writing raster data as S4 objects and functions for raster manipulation common in GIS.
 ```{r}
 library(raster)
 ```
@@ -1004,7 +948,7 @@ A raster can also store information about the external file from where it came.
 
 The package has two classes for data with more than one variable associated with each cell (multi-layer data) the `RasterStack` and the `RasterBrick`. A `RasterBrick` can only be linked to a single (multi-layer) file. A `RasterStack` can be formed from separate files. Otherwise they are the same.
 
-### Creating raster objects
+Creating raster objects
 
 The `raster()` function creates a raster with a geographic (longitude/latitude) CRS and a 1 by 1 degree grid of cells across the globe.
 ```{r}
@@ -1102,8 +1046,6 @@ plot(rp)
 
 The projection is performed using bi-linear interpolation (default). In the case where the values are categorical we use `method = "ngb"` for nearest neighbor.
 
-### From a data frame
-
 The function `rasterFromXYZ()` is used to create a raster from a data frame where two of the columns are spatial coordinates listed in an array format.
 
 For example, first create a data frame.
@@ -1126,8 +1068,6 @@ plot(dfr)
 ```
 
 Note: this only works if the spatial coordinates are arranged in the format of an array.
-
-### Raster manipulations
 
 The `raster()` function imports data with functions from the **rgdal** package. Supported formats include `GeoTIFF`, `ESRI`, `ENVI`, and `ERDAS`. Most formats that can import rasters can also be used to exporting rasters. 
 
@@ -1188,8 +1128,6 @@ Suppose we only want a single layer (e.g., one attribute). We extract a raster l
 r <- raster(b, layer = 2)
 plot(r)
 ```
-
-### Raster algebra
 
 Most base R functions (`+`, `*`, `round()`, `ceiling()`, `log()`, etc) work on raster objects. Operations are done on all cells at once.
 
@@ -1253,7 +1191,7 @@ cellStats(b, stat = 'sum')
 
 ## Geocomputation on rasters
 
-The `crop()` function takes a geographic subset of a larger raster object. A raster is cropped by providing an extent object or other spatial object from which an extent can be extracted (objects from classes deriving from raster and from spatial in the **sp** package). 
+The `crop()` function takes a geographic subset of a larger raster object. A raster is cropped by providing an extent object or other spatial object from which an extent can be extracted (objects from classes deriving from raster and from spatial in the {sp} package). 
 
 The function `drawExtent()` is used to visually see the new extent (bounding box) that is given to the `crop()` function.
 
@@ -1284,15 +1222,13 @@ Other formats for saving the raster (e.g., `geoTIFF`) are available (see `writeR
 
 The `flip()` function flips the data (reverse order) in the horizontal or vertical direction---typically to correct for a 'communication problem' between different R packages or a misinterpreted file. The `rotate()` function rotates longitude/latitude rasters that have longitudes from 0 to 360 degrees (often used by climatologists) to the standard -180 to 180 degrees system. With the `t()` function you can rotate a raster object 90 degrees.
 
-### Vector to raster conversion
-
 Point-to-raster conversion is often done to analyze point-pattern data. For example to count the number of distinct species (represented by point observations) that occur in each raster cell. The `rasterize()` function takes a raster object to set the spatial extent and resolution, and a function to determine how to summarize the points (or an attribute of each point) by cell.
 
 Polygon to raster conversion is typically done to create a `RasterLayer` that can act as a mask, i.e. to set to `NA` a set of cells of a raster object, or to summarize values on a raster by zone. For example a country polygon is transferred to a raster that is then used to set all the cells outside that country to `NA`; whereas polygons representing administrative regions such as states can be transferred to a raster to summarize raster values by region.
 
 It is also possible to convert the values of a raster layer to points or polygons, using `rasterToPoints()` and `rasterToPolygons()`. These functions return values only for cells that are not missing (`NA`).
 
-#### Example: Tornado counts by raster
+### Example: Tornado counts by raster
 
 https://rpubs.com/jelsner/tornadoRisk_longTermView
 https://rpubs.com/jelsner/tornadoRisk_shortTermView
@@ -1336,7 +1272,6 @@ The result is a raster layer. The number of tornadoes occurring in each cell are
 ```{r}
 values(Torn.r)[1:200]
 ```
-
 
 We make a quick map with the `plot()` method.
 ```{r}
@@ -1407,7 +1342,7 @@ tm_shape(States.sf) +
   tm_borders()
 ```
 
-### Focal (neighborhood) functions
+Focal (neighborhood) functions
 
 The functions: `focal()`, `focalFilter()`, `focalNA()` compute statistics in a neighborhood of cells around a focal cell, putting the result in the focal cell of an output raster. 
 
@@ -1417,7 +1352,7 @@ The `distance()` function computes the shortest distance to cells that are not N
 
 The `gridDistance()` function computes the distance when following grid cells that can be traversed (e.g. excluding water bodies). The `direction()` function computes the direction towards (or from) the nearest cell that is not `NA`. The `adjacency()` function determines which cells are adjacent to other cells, and the `pointDistance()` function computes distance between points. 
 
-### Summary functions
+Summary functions
 
 The function `cellStats()` computes summary statistics on a raster. For example:
 ```{r}
@@ -1428,8 +1363,6 @@ freq(Tor_r)
 
 Use `zonal()` to summarize a raster object using zones (areas with the same integer number) defined in a `RasterLayer` and `crosstab()` to cross-tabulate two `RasterLayer` objects.
 
-### Convert a raster to a spatial vector object
-
 Convert `raster` to polygons. 
 ```{r}
 spdf <- rasterToPolygons(Tor_r)
@@ -1438,74 +1371,6 @@ spdf <- rasterToPolygons(Tor_r)
 Convert the `SpatialPolygonsDataFrame` to a simple features data frame.
 ```{r}
 sfdf <- st_as_sf(spdf)
-```
-
-### Example: Environmental data related to tornadoes
-
-An example of a raster containing environmental data relative to our work on understanding tornadoes is available in the file `test1.grb`. The data are variables describing the 3-D atmosphere at a given time across North America. Download the data.
-
-Each variable is a raster layer. Load the file as a raster brick.
-```{r}
-library(raster)
-rb <- brick('test1.grb')
-rb
-```
-
-There are 423 variables ranging from sea-level pressure to storm relative helicity. The names of the variables are given as `test1.` followed by an integer from 1 to 423 indicating the raster layers. The CRS is Lambert conic conformal.
-
-Each cell has a dimension of 32.463 km north to south and 32.463 km east to west.
-
-Extract only the layer corresponding to available energy (layer 315). Determine the spatial extent.
-```{r}
-cape <- raster(rb, layer = 315)
-extent(cape)
-```
-
-Determine the highest amount of energy.
-```{r}
-cellStats(cape, "max")
-cellStats(cape, "mean")
-```
-
-The most energetic (in terms of convective available potential) grid cell has 4,780 Joules/kg of energy (mass specific). Physically, CAPE is how much energy a parcel of air would have if lifted above the ground. Effectively it is the positive buoyancy of an air parcel and indicates how unstable the atmosphere is, making it valuable in forecasting severe weather and tornadoes.
-
-Most cells have much lower energy. This is seen by computing the skewness of the values.
-```{r}
-cellStats(cape, "skew")
-```
-
-A value of zero skewness indicates a normal distribution. The skewness is visualized by plotting a histogram of the values.
-```{r}
-hist(cape)
-quantile(cape)
-```
-
-Only 25% of the cells have cape exceeding 230 J/kg.
-
-Convert the raster to a data frame
-```{r}
-df <- as.data.frame(cape)
-head(df)
-```
-
-Extract raster values over Florida
-```{r}
-FL <- us_states(states = "Florida")
-plot(FL$geometry)
-```
-
-Transform the CRS to that of the raster. Then use the `extract()` function to obtain the cell values within the Florida polygon. The function retrieves values from a raster object at the locations of other spatial data.
-```{r}
-FL <- st_transform(FL, crs = proj4string(cape))
-capeFL <- unlist(extract(cape, FL))
-mean(capeFL)
-hist(capeFL)
-```
-
-Create a new raster `hicape` with cells equal to `TRUE` for those exceeding the mean FL value. How many cells is that?
-```{r}
-hicape <- cape > mean(capeFL)
-length(cape[cape > mean(capeFL)])
 ```
 
 ## The S4 spatial class
@@ -1569,9 +1434,7 @@ The interface to the geometry engine-open source (GEOS) is through the **rgeos**
 library(rgeos)
 ```
 
-### Geocomputation on S4 spatial data frames
-
-When possible we will do our geocomputations on simple feature data frames (S3). However, sometimes it is more convenient to perform geocomputations on S4 data frames. Also much of the current R code you might encounter doing GIS will be written with S4 objects.
+When possible we will do our geocomputations on simple feature data frames. However, sometimes it is more convenient to perform geocomputations on S4 data frames. Also much of the current R code you might encounter doing GIS will be written with S4 objects.
 
 Geocomputation should not be done on spatial objects with geographic coordinates (lat/lon). To see if the S4 spatial data frame is projected type
 ```{r}
@@ -1719,8 +1582,6 @@ The output from `gBuffer()` is a `SpatialPolyons` object.
 
 There are many more functions for geocomputation on S4 spatial data frames. The reference manual is available here https://cran.r-project.org/web/packages/rgeos/rgeos.pdf
 
-### Creating an S4 object
-
 Most of the time there is no need to create a spatial data frame since it will be imported as such. However it's helpful to understand how spatial data are constructed and stored.
 
 For example, here we import a data frame the contains information on the location of the CRAN sites in 2007.
@@ -1773,7 +1634,7 @@ is.projected(spdf)
 
 Once the data has a CRS, it can be re-projected using the `spTransform()` function in the **rgdal** package.
 
-### The `spplot()` method
+The `spplot()` method
 
 The easiest way to make a thematic map with an S4 spatial data frame is with the `spplot()` method. The first argument in the `spplot()` function is the spatial data frame object and the second argument specifies what column to use to fill or color.
 
@@ -1879,7 +1740,7 @@ In S4 spatial objects, CRS information is available in the `proj4string` slot.
 proj4string(sldf)
 ```
 
-Information is given as a character string that includes the projection (here `+proj=longlat`), the datum (here `+datum=WGS84 +towgs84=0,0,0`), and the ellipsoid (here `+ellps=WGS84`). The syntax uses the PROJ standard. Various options are listed with the `projInfo()` function from the **rgdal** package.
+Information is given as a character string that includes the projection (here `+proj=longlat`), the datum (here `+datum=WGS84 +towgs84=0,0,0`), and the ellipsoid (here `+ellps=WGS84`). The syntax uses the PROJ standard. Various options are listed with the `projInfo()` function from the {rgdal} package.
 ```{r}
 library(rgdal)
 
@@ -1920,7 +1781,7 @@ proj4string(x) <- CRS("+init=epsg:28992")
 proj4string(x) <- CRS("+proj=utm +zone=10 +datum=WGS84")
 ```
 
-CAUTION: Assigning a CRS does not re-project the geometry. Also, this is only for S4 spatial data. To transform from one CRS to another use the `spTransform` function from the **rgdal** package. For example, type either:
+CAUTION: Assigning a CRS does not re-project the geometry. Also, this is only for S4 spatial data. To transform from one CRS to another use the `spTransform` function from the {rgdal} package. For example, type either:
 ```{r, eval=FALSE}
 xT <- spTransform(x, CRS("+init=epsg:4238"))
 xT <- spTransform(x, proj4string(z))
@@ -1932,11 +1793,8 @@ An overview of CRSs is available here https://www.nceas.ucsb.edu/~frazier/RSpati
 
 Note: NOAA’s National Geodetic Survey is currently working on the modernization of the National Spatial Reference System (NSRS), which will replace the North American Datum of 1983 (NAD83) and the North American Vertical Datum of 1988 (NAVD88) with a new geometric reference frame and geopotential datum in 2022.
 
-
-
-## Problem Set
+## Assignment
 
 1. What tornado (by date and EF rating [`mag`]) in the historical record has a genesis location closest to the geographic center of Wisconsin? Hint: Use the `which.min()` function on the vector of distances to identify the row number in the tornado data frame (50).
 
 2. Determine Moran's I and plot local Moran's I for the occurrence of tornadoes across Kansas aggregated to a .2 degree latitude/longitude raster bounded by -102.1 and -94.5 degrees east longitude and 36.9 to 40.1 degrees north latitude (50).
-
