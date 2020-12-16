@@ -24,7 +24,7 @@ Get grid MET data. http://www.climatologylab.org/gridmet.html
 
 What variables are available?
 ```{r}
-param_meta$gridmet
+DT::datatable(param_meta$gridmet)
 ```
 
 Get a single variable, one day, over one state.
@@ -276,4 +276,76 @@ X <- st_crop(data.st,
 cor.test(X$Ql, X$fmoist_100)
 ```
 
-The correlation between KDBI and dead fuel moisture index is stronger with 1000 hr than with 100 hr
+The correlation between KDBI and dead fuel moisture index is stronger with 1000 hr than with 100 hr.
+
+The Republic of the Philippines.
+```{r}
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+PHI.sf <- ne_countries(country = "Philippines",
+                       returnclass = "sf",
+                       scale = "medium")
+plot(PHI.sf$geometry)
+
+PHI.sf <- AOI::aoi_get(country = "Philippines")
+```
+
+Get Terra Climate data http://www.climatologylab.org/terraclimate.html
+```{r}
+data <- getTerraClim(PHI.sf, param = "tmax", startDate = "2019-08-01", endDate = "2019-08-01")
+
+plot(data$tmax)
+plot(PHI.sf$geometry, add = TRUE)
+
+data.st <- st_as_stars(data$tmax)
+names(data.st) <- "tmax"
+```
+
+Get CHIRPS data. Daily rainfall rasters. https://www.chc.ucsb.edu/data/chirps.
+
+Daily rainfall amounts for four days during Haiyan.
+```{r}
+data <- getCHIRPS(PHI.sf, startDate = "2013-11-07", endDate = "2013-11-07")  # Typhoon Haiyan
+plot(data)
+
+data <- getCHIRPS(PHI.sf, startDate = "2013-11-06", endDate = "2013-11-09")  # Typhoon Haiyan
+
+library(rasterVis)
+levelplot(data)
+
+data.st <- st_as_stars(data)
+names(data.st) <- "mm"
+
+days <- seq(as_date("2013-11-06"), 
+            as_date("2013-11-09"), 
+            by = "day")
+
+( data.st <- st_set_dimensions(data.st, 
+                               which = 3, 
+                               values = days, names = "date") )
+
+X <- st_crop(data.st, 
+             PHI.sf, 
+             crop = TRUE)
+
+ggplot() +  
+  geom_stars(data = X) + 
+  facet_wrap("date") +
+  scale_fill_viridis_c() +
+  coord_sf() +
+  theme_map() +
+  theme(legend.position = "bottom") +
+  theme(legend.key.width = unit(2, "cm"))
+
+
+```
+
+Get model data. Only works for North America +
+```{r}
+models <- c("bnu-esm","canesm2", "ccsm4", "cnrm-cm5", "csiro-mk3-6-0")
+ensembles <- getMACA(PHI.sf,
+                    param = 'prcp', 
+                    model = models, 
+                    startDate = "2080-11-29")
+```
