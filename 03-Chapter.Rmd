@@ -1864,6 +1864,10 @@ This takes a lot of trial and error.
 
 See stars.Rmd in space-time projects.
 
+## Spatial networks
+
+See https://github.com/luukvdmeer/sfnetworks
+
 ## Notes on coordinate reference systems
 
 CRS provide a standardized way of describing locations. Many different CRS are used to describe geographic data. The CRS that is chosen depends on when the data was collected, the geographic extent of the data, the purpose of the data, etc.
