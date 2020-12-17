@@ -11,7 +11,7 @@ From https://www.rayshader.com/
 library(rayshader)
 ```
 
-Load a tif (tagged image file) with the `raster()` function from the **raster** package.
+Load a tif (tagged image file) with the `raster()` function from the {raster} package.
 ```{r}
 library(rgdal)
 
@@ -20,9 +20,12 @@ download.file("https://tylermw.com/data/dem_01.tif.zip",
               loadzip)
 localtif <- raster::raster(unzip(loadzip, "dem_01.tif"))
 unlink(loadzip)
+
+library(rasterVis)
+levelplot(localtif)
 ```
 
-And convert it to a matrix using the `raster_to_matrix()` function from the **rayshader** package.
+And convert it to a matrix using the `raster_to_matrix()` function from the {rayshader} package.
 ```{r}
 elmat <- rayshader::raster_to_matrix(localtif)
 ```
@@ -60,7 +63,9 @@ elmat %>%
   plot_map()
 ```
 
-We can add a ray-traced layer from that sun direction as well. Ray tracing allows for simulating a wide variety of optical effects, such as reflection and refraction, scattering, and dispersion phenomena (such as chromatic aberration). It does this by tracing the path of light as pixels in the image plane and simulating the effects of the light encounters with virtual objects. This takes a bit more time to render.
+We can add a ray-traced layer from that sun direction as well using the `ray_shade()` and the `add_shadow()` functions. Ray tracing simulates a variety of optical effects, such as reflection and refraction, scattering, and dispersion phenomena (such as chromatic aberration). It does this by tracing the path of light across the pixels in the image plane and simulating the effects the light ray encounters when it falls on the virtual objects. 
+
+This takes a bit more time to render.
 ```{r}
 elmat %>%
   sphere_shade(texture = "desert") %>%
@@ -69,7 +74,7 @@ elmat %>%
   plot_map()
 ```
 
-We add an ambient occlusion shadow layer, which models lighting from atmospheric scattering. This takes even more time to render but the result is rather stunning.
+Finally we add an ambient occlusion shadow layer, which models lighting from atmospheric scattering. This takes even more time to render but the result is rather stunning.
 ```{r}
 elmat %>%
   sphere_shade(texture = "desert") %>%
@@ -81,27 +86,32 @@ elmat %>%
 
 Another example: 10-meter (aggregated from 1 meter) DEM from Tallahassee. (The aggregation was done on my laptop in the `rayshader.Rmd` file on the desktop. The 1 meter DEM was about 350 MB. The aggregated 10 meter DEM is about 4 MB).
 ```{r}
-df <- tempfile()
 download.file("myweb.fsu.edu/jelsner/temp/data/DEM_Tallahassee_10m.tif", 
-              destfile = df)
-localimg <- raster::raster(df)
-plot(localimg)
+              destfile = "data/DEM_Tallahassee_10m.tif")
+localimg <- raster::raster("data/DEM_Tallahassee_10m.tif")
+
+levelplot(localimg)
 ```
 
-Where is this? Overlay a street map. FDOT: https://www.fdot.gov/statistics/gis/default.shtm#Designated Download the `Basemap_routes` shapefile. Leon County is coded as "55".
+Where is this? Overlay the network of streets. FDOT: https://www.fdot.gov/statistics/gis/default.shtm#Designated Download the `Basemap_routes` shapefile. Leon County is coded as "55".
 
 Download from `myweb.fsu.edu/jelsner/temp/data/Basemap_routes.zip`.
 ```{r}
 library(sf)
 
-routes.sf <- read_sf(dsn = ".", 
-                    layer = "Basemap_routes") %>%
+download.file("myweb.fsu.edu/jelsner/temp/data/Basemap_routes.zip",
+              destfile = "data/Basemap_routes.zip")
+unzip("data/Basemap_routes.zip", exdir = "data/Basemap_routes")
+
+routes.sf <- read_sf(dsn = "data/Basemap_routes", 
+                     layer = "Basemap_routes") %>%
   st_zm() %>%
   dplyr::filter(COUNTY == "55")
+
 plot(st_geometry(routes.sf))
 ```
 
-Use **tmap** functions for the plotting.
+Use {tmap} functions for the plotting.
 ```{r}
 library(tmap)
 
@@ -124,4 +134,23 @@ elmat %>%
   add_shadow(ray_shade(elmat), .5) %>%
   add_shadow(ambient_shade(elmat), 0) %>%
   plot_map()
+```
+
+```{r}
+elmat %>%
+  sphere_shade(texture = "imhof1") %>%
+  add_water(detect_water(elmat), color = "imhof1") %>%
+  add_shadow(ray_shade(elmat), .5) %>%
+  add_shadow(ambient_shade(elmat), 0) %>%
+  plot_3d(elmat, zscale = 1, fov = 0, theta = 135, zoom = 0.75, phi = 45, windowsize = c(1000, 800),
+          baseshape = "circle")
+#Sys.sleep(0.2)
+render_snapshot()
+
+
+render_compass(position = "E")
+render_scalebar(limits=c(0, 2, 4),label_unit = "km",position = "W", y=50,
+                scale_length = c(0.33,1))
+```
+
 ```
