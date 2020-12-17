@@ -2027,15 +2027,7 @@ The map shows areas of the flood plain with high (and low) correlations between 
 
 Obtaining a quality statistical interpolation is a nuanced process but with practice kriging can be an important tool in a spatial analyst's toolbox.
 
-## Compare kriging surfaces with surface from a random forest algorithm
-
-https://github.com/thengl/GeoMLA
-
-## Geostatistical modeling using INLA
-
-https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
-
-## Problem Set #5
+## Assignment
 
 Consider the data set `parana` from the {geoR} package containing rainfall values from the state of Paran\`a. The data are average rainfall (mm) over the period May-June.
 
