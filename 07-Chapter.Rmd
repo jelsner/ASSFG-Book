@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Applications
 
 ## Machine learning for spatial prediction
@@ -1515,4 +1520,70 @@ tm_shape(sfdf) +
 ```
 
 This map provides evidence of excess risk within individual areas. In areas with probabilities close to 1, it is very likely that the relative risk exceeds 2, and areas with probabilities close to 0 correspond to areas where it is very unlikely that the relative risk exceeds 2. Areas with probabilities around 0.5 have the highest uncertainty, and correspond to areas where the relative risk is below or above 2 with equal probability. We observe that the counties in the north of Scotland are the counties where it is most likely that relative risk exceeds 2.
+
+## Agent based modeling
+
+https://www.youtube.com/watch?v=qAbkMSUrUXo
+
+Individual based
+- each person/agent has properties
+- parameters and attributes
+- agents/individuals have behaviors
+
+Create a population of agents/individuals
+```{r}
+Agent1 <- data.frame( AgentNo = 1, 
+                      State = "E",
+                      Mixing = runif(n = 1, min = 0, max = 1))
+nPop1 <- 100
+
+for( i in 2: nPop1){
+  Agent2 <- data.frame( AgentNo = i, 
+                        State = "S", 
+                        Mixing = runif(n = 1, min = 0, max = 1))
+  Agent1 <- rbind( Agent1, Agent2)
+  
+}
+#Agent1
+```
+
+People moving through time
+
+```{r}
+nTime1 <- 10
+Out1 <- matrix(0, ncol = 2, nrow = nTime1)
+
+for(k in 1:nTime1){
+  for( i in 1:nPop1 ){
+    # Determine if they like to meet others
+    Mix1 <- Agent1$Mixing[ i ] 
+    # How many agents will they meet
+    Meet1 <- round(Mix1 * 3, 0) + 1
+    Meet2 <- sample( 1:nPop1, 
+                     Meet1, 
+                     prob = Agent1$Mixing,
+                     replace = TRUE )
+    
+    for( j in 1:length(Meet2) ){
+      # Grab who they will meet
+      Meet1a <- Agent1[ Meet2[j], ]
+      # If exposed then change state
+      if( Meet1a$State == "E"){
+        Urand1 <- runif(n = 1, min = 0, max = 1)
+        if( Urand1 < .5) {
+        Agent1$State[i] <- "E"
+        }
+      }
+    }
+  }
+#Agent1
+
+Out1[k, ] <- table( Agent1$State )
+}
+Out1
+```
+
+```{r}
+Agent1[ Agent1$State == "S", ]
+```
 
