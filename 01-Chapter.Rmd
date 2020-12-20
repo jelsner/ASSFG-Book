@@ -54,7 +54,7 @@ Your assignments will be done inside an Rmd file.
 6. Fix any errors
 7. Email me your Rmd file
 
-## Basic R
+## Getting started with R
 
 Applied statistics is the analysis and modeling of data. The `c()` function gets small lists of data items into R. The function combines (concatenates) items. Consider for example a set of hypothetical annual land falling hurricane counts over a ten-year period.
 
