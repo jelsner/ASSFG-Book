@@ -11,6 +11,16 @@ From https://www.rayshader.com/
 library(rayshader)
 ```
 
+Load a tif.
+```{r}
+library(rgdal)
+
+localtif <- raster::raster("data/10N120E_20101117_gmted_mea150.tif")
+
+library(rasterVis)
+levelplot(localtif)
+```
+
 Load a tif (tagged image file) with the `raster()` function from the {raster} package.
 ```{r}
 library(rgdal)
@@ -88,9 +98,9 @@ Another example: 10-meter (aggregated from 1 meter) DEM from Tallahassee. (The a
 ```{r}
 download.file("myweb.fsu.edu/jelsner/temp/data/DEM_Tallahassee_10m.tif", 
               destfile = "data/DEM_Tallahassee_10m.tif")
-localimg <- raster::raster("data/DEM_Tallahassee_10m.tif")
+localimg2 <- raster::raster("data/DEM_Tallahassee_10m.tif")
 
-levelplot(localimg)
+levelplot(localimg2)
 ```
 
 Where is this? Overlay the network of streets. FDOT: https://www.fdot.gov/statistics/gis/default.shtm#Designated Download the `Basemap_routes` shapefile. Leon County is coded as "55".
