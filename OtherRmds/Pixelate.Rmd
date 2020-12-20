@@ -1,0 +1,26 @@
+# Pixelate (prediction + uncertainty)
+
+https://arxiv.org/pdf/2005.11993.pdf
+
+In brief, the function `pixelate()` groups predictions into a specified number of large pixels; computes the average uncertainty within each large pixel; then, for each large pixel, depending on its average uncertainty, either averages the predictions across it or across smaller pixels nested within it. These averaged predictions are then plotted.
+
+The resulting plot of averaged predictions is selectively pixelated, similar to a photo that is deliberately pixelated to disguise a person’s identity. Areas of high average uncertainty in the pixelated plot are unresolved, while areas with high average certainty are resolved, similar to information poor versus rich regions of a satellite map.
+
+This can take a few minutes.
+```{r}
+devtools::install_github("artaylor85/pixelate", build_vignettes = TRUE, dependencies = TRUE)
+```
+
+The {pixelate} package centres around a single function `pixelate()`. To use it and visualise its output following our examples, simply load and attach the pixelate package then read its vignette for both quick and detailed examples. 
+
+In addition (and if you did not build the vignette upon installation), please see the documentation of `pixelate()` (accessed by `?pixelate`).
+
+Follow the vignette.
+```{r}
+library(pixelate)
+vignette("pixelate")
+```
+
+```{r}
+head(SubSaharanAfrica_Pf_incidence)
+```

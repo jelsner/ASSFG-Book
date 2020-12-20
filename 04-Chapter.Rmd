@@ -1529,7 +1529,7 @@ If both tests show significance for both models, then we can fit both models and
 
 To fit a spatial lag model to the crime data we use the `lagsarlm()` function. The value for $\rho$ is found first using the `optimize()` function and then the $\beta$'s are obtained using generalized least squares. These functions are now in the {spatialreg} package.
 ```{r}
-library(spatialreg)
+#library(spatialreg)
 
 model.lag <- lagsarlm(CRIME ~ INC + HOVAL, 
                       data = CC.sf, 
@@ -1925,7 +1925,7 @@ This same decision is reached when using the nearest neighbor weights (`kwt`).
 
 Fit the model. Here we need to specify a lower tolerance for numerically solving the inverse of the covariance matrix. This is needed in this case because the explanatory variables have very different scales. Actually it might be better to scale the variables first.
 ```{r}
-library(spatialreg)
+#library(spatialreg)
 
 model.lag <- lagsarlm(mf, 
                       data = CHP2.sf, 
@@ -1985,7 +1985,7 @@ tm_shape(CHP2.sf) +
   tm_fill("preLAG", midpoint = NA)
 ```
 
-The trend term shows that beyond the spatial smoothed term additional factors (year built and number of bedroom) make house values in San Francisco high.
+The trend term shows that, beyond the spatial smoothed term, additional factors (year built and number of bedroom) make house values in San Francisco high.
 
 ## Spatial filtering
 
@@ -2009,6 +2009,8 @@ $$
 Determining the posterior distribution of $\theta$ given our data requires determining $p(y)$ (marginal distribution of our data). This can only be done analytically for a relatively small set of all models (those involving conjugate distributions), none of which are spatial. 
 
 Bayesian models for spatial data started appearing around 2000 with the development of the Markov chain Monte Carlo (MCMC) procedure (Gilks et al. 1996). This allowed researchers to implement realistic models (involving fewer simplifying assumptions). A main contribution to spatial models at this time came with the development of the conditional autoregressive (CAR) representation for specifying spatial autocorrelation (Besag et al. 1991).
+
+Bayesian modeling == probabilistic machine learning
 
 MCMC methods are now routinely used in Bayesian inference, but they are limited by the need for alot of processing power. To overcome this Rue et al. (2009) developed a technique called integrated nested Laplace approximation (INLA) that estimates the posterior marginals (not the joint posterior) for models that have an underlying (latent) Gaussian structure.
 
