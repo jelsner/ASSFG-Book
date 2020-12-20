@@ -11,7 +11,7 @@ From https://www.rayshader.com/
 library(rayshader)
 ```
 
-Load a tif.
+Load a tif. https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/1m/Projects/FL_LeonCo_2018/TIFF/
 ```{r}
 library(rgdal)
 
