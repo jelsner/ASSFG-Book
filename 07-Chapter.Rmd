@@ -1534,14 +1534,18 @@ Create a population of agents/individuals
 ```{r}
 Agent1 <- data.frame( AgentNo = 1, 
                       State = "E",
-                      Mixing = runif(n = 1, min = 0, max = 1))
+                      Mixing = runif(n = 1, min = 0, max = 1),
+                      TimeE = 1,
+                      stringsAsFactors = FALSE)
 nPop1 <- 100
 
 for( i in 2: nPop1){
-  Agent2 <- data.frame( AgentNo = i, 
+  Agenti <- data.frame( AgentNo = i, 
                         State = "S", 
-                        Mixing = runif(n = 1, min = 0, max = 1))
-  Agent1 <- rbind( Agent1, Agent2)
+                        Mixing = runif(n = 1, min = 0, max = 1),
+                        TimeE = 0,
+                        stringsAsFactors = FALSE )
+  Agent1 <- rbind( Agent1, Agenti)
   
 }
 #Agent1
@@ -1550,15 +1554,20 @@ for( i in 2: nPop1){
 People moving through time
 
 ```{r}
-nTime1 <- 10
-Out1 <- matrix(0, ncol = 2, nrow = nTime1)
+nTime1 <- 15
+# Out1 <- matrix(0, ncol = 2, nrow = nTime1)
+Out1 <- data.frame( S = rep(0, nTime1),
+                    E = rep(0, nTime1),
+                    I = rep(0, nTime1),
+                    R = rep(0, nTime1),
+                    D = rep(0, nTime1) )
 
 for(k in 1:nTime1){
   for( i in 1:nPop1 ){
     # Determine if they like to meet others
     Mix1 <- Agent1$Mixing[ i ] 
     # How many agents will they meet
-    Meet1 <- round(Mix1 * 3, 0) + 1
+    Meet1 <- round(Mix1 * 6, 0) + 1
     Meet2 <- sample( 1:nPop1, 
                      Meet1, 
                      prob = Agent1$Mixing,
@@ -1570,20 +1579,58 @@ for(k in 1:nTime1){
       # If exposed then change state
       if( Meet1a$State == "E"){
         Urand1 <- runif(n = 1, min = 0, max = 1)
-        if( Urand1 < .5) {
+        if( Urand1 < .25) {
         Agent1$State[i] <- "E"
         }
       }
     }
   }
-#Agent1
 
-Out1[k, ] <- table( Agent1$State )
+  # Grab those who have been exposed and increment time they have been exposed
+  StateE1 <- (1:nPop1)[Agent1$State == "E"]
+  Agent1$TimeE[StateE1] <- Agent1$TimeE[StateE1] + 1
+  StateE2 <- (1:nPop1)[Agent1$State == "E" &
+                           Agent1$TimeE > 14 ]
+  Agent1$State[ StateE2 ] <- "R"
+  # Grab those who could become sick
+  StateE3 <- (1:nPop1)[Agent1$State == "E" &
+                           Agent1$TimeE > 3 ]
+  for( i in StateE3 ){
+    # Randomly assign whether they get sick
+    Urand1 <- runif(1, 0, 1)
+    if( Urand1 < 0.1 ){
+      Agent1$State[i] <- "I"
+    }
+  }
+
+  #Out1[k, ] <- table( Agent1$State )
+  Out1$S[k] <- length( Agent1$State[Agent1$State == "S"])
+  Out1$E[k] <- length( Agent1$State[Agent1$State == "E"])
+  Out1$R[k] <- length( Agent1$State[Agent1$State == "R"])
+  Out1$I[k] <- length( Agent1$State[Agent1$State == "I"])
+  Out1$D[k] <- length( Agent1$State[Agent1$State == "D"])
 }
 Out1
 ```
 
+Use a function
 ```{r}
-Agent1[ Agent1$State == "S", ]
+AgentGen1 <- function( nPop1, E0, I0 ) {
+  # Create a population of susceptibles
+  Agent1 <- data.frame( AgentNo = 1:nPop1,
+                        State = "S",
+                        Mixing = runif(nPop1, 0, 1),
+                        TimeE = 0,
+                        TimeI = 0,
+                        stringsAsFactors = FALSE )
+  Agent1$State[1:E0] <- "E"
+  Agent1$TimeE[1:E0] <- rbinom( E0, 13, .5) + 1
+  Agent1$State[(E0 + 1):(E0 + I0)] <- "I"
+  Agent1$TimeI[(E0 + 1):(E0 + I0)] <- rbinom(I0, 12, .5) + 1
+return( Agent1 )
+}
+
+AgentGen1( 100, E0 = 2, I0 = 3 )
+nPop1 <- 100
 ```
 

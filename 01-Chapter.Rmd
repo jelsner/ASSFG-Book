@@ -54,7 +54,7 @@ Your assignments will be done inside an Rmd file.
 6. Fix any errors
 7. Email me your Rmd file
 
-## Getting started with R
+## Base R
 
 Applied statistics is the analysis and modeling of data. The `c()` function gets small lists of data items into R. The function combines (concatenates) items. Consider for example a set of hypothetical annual land falling hurricane counts over a ten-year period.
 
@@ -1363,7 +1363,7 @@ ggplot(aes(as.factor(mo), nT)) +
 * Cheat sheets: https://rstudio.com/resources/cheatsheets/
 * More examples: https://geocompr.robinlovelace.net/ {spData} package.
 
-## Assignment #1
+## Assignment
 
 The object `us_states` from the {spData} package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
 
