@@ -1,0 +1,197 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Demographic data for tornado study
+
+Table from Excel sheet sent by Robert Blume on 12/23/2020
+
+City Names	FID  Full 1950-2018 SPC	om	yr	mo	dy	date	time	tz	st	stf	stn	mag	inj	fat	loss	closs
+    MS Tornadoes
+Yazoo City, MS	53375	140	2010	4	24	4/24/2010	10:09:00	3	LA	22	6	4	146	10	386.035	23.52
+Enterprise, MS	55302	311079	2011	4	27	4/27/2011	16:42:00	3	MS	28	81	4	17	7	25.813	2.1
+Smithville, MS	55279	303562	2011	4	27	4/27/2011	14:42:00	3	MS	28	76	5	137	23	14.4	0
+Hattiesburg, MS	57225	433413	2013	2	10	2/10/2013	17:03:00	3	MS	28	0	4	71	0	38.525	0
+		IL Tornadoes														
+Lake Petersburg, IL (Menard County)	54508	1274	2010	12	31	12/31/2010	12:37:00	3	IL	17	50	3	1	0	12	0
+Harrisburg, IL	56324	359691	2012	2	29	2/29/2012	4:51:00	3	IL	17	0	4	108	8	2	0
+Washington, IL 	57957	483775	2013	11	17	11/17/2013	10:59:00	3	IL	17	0	4	125	3	935.225	0
+New Minden, IL	57961	482450	2013	11	17	11/17/2013	12:04:00	3	IL	17	0	4	2	2	0	0
+
+1. Get the New Minden, IL tornado track. Transform the CRS to EPSG:3857 https://epsg.io/3857 Pseudo-Mercator, Spherical Mercator, google maps.
+```{r}
+library(sf)
+library(tidyverse)
+
+Torn.sf <- read_sf(dsn = "data/1950-2018-torn-aspath") %>%
+  filter(yr == 2013, st == "IL", om == 482450) %>%
+  st_transform(crs = 3857)
+```
+
+2. What variables". Estimate!!Median household income in the past 12 months (in 2013 inflation-adjusted dollars)!!Total B25119_001 and 
+Estimate!!Median earnings in the past 12 months!!Total B08121_001
+```{r}
+v13 <- load_variables(2013, "acs5", cache = TRUE)
+View(v13)
+```
+
+3. Get the variables at the census tract level for all of Illinois.
+```{r}
+library(tidycensus)
+
+Before.sf <- get_acs(geography = "tract", 
+                     variables = c(MedianHHIncome = "B25119_001",
+                                   MedianEarnings = "B08121_001"), 
+                     state = "IL", 
+                     county = "Washington",
+                     year = 2013,
+                     geometry = TRUE) %>%
+  mutate(Status = "Before") 
+
+After.sf <- get_acs(geography = "tract", 
+                     variables = c(MedianHHIncome = "B25119_001",
+                                   MedianEarnings = "B08121_001"), 
+                     state = "IL", 
+                     county = "Washington",
+                     year = 2014,
+                     geometry = TRUE) %>%
+  mutate(Status = "After")
+
+Census.sf <- rbind(Before.sf, After.sf) 
+```
+
+4. Get the variable estimates only for the tracts affected by the tornado. Add the distance traveled by the tornado within each tract as a separate column.
+```{r}
+Census.sf <- Census.sf %>%
+  st_transform(crs = 3857)
+
+TractsAffected <- st_intersection(Census.sf,
+                                  Torn.sf)
+
+TractsAffected <- TractsAffected %>%
+  mutate(TorTrackLength = st_length(TractsAffected$geometry)) %>%
+  rename(TornadoYear = yr) %>%
+  as.data.frame()
+```
+
+5. Summarize
+```{r}
+TractsAffected %>%
+#  filter(as.numeric(TorTrackLength) > 200) %>%
+  group_by(Status, variable) %>%
+  summarize(nTracts = n(),
+            estimate = mean(estimate),
+            moe = mean(moe))
+```
+
+Repeat for the Washington, IL tornado
+```{r}
+Torn.sf <- read_sf(dsn = "data/1950-2018-torn-aspath") %>%
+  filter(yr == 2013, st == "IL", om == 483775) %>%
+  st_transform(crs = 3857)
+
+Before.sf <- get_acs(geography = "tract", 
+                     variables = c(MedianHHIncome = "B25119_001",
+                                   MedianEarnings = "B08121_001"), 
+                     state = "IL", 
+                     year = 2013,
+                     geometry = TRUE) %>%
+  mutate(Status = "Before") 
+
+After.sf <- get_acs(geography = "tract", 
+                     variables = c(MedianHHIncome = "B25119_001",
+                                   MedianEarnings = "B08121_001"), 
+                     state = "IL", 
+                     year = 2014,
+                     geometry = TRUE) %>%
+  mutate(Status = "After")
+
+Census.sf <- rbind(Before.sf, After.sf) %>%
+  st_transform(crs = 3857)
+
+TractsAffected <- st_intersection(Census.sf,
+                                  Torn.sf)
+
+TractsAffected <- TractsAffected %>%
+  mutate(TorTrackLength = st_length(TractsAffected$geometry)) %>%
+  rename(TornadoYear = yr) %>%
+  as.data.frame()
+
+( Output <- TractsAffected %>%
+#  filter(as.numeric(TorTrackLength) > 200) %>%
+  group_by(Status, variable) %>%
+  summarize(nTracts = n(),
+            estimate = mean(estimate, na.rm = TRUE),
+            moe = mean(moe, na.rm = TRUE)) )
+Output %>% 
+  select(Status, variable, estimate) %>%
+  pivot_wider(names_from = Status, values_from = estimate) %>%
+  mutate(PercentChange = (After - Before) / Before * 100)
+
+( Statewide <- Census.sf %>%
+    as.data.frame() %>%
+    group_by(Status, variable) %>%
+    summarize(nTracts = n(),
+              estimate = mean(estimate, na.rm = TRUE),
+              moe = mean(moe, na.rm = TRUE)) )
+Statewide %>% 
+  select(Status, variable, estimate) %>%
+  pivot_wider(names_from = Status, values_from = estimate) %>%
+  mutate(PercentChange = (After - Before) / Before * 100)
+```
+
+Repeat for Hattiesburg, MS	57225	433413	2013	2	10	2/10/2013	17:03:00	3	MS	28	0	4	71	0	38.525	0
+```{r}
+Torn.sf <- read_sf(dsn = "data/1950-2018-torn-aspath") %>%
+  filter(yr == 2013, st == "MS", om == 433413) %>%
+  st_transform(crs = 3857)
+
+Before.sf <- get_acs(geography = "tract", 
+                     variables = c(MedianHHIncome = "B25119_001",
+                                   MedianEarnings = "B08121_001"), 
+                     state = "MS", 
+                     year = 2013,
+                     geometry = TRUE) %>%
+  mutate(Status = "Before") 
+
+After.sf <- get_acs(geography = "tract", 
+                     variables = c(MedianHHIncome = "B25119_001",
+                                   MedianEarnings = "B08121_001"), 
+                     state = "MS", 
+                     year = 2014,
+                     geometry = TRUE) %>%
+  mutate(Status = "After")
+
+Census.sf <- rbind(Before.sf, After.sf) %>%
+  st_transform(crs = 3857)
+
+TractsAffected <- st_intersection(Census.sf,
+                                  Torn.sf)
+
+TractsAffected <- TractsAffected %>%
+  mutate(TorTrackLength = st_length(TractsAffected$geometry)) %>%
+  rename(TornadoYear = yr) %>%
+  as.data.frame()
+
+( Output <- TractsAffected %>%
+#  filter(as.numeric(TorTrackLength) > 200) %>%
+  group_by(Status, variable) %>%
+  summarize(nTracts = n(),
+            estimate = mean(estimate, na.rm = TRUE),
+            moe = mean(moe, na.rm = TRUE)) )
+Output %>% 
+  select(Status, variable, estimate) %>%
+  pivot_wider(names_from = Status, values_from = estimate) %>%
+  mutate(PercentChange = (After - Before) / Before * 100)
+
+( Statewide <- Census.sf %>%
+    as.data.frame() %>%
+    group_by(Status, variable) %>%
+    summarize(nTracts = n(),
+              estimate = mean(estimate, na.rm = TRUE),
+              moe = mean(moe, na.rm = TRUE)) %>%
+  select(Status, variable, estimate) %>%
+  pivot_wider(names_from = Status, values_from = estimate) %>%
+  mutate(PercentChange = (After - Before) / Before * 100) )
+```
