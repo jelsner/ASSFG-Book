@@ -5,6 +5,8 @@ editor_options:
 ---
 # Demographic data for tornado study
 
+Tornadoes result in significant economic losses that can be classified as direct losses or indirect losses. Direct losses are the result of the destruction of assets and the resulting decrease in their value and/or the lost income as a result of destroyed assets. Indirect losses relate to the wider impact and include the loss of production and sales, increased commute times, increased transportation costs, and decreased tourist activity. Despite the economic devastation, tornadoes can act as economic stimuli, through rebuilding efforts, the inflow of insurance money and disaster-relief funds, and improvements in the labor market.
+
 Table from Excel sheet sent by Robert Blume on 12/23/2020
 
 City Names	FID  Full 1950-2018 SPC	om	yr	mo	dy	date	time	tz	st	stf	stn	mag	inj	fat	loss	closs
@@ -35,6 +37,9 @@ Estimate!!Median earnings in the past 12 months!!Total B08121_001
 v13 <- load_variables(2013, "acs5", cache = TRUE)
 View(v13)
 ```
+
+B19083_001 Estimate!!Gini Index GINI INDEX OF INCOME INEQUALITY
+B19301_001 Estimate!!Per capita income in the past 12 months (in 2013 inflation-adjusted dollars) PER CAPITA INCOME IN THE PAST 12 MONTHS
 
 3. Get the variables at the census tract level for all of Illinois.
 ```{r}
@@ -93,7 +98,8 @@ Torn.sf <- read_sf(dsn = "data/1950-2018-torn-aspath") %>%
 
 Before.sf <- get_acs(geography = "tract", 
                      variables = c(MedianHHIncome = "B25119_001",
-                                   MedianEarnings = "B08121_001"), 
+                                   MedianEarnings = "B08121_001",
+                                   GiniIndex = "B19083_001"), 
                      state = "IL", 
                      year = 2013,
                      geometry = TRUE) %>%
@@ -101,7 +107,8 @@ Before.sf <- get_acs(geography = "tract",
 
 After.sf <- get_acs(geography = "tract", 
                      variables = c(MedianHHIncome = "B25119_001",
-                                   MedianEarnings = "B08121_001"), 
+                                   MedianEarnings = "B08121_001",
+                                   GiniIndex = "B19083_001"), 
                      state = "IL", 
                      year = 2014,
                      geometry = TRUE) %>%
@@ -149,7 +156,8 @@ Torn.sf <- read_sf(dsn = "data/1950-2018-torn-aspath") %>%
 
 Before.sf <- get_acs(geography = "tract", 
                      variables = c(MedianHHIncome = "B25119_001",
-                                   MedianEarnings = "B08121_001"), 
+                                   MedianEarnings = "B08121_001",
+                                   GiniIndex = "B19083_001"), 
                      state = "MS", 
                      year = 2013,
                      geometry = TRUE) %>%
@@ -157,9 +165,10 @@ Before.sf <- get_acs(geography = "tract",
 
 After.sf <- get_acs(geography = "tract", 
                      variables = c(MedianHHIncome = "B25119_001",
-                                   MedianEarnings = "B08121_001"), 
+                                   MedianEarnings = "B08121_001",
+                                   GiniIndex = "B19083_001"), 
                      state = "MS", 
-                     year = 2014,
+                     year = 2018,
                      geometry = TRUE) %>%
   mutate(Status = "After")
 
