@@ -9,9 +9,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-How would you determine which of these two cities is snowier: Milwaukee or Madison?
-How would you determine if the strongest hurricanes are getting stronger as a result of climate change?
-How would you determine whether tornadoes are more likely to occur over smooth terrain?
+Which city in Wisconsin is snowier: Milwaukee or Madison?
+Are strong hurricanes getting even stronger as a result of climate change?
+Are tornadoes more likely over smooth terrain?
 
 ## Contact information
 
@@ -43,25 +43,27 @@ Course materials
 
 * You will need access to the internet and a computer.
 * All course materials are available through Canvas and GitHub.
-* There is no required textbook. 
-* Much of the material for the course comes from the online book: R for Data Science https://r4ds.had.co.nz/
-* Additional help is available online (e.g., https://tinystats.github.io/teacups-giraffes-and-statistics/index.html)
+* There is no required textbook.
+* There are many excellent online resources:
+- R for Data Science https://r4ds.had.co.nz/
+- https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/
+- https://tinystats.github.io/teacups-giraffes-and-statistics/index.html
 
 Class meetings
 
 - Remote lessons
 - Remote/F2F problem sets
 
-During each remote lesson I will work through and explain the R code within a lesson notes file. The lesson notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. Each lesson is contained in a file having the suffix `.Rmd` (an R markdown file). The file will be opened in with the RStudio application.
+During each remote lesson I will work through and explain the R code within a lesson notes file. The lesson notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. Each lesson is contained in a file having the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
 
 ## Grades
 
 You are responsible for:
 
-1. Working through the R markdown files (`.Rmd`) files (you can do this in class or out of class), 
+1. Working through the R markdown files (`.Rmd`) files (you can do this during class as I talk or outside of class on your own) 
 2. Handing in the problem sets on time
 
-Grades are determined solely by how well you do on the problem sets.
+Grades are determined only by how well you do on the problem sets.
 
 Grading standard
 
@@ -73,7 +75,7 @@ Grading standard
 
 I'll use the +/- grading system.
 
-Grades will be posted on * [FSU Canvas](https://canvas.fsu.edu)
+Grades are posted on * [FSU Canvas](https://canvas.fsu.edu)
 
 Academic honor code
 
@@ -97,7 +99,7 @@ This is a guide for the course and is subject to change with advanced notice.
 
 Topics:
 
-1. Wrangling data and making graphs (~ 4 lessons)
+1. Working with data and making graphs (~ 4 lessons)
 2. Working with spatial data and making maps (~ 4 lessons)
 3. Quantifying spatial autocorrelation and spatial regression (~ 4 lessons)
 4. Analyzing and modeling point pattern data (~ 6 lessons)
