@@ -3,9 +3,11 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-# Demographic data for tornado study
+# Accessing and tabulating demographic data for an economic impact analysis of tornadoes
 
-Tornadoes result in significant economic losses that can be classified as direct losses or indirect losses. Direct losses are the result of the destruction of assets and the resulting decrease in their value and/or the lost income as a result of destroyed assets. Indirect losses relate to the wider impact and include the loss of production and sales, increased commute times, increased transportation costs, and decreased tourist activity. Despite the economic devastation, tornadoes can act as economic stimuli, through rebuilding efforts, the inflow of insurance money and disaster-relief funds, and improvements in the labor market.
+Tornadoes create significant economic losses. Losses are classified as direct losses or indirect. Direct losses are the result of the destruction of assets and the resulting decrease in their value and/or the lost income as a result of destroyed assets. Indirect losses relate to the wider impact and include the loss of production and sales, increased commute times, increased transportation costs, and decreased tourist activity. 
+
+Despite the economic devastation, tornadoes can act as economic stimuli, through rebuilding efforts, the inflow of insurance money and disaster-relief funds, and improvements in the labor market. This study aims to quantify changes in economic activity following significant tornado impacts.
 
 Table from Excel sheet sent by Robert Blume on 12/23/2020
 
@@ -26,14 +28,19 @@ New Minden, IL	57961	482450	2013	11	17	11/17/2013	12:04:00	3	IL	17	0	4	2	2	0	0
 library(sf)
 library(tidyverse)
 
+#download.file(url = "http://www.spc.noaa.gov/gis/svrgis/zipped/1950-2018-torn-aspath.zip",
+#              destfile = "data/temp.zip")
+#unzip("data/temp.zip")
+
 Torn.sf <- read_sf(dsn = "data/1950-2018-torn-aspath") %>%
   filter(yr == 2013, st == "IL", om == 482450) %>%
   st_transform(crs = 3857)
 ```
 
-2. What variables". Estimate!!Median household income in the past 12 months (in 2013 inflation-adjusted dollars)!!Total B25119_001 and 
-Estimate!!Median earnings in the past 12 months!!Total B08121_001
+2. What economic/demographic variables are available?
 ```{r}
+library(tidycensus)
+
 v13 <- load_variables(2013, "acs5", cache = TRUE)
 View(v13)
 ```
@@ -41,10 +48,11 @@ View(v13)
 B19083_001 Estimate!!Gini Index GINI INDEX OF INCOME INEQUALITY
 B19301_001 Estimate!!Per capita income in the past 12 months (in 2013 inflation-adjusted dollars) PER CAPITA INCOME IN THE PAST 12 MONTHS
 
-3. Get the variables at the census tract level for all of Illinois.
-```{r}
-library(tidycensus)
+Estimate!!Median household income in the past 12 months (in 2013 inflation-adjusted dollars)!!Total B25119_001 and 
+Estimate!!Median earnings in the past 12 months!!Total B08121_001
 
+3. Get the economic/demographic variables at the census tract level for all of Illinois.
+```{r}
 Before.sf <- get_acs(geography = "tract", 
                      variables = c(MedianHHIncome = "B25119_001",
                                    MedianEarnings = "B08121_001"), 
@@ -66,7 +74,7 @@ After.sf <- get_acs(geography = "tract",
 Census.sf <- rbind(Before.sf, After.sf) 
 ```
 
-4. Get the variable estimates only for the tracts affected by the tornado. Add the distance traveled by the tornado within each tract as a separate column.
+4. Get the economic/demographic variable estimates only for the tracts affected by the tornado. Add the distance traveled by the tornado within each tract as a separate column.
 ```{r}
 Census.sf <- Census.sf %>%
   st_transform(crs = 3857)
@@ -168,7 +176,7 @@ After.sf <- get_acs(geography = "tract",
                                    MedianEarnings = "B08121_001",
                                    GiniIndex = "B19083_001"), 
                      state = "MS", 
-                     year = 2018,
+                     year = 2014,
                      geometry = TRUE) %>%
   mutate(Status = "After")
 

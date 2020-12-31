@@ -407,7 +407,7 @@ Next we open the zipped file with the `unzip()` function. This creates a folder 
 unzip("data/temp.zip")
 ```
 
-Finally we load the shapefile into R. We use the `read_sf()` function from the {sf} package. We specify the data source name `dsn =`. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).
+Then we load the shapefile into R. We use the `read_sf()` function from the {sf} package. We specify the data source name `dsn =`. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).
 ```{r}
 library(sf)
 
