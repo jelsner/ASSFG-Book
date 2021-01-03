@@ -1,8 +1,8 @@
 # Syllabus {-}
 
-Which city in Wisconsin is snowier: Milwaukee or Madison?
-Are strong hurricanes getting even stronger as a result of climate change?
-Are tornadoes more likely over smooth terrain?
+Is Milwaukee snowier than Madison?
+Is global warming making hurricanes stronger?
+Are tornadoes more likely to form over smooth terrain?
 
 ## Contact information
 
@@ -26,26 +26,26 @@ In this course we survey the methods used to describe, analyze, and model _spati
 
 Expected learning outcomes
 
-1. Learn how to apply statistical methods and models to spatial data, 
-2. learn about the various packages in R for analyzing and modeling spatial data, and 
+1. Learn how and when to apply statistical methods and models to spatial data, 
+2. learn various packages in R for analyzing and modeling spatial data, and 
 3. learn how to interpret the results of a spatial data model. 
 
 Course materials
 
 * You will need access to the internet and a computer.
-* All course materials are available through Canvas and GitHub.
+* Course materials are available through Canvas and GitHub.
 * There is no required textbook.
-* There are many excellent online resources:
-- R for Data Science https://r4ds.had.co.nz/
-- https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/
-- https://tinystats.github.io/teacups-giraffes-and-statistics/index.html
+* There are many excellent online resources. Here are some of my favorites.
+  - R for Data Science https://r4ds.had.co.nz/
+  - https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/
+  - https://tinystats.github.io/teacups-giraffes-and-statistics/index.html
 
 Class meetings
 
 - Remote lessons
 - Remote/F2F lab assignments
 
-During each remote lesson I will work through and explain the R code within a lesson notes file. The lesson notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. Each lesson is contained in a file having the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
+During each lesson I will work through and explain the R code within an Rmd file. The notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. A markdown file has the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
 
 ## Grades
 
@@ -196,10 +196,7 @@ Bookdown:
 * Introduction: https://bookdown.org/yihui/bookdown/introduction.html
 * Learning more: https://ropensci.org/blog/2020/04/07/bookdown-learnings/
 
-https://evamaerey.github.io/flipbooks/flipbookr/skeleton#1
-
-
-Climate datasets in R:
+Climate datasets:
 
 https://cran.r-project.org/web/packages/climate/vignettes/getstarted.html
 https://www.ncdc.noaa.gov/teleconnections/enso/indicators/soi/data.csv
