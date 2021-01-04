@@ -171,21 +171,6 @@ To remove an object from the environment use the `rm()` function.
 rm(d1, d2)
 ```
 
-The package {swirl} contains functions to help you learn the basics of R. The `install.packages()` function gets the package from an CRAN mirror site. This needs to be done only once to your local computer. You can update packages using `update.packages()`. To make the functions work in your current session you must use the `library()` function. This needs to be done for every session, but only once per session.
-```{r, eval=FALSE}
-install.packages("swirl")
-library(swirl)
-```
-
-Type:
-```{r, eval=FALSE}
-swirl()
-```
-
-Choose the lesson: R Programming. Work through lessons 1:8
-
-Getting help: https://www.r-project.org/help.html
-
 ## Data frames
 
 A data frame is used for storing data in tables like a spreadsheet. It is a list of vectors of equal length. For example, the following variable `df` is a data frame containing three vectors `n`, `s`, `b`.
@@ -243,15 +228,15 @@ str(mtcars)
 
 Consider answers on questions given to all students in an introductory statistics class at Bowling Green State University. Some of the questions were: What is your height? Choose a number between 1 and 10. Give the time you went to bed last night. The data are available as a data frame called `studentdata` in the package {LearnBayes}.
 
-First, install the package.
+First, install the package with the `install.packages()` function. Then to make the functions available use the `library()` function as follows.
 ```{r}
-# install.packages("LearnBayes")
+install.packages("LearnBayes")
 library(LearnBayes)
 ```
 
 Next, make a copy of the data frame and call it `df`. Then print the first six rows using the `head()` function and list only the 10th row.
 ```{r}
-df <- LearnBayes::studentdata
+df <- studentdata
 head(df)
 ```
 
@@ -353,6 +338,7 @@ unzip("data/temp.zip")
 
 Then we load the shapefile into R. We use the `read_sf()` function from the {sf} package. We specify the data source name `dsn =`. The name of the file exists outside of R in your project directory so it needs to be inside quotes (either single or double).
 ```{r}
+install.packages("sf")
 library(sf)
 
 Torn.sf <- read_sf(dsn = "data/1950-2018-torn-initpoint")
@@ -406,6 +392,7 @@ plot(x = log(Torn.sf$Width),
 
 Create a map of tornado genesis locations. First get a file containing the U.S. state borders. Then plot the geometry column and overlay the tornado location as points.
 ```{r}
+install.packages("USAboundaries")
 library(USAboundaries)
 
 sts <- state.name[!state.name %in% c("Alaska", "Hawaii")]
@@ -473,7 +460,9 @@ As I mentioned last week, there are many functions for working with data frames 
 
 From the {readr} package as part of the {tidyverse} dialect we can use the `read_table()` function to create a tabled data frame.
 ```{r}
+install.packages("tidyverse")
 library(tidyverse)
+
 df <- read_table(file = "http://myweb.fsu.edu/jelsner/temp/data/US.txt")
 ```
 
@@ -832,7 +821,9 @@ The `select()` function is useful in focusing on a relatively few variables when
 
 We can select columns having common character string names. For example, consider the `us_states` data frame from the {spData} package.
 ```{r}
+install.packages("spData")
 library(spData)
+
 head(us_states)
 ```
 
@@ -952,7 +943,9 @@ When we group by multiple variables, each summary peels off one level of the gro
 
 We first use the function `day()` from the {lubridate} package to extract the day of the month from a `Date` object and add it to our data frame. We then use `group_by()` on the month and day. Finally we summarize by counting the number of cases.
 ```{r}
+install.packages("lubridate")
 library(lubridate)
+
 df %>%
   mutate(Day = day(Date)) %>%
   group_by(Month, Day) %>%
@@ -1050,6 +1043,7 @@ The principle of layering is important because to create more advanced visualiza
 
 Let's modify the bubble chart by getting additional data and plotting it as a new layer below the bubbles. First get the data from the {maps} package and store it in a new data frame.
 ```{r}
+install.packages("maps")
 library(maps)
 
 df3 <- map_data("world") %>%
@@ -1270,11 +1264,11 @@ gLVG <- ggplot(LVG.df, aes(x = TmaxF)) +
   theme_minimal() +
   theme(legend.position = "none")
 
+install.packages("patchwork")
 library(patchwork)
+
 gTLH / gLVG
 ```
-
-Geofacet
 
 Bar plot of the number of tornadoes by month and by state. The code uses the {geofacet} package [@Hafen2020].
 ```{r}
@@ -1306,17 +1300,3 @@ ggplot(aes(as.factor(mo), nT)) +
 * https://exts.ggplot2.tidyverse.org/
 * Cheat sheets: https://rstudio.com/resources/cheatsheets/
 * More examples: https://geocompr.robinlovelace.net/ {spData} package.
-
-## Assignment
-
-The object `us_states` from the {spData} package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
-
-1. Create a new data frame from `us_states` containing only the population information. (10)
-2. Create a new data frame from `us_states`  containing only states from the South region. (10)
-3. Create a new data framefrom `us_states` containing only states from the West region having area less then 250,000 square km and a 2015 population more than 5,000,000 residents. Hint: you will need to use `as.numeric(AREA)` to remove the units. (10)
-4. What was the total population of the Midwest region in 2010 and 2015? (20)
-5. How many states are in each region? (20)
-6. Make a bar chart showing the total area in millions of square kilometers by region. Hint: include `stat = "identity"` in the `geom_bar()` function. (25)
-7. How much has population density changed between 2010 and 2015 in each state? Calculate the change (in percent relative to population in 2010) for each state. (5)
-
-Extra problem: Make a side-by-side comparison using `facet_wrap()`. Convective vs non-convective atmospheres.

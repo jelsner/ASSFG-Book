@@ -290,17 +290,19 @@ The RStudio IDE
 
 You will do your lab assignments inside an Rmd file.
 
-1. Download the assignment Rmd from Canvas and rename it to `yourLastName_yourFirstName.Rmd`
+1. Download the assignment Rmd file from Canvas and rename it to `yourLastName_yourFirstName.Rmd`
 2. Open the Rmd file with RStudio
 3. Replace 'Your Name' with your name in the preamble
-4. Answer the questions by typing the code between code-chunk delimiters
+4. Answer the questions by typing appropriate code between the code-chunk delimiters
 5. Select the Knit button to generate an HTML file
 6. Fix any errors
-7. Email your Rmd file to <jelsner@fsu.edu>
+7. Email your completed assignment Rmd file to <jelsner@fsu.edu>
 
 ## Getting started with R {-}
 
-The package {swirl} contains functions to help you learn the basics of R. The `install.packages` function gets the package from an CRAN mirror site. This needs to be done only once to your local computer. You can update packages using `update.packages`. To make the functions work in your current session you must use the `library` function. This needs to be done for every session, but only once per session.
+The {swirl} package contains functions to help you learn the basics of R. To install the package use the `install.packages()` function with the name of the package in quotes. The function downloads the package from the Comprehensive R Archive Network (CRAN). You update packages using `update.packages()` function. 
+
+To make the functions work in your current session use the `library()` function with the name of the package (without quotes). This needs to be done for every session, but only once per session.
 ```{r, eval=FALSE}
 install.packages("swirl")
 library(swirl)

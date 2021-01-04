@@ -265,7 +265,7 @@ Joplin.sf <- st_sf(Joplin.attributes,
                    geometry = Joplin.geometry)
 ```
 
-(2) The object `us_states` from the **spData** package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
+(2) The object `us_states` from the {spData} package is a simple feature data frame from the U.S. Census Bureau. The variables include the name, region, area, and population.
 
 A. Create a new data frame containing only the population information. (10)
 ```{r}
@@ -502,7 +502,7 @@ st_sf(data.frame(n = world$name_long),
 
 Thus `sf` objects take advantage of R's data analysis capabilities to be used on geographic data. It's worth reviewing how to discover basic properties of vector data objects. 
 
-For example, we get information about the size and breadth of the `world` simple feature data frame from the **spData** package using `dim()`, `nrow()`, etc.
+For example, we get information about the size and breadth of the `world` simple feature data frame from the {spData} package using `dim()`, `nrow()`, etc.
 ```{r}
 dim(world)
 nrow(world)
@@ -523,7 +523,7 @@ Recall attributes are the variables (stored as columns) in a spatial data frame.
 
 There is no harm in keeping the geometry column because data operations on `sf` objects only change an object's geometry when appropriate (e.g. by dissolving borders between adjacent polygons following aggregation). This means that the speed of operations with attribute data in `sf` objects is the same as with columns in a data frames.
 
-Subset functions include `[`, `subset()` and `$`. **dplyr** subset functions include `select()`, `filter()`, and `pull()`. Both sets of functions preserve the spatial components of attribute data in `sf` objects.
+Subset functions include `[`, `subset()` and `$`. {dplyr} subset functions include `select()`, `filter()`, and `pull()`. Both sets of functions preserve the spatial components of attribute data in `sf` objects.
 
 The `[` operator can subset rows and columns. We use indices to specify the elements we wish to extract from an object, e.g. object[i, j], with i and j typically being numbers representing rows and columns. Leaving i or j empty returns all rows or columns, so `world[1:5, ]` returns the first five rows and all columns. Here are some examples.
 ```{r}
@@ -551,9 +551,9 @@ The base R function `subset()` provides another way to get the same result.
 small_countries <- subset(world, area_km2 < 10000)
 ```
 
-Importantly the **dplyr** verbs can also be used on **sf** objects. The main **dplyr** subsetting functions are `select()` and `filter()`.
+Importantly the {dplyr} verbs can also be used on {sf} objects. The main {dplyr} subsetting functions are `select()` and `filter()`.
 
-But caution! The **dplyr** (and  **raster**) package has a function called `select()`. When using both packages, the function in the most recently attached package will be used, 'masking' the incumbent function. 
+But caution! The {dplyr} (and  {raster}) package has a function called `select()`. When using both packages, the function in the most recently attached package will be used, 'masking' the incumbent function. 
 
 This can generate error messages containing text like: unable to find an inherited method for function 'select' for signature "sf". To avoid this error message, and prevent ambiguity, we use the long-form function name, prefixed by the package name and two colons `dplyr::select()`.
 
@@ -584,7 +584,7 @@ population <- world %>%
 head(population)
 ```
 
-The `filter()` function is **dplyr**'s equivalent of base R `subset()` function. It keeps only rows matching given criteria, e.g., only countries with a very high average life expectancy.
+The `filter()` function is {dplyr}'s equivalent of base R `subset()` function. It keeps only rows matching given criteria, e.g., only countries with a very high average life expectancy.
 ```{r}
 world3 <- world %>%
   filter(lifeExp > 82)
@@ -595,7 +595,7 @@ Aggregation summarizes a data frame by a grouping variable, typically an attribu
 
 The `world` dataset contains the necessary ingredients: the columns `pop` and `continent`, the population and the grouping variable, respectively. The goal is to find the `sum()` of country populations for each continent.
 
-This is done with the `group_by()` and `summarize()` functions from the **dplyr** package. 
+This is done with the `group_by()` and `summarize()` functions from the {dplyr} package. 
 ```{r}
 library(dplyr)
 world_agg <- world %>%
@@ -626,11 +626,11 @@ world %>%
   st_set_geometry(value = NULL) 
 ```
 
-Combining data from different sources based on a shared 'key' variable is common. The **dplyr** package has multiple join functions including `left_join()` and `inner_join()`. Names follow conventions used in the SQL database language.
+Combining data from different sources based on a shared 'key' variable is common. The {dplyr} package has multiple join functions including `left_join()` and `inner_join()`. Names follow conventions used in the SQL database language.
 
 Here we see how to join non-spatial datasets to `sf` objects. Join functions work the same on `data.frames` and `sf` objects. The most common type of attribute join on spatial data takes an `sf` object as the first argument and adds columns to it from a `data.frame` specified as the second argument.
 
-For example, we combine data on coffee production with the world dataset. The coffee data is in a data frame called `coffee_data` from the **spData** package (see `?coffee_data` for details). It has 3 columns: `name_long` names major coffee-producing nations and `coffee_production_2016` and `coffee_production_2017` contain estimated values for coffee production in units of 60-kg bags in each year. 
+For example, we combine data on coffee production with the world dataset. The coffee data is in a data frame called `coffee_data` from the {spData} package (see `?coffee_data` for details). It has 3 columns: `name_long` names major coffee-producing nations and `coffee_production_2016` and `coffee_production_2017` contain estimated values for coffee production in units of 60-kg bags in each year. 
 
 The `left_join()` function, which preserves the first dataset, merges `world` with `coffee_data`.
 ```{r}
@@ -662,7 +662,7 @@ setdiff(coffee_data$name_long, world$name_long)
 
 `Others` accounts for one row not present in the `world_coffee` dataset and  name of the Democratic Republic of the Congo accounts for the other. The name has been abbreviated, causing the join to miss it. 
 
-Here we use the `str_subset()` function (string matching) from the **stringr** package to confirm what 'Congo, Dem. Rep.' of should be.
+Here we use the `str_subset()` function (string matching) from the {stringr} package to confirm what 'Congo, Dem. Rep.' of should be.
 ```{r}
 library(stringr)
 str_subset(world$name_long, "Dem*.+Congo")
@@ -695,7 +695,7 @@ Areal weighted interpolation estimates the value of some attribute from a set of
 
 Obviously tornado damage paths do not align with census tract boundaries, so areal interpolation is used to produce population estimates at the tornado level.
 
-Two function prefixes are available in the **areal** package that allow users to take advantage of RStudio's auto complete.
+Two function prefixes are available in the {areal} package that allow users to take advantage of RStudio's auto complete.
 
 * `ar_` - data and functions that are used for multiple interpolation methods
 * `aw_` - functions that are used specifically for areal weighted interpolation
@@ -714,7 +714,7 @@ data(package = "areal")
 * `ar_stl_wards` (the 2010 political subdivisions in St. Louis; n = 28).
 * `ar_stl_wardsClipped` Clipped (the 2010 political subdivisions in St. Louis clipped to the Mississippi River shoreline; n = 28).
 
-Functions in the **areal** package assume that data are simple feature data frames. 
+Functions in the {areal} package assume that data are simple feature data frames. 
 
 A projected coordinate reference system is recommend. All data must be projected using the same system. Unnecessary columns should be removed prior to projection.
 
@@ -796,14 +796,14 @@ sfdfB <- st_buffer(sfdfL,
 
 Next, get the population data from the U.S. Census Bureau. First get an API key from http://api.census.gov/data/key_signup.html
 
-Here I've already done this and put the relevant data on my website. The functions are from Kyle Walker's **tidycensus** package. Here is how I did it. You will need to request and get a U.S. Census API. https://www.census.gov/developers/
+Here I've already done this and put the relevant data on my website. The functions are from Kyle Walker's {tidycensus} package. Here is how I did it. You will need to request and get a U.S. Census API. https://www.census.gov/developers/
 ```{r, eval=FALSE}
 library(tidycensus)
 census_api_key("YOUR API KEY GOES HERE", 
                install = TRUE)
 ```
 
-The 2014 population data are avaible using the `get_acs()` function from the **tidycensus** package. Here tract-level total population for the country (`B01003_001`). If we want tracts or smaller then we need to specify by state with `state = `.
+The 2014 population data are available using the `get_acs()` function from the {tidycensus} package. Here tract-level total population for the country (`B01003_001`). If we want tracts or smaller then we need to specify by state with `state = `.
 ```{r, eval=FALSE}
 tractPop <- get_acs(geography = "tract",
                     year = 2014,
@@ -860,7 +860,7 @@ https://www.jla-data.net/eng/spatial-aggregation/
 
 Example: State (U.S.) boundaries as simple feature data frames
 
-Consider the U.S. state of Kansas. A boundary file containing the borders as a polygon is available in the **USAboundaries** package. The package contains historical and contemporary boundaries with the data provided by the U.S. Census Bureau.
+Consider the U.S. state of Kansas. A boundary file containing the borders as a polygon is available in the {USAboundaries} package. The package contains historical and contemporary boundaries with the data provided by the U.S. Census Bureau.
 
 Individual states are extracted using the `us_states()` function.
 ```{r}
@@ -906,6 +906,10 @@ plot(KSgeocenter$geometry, add = TRUE, col = "blue")
 plot(KStorcenter, add = TRUE, col = "red")
 st_distance(KSgeocenter, KStorcenter)
 ```
+
+### Example: economic impact of a tornado
+
+See `tidycensus.Rmd`
 
 ## Working with Rasters
 
@@ -997,7 +1001,7 @@ The default CRS is geographic.
 projection(r)
 ```
 
-To project the raster use the function `projectRaster()`. Projections are performed using the `PROJ4` protocol accessed through the **rgdal** package (same as with **sf** and **sp** objects).
+To project the raster use the function `projectRaster()`. Projections are performed using the `PROJ4` protocol accessed through the {rgdal} package (same as with {sf} and {sp} objects).
 
 We can also use the `setValues()` function to place values in the cells. Here we create a new raster layer with cell numbers as values using the `setValues()` function to place the numbers in the cells.
 ```{r}
@@ -1042,9 +1046,9 @@ plot(dfr)
 
 Note: this only works if the spatial coordinates are arranged in the format of an array.
 
-The `raster()` function imports data with functions from the **rgdal** package. Supported formats include `GeoTIFF`, `ESRI`, `ENVI`, and `ERDAS`. Most formats that can import rasters can also be used to exporting rasters. 
+The `raster()` function imports data with functions from the {rgdal} package. Supported formats include `GeoTIFF`, `ESRI`, `ENVI`, and `ERDAS`. Most formats that can import rasters can also be used to exporting rasters. 
 
-Consider the `Meuse` dataset (taken from the **sp** package), using a file in the native 'raster- file' format:
+Consider the `Meuse` dataset (taken from the {sp} package), using a file in the native 'raster- file' format:
 ```{r}
 f <- system.file("external/test.grd", 
                  package = "raster")
@@ -1335,13 +1339,13 @@ library(sf)
 
 Functions in these packages link to software libraries outside of R. For example GDAL is a set of libraries for reading and writing geospatial data and PROJ is a set of libraries for performing conversions between cartographic projections.
 
-The **sp** package has methods for working with 'vector' spatial data. Note: 'vector' is in quotes because this is different than vector as a data type.
+The {sp} package has methods for working with 'vector' spatial data. Note: 'vector' is in quotes because this is different than vector as a data type.
 
-Several of the packages for analyzing and modeling spatial data we will use this semester depend on **sp**. Check out [sp](http://cran.r-project.org/web/packages/sp/index.html) and note the number of packages that depend on **sp** (reverse depends and reverse imports).
+Several of the packages for analyzing and modeling spatial data we will use this semester depend on {sp}. Check out [sp](http://cran.r-project.org/web/packages/sp/index.html) and note the number of packages that depend on {sp} (reverse depends and reverse imports).
 
-Spatial objects from the **sp** package fall into two types: 1) spatial-only information (the topology). These include `SpatialPoints`, `SpatialLines`, `SpatialPolygons`, etc, and 2) extensions to these cases where attribute information is available and stored in a data frame. These include `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, etc.
+Spatial objects from the {sp} package fall into two types: 1) spatial-only information (the topology). These include `SpatialPoints`, `SpatialLines`, `SpatialPolygons`, etc, and 2) extensions to these cases where attribute information is available and stored in a data frame. These include `SpatialPointsDataFrame`, `SpatialLinesDataFrame`, etc.
 
-As an example, we download the shapefile from the SPC (if it's not already available in your working directory) and use `st_read()` from the **sf** package keeping only tornadoes since 2007. Note that we use the `filter()` function and the piping operator from the **dplyr** package as part of the **tidyverse** group of packages.
+As an example, we download the shapefile from the SPC (if it's not already available in your working directory) and use `st_read()` from the {sf} package keeping only tornadoes since 2007. Note that we use the `filter()` function and the piping operator from the {dplyr} package as part of the {tidyverse} group of packages.
 ```{r}
 library(tidyverse)
 sfdf <- st_read(dsn = "1950-2018-torn-aspath") %>%
@@ -1370,16 +1374,16 @@ Slots in a `SpatialLinesDataFrame` include `data`, `lines`, `bbox`, and `proj4st
 slotNames(sldf)
 ```
 
-Selecting, retrieving, or replacing attributes in S4 spatial data frames is done with methods in **base** R. For example `[]` is used to select rows and/or columns. To select `mag` of the 7th tornado type
+Selecting, retrieving, or replacing attributes in S4 spatial data frames is done with methods in {base} R. For example `[]` is used to select rows and/or columns. To select `mag` of the 7th tornado type
 ```{r}
 sldf$mag[7]
 ```
 
 Other methods include: `plot`, `summary`,`dim` and `names` (operate on the data slot), `as.data.frame`, `as.matrix` and `image` (for gridded spatial data), and `length` (number of features).
 
-CAUTION: we can't use the **dplyr** verbs on S4 data frames. To convert from an S4 spatial data frame to a simple feature data frame, use `st_as_sf()`.
+CAUTION: we can't use the {dplyr} verbs on S4 data frames. To convert from an S4 spatial data frame to a simple feature data frame, use `st_as_sf()`.
 
-The interface to the geometry engine-open source (GEOS) is through the **rgeos** package.
+The interface to the geometry engine-open source (GEOS) is through the {rgeos} package.
 ```{r}
 library(rgeos)
 ```
@@ -1412,7 +1416,7 @@ sldfP@proj4string
 
 We now have two copies of our `SpatialLinesDataFrame` object (unprojected `sldf` and projected `sldfP`).
 
-We perform geocomputation on the projected spatial data frame using functions from the **rgeos** package. 
+We perform geocomputation on the projected spatial data frame using functions from the {rgeos} package. 
 
 Computations can be done across all features (e.g., all tornado reports together) or feature by feature (`byid = TRUE`). For example, to the `gEnvelope()` function computes the rectangular bounding box surrounding all the features.
 ```{r}
@@ -1423,7 +1427,7 @@ class(box)
 
 The assigned object `box` is of class `SpatialPolygons`. It contains a single polygon rectangle. The `byid = FALSE` is the default. There are no attributes.
 
-Plot the box and the tornadoes using **base** R.
+Plot the box and the tornadoes using {base} R.
 ```{r}
 plot(box)
 plot(sldfP, add = TRUE)
@@ -1537,11 +1541,11 @@ df <- read.table(file = "http://myweb.fsu.edu/jelsner/temp/data/CRAN051001a.txt"
 head(df)
 ```
 
-Note here I use the `read.table()` function from base R. It is very similar to the `read_table()` function from the **readr** package but the default requires you to specify whether the first row of the file contains column names (`header = TRUE`).
+Note here I use the `read.table()` function from base R. It is very similar to the `read_table()` function from the {readr} package but the default requires you to specify whether the first row of the file contains column names (`header = TRUE`).
 
 Each row is a location. The location includes the name of the location and spatial coordinates. 
 
-Here we create a spatial points data frame using the `coordinates()` function (from the **sp** package). We first assign to the object `spdf` the original data frame. We then specify what columns in `spdf` we want as the coordinates. Here use the columns labeled `long` and `lat`.
+Here we create a spatial points data frame using the `coordinates()` function (from the {sp} package). We first assign to the object `spdf` the original data frame. We then specify what columns in `spdf` we want as the coordinates. Here use the columns labeled `long` and `lat`.
 ```{r}
 spdf <- df
 coordinates(spdf) <- c("long", "lat")
@@ -1578,7 +1582,7 @@ We can speak of a geographic CRS (model for shape of the earth plus lat/lon) or 
 is.projected(spdf)
 ```
 
-Once the data has a CRS, it can be re-projected using the `spTransform()` function in the **rgdal** package.
+Once the data has a CRS, it can be re-projected using the `spTransform()` function in the {rgdal} package.
 
 The `spplot()` method
 
@@ -1594,7 +1598,7 @@ The result is a choropleth map indicating police expenditures with a default col
 
 While easy to apply the default settings on this method fail to produce a good map. We can improve things but it requires some trial-and-error.
 
-For example, to improve the color ramp. We first specify a range of values using the `seq()` function then a set of 6 colors using the `brewer.pal()` function from the **RColorBrewer** package. We determine the range with the `range()` function. 
+For example, to improve the color ramp. We first specify a range of values using the `seq()` function then a set of 6 colors using the `brewer.pal()` function from the {RColorBrewer} package. We determine the range with the `range()` function. 
 
 We specify the color palette to be 6 shades of green. We then add the arguments `col.regions =` and `at =` in the `spplot()` function call.
 ```{r}
@@ -1732,9 +1736,3 @@ Here `z` is a spatial data with a valid CRS.
 An overview of CRSs is available here https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf
 
 Note: NOAA’s National Geodetic Survey is currently working on the modernization of the National Spatial Reference System (NSRS), which will replace the North American Datum of 1983 (NAD83) and the North American Vertical Datum of 1988 (NAVD88) with a new geometric reference frame and geopotential datum in 2022.
-
-## Assignment
-
-1. What tornado (by date and EF rating [`mag`]) in the historical record has a genesis location closest to the geographic center of Wisconsin? Hint: Use the `which.min()` function on the vector of distances to identify the row number in the tornado data frame (50).
-
-2. Determine Moran's I and plot local Moran's I for the occurrence of tornadoes across Kansas aggregated to a .2 degree latitude/longitude raster bounded by -102.1 and -94.5 degrees east longitude and 36.9 to 40.1 degrees north latitude (50).
