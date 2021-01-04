@@ -1,10 +1,10 @@
 # Syllabus {-}
 
-Is Milwaukee snowier than Madison?
-Is global warming making hurricanes stronger?
-Are tornadoes more likely to form over smooth terrain?
+* Is Milwaukee snowier than Madison?
+* Is global warming making hurricanes stronger?
+* Are tornadoes more likely to form over smooth terrain?
 
-## Contact information
+## Contact information {-}
 
 * Instructor Location: Bellamy Building, Room 323a
 * Lesson Hours: Mon/Wed 9:05 a.m. - 9:55 a.m.
@@ -18,7 +18,7 @@ Links to my stuff
 * [GitHub](https://github.com/jelsner/)
 * [Twitter](https://twitter.com/JBElsner)
 
-## Course description
+## Course description {-}
 
 This course is for students who want to learn how to analyze, map, and model spatial data using the R programming language. It assumes students know some basic statistics through linear regression. It also assumes students have some prior experience with using R. Students without knowledge of R should seek help through the many online tutorials.
 
@@ -47,7 +47,7 @@ Class meetings
 
 During each lesson I will work through and explain the R code within an Rmd file. The notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. A markdown file has the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
 
-## Grades
+## Grades {-}
 
 You are responsible for:
 
@@ -84,7 +84,7 @@ Students from all diverse backgrounds and perspectives will be well-served by th
 - If you feel your performance is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your academic dean is an excellent resource. 
 - If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it.
 
-## Outline of topics
+## Outline of topics {-}
 
 This is a guide for the course and is subject to change with advanced notice.
 
@@ -94,14 +94,14 @@ Topics:
 2. Working with spatial data and making maps (~ 4 lessons)
 3. Quantifying spatial autocorrelation and spatial regression (~ 4 lessons)
 4. Analyzing and modeling point pattern data (~ 6 lessons)
-5. Estimating a variogram and spatial interpolation (~ 6 lessons)
+5. Estimating variograms and spatial interpolation (~ 6 lessons)
 6. Other topics (~ 6 lessons)
 
 Calendars
 
 Remote Lessons:
 
-* January 6, 8 (unavailable)
+* January 6, 8 (no lesson)
 * January 11, 13, 15
 * January 20
 * January 25, 27
@@ -127,11 +127,13 @@ Lab Assignments:
 * February 26
 * March 5
 * March 12
+* March 19 (no assignment)
 * March 26
+* April 2 (no assignment)
 * April 9
 * April 16
 
-## Reference materials
+## Reference materials {-}
 
 1. Bivand, R. S., E. J. Pebesma, and V. G. Gomez-Rubio, 2013: Applied Spatial Data Analysis with R, 2nd Edition, Springer. A source for much of the material in the lesson notes.
 2. Lovelace, R. Nowosad, J. and Muenchow, J. Geocomputation with R. https://geocompr.robinlovelace.net/ A source for some of the material in the lesson notes.
@@ -221,7 +223,7 @@ Recent research examples
 - [More hots](https://eartharxiv.org/q4y8z/)
 - [Stronger tornadoes](https://eartharxiv.org/wpkt9/)
 
-## Reproducible research 
+## Reproducible research  {-}
 
 A scientific paper has at least two goals: announce a new result and convince readers that the result is correct. Scientific papers should describe the results _and_ provide a clear protocol to allow repetition and extension.
 
@@ -238,9 +240,9 @@ However, much of it is still not easy to script. Open source Geographic Informat
 
 Instead this course focuses on a Command Line Interface (CLI), enabling reproducible, and 'computational' workflows.
 
-[Practical reproduciibility in geography and geosciences](https://myweb.fsu.edu/jelsner/NustPebesma2020.pdf)
+[Practical reproducibility in geography and geosciences](https://myweb.fsu.edu/jelsner/NustPebesma2020.pdf)
 
-## Getting setup
+## Getting setup for this course {-}
 
 First get R
 
@@ -284,7 +286,7 @@ The RStudio IDE
   + The Plot tab currently shows a blank sheet
   + The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
 
-## Your lab assignments
+## Your lab assignments {-}
 
 You will do your lab assignments inside an Rmd file.
 
@@ -296,7 +298,7 @@ You will do your lab assignments inside an Rmd file.
 6. Fix any errors
 7. Email your Rmd file to <jelsner@fsu.edu>
 
-## Getting started with R
+## Getting started with R {-}
 
 The package {swirl} contains functions to help you learn the basics of R. The `install.packages` function gets the package from an CRAN mirror site. This needs to be done only once to your local computer. You can update packages using `update.packages`. To make the functions work in your current session you must use the `library` function. This needs to be done for every session, but only once per session.
 ```{r, eval=FALSE}

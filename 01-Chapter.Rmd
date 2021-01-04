@@ -1,60 +1,4 @@
-# Getting started
-
-First get R
-
-* Go to http://www.r-project.org.
-* Select the CRAN (Comprehensive R Archive Network). Scroll to a mirror site. 
-* Choose the appropriate file for your hardware.
-* Follow the instructions to install R.
-
-Then get RStudio
-
-* Go to on http://rstudio.org
-* Download RStudio Desktop
-* Install and open RStudio
-
-Learn git
-
-https://happygitwithr.com/install-git.html
-
-The RStudio IDE
-
-* Written in HTML
-* Top menus
-  + File > New File > R Markdown
-  + Tools > Global Options > Appearance
-  
-* Upper left panel is the markdown file. This is where we put our text and code. 
-  + Run code chunks from this panel 
-  + Output from the operations can be placed in this panel or in the Console (see the gear icon above)
-  + All the text, code, and output can be rendered to an HTML file or a PDF or Word document (see the Knit button above)
-  
-* Upper right panel shows what is in your current environment and the history of the commands you issued.
-  + This is also where you can connect to github
-  
-* Lower left panel is the Console
-  + I think of this as a sandbox where you try out small bits of code. If it works and is relevant move it to the markdown file.
-  + This is also where output from running code will be placed.
-  + Not a place for plain text
-  
-* Lower right panel shows your project files, the plots that get made, and all the packages associated with the project.
-  + The File tab shows the files in the project. The most important one is the .Rmd.
-  + The Plot tab currently shows a blank sheet
-  + The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
-
-## Your assignments
-
-Your assignments will be done inside an Rmd file.
-
-1. Download the assignment Rmd from Canvas and rename it to `yourLastName_yourFirstName.Rmd`
-2. Open the Rmd file with RStudio
-3. Replace 'Your Name' with your name in the YAML
-4. Answer the questions by typing the code between code-chunk delimiters
-5. Select the Knit button to generate an HTML file
-6. Fix any errors
-7. Email me your Rmd file
-
-## Base R
+# Getting started with R
 
 Applied statistics is the analysis and modeling of data. The `c()` function gets small lists of data items into R. The function combines (concatenates) items. Consider for example a set of hypothetical annual land falling hurricane counts over a ten-year period.
 
@@ -535,7 +479,7 @@ df <- read_table(file = "http://myweb.fsu.edu/jelsner/temp/data/US.txt")
 
 Functions in {base} R for working with data frames require understanding them as list objects. This makes the functions harder to learn and remember. Next time will explore a more formalized grammar for data wrangling.
 
-## Your turn: Precipitation in Florida
+## Precipitation in Florida
 
 Source: Monthly climate series. [Source:](http://www.esrl.noaa.gov/psd/data/timeseries/)
 
