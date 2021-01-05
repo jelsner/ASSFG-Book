@@ -12,7 +12,7 @@
 * Student Hours: Mon/Wed 9:55 a.m. - 10:30 a.m.
 * Email: <jelsner@fsu.edu>
 
-Links to my stuff
+Links to my stuff (in case you are curious)
 
 * [Website](http://myweb.fsu.edu/jelsner/_site/)
 * [GitHub](https://github.com/jelsner/)
@@ -42,8 +42,8 @@ Course materials
 
 Class meetings
 
-- Remote lessons
-- Remote/F2F lab assignments
+* Remote lessons
+* Remote/F2F lab assignments
 
 During each lesson I will work through and explain the R code within an Rmd file. The notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. A markdown file has the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
 
@@ -51,26 +51,28 @@ During each lesson I will work through and explain the R code within an Rmd file
 
 You are responsible for:
 
-1. Working through the R markdown files (`.Rmd`) files (you can do this during class as I talk or outside of class on your own) 
+1. Working through the R markdown files (`.Rmd`) files (you can do this during the remote lessons as I talk and run my code or outside of class on your own) 
 2. Handing in the lab assignments on time
 
 Grades are determined only by how well you do on the assignments.
 
 Grading standard
 
-* A:  Outstanding: few, in any, errors/omissions
-* B:  Good: only minor errors/omissions
-* C:  Satisfactory: minor omissions, at least one major error/omission
-* D:  Poor: several major errors/omissions
-* F:  Fail: many major errors/omissions
+* A: Outstanding: few, in any, errors/omissions
+* B: Good: only minor errors/omissions
+* C: Satisfactory: minor omissions, at least one major error/omission
+* D: Poor: several major errors/omissions
+* F: Fail: many major errors/omissions
 
 I'll use the +/- grading system.
 
-Grades are posted on * [FSU Canvas](https://canvas.fsu.edu)
+Grades will be posted as they are recorded on [FSU Canvas](https://canvas.fsu.edu)
+
+## Ethics {-}
 
 Academic honor code
 
-http://www.eng.fsu.edu/~peterson/fsuhc.html
+https://fda.fsu.edu/academic-resources/academic-integrity-and-grievances/academic-honor-policy
 
 Americans With Disabilities Act
 
@@ -78,11 +80,11 @@ Students with disabilities needing academic accommodation should: (1) register w
 
 Diversity & inclusiveness
 
-Students from all diverse backgrounds and perspectives will be well-served by this course. Student learning needs be addressed both in and out of class, and that the diversity that you bring to this class will be viewed as a resource, strength and benefit. It is my intent to present materials and activities that are respectful of diversity: gender identity, sexuality, disability, age, socioeconomic status, ethnicity, race, nationality, religion, and culture. Let me know ways to improve the effectiveness of the course for you personally, or for other students or student groups.
+It is my intent to present materials and activities that are respectful of diversity: gender identity, sexuality, disability, age, socioeconomic status, ethnicity, race, nationality, religion, and culture.
 
-- If you have a name and/or set of pronouns that differ from those that appear in your official FSU records, please let me know.
-- If you feel your performance is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your academic dean is an excellent resource. 
-- If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it.
+Learning during a pandemic
+
+The pandemic has made it difficult for most of us. I am committed to making sure that you learn everything you were hoping to learn from this class. I will make whatever accommodations are needed to help you learn the material and finish your assignments. Under normal conditions I am quite flexible and lenient with grading with students facing difficult challenges. Under these pandemic conditions, this generosity is amplified. 
 
 ## Outline of topics {-}
 
@@ -101,8 +103,8 @@ Calendars
 
 Remote Lessons:
 
-* January 6, 8 (no lesson)
-* January 11, 13, 15
+* January 6
+* January 11, 13 
 * January 20
 * January 25, 27
 * February 1, 3
@@ -119,6 +121,8 @@ Remote Lessons:
 
 Lab Assignments: 
 
+* January 8 (no assignment)
+* January 15
 * January 22
 * January 29
 * February 5
@@ -203,7 +207,6 @@ Climate datasets:
 https://cran.r-project.org/web/packages/climate/vignettes/getstarted.html
 https://www.ncdc.noaa.gov/teleconnections/enso/indicators/soi/data.csv
 
-
 Reference books
 
 * Anselin, L., 2005: Spatial Regression Analysis in R, Spatial Analysis Laboratory, Center for Spatially Integrated Social Science.
@@ -257,11 +260,11 @@ Then get RStudio
 * Download RStudio Desktop
 * Install and open RStudio
 
-Learn git
+Finally, learn git
 
 https://happygitwithr.com/install-git.html
 
-The RStudio IDE
+## The RStudio IDE {-}
 
 * Written in HTML
 * Top menus
@@ -286,9 +289,9 @@ The RStudio IDE
   + The Plot tab currently shows a blank sheet
   + The Packages tab shows all the packages that have been downloaded from CRAN and are associated with this project.
 
-## Your lab assignments {-}
+## Lab assignments {-}
 
-You will do your lab assignments inside an Rmd file.
+You will do your assignments inside an Rmd file.
 
 1. Download the assignment Rmd file from Canvas and rename it to `yourLastName_yourFirstName.Rmd`
 2. Open the Rmd file with RStudio
