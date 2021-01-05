@@ -597,7 +597,13 @@ plotly::ggplotly(g1)
 
 But {ggplot2} has a few drawbacks for making maps. The `geom_sf()` function does not always produce a nice legend. Raster objects are not supported and need to be converted into a data frame before plotting.
 
-## {cartography} package
+## The {cartography} package
+
+https://www.rdocumentation.org/packages/cartography/versions/2.4.2
+
+## The {ggspatial} package
+
+https://github.com/paleolimbot/ggspatial/blob/master/vignettes/ggspatial.Rmd
 
 ## Cartograms
 
