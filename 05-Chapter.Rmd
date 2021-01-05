@@ -1,7 +1,5 @@
 # Analyzing and modeling spatial data as point patterns
 
-**"Programming is the art of doing one thing at a time"** --- Michael Feathers
-
 In this chapter we analyze and model point pattern data.
 
 We naturally tend to assign order to things. We seek patterns in a collection of events. Stars in the night sky as constellations. 
@@ -13,7 +11,7 @@ One pattern that tends to catch our attention is the spatial grouping of events.
 We motivate the study of point pattern data further by examining Kansas tornadoes. Let the genesis of a tornado be an event location and the maximum EF rating provide a mark for the event. We consider only events with marks of 1, 2, 3, 4, and 5.
 
 Import the data.
-```{r chapter6}
+```{r chapter5}
 library(sf)
 library(dplyr)
 
@@ -662,7 +660,7 @@ Torn.sp <- as(Torn.sf, "Spatial")
 T.ppp <- as(Torn.sp["EF"], "ppp")
 ```
 
-Create the spatial domain (called a 'window' in the {spatstat} parlance) over which the analysis will be done. Here we use the state border of Texas as a simple feature data frame from the **USAboundaries** package. 
+Create the spatial domain (called a 'window' in the {spatstat} parlance) over which the analysis will be done. Here we use the state border of Texas as a simple feature data frame from the {USAboundaries} package. 
 
 We transform the CRS accordingly and convert the simple feature object to an S4 `SpatialPolygons` object before converting it to an `owin` object with the `as.owin()` function. We then subset the tornado events by the `owin` object.
 ```{r}
@@ -864,7 +862,7 @@ Cities.sf <- st_as_sf(us.cities,
   dplyr::filter(country.etc == "TX")
 ```
 
-We use the `extract()` function from the **raster** package to get a single value for each city. We put these values into the simple feature data frame. 
+We use the `extract()` function from the {raster} package to get a single value for each city. We put these values into the simple feature data frame. 
 ```{r}
 Cities.sf$rr <- raster::extract(rr.r, Cities.sf)
 
@@ -872,7 +870,7 @@ Cities.sf %>%
   dplyr::arrange(desc(rr)) 
 ```
 
-To put the finishing touch on this analysis we create a chart using the `geom_lollipop()` function from the **ggalt** package.
+To put the finishing touch on this analysis we create a chart using the `geom_lollipop()` function from the {ggalt} package.
 ```{r}
 library(ggalt)
 library(scales)
@@ -996,7 +994,7 @@ The nearest neighbor distance function $G(r)$ : The cumulative distribution of t
 
 The empty space function $F(r)$ : The cumulative distribution of the distances from a point in the domain to the nearest event (point-to-event function). It summarizes the distance gaps between events (lacunarity--amount of gappiness).
 
-The reduced second moment function (Ripley's $K$) $K(r)$ : Defined such that $\lambda \times K(r)$ is the expected number of additional events within a distance $r$ of an event, where $\lambda$ is the average intensity of the events. It is a measure of the spatial autocorrelation among the events.
+The reduced second moment function (Ripley $K$) $K(r)$ : Defined such that $\lambda \times K(r)$ is the expected number of additional events within a distance $r$ of an event, where $\lambda$ is the average intensity of the events. It is a measure of the spatial autocorrelation among the events.
 
 To help evaluate clustering estimates of $G$, $F$, and $K$ computed on point pattern data (empirical estimates) are compared to theoretical curves assuming a homogeneous Poisson process. These theoretical curves are well defined for homogeneous point patterns (CSR--complete spatial randomness). A deviation of the empirical estimate from the theoretical curve is evidence against CSR. 
 
@@ -1007,7 +1005,7 @@ $F(r) = G(r) = 1 - \exp(-\lambda \pi r^2)$
 
 Where $\lambda$ is the spatial intensity.
 
-Recall the Swedish pine saplings data from the **spatstat** package.
+Recall the Swedish pine saplings data from the {spatstat} package.
 ```{r}
 library(spatstat)
 
@@ -1037,7 +1035,7 @@ The horizontal dashed line at $G$ = .2 intersects the black line at a distance o
 
 The blue dashed-dotted line is the theoretical homogeneous Poisson process model with the same intensity as the Swedish pines. We see that for a given radius, the actual value of $G$ is less than the theoretical value of $G$. There are fewer saplings in the vicinity of other saplings than expected by chance. For example, if the saplings were arranged under the model of CRS we would expect 20% of the pairwise distances to be within .3 meter and 50% of them to be within .55 meter.
 
-For publication we should convert the object `G` to a data frame and then use **ggplot2** functions. Here we do this then remove estimates for distances greater than 1.1 meter and convert the units to meters.
+For publication we should convert the object `G` to a data frame and then use {ggplot2} functions. Here we do this then remove estimates for distances greater than 1.1 meter and convert the units to meters.
 ```{r}
 library(dplyr)
 
@@ -1085,7 +1083,7 @@ ggplot(J.df, aes(x = r, y = km)) +
   theme_minimal()
 ```
 
-The `Kest()` function estimates the $K(d)$ (Ripley's reduced second moment function) from a point pattern. The function is defined as
+The `Kest()` function estimates the $K(d)$ (Ripley reduced second moment function) from a point pattern. The function is defined as
 $$
 \hat K(r) = \frac{1}{\hat \lambda} \sum_{j \ne i} \frac{I(r_{ij} < r)}{n}
 $$
@@ -1165,7 +1163,7 @@ summary(T.ppp)$intensity
 
 There are 2181 events with an average intensity of .01 events per square km (1 tornado per 10 square km over the 24-year period 1994--2018).
 
-Ripley's K function.
+Ripley K function.
 ```{r}
 K.df <- as.data.frame(Kest(T.ppp))
 ggplot(K.df, aes(x = r, y = iso * summary(T.ppp)$intensity)) +
@@ -1399,11 +1397,11 @@ dclf.test(T.ppp13, fun = Kcross, nsim = 99)
 
 Both tests lead us to conclude EF3 tornadoes are more likely near EF1 tornadoes than would be expected if they were independently CSR. What is the cause?
 
-### More on Ripley's K
+### More on Ripley K
 
-Ripley's $K$ function (Ripley, 1976) is a descriptive statistic used to detect deviations from CSR. It is used to help determine whether events have a random, dispersed or clustered pattern.
+Ripley $K$ function (Ripley, 1976) is a descriptive statistic used to detect deviations from CSR. It is used to help determine whether events have a random, dispersed or clustered pattern.
 
-Compute Ripley's $K$ and look at the classes of the resulting object.
+Compute Ripley $K$ and look at the classes of the resulting object.
 ```{r}
 K <- Kest(T.ppp)
 class(K)
@@ -1452,7 +1450,7 @@ plot(X, main = "")
 
 We see two clusters one in the north and one in the south. But overall the events appear to be more regular than CSR. 
 
-Your interpretation based on Ripley's $K$ function would be that this pattern is CSR.
+Your interpretation based on Ripley $K$ function would be that this pattern is CSR.
 ```{r}
 K.df <- as.data.frame(Kest(X))
 ggplot(K.df, aes(x = r, y = iso)) +
@@ -1597,7 +1595,7 @@ plot(BFU.ppp)
 
 The average intensity is 1.6 wildfires per 10 sq. km.
 
-Ripley's K function.
+Ripley K function.
 ```{r}
 K.df <- as.data.frame(Kest(BFU.ppp))
 ggplot(K.df, aes(x = r, y = iso * summary(BFU.ppp)$intensity)) +
@@ -1627,8 +1625,6 @@ ggplot(Kenv.df, aes(x = r, y = obs)) +
 No.
 
 ## Cluster models
-
-**"It turns out that style matters in programming for the same reason that it matters in writing. It makes for better reading."** -- Douglas Crockford
 
 [Clean up this discuss a bit]
 
@@ -1866,7 +1862,7 @@ The development of spatial point process methods has largely been theory driven 
 
 The `envelope()` function computes the upper and lower values of a nearest-neighbor statistic from simulated realizations of a point pattern model. This is used as a test of the goodness-of-fit for the model.
 
-We start with the pine sapling model. Here we use the $L$ function (variance stablized Ripley's $K$) estimated with `Lest()`.
+We start with the pine sapling model. Here we use the $L$ function (variance stablized Ripley $K$) estimated with `Lest()`.
 ```{r}
 plot(envelope(modelSP, Lest, 
               nsim = 39, 
@@ -1969,7 +1965,7 @@ The output shows that both elevation and elevation gradient are significant in e
 
 Since the conditional intensity is on a log scale we interpret the elevation coefficient as follows: For a one meter increase in elevation the local spatial intensity increases by a amount equal to exp(.021) or 2%.
 
-Check how well the model fits the data. This is done with the `envelope()` function using the model object as the first argument. The second argument is the name of the distance function. Here the variance stablized Ripley's $K$ function ($L$).
+Check how well the model fits the data. This is done with the `envelope()` function using the model object as the first argument. The second argument is the name of the distance function. Here the variance stablized Ripley $K$ function ($L$).
 
 The method computes the $L$ function from data generated by the model (`nsim = 39` different data sets) and compares it to the $L$ function computed from the actual data. By default the gray area includes the maximum and minimum value of $L$ at each radius from the generated data.
 ```{r}
@@ -2237,7 +2233,7 @@ tm_layout(title = "Elevation (m)",
           legend.outside = TRUE)
 ```
 
-Get elevation roughness using the `terrain()` function from the **raster** package. Use the `projectRaster()` function to change the native projection to the projection of the tornado data. This takes a few seconds since the projection is not conformal and the grid spacing needs to be preserved.
+Get elevation roughness using the `terrain()` function from the {raster} package. Use the `projectRaster()` function to change the native projection to the projection of the tornado data. This takes a few seconds since the projection is not conformal and the grid spacing needs to be preserved.
 ```{r}
 TR <- terrain(Elev, opt = 'roughness')
 ElevP <- projectRaster(Elev, crs = st_crs(Torn.sf)$proj4string)
@@ -2324,7 +2320,7 @@ $$
 $$
 where the left-hand side is the logit (log of the odds ratio) and the $\beta$ are the coefficients to be determined.
 
-If your data are stored as `ppp` objects, a spatial logistic model can be fit directly using functions from the **spatstat** package.
+If your data are stored as `ppp` objects, a spatial logistic model can be fit directly using functions from the {spatstat} package.
 
 Let's consider a canned example from the package (a good strategy in general).
 
@@ -2361,7 +2357,7 @@ D <- distmap(L)
 plot(D)
 ```
 
-Models are fit with the `slrm()` function from the **spatstat** package. 
+Models are fit with the `slrm()` function from the {spatstat} package. 
 ```{r}
 model <- slrm(C ~ D)
 model
@@ -2394,7 +2390,7 @@ https://geocompr.robinlovelace.net/spatial-cv.html
 4. Create a planar point pattern object from the locations of cities and towns with populations exceeding 500. Use the cities data set from my website (see Lessons 13 & 14). Make a map showing the locations (20)
 5. Plot the intensity of tornado reports as a function of distance from nearest town/city. Use an adjustment to the kernel bandwidth of 1.5. (10)
 6. Using the tornado events compute and plot the nearest neighbor distance function. Test for clustering using a simulation envelope. Use 99 simulations. Describe the results. (10)
-7. Create a multitype point pattern object by combining the tornado events with the town/city locations. Note: first remove the marks from the tornado point pattern data. Add "city" and "tornado" as factor marks to the multitype point pattern. Compute and plot Ripley's K cross function and test for 'interaction' for distances less than 10 km. Use the `envelope()` function to create 99 simulations. Provide an interpretation for the results. (30)
+7. Create a multitype point pattern object by combining the tornado events with the town/city locations. Note: first remove the marks from the tornado point pattern data. Add "city" and "tornado" as factor marks to the multitype point pattern. Compute and plot Ripley K cross function and test for 'interaction' for distances less than 10 km. Use the `envelope()` function to create 99 simulations. Provide an interpretation for the results. (30)
 
 Extra problem:
 

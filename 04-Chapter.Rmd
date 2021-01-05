@@ -46,7 +46,7 @@ We can also define neighbors by distance. For example, if $d_{ij}$ is the distan
 ### An example: Columbus, Ohio crime
 
 Consider crime data at the tract level in the city of Columbus, Ohio (Anselin, 1988: Spatial Econometrics. Boston, Kluwer Academic). The tract polygons are projected with arbitrary spatial coordinates.
-```{r chapter5}
+```{r chapter4}
 library(sf)
 
 download.file("http://myweb.fsu.edu/jelsner/temp/data/columbus.zip",
@@ -185,9 +185,9 @@ wts2 <- nb2listw(nbs2,
 head(wts2$weights)
 ```
 
-### Moran's I
+### Moran I
 
-A commonly used autocorrelation statistic is Moran's I. Moran's I follows the basic form of spatial autocorrelation indexes where the similarity between regions $i$ and $j$ is proportional to the product of the deviations from the mean such that
+A commonly used autocorrelation statistic is Moran I. Moran I follows the basic form of spatial autocorrelation indexes where the similarity between regions $i$ and $j$ is proportional to the product of the deviations from the mean such that
 $$
 \hbox{sim}_{ij} \propto (Y_i - \bar Y) (Y_j - \bar Y)
 $$
@@ -260,13 +260,13 @@ moran(CC.sf$CRIME,
       S0 = s)
 ```
 
-The function returns the Moran's I statistic and the kurtosis (K) of the distribution of crime values. Moran's I ranges from -1 to +1. The value of .5 for the crime rates indicates fairly high spatial autocorrelation. This is expected based on the clustering of crime in the central city. Positive values of Moran's I indicate clustering and negative values indicate inhibition.
+The function returns the Moran I statistic and the kurtosis (K) of the distribution of crime values. Moran I ranges from -1 to +1. The value of .5 for the crime rates indicates fairly high spatial autocorrelation. This is expected based on the clustering of crime in the central city. Positive values of Moran I indicate clustering and negative values indicate inhibition.
 
-Kurtosis is a statistic measuring the peakedness of the distribution of the attribute values. A normal distribution has a kurtosis of 3. If the kurtosis is too large (or small) relative to a normal distribution then the inferences we make with Moran's I are suspect.
+Kurtosis is a statistic measuring the peakedness of the distribution of the attribute values. A normal distribution has a kurtosis of 3. If the kurtosis is too large (or small) relative to a normal distribution then the inferences we make with Moran I are suspect.
 
 Q: Which of the two variables (`INC` or `HOVAL`) shows the most clustering?
 
-Another index of spatial autocorrelation is the Geary's C statistic. The equation is 
+Another index of spatial autocorrelation is the Geary C statistic. The equation is 
 $$
 \hbox{C} = \frac{(N-1) \sum_{i,j} w_{ij} (Y_i-Y_j)^2}{2 W \sum_{i}(Y_i-\bar Y)^2} 
 $$
@@ -281,13 +281,13 @@ geary(CC.sf$CRIME,
       n1 = m - 1)
 ```
 
-Values for Geary's C range from 0 to 2 with 1 indicating no spatial autocorrelation. Values less than 1 indicate positive autocorrelation. Both I and C are global measures of autocorrelation, but C is more sensitive to local variations in autocorrelation.
+Values for Geary C range from 0 to 2 with 1 indicating no spatial autocorrelation. Values less than 1 indicate positive autocorrelation. Both I and C are global measures of autocorrelation, but C is more sensitive to local variations in autocorrelation.
 
-Rule of thumb: If the interpretation of Geary's C is much different than the interpretation of Moran's I then consider computing local measures of spatial autocorrelation.
+Rule of thumb: If the interpretation of Geary C is much different than the interpretation of Moran I then consider computing local measures of spatial autocorrelation.
 
 ### Spatial lag
 
-Moran's I is the slope coefficient from a regression of the weighted average of the neighborhood values onto the observed values. The weighted average of neighborhood values is called the spatial lag.
+Moran I is the slope coefficient from a regression of the weighted average of the neighborhood values onto the observed values. The weighted average of neighborhood values is called the spatial lag.
 
 Let `crime` be the set of crime values in each region. We create a spatial lag variable using the `lag.listw()` function. The first argument is the `listw` object and the second is the vector of crime values.
 ```{r}
@@ -323,14 +323,14 @@ The vertical axis contains the neighborhood average crime rate. The range of nei
 
 Tracts with low values of crime tend to be surrounded by tracts with low values of crime on average and tracts with high values of crime tend be surrounded by tracts with high values of crime. The slope is upward (positive).
 
-The magnitude of the slope is the Moran's I value. To check this type
+The magnitude of the slope is the Moran I value. To check this type
 ```{r}
 lm(Wcrime ~ crime)
 ```
 
 The coefficient on the `crime` variable in the simple linear regression is .5. 
 
-The scatter plot is a  Moran's scatter plot.
+The scatter plot is a  Moran scatter plot.
 
 Let's consider another data set.
 ```{r}
@@ -368,7 +368,7 @@ plot(nb,
      st_centroid(st_geometry(SIDS.sf)))
 ```
 
-Next compute Moran's I on the SIDS rates over the period 1974--1979.
+Next compute Moran I on the SIDS rates over the period 1974--1979.
 ```{r}
 m <- length(SIDS.sf$SIDR79)
 s <- Szero(wts)
@@ -391,7 +391,7 @@ moran.test(x, nb2listw(nb, style = "B"))$estimate[1]  # binary
 moran.test(x, nb2listw(nb, style = "S"))$estimate[1]  # variance-stabilizing
 ```
 
-Thus when we report a Moran's I we need to state what weighting scheme was used.
+Thus when we report a Moran I we need to state what weighting scheme was used.
 
 Let `sids` be a vector with elements containing the SIDS rate in each county. We create a spatial lag variable using the `lag.listw()` function. The first argument is the `listw` object and the second is the vector of rates.
 ```{r}
@@ -431,7 +431,7 @@ lm(Wsids ~ sids)
 
 Even in a random pattern of attribute values across a spatial domain the value of $I$ will almost certainly be non-zero. If we want to use $I$ to establish clustering we need a way to guard against being fooled by this randomness.
 
-Is the value of Moran's I significant with respect to the null hypothesis of no spatial autocorrelation? One way to answer this question is to draw an uncertainty band on the regression line and see if a horizontal line can be placed within the band. If not, then I is statistically different than what we would expect if the null hypothesis of no spatial autocorrelation were true.
+Is the value of Moran I significant with respect to the null hypothesis of no spatial autocorrelation? One way to answer this question is to draw an uncertainty band on the regression line and see if a horizontal line can be placed within the band. If not, then I is statistically different than what we would expect if the null hypothesis of no spatial autocorrelation were true.
 
 More formally the question is answered by comparing the standard deviate ($z$ value) of the I statistic with a standard normal deviate. This is done using the `moran.test()` function, where the $z$ value is the difference between I and the expected value of I divided by the square root of the variance of I. 
 
@@ -449,7 +449,7 @@ To check on things first look at the structure of the output with the `str()` fu
 str(mt)
 ```
 
-The list element called `estimate` is a vector of length three containing the Moran's I statistic, the expected value of Moran's I under the assumption of uncorrelated normally distributed SIDS rates, and the variance of Moran's I. 
+The list element called `estimate` is a vector of length three containing the Moran I statistic, the expected value of Moran I under the assumption of uncorrelated normally distributed SIDS rates, and the variance of Moran I. 
 
 The $z$ value is the difference between the statistic and it's expected value divided by the square root of the variance.
 ```{r}
@@ -482,7 +482,7 @@ less than  .01   | convincing
 .05 - .15        | suggestive, but inconclusive
 greater than .15 | no
 
-Under the assumption of normal distributed and uncorrelated data, the expected value for Moran's I is -1/(n-1) where n is the number of counties. 
+Under the assumption of normal distributed and uncorrelated data, the expected value for Moran I is -1/(n-1) where n is the number of counties. 
 
 A check on the distribution of SIDS rates indicates that normality is somewhat suspect. Recall a good way to check the normality assumption is to use the `sm.density()` function from the {sm} package.
 ```{r}
@@ -493,11 +493,11 @@ sm::sm.density(sids,
 
 The SIDS rates are more "peaked" (higher kurtosis) than a normal distribution. In this case it is better to use the default `randomisation = TRUE` argument.
 
-Further, the assumptions underlying Moran's test are sensitive to the form of the graph of neighbour relationships and other factors so results should be checked against a test that involves permutations.
+Further, the assumptions underlying Moran test are sensitive to the form of the graph of neighbour relationships and other factors so results should be checked against a test that involves permutations.
 
 ### Monte Carlo approach to inference
 
-A permutation test for Moran's I is performed with the `moran.mc()` function. MC stands for Monte Carlo which refers to the city of Monte Carlo in Monaco famous for its gambling casinos. The MC procedure refers to random sampling.
+A permutation test for Moran I is performed with the `moran.mc()` function. MC stands for Monte Carlo which refers to the city of Monte Carlo in Monaco famous for its gambling casinos. The MC procedure refers to random sampling.
 
 The name of the data vector and the weights list object (`listw`) are required arguments as is the number of permutations (`nsim`). Each permutation is a random rearrangement of the SIDS rates across the counties. This removes the spatial autocorrelation but keeps the non-spatial distribution of the SIDS rates. The neighbor topology and weights remain the same.
 
@@ -512,7 +512,7 @@ set.seed(4102)
                  nsim = 99) )
 ```
 
-Two of the permutations yield a Moran's I greater than 0.1428, hence the $p$-value as evidence in support of the null hypothesis (the true value for Moran's I is zero) is .02.
+Two of the permutations yield a Moran I greater than 0.1428, hence the $p$-value as evidence in support of the null hypothesis (the true value for Moran I is zero) is .02.
 
 Note: Here we initiate the random number generator to a specific seed value so that the set of random permutations of the values across the domain will be the same each time we knit this Rmd. This is important for reproducibility. The default random number generator seed value is determined from the current time (internal clock) and so no random permutations will be identical. To control the seed use the `set.seed()` function.
 
@@ -527,7 +527,7 @@ The last value in the vector is I computed using the data in the correct countie
 sum(mP$res > mP$res[100])/99
 ```
 
-A density graph displays the distribution of permuted I's. First, rerun using 999 simulations. Then plot a density curve and add a vertical line at the value of Moran's I computed from the data at the actual locations.
+A density graph displays the distribution of permuted I's. First, rerun using 999 simulations. Then plot a density curve and add a vertical line at the value of Moran I computed from the data at the actual locations.
 ```{r}
 mP <- moran.mc(sids, 
                listw = wts, 
@@ -599,7 +599,7 @@ wts <- nb2listw(nbs)
 lm.morantest(model, wts)
 ```
 
-Moran's I on the model residuals is .222.  This compares with the value of .5 on crime alone. Part of the spatial autocorrelation is absorbed by the explanatory factors.
+Moran I on the model residuals is .222.  This compares with the value of .5 on crime alone. Part of the spatial autocorrelation is absorbed by the explanatory factors.
 
 Do we need a spatial regression model?  The output gives a $p$-value on I of .002, thus we reject the null hypothesis of no spatial autocorrelation in the residuals and conclude that a spatial regression model would improve the fit.  
 
@@ -609,7 +609,7 @@ The next step is to choose a spatial regression model.
 
 ### Challenge
 
-Download the county-level police data for the state of Mississippi. Compute Moran's I and Geary C statistics for the percentage of whites (`WHITE`) and test for statistical significance against the null hypothesis of no spatial autocorrelation. Create a Moran's scatter plot.
+Download the county-level police data for the state of Mississippi. Compute Moran I and Geary C statistics for the percentage of whites (`WHITE`) and test for statistical significance against the null hypothesis of no spatial autocorrelation. Create a Moran scatter plot.
 
 Read the data as a spatial polygons data frame.
 ```{r}
@@ -703,7 +703,7 @@ wts2 <- nb2listw(nbs2)
 wts3 <- nb2listw(nbs3)
 ```
 
-We then compute Moran's I for the variable percentage white (`WHITE`) with the `moran()` function. And we do it separately for the three different weight matrices.
+We then compute Moran I for the variable percentage white (`WHITE`) with the `moran()` function. And we do it separately for the three different weight matrices.
 ```{r}
 moran(PE.sf$WHITE,
        listw = wts,
@@ -721,9 +721,9 @@ moran(PE.sf$WHITE,
        S0 = Szero(wts3))
 ```
 
-Values of Moran's I are constrained between -1 and +1. In this case the neighborhood definition has little or no impact on inferences made about spatial autocorrelation. The kurtosis is between 2 and 4 consistent with a set of values from a normal distribution.
+Values of Moran I are constrained between -1 and +1. In this case the neighborhood definition has little or no impact on inferences made about spatial autocorrelation. The kurtosis is between 2 and 4 consistent with a set of values from a normal distribution.
 
-In a similar way we compute Geary's c statistic.
+In a similar way we compute Geary c statistic.
 ```{r}
 geary(PE.sf$WHITE, 
       listw = wts,
@@ -732,9 +732,9 @@ geary(PE.sf$WHITE,
       n1 = length(nbs) - 1)
 ```
 
-Values of Geary's c are between 0 and 2 with values less than one indicating positive autocorrelation. If the interpretation on the amount of spatial autocorrelation based on Geary's c is different than the interperation on the amount of autocorrelation based on Moran's I then it might be a good idea to examine local variations in autocorrelation.
+Values of Geary c are between 0 and 2 with values less than one indicating positive autocorrelation. If the interpretation on the amount of spatial autocorrelation based on Geary c is different than the interperation on the amount of autocorrelation based on Moran I then it might be a good idea to examine local variations in autocorrelation.
 
-Finally, recall that to create a Moran's scatter plot. We first assign to `white` the percentage of whites in each county (variable `WHITE`) and to `Wwhite` the spatial lagged value of percentage of whites. We then use `ggplot()` as follows.
+Finally, recall that to create a Moran scatter plot. We first assign to `white` the percentage of whites in each county (variable `WHITE`) and to `Wwhite` the spatial lagged value of percentage of whites. We then use `ggplot()` as follows.
 ```{r}
 white <- PE.sf$WHITE
 Wwhite <- lag.listw(wts, 
@@ -751,7 +751,7 @@ ggplot(aes(x = white, y = Wwhite)) +
   theme_minimal()
 ```
 
-The line is the best-fit linear regression of `Wwhite` onto `white` and it's slope is equal to the value of Moran's I. This is true regardless of the neighborhood definition used to compute to
+The line is the best-fit linear regression of `Wwhite` onto `white` and it's slope is equal to the value of Moran I. This is true regardless of the neighborhood definition used to compute to
 ```{r}
 lm(Wwhite ~ white)
 ```
@@ -763,7 +763,7 @@ moran.test(white, listw = wts)
 
 We see that the value of .56 is much larger than the expected value under the null hypothesis of no autocorrelation (-.012 = -1/(n-1)).
 
-We can also use the `moran.mc()` function as a non-parametric test for significance. It computes Moran's I for each resampling of the data allowing your to establish the rank of the observed statistic in relation to the statistic computed on the samples. The data are resampled by randomly shuffling them across the geometric features. The distribution of the Moran's I computed on the resampled data is a way to visualize the null hypothesis.
+We can also use the `moran.mc()` function as a non-parametric test for significance. It computes Moran I for each resampling of the data allowing your to establish the rank of the observed statistic in relation to the statistic computed on the samples. The data are resampled by randomly shuffling them across the geometric features. The distribution of the Moran I computed on the resampled data is a way to visualize the null hypothesis.
 
 
 ### Bivariate spatial autocorrelation
@@ -784,7 +784,7 @@ moran.test(police, listw = wts)
 moran.test(crime, listw = wts)
 ```
 
-The Lee statistic [Lee (2001). Developing a bivariate spatial association measure: An integration of Pearson's r and Moran's I. J Geograph Syst 3: 369-385.] integrates the Pearson's r as an aspatial bivariate association metric and Moran's I as a univariate spatial autocorrelation metric. The formula is
+The Lee statistic [Lee (2001). Developing a bivariate spatial association measure: An integration of Pearson's r and Moran I. J Geograph Syst 3: 369-385.] integrates the Pearson's r as an aspatial bivariate association metric and Moran I as a univariate spatial autocorrelation metric. The formula is
 $$
 L(x,y) = \frac{n}{\sum_{i=1}^{n}(\sum_{j=1}^{n}w_{ij})^2}
 \frac{\sum_{i=1}^{n}(\sum_{j=1}^{n}w_{ij}(x_i-\bar{x})) ((\sum_{j=1}^{n}w_{ij}(y_j-\bar{y}))}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n}(y_i - \bar{y})^2}}
@@ -816,9 +816,9 @@ We conclude that there is no significant bivariate spatial autocorrelation betwe
 
 **"When I'm explaining some of the tidy verse principles and philosophy in R statistics, I often break down a home baked chunk of code and illustrate that 'it says what it does and it does what it says.'** --- Diane Beldame
 
-The Moran's I statistic was first used in the 1950s. Localization of this statistic was presented by Luc Anselin in 1995 (Anselin, L. 1995. Local indicators of spatial association, Geographical Analysis, 27, 93–115).
+The Moran I statistic was first used in the 1950s. Localization of this statistic was presented by Luc Anselin in 1995 (Anselin, L. 1995. Local indicators of spatial association, Geographical Analysis, 27, 93–115).
 
-We saw the `raster::MoranLocal()` function will compute local Moran's I on rasters and return a raster.
+We saw the `raster::MoranLocal()` function will compute local Moran I on rasters and return a raster.
 
 Local I is a deconstruction of global I where geographic proximity is used in two ways. (1) to define and weight neighbors and (2) to determine the spatial scale over which I is computed. Illustrate on the board.
 
@@ -829,7 +829,7 @@ round(listw2mat(wts)[1:5, 1:10], 2)
 
 The matrix shows that the first county has three neighbors 2, 3, and 9 and each get a weight of 1/3. The third county has four neighbors 1, 4, 9 and 10 and each gets a weight of 1/4.
 
-Compute local Moran's I with the `localmoran()` function. Two arguments are needed (1) the attribute variable for which we want to compute local correlation and (2) the weights matrix as a list object.
+Compute local Moran I with the `localmoran()` function. Two arguments are needed (1) the attribute variable for which we want to compute local correlation and (2) the weights matrix as a list object.
 ```{r}
 Ii_stats <- localmoran(PE.sf$WHITE, 
                        listw = wts)
@@ -1047,7 +1047,7 @@ tm_shape(CC.sf) +
             legend.outside = TRUE)
 ```
 
-Next compute Moran's I on the `CRIME` variable using row-standardized weights.
+Next compute Moran I on the `CRIME` variable using row-standardized weights.
 ```{r}
 nbs <- poly2nb(CC.sf)
 wts <- nb2listw(nbs)
@@ -1103,7 +1103,7 @@ To determine I on the residuals we use the `lm.morantest()` function and pass th
 lm.morantest(model.lm, wts)
 ```
 
-Moran's I on the model residuals is .222.  This compares with the value of .5 on crime alone. Part of the spatial autocorrelation is absorbed by the explanatory factors.
+Moran I on the model residuals is .222.  This compares with the value of .5 on crime alone. Part of the spatial autocorrelation is absorbed by the explanatory factors.
 
 Do we need a spatial regression model?  The output gives a $p$-value on I of .002, thus we reject the null hypothesis of no spatial autocorrelation in the residuals and conclude that a spatial regression model would improve the fit.  
 
@@ -1256,7 +1256,7 @@ wts <- nb2listw(nbs)
 lm.morantest(model.lm3, wts)
 ```
 
-Moran's I is .11 but significant ($p$-value < .001).
+Moran I is .11 but significant ($p$-value < .001).
 
 Put the residuals on a map. First add the residuals as a column in the simple feature data frame.
 ```{r}
@@ -1422,7 +1422,7 @@ y = \rho W y + X \beta + \varepsilon
 $$
 where $Wy$ is the weighted average of the neighborhood response values with $W$ the spatial weights matrix, and $\rho$ is the autoregression coefficient. This is called a spatial autoregressive (SAR) model.
 
-Note: $Wy$ is the spatial lag variable we compute with the `lag.listw()` function and $\rho$ is Moran's I. Thus the model is also called a spatial lag model (SLM).
+Note: $Wy$ is the spatial lag variable we compute with the `lag.listw()` function and $\rho$ is Moran I. Thus the model is also called a spatial lag model (SLM).
 
 Justification for the spatial lag model is motivated by a diffusion process. The response variable $y_i$ is influenced by the explanatory variables at location $i$ and by explanatory variables at locations $j$.
 
@@ -1581,7 +1581,7 @@ lmSLX() function
 
 #### Interpreting the coefficient rho
 
-The next set of output is about the estimate of spatial autocorrelation ($\rho$).  The value is .4233 and a likelihood ratio test gives a value of 9.41 which translates to a $p$-value of .002.  The null hypothesis is the autocorrelation is zero, so we confidently reject it. This is consistent with the significant Moran's I value that we found in the linear model residuals.
+The next set of output is about the estimate of spatial autocorrelation ($\rho$).  The value is .4233 and a likelihood ratio test gives a value of 9.41 which translates to a $p$-value of .002.  The null hypothesis is the autocorrelation is zero, so we confidently reject it. This is consistent with the significant Moran I value that we found in the linear model residuals.
 
 Two other tests are performed on the value of $\rho$ including a z-test (t-test) using the asymptotic standard error and a Wald test. Both tests confirm that the lag term should be included in the model.
 

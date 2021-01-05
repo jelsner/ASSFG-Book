@@ -8,7 +8,7 @@ Kriging is statistical interpolation (usually spatial). It is the centerpiece of
 
 Geostatistics is used to (1) quantify spatial correlation, (2) predict values at specific locations, (3) provide an estimate of uncertainty on the predicted values, and (4) simulation.
 
-As we've done with areal averaged data and point pattern data (Moran's I, Ripley's K, etc), we begin with understanding how to quantify spatial autocorrelation. In geostatistics, this involves the covariance function, the correlogram function, and the variogram.
+As we've done with areal averaged data and point pattern data (Moran I, Ripley K, etc), we begin with understanding how to quantify spatial autocorrelation. In geostatistics, this involves the covariance function, the correlogram function, and the variogram.
 
 ## Interpolation by inverse-distance weighting
 
@@ -59,7 +59,7 @@ To make things simple but with no loss in generality, we start with a 4 x 6 map 
   34  35  35  36  32  31   
 
 Put the values into a data vector and determine the mean and variance.
-```{r chapter7}
+```{r chapter6}
 temps <- c(21, 21, 20, 19, 18, 19, 
            26, 25, 26, 27, 29, 28, 
            32, 33, 34, 35, 30, 28, 

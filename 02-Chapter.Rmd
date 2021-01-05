@@ -92,7 +92,7 @@ An `sfg` object can be created from three data types:
 * A list - any other set, e.g. a multilinestring or geometry collection
 
 To create point objects, we use the `st_point()` function in conjunction with a numeric vector:
-```{r}
+```{r chapter2}
 library(sf)
 st_point(c(5, 2)) # XY point
 st_point(c(5, 2, 3)) # XYZ point
@@ -1245,19 +1245,19 @@ plot(Torn.r)
 
 It looks right. Some cells across the Plains and the South have quite a few tornadoes others not as many.
 
-A spatial statistic indicating how similar values in neighboring cells tend to be is Moran's I. It is implemented on rasters with the `Moran()` function. 
+A spatial statistic indicating how similar values in neighboring cells tend to be is Moran I. It is implemented on rasters with the `Moran()` function. 
 
 ```{r}
 Moran(Torn.r)
 ```
 
-Moran's I is a global measure of clustering (high values near high values and low values near low values). Values range from -1 to +1 where positive values indicate clustering and negative values indicate regularity (e.g., chessboard).
+Moran I is a global measure of clustering (high values near high values and low values near low values). Values range from -1 to +1 where positive values indicate clustering and negative values indicate regularity (e.g., chessboard).
 
-The estimate of .84 indicates a high level of tornado clustering at this scale. Under the null hypothesis of no spatial autocorrelation the expected value for Moran's I is close to zero [-1/(n-1), where n is the number of cells].
+The estimate of .84 indicates a high level of tornado clustering at this scale. Under the null hypothesis of no spatial autocorrelation the expected value for Moran I is close to zero [-1/(n-1), where n is the number of cells].
 
 With raster data the neighborhood definition is constant across the study region.
 
-Clusters at a local level can be found using a local indicator of spatial autocorrelation. One such indicator is local Moran's I, which is computed at each cell (using the `MoranLocal()` function) so the result is a raster.
+Clusters at a local level can be found using a local indicator of spatial autocorrelation. One such indicator is local Moran I, which is computed at each cell (using the `MoranLocal()` function) so the result is a raster.
 ```{r}
 Torn_lmi.r <- MoranLocal(Torn.r)
 plot(Torn_lmi.r)

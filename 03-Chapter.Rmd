@@ -1,7 +1,5 @@
 # Making maps
 
-**"Maps invest information with meaning by translating it into visual form."** --- Susan Schulten
-
 How the BBC uses R. https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535
 
 ## Maps with {tmap}
@@ -9,7 +7,7 @@ How the BBC uses R. https://medium.com/bbc-visual-and-data-journalism/how-the-bb
 So far we've used the `plot()` method as a first-order check on our geocomputations. It is possible to make a publishable quality map using `plot()` but there is a lot of trial and error in getting it to the quality needed. 
 
 An efficient alternative is to use functions from the {tmap} package. There are other packages for making nice maps in R with some of them listed in the syllabus but I like the {tmap} package because it integrates `sf`, `sp`, and `raster` objects seamlessly. 
-```{r}
+```{r chapter3}
 library(tmap)
 ```
 
@@ -17,7 +15,7 @@ Like functions in the {ggplot2} package, functions in the {tmap} use the 'gramma
 
 A {tmap} map starts with the `tm_shape()` function that takes as input a spatial data frame. The function is followed by one or more layers such as `tm_fill()` and `tm_dots()` that defines how a property in the data gets translated to an aesthetic. 
 
-Consider the New Zealand simple feature data frame (`nz`) from the **spData** package. Make the data frame available, check its class, and make a plot of the geometry.
+Consider the New Zealand simple feature data frame (`nz`) from the {spData} package. Make the data frame available, check its class, and make a plot of the geometry.
 ```{r}
 library(spData)
 
@@ -607,7 +605,7 @@ https://github.com/paleolimbot/ggspatial/blob/master/vignettes/ggspatial.Rmd
 
 ## Cartograms
 
-A cartogram is a map where the geometry is proportionately distorted to represent a variable. We can create cartograms with functions in the {cartogram} package. 
+A cartogram is a map where the geometry is distorted proportionally to the value of some variable. The {cartogram} package have functions for doing this.
 
 The `cartogram_cont()` function creates continuous area cartograms. It accepts an `sf` object and name of the variable (column) as inputs. Additionally, the maximum number of iterations for the transformation can be set with the `intermax =` argument. 
 
@@ -766,7 +764,7 @@ However, the result is incorrectly given again as square meters. The solution is
 units::set_units(st_area(nigeria), km^2)
 ```
 
-Units are of equal importance in the case of raster data. However, so far the **sf** package is the only spatial package that supports units, meaning that people working on raster data should approach changes in the units of analysis (for example, converting pixel widths from imperial to decimal units) with care. The `new.raster` object (see above) uses a UTM projection with meters as units. Consequently, its resolution is also given in meters but you have to know it, since the `res()` function simply returns a numeric vector.
+Units are of equal importance in the case of raster data. However, so far the {sf} package is the only spatial package that supports units, meaning that people working on raster data should approach changes in the units of analysis (for example, converting pixel widths from imperial to decimal units) with care. The `new.raster` object (see above) uses a UTM projection with meters as units. Consequently, its resolution is also given in meters but you have to know it, since the `res()` function simply returns a numeric vector.
 
 ```{r, eval=FALSE}
 res(new.raster)
