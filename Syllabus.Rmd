@@ -12,7 +12,7 @@
 * Student Hours: Mon/Wed 9:55 a.m. - 10:30 a.m.
 * Email: <jelsner@fsu.edu>
 
-Links to my stuff (in case you are curious)
+Links to my stuff (if you are curious)
 
 * [Website](http://myweb.fsu.edu/jelsner/_site/)
 * [GitHub](https://github.com/jelsner/)
@@ -20,9 +20,9 @@ Links to my stuff (in case you are curious)
 
 ## Course description {-}
 
-This course is for students who want to learn how to analyze, map, and model spatial and geographical data using the R programming language. It assumes students know some basic statistics through linear regression. It also assumes students have some prior experience with using R. Students without knowledge of R should seek help through the many online tutorials.
+This course is for students who want to learn how to analyze, map, and model spatial and geographical data using the R programming language. It assumes students know some basic statistics through multiple linear regression. It also assumes students have some prior experience with using R. Students without knowledge of R should seek help through various online tutorials.
 
-In this course we survey the methods used to describe, analyze, and model _spatial_ data. Focus is on applications. Emphasis is given to how spatial statistical methods are related.
+In this course we survey the methods used to describe, analyze, and model _spatial_ data. Focus is on applications. Emphasis is given to how spatial statistical methods are related through the concept of spatial autocorrelation.
 
 Expected learning outcomes
 
@@ -32,10 +32,10 @@ Expected learning outcomes
 
 Course materials
 
-* You will need access to the internet and a computer.
-* Course materials are available through Canvas and GitHub.
+* Access to the internet and a computer.
+* Course materials are available through GitHub.
 * There is no required textbook.
-* There are many excellent online resources. Here are some of my favorites.
+* Many excellent online resources are available. Here are some of my favorites.
   - R for Data Science https://r4ds.had.co.nz/
   - https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/
   - https://tinystats.github.io/teacups-giraffes-and-statistics/index.html
@@ -45,7 +45,7 @@ Class meetings
 * Remote lessons
 * Remote/F2F lab assignments
 
-During each lesson I will work through and explain the R code within an Rmd file. The notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. A markdown file has the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
+During each lesson I will work through and explain the R code within an Rmd file on Zoom. The notes are comprehensive and you can work through them on your own. The notes are written using markdown. Markdown is a way to write content for the Web. A markdown file has the suffix `.Rmd` (an R markdown file). The file is opened with the RStudio application.
 
 ## Grades {-}
 
