@@ -1,4 +1,13 @@
-# Syllabus {-}
+---
+title: "Syllabus"
+author: "James B. Elsner"
+date: January 6, 2021
+output: 
+  html_document:
+    keep_md: true
+editor_options: 
+  chunk_output_type: console
+---
 
 * Is Milwaukee snowier than Madison?
 * Is global warming making hurricanes stronger?
