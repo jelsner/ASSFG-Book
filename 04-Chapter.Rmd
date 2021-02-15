@@ -495,7 +495,7 @@ The SIDS rates are more "peaked" (higher kurtosis) than a normal distribution. I
 
 Further, the assumptions underlying Moran test are sensitive to the form of the graph of neighbour relationships and other factors so results should be checked against a test that involves permutations.
 
-### Monte Carlo approach to inference
+Monte Carlo approach to inference
 
 A permutation test for Moran I is performed with the `moran.mc()` function. MC stands for Monte Carlo which refers to the city of Monte Carlo in Monaco famous for its gambling casinos. The MC procedure refers to random sampling.
 
@@ -548,7 +548,7 @@ What do you do with the knowledge that the SIDS rates have significant spatial a
 
 More typically the knowledge is useful after other known factors are considered. Or in the language of statistics, knowledge of significant spatial autocorrelation in the model residuals can help you build a better model.
 
-### Spatial autocorrelation in model residuals
+## Spatial autocorrelation in model residuals
 
 A spatial regression model may be needed whenever the residuals from a non-spatial regression model exhibit significant spatial autocorrelation. So a common way to proceed is to first regress the response variable onto the explanatory variables and check for spatial autocorrelation.
 
