@@ -212,3 +212,48 @@ Output %>%
   pivot_wider(names_from = Status, values_from = estimate) %>%
   mutate(PercentChange = (After - Before) / Before * 100) )
 ```
+
+Plot a slope graph.
+```{r}
+library(ggplot2)
+
+Tornado <- c("New Minden", "Washington", "Harrisburg", "Lake Petersburg", "Control (Fairview Heights)", "Statewide Average")
+BeforeT <- c(32898, 37029, 30062, 31070, 27640, 31353)
+AfterT <- c(31825, 37577, 31302, 33500, 33461, 36988)
+Type <- c(rep("Tornado", times = 4), rep("Control", times = 2))
+State <- "Illinois"
+Df <- data.frame(Tornado, BeforeT, AfterT, Type, State)
+
+library(ggplot2)
+library(ggrepel)
+```
+
+```{r}
+ggplot(Df) +
+  geom_segment(mapping = aes(x = .4, xend = .6, 
+                             y = BeforeT, yend = AfterT, 
+                             color = Type)) +
+  geom_point(mapping = aes(x = .4, y = BeforeT, color = Type)) +
+  geom_point(mapping = aes(x = .6, y = AfterT, color = Type)) +
+  scale_color_brewer(palette = "Paired", guide = FALSE) +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(25000, 40000)) +
+  theme(panel.background = element_blank(),
+        panel.grid=element_blank(),
+        axis.ticks=element_blank(),
+        axis.text=element_blank(),
+        panel.border=element_blank()) +
+  xlab("") + ylab("") +
+  geom_text_repel(data = Df, direction = "y",
+                  mapping = aes(x = .38, y = BeforeT, 
+                                label = paste(Tornado, BeforeT, sep = "   "), color = Type), hjust = 1) +
+  geom_text_repel(data = Df, direction = "y",
+            mapping = aes(x = .62, y = AfterT, 
+                          label = AfterT, color = Type), hjust = 0) +
+  geom_text(data = Df[1, ], 
+            mapping = aes(label = "Before", x = .4, y = 39000), hjust = 1) +
+  geom_text(data = Df[1, ], 
+            mapping = aes(label = "After", x = .6, y = 39000), hjust = 0) +
+  ggtitle(label = "Median Incomes Before and After a Violent Tornado", 
+          subtitle = "Illinois")
+```
