@@ -13,10 +13,10 @@ Table from Excel sheet sent by Robert Blume on 12/23/2020
 
 City Names	FID  Full 1950-2018 SPC	om	yr	mo	dy	date	time	tz	st	stf	stn	mag	inj	fat	loss	closs
     MS Tornadoes
-Yazoo City, MS	53375	140	2010	4	24	4/24/2010	10:09:00	3	LA	22	6	4	146	10	386.035	23.52
+Yazoo City, MS	53375	140	    2010	4	24	4/24/2010	10:09:00	3	LA	22	6	  4	146	10	386.035	23.52
 Enterprise, MS	55302	311079	2011	4	27	4/27/2011	16:42:00	3	MS	28	81	4	17	7	25.813	2.1
 Smithville, MS	55279	303562	2011	4	27	4/27/2011	14:42:00	3	MS	28	76	5	137	23	14.4	0
-Hattiesburg, MS	57225	433413	2013	2	10	2/10/2013	17:03:00	3	MS	28	0	4	71	0	38.525	0
+Hattiesburg, MS	57225	433413	2013	2	10	2/10/2013	17:03:00	3	MS	28	0 	4	71	0	38.525	0
 		IL Tornadoes														
 Lake Petersburg, IL (Menard County)	54508	1274	2010	12	31	12/31/2010	12:37:00	3	IL	17	50	3	1	0	12	0
 Harrisburg, IL	56324	359691	2012	2	29	2/29/2012	4:51:00	3	IL	17	0	4	108	8	2	0
@@ -215,8 +215,6 @@ Output %>%
 
 Plot a slope graph.
 ```{r}
-library(ggplot2)
-
 Tornado <- c("New Minden", "Washington", "Harrisburg", "Lake Petersburg", "Control (Fairview Heights)", "Statewide Average")
 BeforeT <- c(32898, 37029, 30062, 31070, 27640, 31353)
 AfterT <- c(31825, 37577, 31302, 33500, 33461, 36988)
@@ -254,6 +252,49 @@ ggplot(Df) +
             mapping = aes(label = "Before", x = .4, y = 39000), hjust = 1) +
   geom_text(data = Df[1, ], 
             mapping = aes(label = "After", x = .6, y = 39000), hjust = 0) +
-  ggtitle(label = "Median Incomes Before and After a Violent Tornado", 
+  geom_text(data = Df[1, ], 
+            mapping = aes(label = "City", x = .3, y = 39000), hjust = 1) +
+  ggtitle(label = "Income rises slower in Illinois cities after being hit by an intense tornadoes (2010-2013)", 
           subtitle = "Illinois")
+```
+
+```{r}
+Tornado <- c("Hattiesburg", "Smithsville", "Enterprise", "Yazoo City", "Control (Tupelo)", "Statewide Average")
+BeforeT <- c(30585, 28012, 27028, 20800, 25142, 23171)
+AfterT <- c(29395, 28669, 37829, 25651, 29149, 28512)
+Type <- c(rep("Tornado", times = 4), rep("Control", times = 2))
+State <- "Mississippi"
+Df <- data.frame(Tornado, BeforeT, AfterT, Type, State)
+```
+
+```{r}
+ggplot(Df) +
+  geom_segment(mapping = aes(x = .4, xend = .6, 
+                             y = BeforeT, yend = AfterT, 
+                             color = Type)) +
+  geom_point(mapping = aes(x = .4, y = BeforeT, color = Type)) +
+  geom_point(mapping = aes(x = .6, y = AfterT, color = Type)) +
+  scale_color_brewer(palette = "Paired", guide = FALSE) +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(20000, 40000)) +
+  theme(panel.background = element_blank(),
+        panel.grid=element_blank(),
+        axis.ticks=element_blank(),
+        axis.text=element_blank(),
+        panel.border=element_blank()) +
+  xlab("") + ylab("") +
+  geom_text_repel(data = Df, direction = "y",
+                  mapping = aes(x = .38, y = BeforeT, 
+                                label = paste(Tornado, paste0("$",BeforeT), sep = "   "), color = Type), hjust = 1) +
+  geom_text_repel(data = Df, direction = "y",
+            mapping = aes(x = .62, y = AfterT, 
+                          label = paste0("$",AfterT), color = Type), hjust = 0) +
+  geom_text(data = Df[1, ], 
+            mapping = aes(label = "Before", x = .4, y = 39000), hjust = 1) +
+  geom_text(data = Df[1, ], 
+            mapping = aes(label = "After", x = .6, y = 39000), hjust = 0) +
+  geom_text(data = Df[1, ], 
+            mapping = aes(label = "City", x = .3, y = 39000), hjust = 1) +
+  ggtitle(label = "Income rises slower in Mississippi cities after being hit by a violent tornado (2010-2013)", 
+          subtitle = "Mississippi")
 ```
