@@ -246,10 +246,10 @@ ggplot(Df) +
   xlab("") + ylab("") +
   geom_text_repel(data = Df, direction = "y",
                   mapping = aes(x = .38, y = BeforeT, 
-                                label = paste(Tornado, BeforeT, sep = "   "), color = Type), hjust = 1) +
+                                label = paste(Tornado, paste0("$",BeforeT), sep = "   "), color = Type), hjust = 1) +
   geom_text_repel(data = Df, direction = "y",
             mapping = aes(x = .62, y = AfterT, 
-                          label = AfterT, color = Type), hjust = 0) +
+                          label = paste0("$",AfterT), color = Type), hjust = 0) +
   geom_text(data = Df[1, ], 
             mapping = aes(label = "Before", x = .4, y = 39000), hjust = 1) +
   geom_text(data = Df[1, ], 
