@@ -1302,6 +1302,8 @@ image(sim4, main = "simulation on a fine grid",
 ## Interpolation using functions from the {gstat} package
 
 We start with the Meuse river data from Burrough and McDonnell (1998). The data are part of {gstat}.
+
+Convert to {sf} object first? See Tropical cyclone rainfall example.
 ```{r}
 library(gstat)
 library(sp)

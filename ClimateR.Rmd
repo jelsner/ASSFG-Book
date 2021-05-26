@@ -22,10 +22,12 @@ library(AOI)
 
 Get grid MET data. http://www.climatologylab.org/gridmet.html
 
-What variables are available?
+What variables are available.
 ```{r}
-DT::datatable(param_meta$gridmet)
+param_meta$gridmet
 ```
+
+
 
 Get a single variable, one day, over one state.
 ```{r}
@@ -39,6 +41,27 @@ class(rain$prcp)
 
 plot(rain$prcp)
 plot(FL.sf$geometry, add = TRUE)
+
+Polk.sf <- aoi_get(state = "FL", county = "Polk")
+plot(Polk.sf$geometry)
+
+Tmin <- getGridMET(Polk.sf, 
+                   param = "tmin", 
+                   startDate = "2015-02-20")
+
+Tmin.r <- (Tmin$gridmet_tmin - 273.16) * 1.8 + 32
+
+plot(Tmin.r)
+plot(Polk.sf$geometry, add = TRUE)
+
+tm_shape(Tmin.r) +
+  tm_raster(n = 7, palette = "-RdBu") +
+tm_shape(Polk.sf) +
+  tm_borders(lwd = 2, col = "gray70") +
+  tm_layout(scale = .8, 
+	legend.position = c("left","bottom"),
+    legend.bg.color = "white", legend.bg.alpha = .2, 
+    legend.frame = "gray50")
 ```
 
 Get the 1000 hr dead fuel moisture.

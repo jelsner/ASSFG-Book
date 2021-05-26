@@ -756,7 +756,6 @@ precrec_obj <- evalmod(scores = testTable$pred, labels = testTable$Species)
 autoplot(precrec_obj)
 ```
 
-
 ## Geostatistical modeling using the SPDE approach
 
 Here we see how to fit a geostatistical model to predict malaria prevalence in The Gambia using the stochastic partial differential equation (SPDE) approach and the R-INLA package [@RueEtAl2014]. The chapter is adopted from Chapter 9 of @Moraga2020. https://www.paulamoraga.com/book-geospatial/sec-geostatisticaldataexamplespatial.html
